@@ -210,6 +210,12 @@
                 <artifactId>ruoyi-system</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
+            <!-- 业务模块-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-business</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
 
             <!-- 通用工具-->
             <dependency>
