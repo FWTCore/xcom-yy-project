@@ -1,4 +1,4 @@
-package com.ruoyi.business.domain;
+package com.ruoyi.business.domain.model;
 
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 员工;employee数据表的DO对象
+ * 部门;department数据表的DO对象
  *
  * @author : xcom
  * @date : 2025-9-18
@@ -15,7 +15,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class EmployeeDO extends BaseEntityDO {
+public class Department extends BaseEntityDO {
 
     /**
      * 系统公司id,;
@@ -23,7 +23,7 @@ public class EmployeeDO extends BaseEntityDO {
     private Long   deptId;
 
     /**
-     * 员工名称,;
+     * 部门名称,;
      */
-    private String employeeName;
+    private String departmentName;
 }

@@ -1,27 +1,25 @@
-package com.ruoyi.business.mapper;
+package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.CategoryDO;
 import com.ruoyi.business.domain.model.Category;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
- * 分类;(category)表数据库访问层
+ * 分类Service接口
  *
- * @author :xcom
- * @date : 2025-9-18
+ * @author xcom
+ * @date 2025-10-02
  */
-@Mapper
-public interface CategoryMapper {
 
+public interface CategoryService {
     /**
      * 查询分类
      *
      * @param id 分类主键
      * @return 分类
      */
-    CategoryDO selectCategoryById(Long id);
+    CategoryDO selectCategoryByIds(Long id);
 
     /**
      * 查询分类
@@ -56,18 +54,18 @@ public interface CategoryMapper {
     int updateCategory(CategoryDO category);
 
     /**
-     * 删除分类
+     * 批量删除分类
+     *
+     * @param ids 需要删除的分类主键集合
+     * @return 结果
+     */
+    int deleteCategoryByIds(Long[] ids);
+
+    /**
+     * 删除分类信息
      *
      * @param id 分类主键
      * @return 结果
      */
     int deleteCategoryById(Long id);
-
-    /**
-     * 批量删除分类
-     *
-     * @param ids 需要删除的数据主键集合
-     * @return 结果
-     */
-    int deleteCategoryByIds(Long[] ids);
 }

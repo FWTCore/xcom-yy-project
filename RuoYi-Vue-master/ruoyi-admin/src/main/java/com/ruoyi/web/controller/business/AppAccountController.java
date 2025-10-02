@@ -8,11 +8,10 @@ import com.ruoyi.common.core.domain.model.LoginBody;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.framework.web.service.SysLoginService;
+import com.ruoyi.web.controller.business.response.LoginUserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Set;
 
 /**
  * App-账户管理
@@ -53,12 +51,16 @@ public class AppAccountController extends BaseController {
     public AjaxResult getUserInfo() {
         LoginUser loginUser = SecurityUtils.getLoginUser();
         SysUser user = loginUser.getUser();
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("user", user);
-        return ajax;
+        LoginUserVO result = new LoginUserVO();
+        result.setUserId(user.getUserId());
+        result.setAvatar(user.getAvatar());
+        result.setMobilePhone(user.getPhonenumber());
+        result.setCompanyId(user.getDeptId());
+        result.setCompanyName(user.getDept().getDeptName());
+        return success(result);
     }
+
     // 退出 /logout
     // 修改密码 system/user/profile/updatePwd
-
 
 }

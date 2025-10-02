@@ -1,20 +1,25 @@
-package com.ruoyi.business.mapper;
+package com.ruoyi.business.service;
+
+/**
+ * TODO
+ *
+ * @author xcom
+ * @date 2025/10/2
+ */
 
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Material;
 import com.ruoyi.business.domain.model.MaterialDetailVO;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
- * 物资;(material)表数据库访问层
+ * 物资Service接口
  *
- * @author :xcom
- * @date : 2025-9-18
+ * @author xcom
+ * @date 2025-10-02
  */
-@Mapper
-public interface MaterialMapper {
+public interface MaterialService {
     /**
      * 查询物资
      *
@@ -24,10 +29,10 @@ public interface MaterialMapper {
     MaterialDO selectMaterialById(Long id);
 
     /**
-     * 查询物资
+     * 查询分类
      *
-     * @param ids 物资主键
-     * @return 物资
+     * @param ids 分类主键
+     * @return 分类
      */
     List<MaterialDO> selectMaterialByIds(List<Long> ids);
 
@@ -63,18 +68,18 @@ public interface MaterialMapper {
     int updateMaterial(MaterialDO material);
 
     /**
-     * 删除物资
+     * 批量删除物资
+     *
+     * @param ids 需要删除的物资主键集合
+     * @return 结果
+     */
+    int deleteMaterialByIds(Long[] ids);
+
+    /**
+     * 删除物资信息
      *
      * @param id 物资主键
      * @return 结果
      */
     int deleteMaterialById(Long id);
-
-    /**
-     * 批量删除物资
-     *
-     * @param ids 需要删除的数据主键集合
-     * @return 结果
-     */
-    int deleteMaterialByIds(Long[] ids);
 }

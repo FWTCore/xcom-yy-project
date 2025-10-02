@@ -1,6 +1,6 @@
 package com.ruoyi.business.service;
 
-import com.ruoyi.business.domain.ProjectMemberDO;
+import com.ruoyi.business.domain.entity.ProjectMemberDO;
 
 import java.util.List;
 

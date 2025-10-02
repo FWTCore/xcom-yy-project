@@ -1,19 +1,18 @@
-package com.ruoyi.business.mapper;
+package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.model.Brand;
 import com.ruoyi.business.domain.model.BrandDetailVO;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
- * 品牌;(brand)表数据库访问层
- * @author :xcom
- * @date : 2025-9-18
+ * 品牌Service接口
+ *
+ * @author xcom
+ * @date 2025-10-02
  */
-@Mapper
-public interface BrandMapper {
+public interface BrandService {
     /**
      * 查询品牌
      *
@@ -29,11 +28,11 @@ public interface BrandMapper {
      * @return 品牌集合
      */
     List<BrandDO> selectBrandList(Brand brand);
-
     /**
      * 查询品牌列表
-     * @param brand
-     * @return
+     *
+     * @param brand 品牌
+     * @return 品牌集合
      */
     List<BrandDetailVO> selectBrandDetailList(Brand brand);
 
@@ -54,18 +53,18 @@ public interface BrandMapper {
     int updateBrand(BrandDO brand);
 
     /**
-     * 删除品牌
+     * 批量删除品牌
+     *
+     * @param ids 需要删除的品牌主键集合
+     * @return 结果
+     */
+    int deleteBrandByIds(Long[] ids);
+
+    /**
+     * 删除品牌信息
      *
      * @param id 品牌主键
      * @return 结果
      */
     int deleteBrandById(Long id);
-
-    /**
-     * 批量删除品牌
-     *
-     * @param ids 需要删除的数据主键集合
-     * @return 结果
-     */
-    int deleteBrandByIds(Long[] ids);
 }

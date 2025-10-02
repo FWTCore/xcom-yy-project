@@ -1,4 +1,4 @@
-package com.ruoyi.business.domain;
+package com.ruoyi.business.domain.entity;
 
 
 import com.ruoyi.common.core.domain.BaseEntityDO;

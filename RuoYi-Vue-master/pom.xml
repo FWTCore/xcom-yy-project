@@ -37,6 +37,7 @@
         <spring-framework.version>5.3.39</spring-framework.version>
 
         <transmittable.thread.local.version>2.12.6</transmittable.thread.local.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -230,6 +231,18 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable.thread.local.version}</version>
+            </dependency>
+
+            <!-- mapstruct -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
 
         </dependencies>

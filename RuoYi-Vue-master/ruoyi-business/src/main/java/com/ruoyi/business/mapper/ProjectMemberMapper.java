@@ -1,6 +1,6 @@
 package com.ruoyi.business.mapper;
 
-import com.ruoyi.business.domain.ProjectMemberDO;
+import com.ruoyi.business.domain.entity.ProjectMemberDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

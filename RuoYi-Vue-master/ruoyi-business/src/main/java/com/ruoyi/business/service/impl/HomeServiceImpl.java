@@ -1,8 +1,12 @@
 package com.ruoyi.business.service.impl;
 
-import com.ruoyi.business.domain.vo.HomeAssetStatsVO;
+import com.ruoyi.business.domain.model.HomeAssetStatsVO;
 import com.ruoyi.business.mapper.AssetMapper;
 import com.ruoyi.business.service.HomeService;
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.SecurityUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,7 +25,10 @@ public class HomeServiceImpl implements HomeService {
 
     @Override
     public HomeAssetStatsVO getHomeAssetStats() {
-        //        return assetMapper.getHomeAssetStats();
-        return null;
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        if (ObjectUtils.isEmpty(loginUser.getProjectCompanyId())) {
+            throw new ServiceException("没有权限访问项目数据！");
+        }
+        return assetMapper.getHomeAssetStats(loginUser.getProjectCompanyId());
     }
 }

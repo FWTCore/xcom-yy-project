@@ -1,4 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.BrandMapper">
+    <resultMap type="com.ruoyi.business.domain.entity.BrandDO" id="BrandResult">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="brandName" column="brand_name"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <resultMap type="com.ruoyi.business.domain.model.BrandDetailVO" id="BrandDetailResult" extends="BrandResult">
+        <result property="categoryName" column="category_name"/>
+        <result property="hasBrand" column="has_brand"/>
+        <result property="hasMaterialName" column="has_material_name"/>
+        <result property="hasSpecification" column="has_specification"/>
+    </resultMap>
+
+    <sql id="selectBrandVO">
+        select id,
+               category_id,
+               brand_name,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from brand
+    </sql>
+
+    <select id="selectBrandList" parameterType="com.ruoyi.business.domain.model.Brand" resultMap="BrandResult">
+        <include refid="selectBrandVO"/>
+        <where>
+            <if test="categoryId != null ">
+                and category_id = #{categoryId}
+            </if>
+            <if test="brandName != null  and brandName != ''">
+                and brand_name = #{brandName}
+            </if>
+            <if test="searchName != null  and searchName != ''">
+                and brand_name like concat('%', #{searchName}, '%')
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+            and delete_flag=0
+        </where>
+    </select>
+
+    <select id="selectBrandById" parameterType="Long" resultMap="BrandResult">
+        <include refid="selectBrandVO"/>
+        where id = #{id}
+        and delete_flag=0
+    </select>
+
+    <insert id="insertBrand" parameterType="com.ruoyi.business.domain.entity.BrandDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into brand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="brandName != null">
+                brand_name,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdById != null">
+                created_by_id,
+            </if>
+            <if test="createdByName != null">
+                created_by_name,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="updatedById != null">
+                updated_by_id,
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name,
+            </if>
+            <if test="updatedTime != null">
+                updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                #{categoryId},
+            </if>
+            <if test="brandName != null">
+                #{brandName},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateBrand" parameterType="com.ruoyi.business.domain.entity.BrandDO">
+        update brand
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="brandName != null">
+                brand_name = #{brandName},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                created_by_id = #{createdById},
+            </if>
+            <if test="createdByName != null">
+                created_by_name = #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id = #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name = #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBrandById" parameterType="Long">
+        delete
+        from brand
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBrandByIds" parameterType="String">
+        delete from brand where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBrandDetailList" parameterType="com.ruoyi.business.domain.model.Brand" resultMap="BrandDetailResult">
+        select b.id,
+               b.category_id,
+               b.brand_name,
+               b.delete_flag,
+               b.created_by_id,
+               b.created_by_name,
+               b.created_time,
+               b.updated_by_id,
+               b.updated_by_name,
+               b.updated_time,
+               c.category_name,
+               c.has_brand,
+               c.has_material_name,
+               c.has_specification
+        from brand as b
+                 inner join category c on b.category_id = c.id
+        where b.delete_flag = 0
+          and c.delete_flag = 0
+        <if test="categoryId != null ">
+            and b.category_id = #{categoryId}
+        </if>
+        <if test="searchName != null  and searchName != ''">
+            and b.brand_name like concat('%', #{searchName}, '%')
+        </if>
+    </select>
 </mapper>

@@ -1,4 +1,4 @@
-package com.ruoyi.business.domain;
+package com.ruoyi.business.domain.model;
 
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class MaterialDO extends BaseEntityDO {
+public class Material extends BaseEntityDO {
 
     /**
      * 分类id,;
@@ -36,24 +36,7 @@ public class MaterialDO extends BaseEntityDO {
      * 规格型号,;
      */
     private String specification;
-
-    /**
-     * 主图片,;
-     */
-    private String mainImageUrl;
-
-    /**
-     * 主图片名称,;
-     */
-    private String mainImageName;
-
-    /**
-     * 图片,;
-     */
-    private String imageUrl;
-
-    /**
-     * 图片名称,;
-     */
-    private String imageUrlName;
+    private String searchName;
+    private String leftSearchMaterialName;
+    private String leftSearchSpecification;
 }

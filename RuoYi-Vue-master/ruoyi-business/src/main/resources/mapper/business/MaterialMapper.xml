@@ -1,4 +1,290 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.MaterialMapper">
+    <resultMap type="com.ruoyi.business.domain.entity.MaterialDO" id="MaterialResult">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="materialName" column="material_name"/>
+        <result property="specification" column="specification"/>
+        <result property="mainImageUrl" column="main_image_url"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <resultMap type="com.ruoyi.business.domain.model.MaterialDetailVO" id="MaterialDetailResult"
+               extends="MaterialResult">
+        <result property="categoryName" column="category_name"/>
+        <result property="brandName" column="brand_name"/>
+        <result property="hasBrand" column="has_brand"/>
+        <result property="hasMaterialName" column="has_material_name"/>
+        <result property="hasSpecification" column="has_specification"/>
+    </resultMap>
+
+    <sql id="selectMaterialVO">
+        select id,
+               category_id,
+               brand_id,
+               material_name,
+               specification,
+               main_image_url,
+               image_url,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from material
+    </sql>
+
+    <select id="selectMaterialList" parameterType="com.ruoyi.business.domain.model.Material" resultMap="MaterialResult">
+        <include refid="selectMaterialVO"/>
+        <where>
+            <if test="categoryId != null ">
+                and category_id = #{categoryId}
+            </if>
+            <if test="brandId != null ">
+                and brand_id = #{brandId}
+            </if>
+            <if test="materialName != null  and materialName != ''">
+                and material_name like concat('%', #{materialName}, '%')
+            </if>
+            <if test="specification != null  and specification != ''">
+                and specification = #{specification}
+            </if>
+            <if test="mainImageUrl != null  and mainImageUrl != ''">
+                and main_image_url = #{mainImageUrl}
+            </if>
+            <if test="imageUrl != null  and imageUrl != ''">
+                and image_url = #{imageUrl}
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMaterialById" parameterType="Long" resultMap="MaterialResult">
+        <include refid="selectMaterialVO"/>
+        where id = #{id}
+    </select>
+    <select id="selectMaterialByIds" resultMap="MaterialResult">
+        <include refid="selectMaterialVO"/>
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="insertMaterial" parameterType="com.ruoyi.business.domain.entity.MaterialDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into material
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="materialName != null">
+                material_name,
+            </if>
+            <if test="specification != null">
+                specification,
+            </if>
+            <if test="mainImageUrl != null">
+                main_image_url,
+            </if>
+            <if test="imageUrl != null">
+                image_url,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdById != null">
+                created_by_id,
+            </if>
+            <if test="createdByName != null">
+                created_by_name,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="updatedById != null">
+                updated_by_id,
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name,
+            </if>
+            <if test="updatedTime != null">
+                updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                #{categoryId},
+            </if>
+            <if test="brandId != null">
+                #{brandId},
+            </if>
+            <if test="materialName != null">
+                #{materialName},
+            </if>
+            <if test="specification != null">
+                #{specification},
+            </if>
+            <if test="mainImageUrl != null">
+                #{mainImageUrl},
+            </if>
+            <if test="imageUrl != null">
+                #{imageUrl},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMaterial" parameterType="com.ruoyi.business.domain.entity.MaterialDO">
+        update material
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId},
+            </if>
+            <if test="materialName != null">
+                material_name = #{materialName},
+            </if>
+            <if test="specification != null">
+                specification = #{specification},
+            </if>
+            <if test="mainImageUrl != null">
+                main_image_url = #{mainImageUrl},
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                created_by_id = #{createdById},
+            </if>
+            <if test="createdByName != null">
+                created_by_name = #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id = #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name = #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMaterialById" parameterType="Long">
+        delete
+        from material
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteMaterialByIds" parameterType="String">
+        delete from material where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectMaterialDetailList" parameterType="com.ruoyi.business.domain.model.Material"
+            resultMap="MaterialDetailResult">
+        select m.id,
+        m.category_id,
+        m.brand_id,
+        m.material_name,
+        m.specification,
+        m.main_image_url,
+        m.image_url,
+        m.delete_flag,
+        m.created_by_id,
+        m.created_by_name,
+        m.created_time,
+        m.updated_by_id,
+        m.updated_by_name,
+        m.updated_time,
+        b.brand_name,
+        c.category_name,
+        c.has_brand,
+        c.has_material_name,
+        c.has_specification
+        from material as m
+        inner join brand b on m.brand_id = b.id and b.delete_flag = 0
+        inner join category c on b.category_id = c.id and c.delete_flag = 0
+        where m.delete_flag = 0
+        <if test="searchName != null  and searchName != ''">
+            and (m.material_name like concat('%', #{searchName}, '%')
+            or m.specification like concat('%', #{searchName}, '%')
+            or b.brand_name like concat('%', #{searchName}, '%')
+            or c.category_name like concat('%', #{searchName}, '%')
+            )
+        </if>
+        <if test="leftSearchMaterialName != null  and leftSearchMaterialName != ''">
+            and m.material_name like concat(#{leftSearchMaterialName}, '%')
+        </if>
+        <if test="leftSearchSpecification != null  and leftSearchSpecification != ''">
+            and m.specification like concat(#{leftSearchSpecification}, '%')
+        </if>
+    </select>
 </mapper>

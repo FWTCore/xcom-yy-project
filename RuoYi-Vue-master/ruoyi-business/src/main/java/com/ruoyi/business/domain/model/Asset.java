@@ -1,4 +1,4 @@
-package com.ruoyi.business.domain;
+package com.ruoyi.business.domain.model;
 
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class AssetDO extends BaseEntityDO {
+public class Asset extends BaseEntityDO {
 
     /**
      * 系统公司id,;

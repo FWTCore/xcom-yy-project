@@ -34,8 +34,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 @RequestMapping("/${moduleName}/${businessName}")
 public class ${ClassName}Controller extends BaseController
 {
-    @Autowired
-    private I${ClassName}Service ${className}Service;
+    @Resource
+    private ${ClassName}Service ${className}Service;
 
     /**
      * 查询${functionName}列表

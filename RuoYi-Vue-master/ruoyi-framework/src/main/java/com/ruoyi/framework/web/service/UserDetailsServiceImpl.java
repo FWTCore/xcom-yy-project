@@ -1,6 +1,6 @@
 package com.ruoyi.framework.web.service;
 
-import com.ruoyi.business.domain.ProjectMemberDO;
+import com.ruoyi.business.domain.entity.ProjectMemberDO;
 import com.ruoyi.business.service.ProjectMemberService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;

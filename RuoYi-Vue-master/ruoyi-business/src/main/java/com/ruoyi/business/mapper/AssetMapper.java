@@ -1,6 +1,6 @@
 package com.ruoyi.business.mapper;
 
-import com.ruoyi.business.domain.vo.HomeAssetStatsVO;
+import com.ruoyi.business.domain.model.HomeAssetStatsVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

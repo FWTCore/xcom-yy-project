@@ -26,9 +26,9 @@ import ${packageName}.service.I${ClassName}Service;
  * @date ${datetime}
  */
 @Service
-public class ${ClassName}ServiceImpl implements I${ClassName}Service 
+public class ${ClassName}ServiceImpl implements ${ClassName}Service
 {
-    @Autowired
+    @Resource
     private ${ClassName}Mapper ${className}Mapper;
 
     /**
@@ -38,9 +38,21 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @return ${functionName}
      */
     @Override
-    public ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
+    public ${ClassName}DO select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
     {
         return ${className}Mapper.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
+    }
+
+    /**
+     * 查询${functionName}
+     *
+     * @param ${pkColumn.javaField}s ${functionName}主键
+     * @return ${functionName}
+     */
+    @Override
+    public List<${ClassName}DO> select${ClassName}By${pkColumn.capJavaField}s(List<${pkColumn.javaType}> ${pkColumn.javaField}s)
+    {
+        return ${className}Mapper.select${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s);
     }
 
     /**
@@ -50,7 +62,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @return ${functionName}
      */
     @Override
-    public List<${ClassName}> select${ClassName}List(${ClassName} ${className})
+    public List<${ClassName}DO> select${ClassName}List(${ClassName} ${className})
     {
         return ${className}Mapper.select${ClassName}List(${className});
     }
@@ -65,7 +77,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int insert${ClassName}(${ClassName} ${className})
+    public int insert${ClassName}(${ClassName}DO ${className})
     {
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime')
@@ -91,7 +103,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int update${ClassName}(${ClassName} ${className})
+    public int update${ClassName}(${ClassName}DO ${className})
     {
 #foreach ($column in $columns)
 #if($column.javaField == 'updateTime')
@@ -147,7 +159,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * 
      * @param ${className} ${functionName}对象
      */
-    public void insert${subClassName}(${ClassName} ${className})
+    public void insert${subClassName}(${ClassName}DO ${className})
     {
         List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
         ${pkColumn.javaType} ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();

@@ -1,4 +1,4 @@
-package com.ruoyi.business.domain.vo;
+package com.ruoyi.business.domain.model;
 
 import lombok.Data;
 

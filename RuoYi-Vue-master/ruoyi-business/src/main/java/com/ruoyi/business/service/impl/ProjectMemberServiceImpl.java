@@ -1,6 +1,6 @@
 package com.ruoyi.business.service.impl;
 
-import com.ruoyi.business.domain.ProjectMemberDO;
+import com.ruoyi.business.domain.entity.ProjectMemberDO;
 import com.ruoyi.business.mapper.ProjectMemberMapper;
 import com.ruoyi.business.service.ProjectMemberService;
 import org.apache.commons.compress.utils.Lists;
