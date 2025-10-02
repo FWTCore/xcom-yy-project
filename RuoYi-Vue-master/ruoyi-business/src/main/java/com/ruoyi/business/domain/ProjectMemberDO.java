@@ -20,7 +20,7 @@ public class ProjectMemberDO extends BaseEntityDO {
     /**
      * 系统公司id,;
      */
-    private Long    systemCompanyId;
+    private Long    deptId;
 
     /**
      * 项目id,;

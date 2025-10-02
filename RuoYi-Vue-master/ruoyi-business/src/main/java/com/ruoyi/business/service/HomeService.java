@@ -1,10 +1,19 @@
 package com.ruoyi.business.service;
+
+import com.ruoyi.business.domain.vo.HomeAssetStatsVO;
+
 /**
- * TODO
+ * HomeService
  *
  * @author xcom
  * @date 2025/10/2
  */
- 
-public interface homeService {
+
+public interface HomeService {
+
+    /**
+     * 获取首页物资统计
+     * @return
+     */
+    HomeAssetStatsVO getHomeAssetStats();
 }

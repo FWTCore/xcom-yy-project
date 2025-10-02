@@ -22,7 +22,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 系统公司id,;
      */
-    private Long          systemCompanyId;
+    private Long          deptId;
 
     /**
      * 项目id,;
@@ -75,6 +75,11 @@ public class AssetDO extends BaseEntityDO {
     private String        specification;
 
     /**
+     * 生产时间,;
+     */
+    private LocalDateTime productionTime;
+
+    /**
      * 地点id,;
      */
     private Long          locationId;
@@ -125,6 +130,21 @@ public class AssetDO extends BaseEntityDO {
     private String        usingEmpName;
 
     /**
+     * 采集人id,;
+     */
+    private Long          collectorUserId;
+
+    /**
+     * 采集人名称,;
+     */
+    private String        collectorUserName;
+
+    /**
+     * 采集时间,;
+     */
+    private LocalDateTime collectorTime;
+
+    /**
      * 备注,;
      */
     private String        remark;
@@ -148,19 +168,4 @@ public class AssetDO extends BaseEntityDO {
      * 图片名称,;
      */
     private String        imageUrlName;
-
-    /**
-     * 采集人id,;
-     */
-    private Long          collectorUserId;
-
-    /**
-     * 采集人名称,;
-     */
-    private String        collectorUserName;
-
-    /**
-     * 采集时间,;
-     */
-    private LocalDateTime collectorTime;
 }

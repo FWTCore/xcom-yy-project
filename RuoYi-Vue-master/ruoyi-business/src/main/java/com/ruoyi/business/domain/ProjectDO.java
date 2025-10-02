@@ -1,6 +1,5 @@
 package com.ruoyi.business.domain;
 
-
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,16 +19,15 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class ProjectDO extends BaseEntityDO {
 
-
     /**
      * 系统公司id,;
      */
-    private Long systemCompanyId;
+    private Long          deptId;
 
     /**
      * 项目名称,;
      */
-    private String projectName;
+    private String        projectName;
 
     /**
      * 项目开始周期,;
@@ -44,10 +42,10 @@ public class ProjectDO extends BaseEntityDO {
     /**
      * 项目状态,;
      */
-    private Integer projectStatus;
+    private Integer       projectStatus;
 
     /**
      * 备注,;
      */
-    private String remark;
+    private String        remark;
 }

@@ -14,20 +14,36 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DataScope
-{
+public @interface DataScope {
     /**
      * 部门表的别名
      */
-    public String deptAlias() default "";
+    String deptAlias() default "";
 
     /**
      * 用户表的别名
      */
-    public String userAlias() default "";
+    String userAlias() default "";
+
+    /**
+     * 项目表的别名
+     */
+    String projectAlias() default "";
+
+    /**
+     * 是否是本表
+     * @return
+     */
+    boolean isSelfTable() default false;
+
+    /**
+     * 项目是否升上
+     * @return
+     */
+    boolean isUpgrade() default false;
 
     /**
      * 权限字符（用于多个角色匹配符合要求的权限）默认根据权限注解@ss获取，多个权限用逗号分隔开来
      */
-    public String permission() default "";
+    String permission() default "";
 }

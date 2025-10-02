@@ -1,9 +1,11 @@
 package com.ruoyi.common.core.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * 实体基础模型 DO
@@ -58,4 +60,8 @@ public class BaseEntityDO implements Serializable {
      * 最后更新时间
      */
     private LocalDateTime     updatedTime;
+
+    /** 请求参数 */
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Map<String, Object> params;
 }

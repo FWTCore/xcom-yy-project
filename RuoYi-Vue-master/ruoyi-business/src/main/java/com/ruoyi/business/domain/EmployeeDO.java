@@ -1,6 +1,5 @@
 package com.ruoyi.business.domain;
 
-
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,11 +17,10 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class EmployeeDO extends BaseEntityDO {
 
-
     /**
      * 系统公司id,;
      */
-    private Long systemCompanyId;
+    private Long   deptId;
 
     /**
      * 员工名称,;

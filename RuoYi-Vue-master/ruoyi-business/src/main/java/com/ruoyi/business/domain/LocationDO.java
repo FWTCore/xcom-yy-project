@@ -17,11 +17,10 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class LocationDO extends BaseEntityDO {
 
-
     /**
      * 系统公司id,;
      */
-    private Long systemCompanyId;
+    private Long   deptId;
 
     /**
      * 地点名称,;
