@@ -275,7 +275,7 @@ const dataScopeOptions = ref([
   { value: "2", label: "自定数据权限" },
   { value: "3", label: "本公司数据权限" },
   { value: "4", label: "本公司及以下数据权限" },
-  { value: "5", label: "仅本人数据权限" }
+  { value: "5", label: "所在项目的数据" }
 ])
 
 const data = reactive({
