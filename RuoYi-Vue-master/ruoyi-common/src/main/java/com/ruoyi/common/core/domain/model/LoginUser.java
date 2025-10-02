@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -55,13 +56,13 @@ public class LoginUser implements UserDetails {
     /**
      * 参与项目
      */
-    private List<Long> participatedProjectIds;
+    private Map<Long, Long> participatedProjectIds;
 
-    public List<Long> getParticipatedProjectIds() {
+    public Map<Long, Long> getParticipatedProjectIds() {
         return participatedProjectIds;
     }
 
-    public void setProjectId(List<Long> participatedProjectIds) {
+    public void setParticipatedProjectIds(Map<Long, Long> participatedProjectIds) {
         this.participatedProjectIds = participatedProjectIds;
     }
 

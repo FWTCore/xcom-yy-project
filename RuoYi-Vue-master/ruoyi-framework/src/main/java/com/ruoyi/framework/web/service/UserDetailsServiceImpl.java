@@ -1,5 +1,8 @@
 package com.ruoyi.framework.web.service;
 
+import com.ruoyi.business.domain.ProjectMemberDO;
+import com.ruoyi.business.service.ProjectMemberService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,41 +18,42 @@ import com.ruoyi.common.utils.MessageUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.service.ISysUserService;
 
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * 用户验证处理
  *
  * @author ruoyi
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService
-{
-    private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+public class UserDetailsServiceImpl implements UserDetailsService {
+    private static final Logger  log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Autowired
-    private ISysUserService userService;
-    
+    private ISysUserService      userService;
+
     @Autowired
-    private SysPasswordService passwordService;
+    private SysPasswordService   passwordService;
 
     @Autowired
     private SysPermissionService permissionService;
 
+    @Resource
+    private ProjectMemberService projectMemberService;
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
-    {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser user = userService.selectUserByUserName(username);
-        if (StringUtils.isNull(user))
-        {
+        if (StringUtils.isNull(user)) {
             log.info("登录用户：{} 不存在.", username);
             throw new ServiceException(MessageUtils.message("user.not.exists"));
-        }
-        else if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
-        {
+        } else if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
             log.info("登录用户：{} 已被删除.", username);
             throw new ServiceException(MessageUtils.message("user.password.delete"));
-        }
-        else if (UserStatus.DISABLE.getCode().equals(user.getStatus()))
-        {
+        } else if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
             log.info("登录用户：{} 已被停用.", username);
             throw new ServiceException(MessageUtils.message("user.blocked"));
         }
@@ -59,8 +63,18 @@ public class UserDetailsServiceImpl implements UserDetailsService
         return createLoginUser(user);
     }
 
-    public UserDetails createLoginUser(SysUser user)
-    {
-        return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+    public UserDetails createLoginUser(SysUser user) {
+        LoginUser loginUser = new LoginUser(user.getUserId(), user.getDeptId(), user,
+            permissionService.getMenuPermission(user));
+
+        // 添加项目权限
+        List<ProjectMemberDO> projectMemberList = projectMemberService.listProjectMemberByUserId(user.getUserId());
+        if (!CollectionUtils.isEmpty(projectMemberList)) {
+            Map<Long, Long> projectMap = projectMemberList.stream().collect(Collectors.toMap(ProjectMemberDO::getId,
+                ProjectMemberDO::getDeptId, (existing, replacement) -> replacement));
+            loginUser.setParticipatedProjectIds(projectMap);
+        }
+
+        return loginUser;
     }
 }

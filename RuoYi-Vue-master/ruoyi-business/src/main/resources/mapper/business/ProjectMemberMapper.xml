@@ -1,4 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.ProjectMemberMapper">
+    <resultMap type="com.ruoyi.business.domain.ProjectMemberDO" id="ProjectMemberPOMap">
+        <result property="id" column="id" jdbcType="BIGINT" javaType="Long"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="BIT" javaType="Boolean"/>
+        <result property="createdById" column="created_by_id" jdbcType="BIGINT" javaType="Long"/>
+        <result property="createdByName" column="created_by_name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="createdTime" column="created_time" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime"/>
+        <result property="updatedById" column="updated_by_id" jdbcType="BIGINT" javaType="Long"/>
+        <result property="updatedByName" column="updated_by_name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime"/>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT" javaType="Long"/>
+        <result property="projectId" column="project_id" jdbcType="BIGINT" javaType="Long"/>
+        <result property="systemUserId" column="system_user_id" jdbcType="BIGINT" javaType="Long"/>
+        <result property="memberName" column="member_name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="memberType" column="member_type" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="memberPhone" column="member_phone" jdbcType="VARCHAR" javaType="String"/>
+    </resultMap>
+    <sql id="selectProjectMemberDO">
+        select id,
+               dept_id,
+               project_id,
+               system_user_id,
+               member_name,
+               member_type,
+               member_phone,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from project_member as p
+    </sql>
+
+    <select id="listProjectMemberByUserId" resultMap="ProjectMemberPOMap">
+        <include refid="selectProjectMemberDO"/>
+        where delete_flag = 0 and system_user_id = #{param1}
+    </select>
 </mapper>

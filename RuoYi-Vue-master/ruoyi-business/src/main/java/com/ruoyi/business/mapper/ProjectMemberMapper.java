@@ -1,6 +1,10 @@
 package com.ruoyi.business.mapper;
 
+import com.ruoyi.business.domain.ProjectMemberDO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 项目成员;(project_member)表数据库访问层
@@ -10,4 +14,11 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ProjectMemberMapper {
+
+    /**
+     * 获取用户参与项目
+     * @param userId
+     * @return
+     */
+    List<ProjectMemberDO> listProjectMemberByUserId(@Param("userId") Long userId);
 }

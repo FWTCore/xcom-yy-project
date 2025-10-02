@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import com.ruoyi.common.exception.ServiceException;
+import org.apache.commons.lang3.ObjectUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -153,13 +154,18 @@ public class DataScopeAspect {
             } else if (DATA_SCOPE_PROJECT.equals(dataScope)) {
                 // 上升是项目所在公司
                 if (controllerDataScope.isUpgrade()) {
-                    sqlString
-                        .append(StringUtils.format(" OR {}.dept_id = {} ", deptAlias, loginUser.getProjectCompanyId()));
+                    if (ObjectUtils.isNotEmpty(loginUser.getProjectCompanyId())) {
+                        sqlString.append(
+                            StringUtils.format(" OR {}.dept_id = {} ", deptAlias, loginUser.getProjectCompanyId()));
+                    } else {
+                        // 数据权限为仅本人且没有userAlias别名不查询任何数据
+                        sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
+                    }
                 } else {
                     if (StringUtils.isNotBlank(projectAlias)
                         && !CollectionUtils.isEmpty(loginUser.getParticipatedProjectIds())) {
-                        List<String> projectIds = loginUser.getParticipatedProjectIds().stream().map(Object::toString)
-                            .collect(Collectors.toList());
+                        List<String> projectIds = loginUser.getParticipatedProjectIds().keySet().stream()
+                            .map(Object::toString).collect(Collectors.toList());
                         if (controllerDataScope.isSelfTable()) {
                             sqlString.append(
                                 StringUtils.format(" OR {}.id in {} ", projectAlias, String.join(",", projectIds)));
