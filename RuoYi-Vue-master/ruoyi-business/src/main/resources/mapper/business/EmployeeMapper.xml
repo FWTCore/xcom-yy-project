@@ -1,4 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.EmployeeMapper">
+    <resultMap type="com.ruoyi.business.domain.entity.EmployeeDO" id="EmployeeResult">
+        <result property="id" column="id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <sql id="selectEmployeeVO">
+        select id,
+               dept_id,
+               employee_name,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from employee
+    </sql>
+
+    <select id="selectEmployeeList" parameterType="com.ruoyi.business.domain.model.Employee" resultMap="EmployeeResult">
+        <include refid="selectEmployeeVO"/>
+        <where>
+            and delete_flag=0
+            <if test="deptId != null ">
+                and dept_id = #{deptId}
+            </if>
+            <if test="employeeName != null  and employeeName != ''">
+                and employee_name like concat('%', #{employeeName}, '%')
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectEmployeeById" parameterType="Long"
+            resultMap="EmployeeResult">
+        <include refid="selectEmployeeVO"/>
+        where id = #{id}
+        and delete_flag=0
+    </select>
+    <select id="selectEmployeeByIds"
+            resultMap="EmployeeResult">
+        <include refid="selectEmployeeVO"/>
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        and delete_flag=0
+    </select>
+
+    <insert id="insertEmployee" parameterType="com.ruoyi.business.domain.entity.EmployeeDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                dept_id,
+            </if>
+            <if test="employeeName != null">
+                employee_name,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdById != null">
+                created_by_id,
+            </if>
+            <if test="createdByName != null">
+                created_by_name,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="updatedById != null">
+                updated_by_id,
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name,
+            </if>
+            <if test="updatedTime != null">
+                updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                #{deptId},
+            </if>
+            <if test="employeeName != null">
+                #{employeeName},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateEmployee" parameterType="com.ruoyi.business.domain.entity.EmployeeDO">
+        update employee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null">
+                dept_id =
+                #{deptId},
+            </if>
+            <if test="employeeName != null">
+                employee_name =
+                #{employeeName},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag =
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                created_by_id =
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                created_by_name =
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                created_time =
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id =
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name =
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                updated_time =
+                #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEmployeeById" parameterType="Long">
+        delete
+        from employee
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteEmployeeByIds" parameterType="String">
+        delete from employee where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

@@ -7,6 +7,9 @@ import com.ruoyi.business.domain.model.Brand;
 import com.ruoyi.business.domain.model.BrandDetailVO;
 import com.ruoyi.business.mapper.BrandMapper;
 import com.ruoyi.business.service.BrandService;
+import com.ruoyi.common.exception.ServiceException;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -91,5 +94,27 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public int deleteBrandById(Long id) {
         return brandMapper.deleteBrandById(id);
+    }
+
+    @Override
+    public Long insertNotExistBrand(Long categoryId, String brandName) {
+        Brand brandRequest = new Brand();
+        brandRequest.setCategoryId(categoryId);
+        brandRequest.setBrandName(brandName);
+        List<BrandDO> brandList = this.selectBrandList(brandRequest);
+        if (CollectionUtils.isEmpty(brandList)) {
+            // 创建品牌
+            BrandDO newBrand = new BrandDO();
+            newBrand.setCategoryId(categoryId);
+            newBrand.setBrandName(brandName);
+            this.insertBrand(newBrand);
+            return newBrand.getId();
+        } else {
+            if (brandList.size() > 1) {
+                throw new ServiceException("品牌存在多个，数据异常");
+            }
+            BrandDO existBrand = brandList.get(0);
+            return existBrand.getId();
+        }
     }
 }

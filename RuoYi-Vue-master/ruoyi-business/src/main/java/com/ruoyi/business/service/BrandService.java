@@ -28,6 +28,7 @@ public interface BrandService {
      * @return 品牌集合
      */
     List<BrandDO> selectBrandList(Brand brand);
+
     /**
      * 查询品牌列表
      *
@@ -67,4 +68,13 @@ public interface BrandService {
      * @return 结果
      */
     int deleteBrandById(Long id);
+
+    /**
+     * 新增不存在的品牌，
+     * 返回品牌id
+     * @param categoryId
+     * @param brandName
+     * @return
+     */
+    Long insertNotExistBrand(Long categoryId, String brandName);
 }

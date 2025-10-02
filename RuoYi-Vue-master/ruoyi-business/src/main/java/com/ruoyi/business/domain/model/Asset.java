@@ -168,4 +168,13 @@ public class Asset extends BaseEntityDO {
      * 图片名称,;
      */
     private String        imageUrlName;
+
+    /**
+     * 搜索 部门id
+     */
+    private Long          searchDeptId;
+    /**
+     * 模糊搜索
+     */
+    private String        searchName;
 }

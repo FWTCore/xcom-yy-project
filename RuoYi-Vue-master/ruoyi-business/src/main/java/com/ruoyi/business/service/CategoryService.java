@@ -19,7 +19,7 @@ public interface CategoryService {
      * @param id 分类主键
      * @return 分类
      */
-    CategoryDO selectCategoryByIds(Long id);
+    CategoryDO selectCategoryById(Long id);
 
     /**
      * 查询分类

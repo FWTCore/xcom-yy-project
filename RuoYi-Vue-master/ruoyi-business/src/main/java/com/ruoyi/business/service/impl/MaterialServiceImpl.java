@@ -1,10 +1,14 @@
 package com.ruoyi.business.service.impl;
 
+import com.ruoyi.business.convert.MaterialConvert;
+import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Material;
 import com.ruoyi.business.domain.model.MaterialDetailVO;
 import com.ruoyi.business.mapper.MaterialMapper;
 import com.ruoyi.business.service.MaterialService;
+import com.ruoyi.common.exception.ServiceException;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,6 +57,7 @@ public class MaterialServiceImpl implements MaterialService {
     public List<MaterialDO> selectMaterialList(Material material) {
         return materialMapper.selectMaterialList(material);
     }
+
     /**
      * 查询物资列表
      *
@@ -106,5 +111,22 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     public int deleteMaterialById(Long id) {
         return materialMapper.deleteMaterialById(id);
+    }
+
+    @Override
+    public Long insertNotExistMaterial(MaterialDO material) {
+        Material material1 = MaterialConvert.INSTANCE.toMaterial(material);
+        List<MaterialDO> materialList = this.selectMaterialList(material1);
+        if (CollectionUtils.isEmpty(materialList)) {
+            // 创建商品
+            this.insertMaterial(material);
+            return material.getId();
+        } else {
+            if (materialList.size() > 1) {
+                throw new ServiceException("物资商品存在多个，数据异常");
+            }
+            MaterialDO existMaterial = materialList.get(0);
+            return existMaterial.getId();
+        }
     }
 }

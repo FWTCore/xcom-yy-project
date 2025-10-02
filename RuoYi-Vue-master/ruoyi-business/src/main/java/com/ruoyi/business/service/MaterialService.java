@@ -43,6 +43,7 @@ public interface MaterialService {
      * @return 物资集合
      */
     List<MaterialDO> selectMaterialList(Material material);
+
     /**
      * 查询物资列表
      *
@@ -82,4 +83,13 @@ public interface MaterialService {
      * @return 结果
      */
     int deleteMaterialById(Long id);
+
+    /**
+     * 新增不存在的物资信息，
+     * 返回物资信息id
+     * @param material
+     * @return
+     */
+    Long insertNotExistMaterial(MaterialDO material);
+
 }

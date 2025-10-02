@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 分类
      */
     @Override
-    public CategoryDO selectCategoryByIds(Long id) {
+    public CategoryDO selectCategoryById(Long id) {
         return categoryMapper.selectCategoryById(id);
     }
 

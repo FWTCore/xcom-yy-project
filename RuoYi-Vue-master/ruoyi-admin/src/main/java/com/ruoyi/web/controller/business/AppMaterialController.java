@@ -8,6 +8,8 @@ import com.ruoyi.business.domain.model.MaterialDetailVO;
 import com.ruoyi.business.service.MaterialService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.web.controller.business.request.MaterialNameQueryRequest;
+import com.ruoyi.web.controller.business.request.MaterialSpecQueryRequest;
 import com.ruoyi.web.controller.business.request.SearchQueryRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,9 +51,11 @@ public class AppMaterialController extends BaseController {
 
     @ApiOperation("App-模糊查询物资名称列表")
     @PostMapping(value = "/pageSearchName")
-    public TableDataInfo pageSearchName(SearchQueryRequest request) {
+    public TableDataInfo pageSearchName(MaterialNameQueryRequest request) {
         startPage();
         Material material = new Material();
+        material.setCategoryId(request.getCategoryId());
+        material.setBrandId(request.getBrandId());
         material.setLeftSearchMaterialName(request.getSearchName());
         List<MaterialDetailVO> resp = materialService.selectMaterialDetailList(material);
         return getDataTable(resp);
@@ -59,9 +63,13 @@ public class AppMaterialController extends BaseController {
 
     @ApiOperation("App-模糊查询物资规格列表")
     @PostMapping(value = "/pageSearchSpec")
-    public TableDataInfo pageSearchSpec(SearchQueryRequest request) {
+    public TableDataInfo pageSearchSpec(MaterialSpecQueryRequest request) {
         startPage();
         Material material = new Material();
+        material.setCategoryId(request.getCategoryId());
+        material.setBrandId(request.getBrandId());
+        material.setBrandId(request.getBrandId());
+        material.setMaterialName(request.getMaterialName());
         material.setLeftSearchSpecification(request.getSearchName());
         List<MaterialDetailVO> resp = materialService.selectMaterialDetailList(material);
         return getDataTable(resp);
