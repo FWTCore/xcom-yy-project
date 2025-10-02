@@ -47,7 +47,7 @@ public class AppAssetController extends BaseController {
     public TableDataInfo pageData(AssetQueryRequest request) {
         startPage();
         Asset asset = new Asset();
-        asset.setProjectId(getProjectId());
+        asset.setProjectId(getProjectCompanyId());
         asset.setLocationId(request.getLocationId());
         asset.setSearchDeptId(request.getDeptId());
         asset.setSearchName(request.getSearchName());
@@ -77,9 +77,7 @@ public class AppAssetController extends BaseController {
         copyReqBO.setCopyNum(request.getCopyNum());
         copyReqBO.setDeptId(getProjectCompanyId());
         copyReqBO.setProjectId(getProjectId());
-
-
-        return XcomResult.success(assetService.copyData(copyReqBO));
+        return success(assetService.copyData(copyReqBO));
     }
 
 }

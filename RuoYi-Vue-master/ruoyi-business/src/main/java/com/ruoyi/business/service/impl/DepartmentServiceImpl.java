@@ -4,6 +4,9 @@ import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.model.Department;
 import com.ruoyi.business.mapper.DepartmentMapper;
 import com.ruoyi.business.service.DepartmentService;
+import com.ruoyi.common.exception.ServiceException;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -96,5 +99,35 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public int deleteDepartmentById(Long id) {
         return departmentMapper.deleteDepartmentById(id);
+    }
+
+    @Override
+    public Boolean upsetData(DepartmentDO data) {
+        Department department = new Department();
+        department.setDeptId(data.getDeptId());
+        department.setDepartmentName(data.getDepartmentName());
+        List<DepartmentDO> existNameData = this.selectDepartmentList(department);
+        if (ObjectUtils.isEmpty(data.getId())) {
+            if (CollectionUtils.isNotEmpty(existNameData)) {
+                throw new ServiceException("部门名称已存在");
+            }
+            this.insertDepartment(data);
+        } else {
+            if (CollectionUtils.isNotEmpty(existNameData)) {
+                if (existNameData.size() > 1) {
+                    throw new ServiceException("部门名称已存在");
+                }
+                DepartmentDO existNameObj = existNameData.get(0);
+                if (!existNameObj.getId().equals(data.getId())) {
+                    throw new ServiceException("部门名称已存在");
+                }
+            }
+            DepartmentDO existNameObj = this.selectDepartmentById(data.getId());
+            if (ObjectUtils.isEmpty(existNameObj)) {
+                throw new ServiceException("编辑的部门不存在");
+            }
+            this.updateDepartment(data);
+        }
+        return true;
     }
 }

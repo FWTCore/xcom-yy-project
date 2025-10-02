@@ -68,4 +68,11 @@ public interface DepartmentService {
      * @return 结果
      */
     int deleteDepartmentById(Long id);
+
+    /**
+     * 新增、更新数据
+     * @param data
+     * @return
+     */
+    Boolean upsetData(DepartmentDO data);
 }

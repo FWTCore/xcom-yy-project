@@ -48,4 +48,6 @@ public class Project extends BaseEntityDO {
      * 备注,;
      */
     private String        remark;
+
+    private String        searchName;
 }

@@ -70,4 +70,10 @@ public interface LocationService {
      */
     int deleteLocationById(Long id);
 
+    /**
+     * 新增、更新数据
+     * @param data
+     * @return
+     */
+    Boolean upsetData(LocationDO data);
 }

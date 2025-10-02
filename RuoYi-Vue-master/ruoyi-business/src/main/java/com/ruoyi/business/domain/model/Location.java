@@ -26,6 +26,7 @@ public class Location extends BaseEntityDO {
      * 地点名称,;
      */
     private String locationName;
+    private String searchName;
 
     /**
      * 地点编码,;

@@ -26,4 +26,5 @@ public class Department extends BaseEntityDO {
      * 部门名称,;
      */
     private String departmentName;
+    private String searchName;
 }

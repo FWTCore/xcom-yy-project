@@ -26,4 +26,5 @@ public class Employee extends BaseEntityDO {
      * 员工名称,;
      */
     private String employeeName;
+    private String searchName;
 }

@@ -37,7 +37,10 @@
                 and dept_id = #{deptId}
             </if>
             <if test="departmentName != null  and departmentName != ''">
-                and department_name like concat('%', #{departmentName}, '%')
+                and department_name = #{departmentName}
+            </if>
+            <if test="searchName != null  and searchName != ''">
+                and department_name like concat('%', #{searchName}, '%')
             </if>
             <if test="deleteFlag != null ">
                 and delete_flag = #{deleteFlag}

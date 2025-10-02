@@ -38,7 +38,10 @@
                 and dept_id = #{deptId}
             </if>
             <if test="locationName != null  and locationName != ''">
-                and location_name like concat('%', #{locationName}, '%')
+                and location_name = #{locationName}
+            </if>
+            <if test="searchName != null  and searchName != ''">
+                and location_name like concat('%', #{searchName}, '%')
             </if>
             <if test="locationCode != null  and locationCode != ''">
                 and location_code = #{locationCode}

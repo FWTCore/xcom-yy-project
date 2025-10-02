@@ -4,7 +4,10 @@ import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.model.Employee;
 import com.ruoyi.business.mapper.EmployeeMapper;
 import com.ruoyi.business.service.EmployeeService;
+import com.ruoyi.common.exception.ServiceException;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -96,5 +99,35 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public int deleteEmployeeById(Long id) {
         return employeeMapper.deleteEmployeeById(id);
+    }
+
+    @Override
+    public Boolean upsetData(EmployeeDO data) {
+        Employee employee = new Employee();
+        employee.setDeptId(data.getDeptId());
+        employee.setEmployeeName(data.getEmployeeName());
+        List<EmployeeDO> existNameData = this.selectEmployeeList(employee);
+        if (ObjectUtils.isEmpty(data.getId())) {
+            if (CollectionUtils.isNotEmpty(existNameData)) {
+                throw new ServiceException("员工名称已存在");
+            }
+            this.insertEmployee(data);
+        } else {
+            if (CollectionUtils.isNotEmpty(existNameData)) {
+                if (existNameData.size() > 1) {
+                    throw new ServiceException("员工名称已存在");
+                }
+                EmployeeDO existNameObj = existNameData.get(0);
+                if (!existNameObj.getId().equals(data.getId())) {
+                    throw new ServiceException("员工名称已存在");
+                }
+            }
+            EmployeeDO existNameObj = this.selectEmployeeById(data.getId());
+            if (ObjectUtils.isEmpty(existNameObj)) {
+                throw new ServiceException("编辑的员工不存在");
+            }
+            this.updateEmployee(data);
+        }
+        return true;
     }
 }

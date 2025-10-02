@@ -4,6 +4,9 @@ import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.model.Location;
 import com.ruoyi.business.mapper.LocationMapper;
 import com.ruoyi.business.service.LocationService;
+import com.ruoyi.common.exception.ServiceException;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -97,5 +100,35 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public int deleteLocationById(Long id) {
         return locationMapper.deleteLocationById(id);
+    }
+
+    @Override
+    public Boolean upsetData(LocationDO data) {
+        Location location = new Location();
+        location.setDeptId(data.getDeptId());
+        location.setLocationName(data.getLocationName());
+        List<LocationDO> existNameData = this.selectLocationList(location);
+        if (ObjectUtils.isEmpty(data.getId())) {
+            if (CollectionUtils.isNotEmpty(existNameData)) {
+                throw new ServiceException("存放地点名称已存在");
+            }
+            this.insertLocation(data);
+        } else {
+            if (CollectionUtils.isNotEmpty(existNameData)) {
+                if (existNameData.size() > 1) {
+                    throw new ServiceException("存放地点名称已存在");
+                }
+                LocationDO existNameObj = existNameData.get(0);
+                if (!existNameObj.getId().equals(data.getId())) {
+                    throw new ServiceException("存放地点名称已存在");
+                }
+            }
+            LocationDO existNameObj = this.selectLocationById(data.getId());
+            if (ObjectUtils.isEmpty(existNameObj)) {
+                throw new ServiceException("编辑的存放地点不存在");
+            }
+            this.updateLocation(data);
+        }
+        return true;
     }
 }

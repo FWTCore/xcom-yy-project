@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -157,8 +158,28 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public Boolean copyData(AssetCopyReqBO copyReqBO) {
-
-        return null;
+        if (ObjectUtils.isEmpty(copyReqBO.getProjectId()) || ObjectUtils.isEmpty((copyReqBO.getDeptId()))) {
+            throw new ServiceException("项目和公司数据异常");
+        }
+        AssetDO pureData = this.selectAssetById(copyReqBO.getId());
+        if (ObjectUtils.isEmpty(pureData)) {
+            throw new ServiceException("复制的资产不存在");
+        }
+        if (!copyReqBO.getDeptId().equals(pureData.getDeptId())
+            || !copyReqBO.getProjectId().equals(pureData.getProjectId())) {
+            throw new ServiceException("复制的资产不存在");
+        }
+        List<String> codeList = generateAssetCode(pureData.getTemporaryCode(), copyReqBO.getCopyNum());
+        if (CollectionUtils.isEmpty(codeList)) {
+            throw new ServiceException("资产复制生成编号异常");
+        }
+        for (String code : codeList) {
+            //清除id，用来新增
+            pureData.setId(null);
+            pureData.setTemporaryCode(code);
+            this.insertAsset(pureData);
+        }
+        return true;
     }
 
     /**
@@ -269,5 +290,39 @@ public class AssetServiceImpl implements AssetService {
         }
         data.setUsingEmpName(empMap.get(data.getUsingEmpId()).getEmployeeName());
 
+    }
+
+    /**
+     * 生成资产code
+     * @param temporaryCode
+     * @param copyNum
+     * @return
+     */
+    private List<String> generateAssetCode(String temporaryCode, Integer copyNum) {
+        if (StringUtils.isBlank(temporaryCode)) {
+            throw new ServiceException("复制编码不存在");
+        }
+        int startIndex = 0;
+        String assetCodePrefix = temporaryCode;
+        // 判断倒数第二位是否是 -
+        if (temporaryCode.length() > 2) {
+            String assetCodeSeparator = temporaryCode.substring(temporaryCode.length() - 2, temporaryCode.length() - 1);
+            if (assetCodeSeparator.equals("-")) {
+                String startStr = temporaryCode.substring(temporaryCode.length() - 1);
+                try {
+                    startIndex = Integer.parseInt(startStr);
+                    if (startIndex > 0) {
+                        assetCodePrefix = temporaryCode.substring(0, temporaryCode.length() - 2);
+                    }
+                } catch (Exception ignored) {
+
+                }
+            }
+        }
+        List<String> resultData = new ArrayList<>();
+        for (int i = 1; i <= copyNum; i++) {
+            resultData.add(String.format("%s-%s", assetCodePrefix, startIndex + i));
+        }
+        return resultData;
     }
 }
