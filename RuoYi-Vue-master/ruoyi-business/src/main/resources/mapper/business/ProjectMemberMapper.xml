@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.ProjectMemberMapper">
-    <resultMap type="com.ruoyi.business.domain.entity.ProjectMemberDO" id="ProjectMemberPOMap">
+    <resultMap type="com.ruoyi.business.domain.entity.ProjectMemberDO" id="ProjectMemberResult">
         <result property="id" column="id" jdbcType="BIGINT" javaType="Long"/>
         <result property="deleteFlag" column="delete_flag" jdbcType="BIT" javaType="Boolean"/>
         <result property="createdById" column="created_by_id" jdbcType="BIGINT" javaType="Long"/>
@@ -35,9 +35,190 @@
         from project_member as p
     </sql>
 
-    <select id="listProjectMemberByUserId" resultMap="ProjectMemberPOMap">
+    <select id="listProjectMemberByUserId" resultMap="ProjectMemberResult">
         <include refid="selectProjectMemberVO"/>
         where delete_flag = 0 and system_user_id = #{param1}
     </select>
+
+    <select id="selectProjectMemberList" parameterType="com.ruoyi.business.domain.model.ProjectMember" resultMap="ProjectMemberResult">
+        <include refid="selectProjectMemberVO"/>
+        <where>
+            and delete_flag=0
+            <if test="deptId != null ">
+                and dept_id = #{deptId}
+            </if>
+            <if test="projectId != null ">
+                and project_id = #{projectId}
+            </if>
+            <if test="systemUserId != null ">
+                and system_user_id = #{systemUserId}
+            </if>
+            <if test="memberName != null  and memberName != ''">
+                and member_name like concat('%', #{memberName}, '%')
+            </if>
+            <if test="memberType != null ">
+                and member_type = #{memberType}
+            </if>
+            <if test="memberPhone != null  and memberPhone != ''">
+                and member_phone = #{memberPhone}
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectProjectMemberById" parameterType="Long"
+            resultMap="ProjectMemberResult">
+        <include refid="selectProjectMemberVO"/>
+        where id = #{id}
+        and delete_flag=0
+    </select>
+    <select id="selectProjectMemberByIds"
+            resultMap="ProjectMemberResult">
+        <include refid="selectProjectMemberVO"/>
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        and delete_flag=0
+    </select>
+
+    <insert id="insertProjectMember" parameterType="com.ruoyi.business.domain.entity.ProjectMemberDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into project_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">dept_id,
+            </if>
+            <if test="projectId != null">project_id,
+            </if>
+            <if test="systemUserId != null">system_user_id,
+            </if>
+            <if test="memberName != null">member_name,
+            </if>
+            <if test="memberType != null">member_type,
+            </if>
+            <if test="memberPhone != null">member_phone,
+            </if>
+            <if test="deleteFlag != null">delete_flag,
+            </if>
+            <if test="createdById != null">created_by_id,
+            </if>
+            <if test="createdByName != null">created_by_name,
+            </if>
+            <if test="createdTime != null">created_time,
+            </if>
+            <if test="updatedById != null">updated_by_id,
+            </if>
+            <if test="updatedByName != null">updated_by_name,
+            </if>
+            <if test="updatedTime != null">updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">#{deptId},
+            </if>
+            <if test="projectId != null">#{projectId},
+            </if>
+            <if test="systemUserId != null">#{systemUserId},
+            </if>
+            <if test="memberName != null">#{memberName},
+            </if>
+            <if test="memberType != null">#{memberType},
+            </if>
+            <if test="memberPhone != null">#{memberPhone},
+            </if>
+            <if test="deleteFlag != null">#{deleteFlag},
+            </if>
+            <if test="createdById != null">#{createdById},
+            </if>
+            <if test="createdByName != null">#{createdByName},
+            </if>
+            <if test="createdTime != null">#{createdTime},
+            </if>
+            <if test="updatedById != null">#{updatedById},
+            </if>
+            <if test="updatedByName != null">#{updatedByName},
+            </if>
+            <if test="updatedTime != null">#{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateProjectMember" parameterType="com.ruoyi.business.domain.entity.ProjectMemberDO">
+        update project_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null">dept_id =
+                #{deptId},
+            </if>
+            <if test="projectId != null">project_id =
+                #{projectId},
+            </if>
+            <if test="systemUserId != null">system_user_id =
+                #{systemUserId},
+            </if>
+            <if test="memberName != null">member_name =
+                #{memberName},
+            </if>
+            <if test="memberType != null">member_type =
+                #{memberType},
+            </if>
+            <if test="memberPhone != null">member_phone =
+                #{memberPhone},
+            </if>
+            <if test="deleteFlag != null">delete_flag =
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">created_by_id =
+                #{createdById},
+            </if>
+            <if test="createdByName != null">created_by_name =
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">created_time =
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">updated_by_id =
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">updated_by_name =
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">updated_time =
+                #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectMemberById" parameterType="Long">
+        delete
+        from project_member where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectMemberByIds" parameterType="String">
+        delete from project_member where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

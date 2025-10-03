@@ -80,9 +80,8 @@ public class AssetController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:asset:add')")
     @Log(title = "资产", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Asset asset) {
-        AssetDO assetDO = WebAssetConvert.INSTANCE.toAssetDO(asset);
-        return toAjax(assetService.updateAsset(assetDO));
+    public AjaxResult add(@RequestBody AssetDO asset) {
+        return toAjax(assetService.updateAsset(asset));
     }
 
     /**
@@ -91,9 +90,8 @@ public class AssetController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:asset:edit')")
     @Log(title = "资产", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Asset asset) {
-        AssetDO assetDO = WebAssetConvert.INSTANCE.toAssetDO(asset);
-        return toAjax(assetService.updateAsset(assetDO));
+    public AjaxResult edit(@RequestBody AssetDO asset) {
+        return toAjax(assetService.updateAsset(asset));
     }
 
     /**
