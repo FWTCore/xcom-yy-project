@@ -5,7 +5,7 @@
         <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="品牌必填" prop="hasBrand">
-        <el-select v-model="queryParams.hasBrand" placeholder="请选择">
+        <el-select v-model="queryParams.hasBrand" placeholder="请选择"  clearable>
           <el-option key="1" label="是" value="1"></el-option>
           <el-option key="0" label="否" value="0"></el-option>
         </el-select>
