@@ -55,19 +55,19 @@
       <el-table-column label="分类名称" align="center" prop="categoryName" />
       <el-table-column label="是否填写品牌" align="center" prop="hasBrand">
         <template #default="scope">
-          <el-switch v-model="scope.row.hasBrand" :active-value="true" :inactive-value="false">
+          <el-switch v-model="scope.row.hasBrand" :active-value="true" :inactive-value="false" disabled>
           </el-switch>
         </template>
       </el-table-column>
       <el-table-column label="是否填写物资名称" align="center" prop="hasMaterialName">
         <template #default="scope">
-          <el-switch v-model="scope.row.hasMaterialName" :active-value="true" :inactive-value="false">
+          <el-switch v-model="scope.row.hasMaterialName" :active-value="true" :inactive-value="false"  disabled>
           </el-switch>
         </template>
       </el-table-column>
       <el-table-column label="是否填写规格型号" align="center" prop="hasSpecification">
         <template #default="scope">
-          <el-switch v-model="scope.row.hasSpecification" :active-value="true" :inactive-value="false">
+          <el-switch v-model="scope.row.hasSpecification" :active-value="true" :inactive-value="false"  disabled>
           </el-switch>
         </template>
       </el-table-column>
