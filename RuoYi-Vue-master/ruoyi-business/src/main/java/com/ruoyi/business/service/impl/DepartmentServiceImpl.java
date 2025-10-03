@@ -65,6 +65,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public int insertDepartment(DepartmentDO department) {
+        department.setBaseFieldValue();
         return departmentMapper.insertDepartment(department);
     }
 
@@ -76,6 +77,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public int updateDepartment(DepartmentDO department) {
+        department.setUpdatedFieldValue();
         return departmentMapper.updateDepartment(department);
     }
 

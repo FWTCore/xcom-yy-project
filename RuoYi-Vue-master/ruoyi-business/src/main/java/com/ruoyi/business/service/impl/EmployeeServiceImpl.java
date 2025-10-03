@@ -65,6 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public int insertEmployee(EmployeeDO employee) {
+        employee.setBaseFieldValue();
         return employeeMapper.insertEmployee(employee);
     }
 
@@ -76,6 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public int updateEmployee(EmployeeDO employee) {
+        employee.setUpdatedFieldValue();
         return employeeMapper.updateEmployee(employee);
     }
 

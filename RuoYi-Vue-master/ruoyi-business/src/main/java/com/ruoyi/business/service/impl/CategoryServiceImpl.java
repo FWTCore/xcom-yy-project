@@ -56,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public int insertCategory(CategoryDO category) {
+        category.setBaseFieldValue();
         return categoryMapper.insertCategory(category);
     }
 
@@ -67,6 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public int updateCategory(CategoryDO category) {
+        category.setUpdatedFieldValue();
         return categoryMapper.updateCategory(category);
     }
 

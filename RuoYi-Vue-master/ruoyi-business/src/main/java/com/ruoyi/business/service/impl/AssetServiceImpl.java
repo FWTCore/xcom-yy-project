@@ -108,6 +108,7 @@ public class AssetServiceImpl implements AssetService {
      */
     @Override
     public int insertAsset(AssetDO asset) {
+        asset.setBaseFieldValue();
         return assetMapper.insertAsset(asset);
     }
 
@@ -119,6 +120,12 @@ public class AssetServiceImpl implements AssetService {
      */
     @Override
     public int updateAsset(AssetDO asset) {
+        asset.setUpdatedFieldValue();
+        return assetMapper.updateAsset(asset);
+    }
+
+    @Override
+    public int upsetAsset(AssetDO asset) {
         if (Objects.isNull(asset.getProjectId()) || Objects.isNull(asset.getDeptId())) {
             throw new ServiceException("项目和公司数据异常");
         }
@@ -128,9 +135,10 @@ public class AssetServiceImpl implements AssetService {
         asset.setCollectorUserName(loginUser.getUsername());
         asset.setCollectorTime(LocalDateTime.now());
         if (ObjectUtils.isEmpty(asset.getId())) {
-            return assetMapper.insertAsset(asset);
+            return this.insertAsset(asset);
         } else {
-            return assetMapper.updateAsset(asset);
+            asset.setUpdatedFieldValue();
+            return this.updateAsset(asset);
         }
     }
 

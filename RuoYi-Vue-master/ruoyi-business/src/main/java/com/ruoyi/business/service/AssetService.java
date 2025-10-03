@@ -23,6 +23,7 @@ public interface AssetService {
      * @return
      */
     HomeAssetStatsVO getHomeAssetStats(Long projectId);
+
     /**
      * 查询资产
      *
@@ -62,6 +63,13 @@ public interface AssetService {
      * @return 结果
      */
     int updateAsset(AssetDO asset);
+
+    /**
+     * 新增、编辑资产
+     * @param asset
+     * @return
+     */
+    int upsetAsset(AssetDO asset);
 
     /**
      * 批量删除资产

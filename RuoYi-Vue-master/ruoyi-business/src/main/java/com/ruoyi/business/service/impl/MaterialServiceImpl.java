@@ -77,6 +77,7 @@ public class MaterialServiceImpl implements MaterialService {
      */
     @Override
     public int insertMaterial(MaterialDO material) {
+        material.setBaseFieldValue();
         return materialMapper.insertMaterial(material);
     }
 
@@ -88,6 +89,7 @@ public class MaterialServiceImpl implements MaterialService {
      */
     @Override
     public int updateMaterial(MaterialDO material) {
+        material.setUpdatedFieldValue();
         return materialMapper.updateMaterial(material);
     }
 

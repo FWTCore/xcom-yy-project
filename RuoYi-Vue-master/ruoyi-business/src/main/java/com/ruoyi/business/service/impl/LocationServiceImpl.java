@@ -66,6 +66,7 @@ public class LocationServiceImpl implements LocationService {
      */
     @Override
     public int insertLocation(LocationDO location) {
+        location.setBaseFieldValue();
         return locationMapper.insertLocation(location);
     }
 
@@ -77,6 +78,7 @@ public class LocationServiceImpl implements LocationService {
      */
     @Override
     public int updateLocation(LocationDO location) {
+        location.setUpdatedFieldValue();
         return locationMapper.updateLocation(location);
     }
 

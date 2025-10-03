@@ -60,6 +60,7 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public int insertBrand(BrandDO brand) {
+        brand.setBaseFieldValue();
         return brandMapper.insertBrand(brand);
     }
 
@@ -71,6 +72,7 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public int updateBrand(BrandDO brand) {
+        brand.setUpdatedFieldValue();
         return brandMapper.updateBrand(brand);
     }
 

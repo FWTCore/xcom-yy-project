@@ -72,6 +72,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
      */
     @Override
     public int insertProjectMember(ProjectMemberDO projectMember) {
+        projectMember.setBaseFieldValue();
         return projectMemberMapper.insertProjectMember(projectMember);
     }
 
@@ -83,6 +84,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
      */
     @Override
     public int updateProjectMember(ProjectMemberDO projectMember) {
+        projectMember.setUpdatedFieldValue();
         return projectMemberMapper.updateProjectMember(projectMember);
     }
 

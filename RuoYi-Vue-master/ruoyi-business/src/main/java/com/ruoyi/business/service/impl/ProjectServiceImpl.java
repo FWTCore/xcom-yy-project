@@ -64,6 +64,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public int insertProject(ProjectDO project) {
+        project.setBaseFieldValue();
         return projectMapper.insertProject(project);
     }
 
@@ -75,6 +76,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public int updateProject(ProjectDO project) {
+        project.setUpdatedFieldValue();
         return projectMapper.updateProject(project);
     }
 
