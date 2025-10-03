@@ -4,12 +4,11 @@
       <el-form-item label="分类名称" prop="categoryName">
         <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="是否填写品牌" prop="hasBrand">
-        <el-select v-model="queryParams.hasBrand" multiple placeholder="请选择">
+      <el-form-item label="品牌必填" prop="hasBrand">
+        <el-select v-model="queryParams.hasBrand" placeholder="请选择">
           <el-option key="1" :label="是" value="1"></el-option>
           <el-option key="0" :label="否" value="0"></el-option>
         </el-select>
-        <el-input v-model="queryParams.hasBrand" placeholder="请输入是否填写品牌" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="是否填写物资名称" prop="hasMaterialName">
         <el-input v-model="queryParams.hasMaterialName" placeholder="请输入是否填写物资名称" clearable
