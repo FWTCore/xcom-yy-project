@@ -291,8 +291,8 @@ getList()
 
 <style lang='scss' scoped>
 .label-width {
-}
-.label-width label {
-  width: 100px;
+  label {
+    width: 100px;
+  }
 }
 </style>
