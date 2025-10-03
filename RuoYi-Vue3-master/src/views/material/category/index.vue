@@ -2,46 +2,25 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="分类名称" prop="categoryName">
-        <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="品牌必填" prop="hasBrand">
-        <el-select v-model="queryParams.hasBrand" placeholder="请选择"  clearable>
+        <el-select v-model="queryParams.hasBrand" placeholder="请选择" style="width: 240px" clearable>
           <el-option key="1" label="是" value="1"></el-option>
           <el-option key="0" label="否" value="0"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="是否填写物资名称" prop="hasMaterialName">
-        <el-input v-model="queryParams.hasMaterialName" placeholder="请输入是否填写物资名称" clearable
-          @keyup.enter="handleQuery" />
+      <el-form-item label="物资必填" prop="hasMaterialName">
+        <el-select v-model="queryParams.hasMaterialName" placeholder="请选择" style="width: 240px" clearable>
+          <el-option key="1" label="是" value="1"></el-option>
+          <el-option key="0" label="否" value="0"></el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="是否填写规格型号" prop="hasSpecification">
-        <el-input v-model="queryParams.hasSpecification" placeholder="请输入是否填写规格型号" clearable
-          @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="是否删除" prop="deleteFlag">
-        <el-input v-model="queryParams.deleteFlag" placeholder="请输入是否删除" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="创建人id" prop="createdById">
-        <el-input v-model="queryParams.createdById" placeholder="请输入创建人id" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="创建人" prop="createdByName">
-        <el-input v-model="queryParams.createdByName" placeholder="请输入创建人" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="创建时间" prop="createdTime">
-        <el-date-picker clearable v-model="queryParams.createdTime" type="date" value-format="YYYY-MM-DD"
-          placeholder="请选择创建时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="更新人id" prop="updatedById">
-        <el-input v-model="queryParams.updatedById" placeholder="请输入更新人id" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="更新人" prop="updatedByName">
-        <el-input v-model="queryParams.updatedByName" placeholder="请输入更新人" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="更新时间" prop="updatedTime">
-        <el-date-picker clearable v-model="queryParams.updatedTime" type="date" value-format="YYYY-MM-DD"
-          placeholder="请选择更新时间">
-        </el-date-picker>
+      <el-form-item label="规格型号必填" prop="hasSpecification">
+        <el-select v-model="queryParams.hasSpecification" placeholder="请选择" style="width: 240px" clearable>
+          <el-option key="1" label="是" value="1"></el-option>
+          <el-option key="0" label="否" value="0"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
