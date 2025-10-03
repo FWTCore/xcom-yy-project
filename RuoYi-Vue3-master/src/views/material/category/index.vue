@@ -2,24 +2,25 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="分类名称" prop="categoryName">
-        <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="品牌必填" prop="hasBrand">
+      <el-form-item label="品牌" prop="hasBrand">
         <el-select v-model="queryParams.hasBrand" placeholder="请选择" style="width: 240px" clearable>
-          <el-option key="1" label="是" value="1"></el-option>
-          <el-option key="0" label="否" value="0"></el-option>
+          <el-option key="1" label="必填" value="1"></el-option>
+          <el-option key="0" label="非必填" value="0"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="物资名称必填" prop="hasMaterialName" class="label-width">
+      <el-form-item label="物资名称" prop="hasMaterialName">
         <el-select v-model="queryParams.hasMaterialName" placeholder="请选择" style="width: 240px" clearable>
-          <el-option key="1" label="是" value="1"></el-option>
-          <el-option key="0" label="否" value="0"></el-option>
+          <el-option key="1" label="必填" value="1"></el-option>
+          <el-option key="0" label="非必填" value="0"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="规格型号必填" prop="hasSpecification" class="label-width">
+      <el-form-item label="规格型号" prop="hasSpecification">
         <el-select v-model="queryParams.hasSpecification" placeholder="请选择" style="width: 240px" clearable>
-          <el-option key="1" label="是" value="1"></el-option>
-          <el-option key="0" label="否" value="0"></el-option>
+          <el-option key="1" label="必填" value="1"></el-option>
+          <el-option key="0" label="非必填" value="0"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -288,11 +289,3 @@ function handleExport() {
 
 getList()
 </script>
-
-<style lang='scss' scoped>
-.label-width {
-  label {
-    width: 100px;
-  }
-}
-</style>
