@@ -51,7 +51,12 @@
 
     <el-table v-loading="loading" :data="categoryList" row-key="id" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column label="序号" type="index" style="width: 50px;"/>
+      <!-- 序号列优化 -->
+      <el-table-column label="序号" align="center" width="50">
+        <template #default="scope">
+          <span>{{ calculateIndex(scope.$index) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="分类名称" align="center" prop="categoryName" />
       <el-table-column label="是否填写品牌" align="center" prop="hasBrand">
         <template #default="scope">
@@ -61,13 +66,13 @@
       </el-table-column>
       <el-table-column label="是否填写物资名称" align="center" prop="hasMaterialName">
         <template #default="scope">
-          <el-switch v-model="scope.row.hasMaterialName" :active-value="true" :inactive-value="false"  disabled>
+          <el-switch v-model="scope.row.hasMaterialName" :active-value="true" :inactive-value="false" disabled>
           </el-switch>
         </template>
       </el-table-column>
       <el-table-column label="是否填写规格型号" align="center" prop="hasSpecification">
         <template #default="scope">
-          <el-switch v-model="scope.row.hasSpecification" :active-value="true" :inactive-value="false"  disabled>
+          <el-switch v-model="scope.row.hasSpecification" :active-value="true" :inactive-value="false" disabled>
           </el-switch>
         </template>
       </el-table-column>
@@ -274,4 +279,9 @@ function handleExport() {
 }
 
 getList()
+
+// 计算序号（考虑分页）
+const calculateIndex = (index) => {
+  return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
+}
 </script>
