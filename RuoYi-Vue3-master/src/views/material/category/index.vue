@@ -55,7 +55,7 @@
       <el-table-column label="分类名称" align="center" prop="categoryName" />
       <el-table-column label="是否填写品牌" align="center" prop="hasBrand">
         <template #default="scope">
-          <el-switch v-model="scope.row.hasSpecification" :active-value="true" :inactive-value="false">
+          <el-switch v-model="scope.row.hasBrand" :active-value="true" :inactive-value="false">
           </el-switch>
         </template>
       </el-table-column>
