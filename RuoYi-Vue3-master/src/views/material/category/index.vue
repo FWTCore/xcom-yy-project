@@ -42,33 +42,38 @@
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
           v-hasPermi="['business:category:remove']">删除</el-button>
       </el-col>
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button type="warning" plain icon="Download" @click="handleExport"
           v-hasPermi="['business:category:export']">导出</el-button>
-      </el-col>
+      </el-col> -->
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="categoryList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键id;主键id" align="center" prop="id" />
+      <el-table-column type="selection" width="50" align="center" />
+      <el-table-column label="分类编号" align="center" prop="id" />
       <el-table-column label="分类名称" align="center" prop="categoryName" />
-      <el-table-column label="是否填写品牌" align="center" prop="hasBrand" />
-      <el-table-column label="是否填写物资名称" align="center" prop="hasMaterialName" />
-      <el-table-column label="是否填写规格型号" align="center" prop="hasSpecification" />
-      <el-table-column label="是否删除" align="center" prop="deleteFlag" />
-      <el-table-column label="创建人id" align="center" prop="createdById" />
-      <el-table-column label="创建人" align="center" prop="createdByName" />
+      <el-table-column label="是否填写品牌" align="center" prop="hasBrand">
+        <template #default="scope">
+          <el-switch v-model="scope.row.hasSpecification" :active-value="true" :inactive-value="false">
+          </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否填写物资名称" align="center" prop="hasMaterialName">
+        <template #default="scope">
+          <el-switch v-model="scope.row.hasMaterialName" :active-value="true" :inactive-value="false">
+          </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否填写规格型号" align="center" prop="hasSpecification">
+        <template #default="scope">
+          <el-switch v-model="scope.row.hasSpecification" :active-value="true" :inactive-value="false">
+          </el-switch>
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="更新人id" align="center" prop="updatedById" />
-      <el-table-column label="更新人" align="center" prop="updatedByName" />
-      <el-table-column label="更新时间" align="center" prop="updatedTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.updatedTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -91,38 +96,19 @@
           <el-input v-model="form.categoryName" placeholder="请输入分类名称" />
         </el-form-item>
         <el-form-item label="是否填写品牌" prop="hasBrand">
-          <el-input v-model="form.hasBrand" placeholder="请输入是否填写品牌" />
+          <el-switch v-model="form.hasBrand" :active-value="true" :inactive-value="false" active-text="是"
+            inactive-text="否">
+          </el-switch>
         </el-form-item>
         <el-form-item label="是否填写物资名称" prop="hasMaterialName">
-          <el-input v-model="form.hasMaterialName" placeholder="请输入是否填写物资名称" />
+          <el-switch v-model="form.hasMaterialName" :active-value="true" :inactive-value="false" active-text="是"
+            inactive-text="否">
+          </el-switch>
         </el-form-item>
         <el-form-item label="是否填写规格型号" prop="hasSpecification">
-          <el-input v-model="form.hasSpecification" placeholder="请输入是否填写规格型号" />
-        </el-form-item>
-        <el-form-item label="是否删除" prop="deleteFlag">
-          <el-input v-model="form.deleteFlag" placeholder="请输入是否删除" />
-        </el-form-item>
-        <el-form-item label="创建人id" prop="createdById">
-          <el-input v-model="form.createdById" placeholder="请输入创建人id" />
-        </el-form-item>
-        <el-form-item label="创建人" prop="createdByName">
-          <el-input v-model="form.createdByName" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="创建时间" prop="createdTime">
-          <el-date-picker clearable v-model="form.createdTime" type="date" value-format="YYYY-MM-DD"
-            placeholder="请选择创建时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="更新人id" prop="updatedById">
-          <el-input v-model="form.updatedById" placeholder="请输入更新人id" />
-        </el-form-item>
-        <el-form-item label="更新人" prop="updatedByName">
-          <el-input v-model="form.updatedByName" placeholder="请输入更新人" />
-        </el-form-item>
-        <el-form-item label="更新时间" prop="updatedTime">
-          <el-date-picker clearable v-model="form.updatedTime" type="date" value-format="YYYY-MM-DD"
-            placeholder="请选择更新时间">
-          </el-date-picker>
+          <el-switch v-model="form.hasSpecification" :active-value="true" :inactive-value="false" active-text="是"
+            inactive-text="否">
+          </el-switch>
         </el-form-item>
       </el-form>
       <template #footer>
