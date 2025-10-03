@@ -1,0 +1,8 @@
+
+### MAC OS ###
+.DS_Store
+.vscode
+.idea
+ruoyi/
+package-lock.json
+yarn.lock
