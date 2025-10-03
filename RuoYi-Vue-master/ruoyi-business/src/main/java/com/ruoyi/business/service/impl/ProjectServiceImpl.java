@@ -4,6 +4,7 @@ import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Project;
 import com.ruoyi.business.mapper.ProjectMapper;
 import com.ruoyi.business.service.ProjectService;
+import com.ruoyi.common.annotation.DataScope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -50,6 +51,7 @@ public class ProjectServiceImpl implements ProjectService {
      * @return 项目
      */
     @Override
+    @DataScope(deptAlias = "p", projectAlias = "p", isSelfTable = true)
     public List<ProjectDO> selectProjectList(Project project) {
         return projectMapper.selectProjectList(project);
     }

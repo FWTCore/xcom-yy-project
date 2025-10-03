@@ -35,7 +35,6 @@ public class AppProjectController extends BaseController {
 
     @ApiOperation("App-获取项目列表")
     @PostMapping(value = "/pageData")
-    @DataScope(deptAlias = "p", projectAlias = "p", isSelfTable = true)
     public TableDataInfo pageData(SearchQueryRequest request) {
         startPage();
         Project project = new Project();
