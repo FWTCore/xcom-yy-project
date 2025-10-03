@@ -51,7 +51,7 @@
 
     <el-table v-loading="loading" :data="categoryList" row-key="id" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column label="序号" type="index"/>
+      <el-table-column label="序号" type="index" style="width: 50px;"/>
       <el-table-column label="分类名称" align="center" prop="categoryName" />
       <el-table-column label="是否填写品牌" align="center" prop="hasBrand">
         <template #default="scope">
