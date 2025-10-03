@@ -6,8 +6,8 @@
       </el-form-item>
       <el-form-item label="品牌必填" prop="hasBrand">
         <el-select v-model="queryParams.hasBrand" placeholder="请选择">
-          <el-option key="1" :label="是" value="1"></el-option>
-          <el-option key="0" :label="否" value="0"></el-option>
+          <el-option key="1" label="是" value="1"></el-option>
+          <el-option key="0" label="否" value="0"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="是否填写物资名称" prop="hasMaterialName">
