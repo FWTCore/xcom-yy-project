@@ -10,13 +10,13 @@
           <el-option key="0" label="否" value="0"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="物资名称必填" prop="hasMaterialName" style="width: 400px">
+      <el-form-item label="物资名称必填" prop="hasMaterialName" class="label-width">
         <el-select v-model="queryParams.hasMaterialName" placeholder="请选择" style="width: 240px" clearable>
           <el-option key="1" label="是" value="1"></el-option>
           <el-option key="0" label="否" value="0"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="规格型号必填" prop="hasSpecification" style="width: 400px">
+      <el-form-item label="规格型号必填" prop="hasSpecification" class="label-width">
         <el-select v-model="queryParams.hasSpecification" placeholder="请选择" style="width: 240px" clearable>
           <el-option key="1" label="是" value="1"></el-option>
           <el-option key="0" label="否" value="0"></el-option>
@@ -288,3 +288,11 @@ function handleExport() {
 
 getList()
 </script>
+
+<style lang='scss' scoped>
+.label-width {
+}
+.label-width label {
+  width: 100px;
+}
+</style>
