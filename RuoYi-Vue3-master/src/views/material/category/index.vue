@@ -7,20 +7,20 @@
       </el-form-item>
       <el-form-item label="品牌" prop="hasBrand">
         <el-select v-model="queryParams.hasBrand" placeholder="请选择" style="width: 240px" clearable>
-          <el-option key="true" label="必填" value="true"></el-option>
-          <el-option key="false" label="非必填" value="false"></el-option>
+          <el-option key="true" label="必填" :value="true"></el-option>
+          <el-option key="false" label="非必填" :value="false"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="物资名称" prop="hasMaterialName">
         <el-select v-model="queryParams.hasMaterialName" placeholder="请选择" style="width: 240px" clearable>
-          <el-option key="true" label="必填" value="true"></el-option>
-          <el-option key="false" label="非必填" value="false"></el-option>
+          <el-option key="true" label="必填" :value="true"></el-option>
+          <el-option key="false" label="非必填" :value="false"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="规格型号" prop="hasSpecification">
         <el-select v-model="queryParams.hasSpecification" placeholder="请选择" style="width: 240px" clearable>
-          <el-option key="true" label="必填" value="true"></el-option>
-          <el-option key="false" label="非必填" value="false"></el-option>
+          <el-option key="true" label="必填" :value="true"></el-option>
+          <el-option key="false" label="非必填" :value="false"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
