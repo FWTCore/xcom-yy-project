@@ -4,7 +4,7 @@
       <el-form-item label="归属公司" prop="deptId">
         <el-tree-select v-model="queryParams.deptId" :data="enabledDeptOptions"
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
-          clearable />
+          style="width: 240px" clearable />
       </el-form-item>
       <el-form-item label="部门名称" prop="departmentName">
         <el-input v-model="queryParams.searchName" placeholder="请输入部门名称" clearable @keyup.enter="handleQuery" />
