@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="分类名称" prop="categoryName">
-        <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" style="width: 240px" clearable
+        <el-input v-model="queryParams.searchName" placeholder="请输入分类名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="品牌" prop="hasBrand">
@@ -51,7 +51,6 @@
 
     <el-table v-loading="loading" :data="categoryList" row-key="id" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
-      <!-- 序号列优化 -->
       <el-table-column label="序号" align="center" width="50">
         <template #default="scope">
           <span>{{ calculateIndex(scope.$index) }}</span>
@@ -161,17 +160,10 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    categoryName: null,
+    searchName: null,
     hasBrand: null,
     hasMaterialName: null,
-    hasSpecification: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
+    hasSpecification: null
   },
   rules: {
     deleteFlag: [
@@ -294,6 +286,9 @@ function handleExport() {
 }
 
 getList()
+onMounted(() => {
+  getList()
+})
 
 // 计算序号（考虑分页）
 const calculateIndex = (index) => {
