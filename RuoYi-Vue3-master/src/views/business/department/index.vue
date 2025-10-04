@@ -93,6 +93,7 @@
 
 <script setup name="Department">
 import { listDepartment, getDepartment, delDepartment, addDepartment, updateDepartment } from "@/api/business/department"
+import { deptTreeSelect } from "@/api/system/user"
 
 const { proxy } = getCurrentInstance()
 
