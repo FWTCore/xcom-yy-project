@@ -242,6 +242,20 @@ function getDeptTree() {
   })
 }
 
+/** 过滤禁用的公司 */
+function filterDisabledDept(deptList) {
+  return deptList.filter(dept => {
+    if (dept.disabled) {
+      return false
+    }
+    if (dept.children && dept.children.length) {
+      dept.children = filterDisabledDept(dept.children)
+    }
+    return true
+  })
+}
+
+
 onMounted(() => {
   getDeptTree()
   getList()
