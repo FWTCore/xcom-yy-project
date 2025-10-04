@@ -95,26 +95,38 @@
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改分类对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="600px" append-to-body>
       <el-form ref="categoryRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类名称" prop="categoryName">
-          <el-input v-model="form.categoryName" placeholder="请输入分类名称" />
-        </el-form-item>
-        <el-form-item label="是否填写品牌" prop="hasBrand">
-          <el-switch v-model="form.hasBrand" :active-value="true" :inactive-value="false" active-text="是"
-            inactive-text="否">
-          </el-switch>
-        </el-form-item>
-        <el-form-item label="是否填写物资名称" prop="hasMaterialName">
-          <el-switch v-model="form.hasMaterialName" :active-value="true" :inactive-value="false" active-text="是"
-            inactive-text="否">
-          </el-switch>
-        </el-form-item>
-        <el-form-item label="是否填写规格型号" prop="hasSpecification">
-          <el-switch v-model="form.hasSpecification" :active-value="true" :inactive-value="false" active-text="是"
-            inactive-text="否">
-          </el-switch>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="分类名称" prop="categoryName">
+              <el-input v-model="form.categoryName" placeholder="请输入分类名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="是否填写品牌" prop="hasBrand">
+              <el-switch v-model="form.hasBrand" :active-value="true" :inactive-value="false" active-text="是"
+                inactive-text="否">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="是否填写物资名称" prop="hasMaterialName">
+              <el-switch v-model="form.hasMaterialName" :active-value="true" :inactive-value="false" active-text="是"
+                inactive-text="否">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="是否填写规格型号" prop="hasSpecification">
+              <el-switch v-model="form.hasSpecification" :active-value="true" :inactive-value="false" active-text="是"
+                inactive-text="否">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
