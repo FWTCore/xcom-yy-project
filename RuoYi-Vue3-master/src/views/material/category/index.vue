@@ -105,25 +105,28 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="是否填写品牌" prop="hasBrand">
-              <el-switch v-model="form.hasBrand" :active-value="true" :inactive-value="false" active-text="是"
-                inactive-text="否">
-              </el-switch>
+              <el-select v-model="form.hasBrand" placeholder="请选择">
+                <el-option key="1" label="必填" value="true"></el-option>
+                <el-option key="0" label="非必填" value="false"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="是否填写物资名称" prop="hasMaterialName">
-              <el-switch v-model="form.hasMaterialName" :active-value="true" :inactive-value="false" active-text="是"
-                inactive-text="否">
-              </el-switch>
+              <el-select v-model="form.hasMaterialName" placeholder="请选择">
+                <el-option key="1" label="必填" value="true"></el-option>
+                <el-option key="0" label="非必填" value="false"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="是否填写规格型号" prop="hasSpecification">
-              <el-switch v-model="form.hasSpecification" :active-value="true" :inactive-value="false" active-text="是"
-                inactive-text="否">
-              </el-switch>
+              <el-select v-model="form.hasSpecification" placeholder="请选择">
+                <el-option key="1" label="必填" value="true"></el-option>
+                <el-option key="0" label="非必填" value="false"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
