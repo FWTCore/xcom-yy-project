@@ -255,6 +255,10 @@ function filterDisabledDept(deptList) {
   })
 }
 
+// 计算序号（考虑分页）
+const calculateIndex = (index) => {
+  return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
+}
 
 onMounted(() => {
   getDeptTree()
