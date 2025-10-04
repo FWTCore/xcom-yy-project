@@ -238,7 +238,6 @@ getList()
 /** 查询公司下拉树结构 */
 function getDeptTree() {
   deptTreeSelect().then(response => {
-    deptOptions.value = response.data
     enabledDeptOptions.value = filterDisabledDept(JSON.parse(JSON.stringify(response.data)))
   })
 }
