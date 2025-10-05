@@ -5,12 +5,12 @@
       <el-row>
         <el-col :span="8" :offset="2">
           <el-form-item label="所属公司" prop="deptName">
-            <el-input v-model="form.deptName" disabled />
+            <el-input v-model="state.form.deptName" disabled />
           </el-form-item>
         </el-col>
         <el-col :span="8" :offset="2">
           <el-form-item label="所属项目" prop="projectName">
-            <el-input v-model="form.projectName" disabled />
+            <el-input v-model="state.form.projectName" disabled />
           </el-form-item>
         </el-col>
       </el-row>
@@ -171,16 +171,18 @@ const calculateIndex = (index) => {
 }
 function getProjectInfo() {
   getProject(route.params.projectId).then(res => {
-    console.log(res);
-    form.deptId = res.data.deptId; 
-    form.deptName = res.data.deptName;
-    form.projectId = res.data.id;
-    form.projectName = res.data.projectName;
+    // 直接改同一块内存，保证响应式
+    Object.assign(state.form, {
+      deptId: res.data.deptId,
+      deptName: res.data.deptName,
+      projectId: res.data.id,
+      projectName: res.data.projectName
+    })
   })
 }
 
 onMounted(() => {
-  getProjectInfo()
+  await getProjectInfo()
   getList()
 })
 </script>
