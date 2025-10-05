@@ -35,9 +35,9 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="locationList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" /> <el-table-column label="序号" align="center"
-        width="50">
+    <el-table v-loading="loading" :data="locationList" row-key="id" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="序号" align="center" width="50">
         <template #default="scope">
           <span>{{ calculateIndex(scope.$index) }}</span>
         </template>
