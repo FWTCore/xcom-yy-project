@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="分类" prop="categoryId">
-        <el-select v-model="queryParams.categoryId" multiple placeholder="请选择" style="width: 240px" clearable>
+        <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable>
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
             :value="item.id"></el-option>
         </el-select>
@@ -43,7 +43,7 @@
           <span>{{ calculateIndex(scope.$index) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="分类id" align="center" prop="categoryId" />
+      <el-table-column label="分类" align="center" prop="categoryName" />
       <el-table-column label="品牌名称" align="center" prop="brandName" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
@@ -64,14 +64,23 @@
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改品牌对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="600px" append-to-body>
       <el-form ref="brandRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类id" prop="categoryId">
-          <el-input v-model="form.categoryId" placeholder="请输入分类id" />
-        </el-form-item>
-        <el-form-item label="品牌名称" prop="brandName">
-          <el-input v-model="form.brandName" placeholder="请输入品牌名称" />
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="分类id" prop="categoryId">
+              <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
+                  :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="品牌名称" prop="brandName">
+              <el-input v-model="form.brandName" placeholder="请输入品牌名称" />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
