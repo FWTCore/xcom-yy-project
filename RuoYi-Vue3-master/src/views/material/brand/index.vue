@@ -85,7 +85,7 @@
 
 <script setup name="Brand">
 import { listBrand, getBrand, delBrand, addBrand, updateBrand } from "@/api/business/brand"
-import { listCategory } from "@/api/business/category"
+import { listAllCategory } from "@/api/business/category"
 
 const { proxy } = getCurrentInstance()
 
@@ -232,7 +232,7 @@ const calculateIndex = (index) => {
 }
 
 function getCategory() {
-  listCategory().then(response => {
+  listAllCategory().then(response => {
     categoryOptions.value = response.data
   })
 }
