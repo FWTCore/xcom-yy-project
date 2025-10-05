@@ -17,6 +17,9 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
+    <resultMap type="com.ruoyi.business.domain.model.ProjectDetailVO" id="ProjectDetailResult" extends="ProjectResult">
+        <result property="deptName" column="dept_name"/>
+    </resultMap>
 
     <sql id="selectProjectVO">
         select id,
@@ -39,42 +42,103 @@
     <select id="selectProjectList" parameterType="com.ruoyi.business.domain.model.Project" resultMap="ProjectResult">
         <include refid="selectProjectVO"/>
         <where>
-            and delete_flag=0
+            and p.delete_flag=0
             <if test="deptId != null ">
-                and dept_id = #{deptId}
+                and p.dept_id = #{deptId}
             </if>
             <if test="projectName != null  and projectName != ''">
-                and project_name like concat('%', #{projectName}, '%')
+                and p.project_name like concat('%', #{projectName}, '%')
             </if>
             <if test="startDate != null ">
-                and start_date = #{startDate}
+                and p.start_date = #{startDate}
             </if>
             <if test="endDate != null ">
-                and end_date = #{endDate}
+                and p.end_date = #{endDate}
             </if>
             <if test="projectStatus != null ">
-                and project_status = #{projectStatus}
+                and p.project_status = #{projectStatus}
             </if>
             <if test="deleteFlag != null ">
-                and delete_flag = #{deleteFlag}
+                and p.delete_flag = #{deleteFlag}
             </if>
             <if test="createdById != null ">
-                and created_by_id = #{createdById}
+                and p.created_by_id = #{createdById}
             </if>
             <if test="createdByName != null  and createdByName != ''">
-                and created_by_name like concat('%', #{createdByName}, '%')
+                and p.created_by_name like concat('%', #{createdByName}, '%')
             </if>
             <if test="createdTime != null ">
-                and created_time = #{createdTime}
+                and p.created_time = #{createdTime}
             </if>
             <if test="updatedById != null ">
-                and updated_by_id = #{updatedById}
+                and p.updated_by_id = #{updatedById}
             </if>
             <if test="updatedByName != null  and updatedByName != ''">
-                and updated_by_name like concat('%', #{updatedByName}, '%')
+                and p.updated_by_name like concat('%', #{updatedByName}, '%')
             </if>
             <if test="updatedTime != null ">
-                and updated_time = #{updatedTime}
+                and p.updated_time = #{updatedTime}
+            </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
+        </where>
+    </select>
+
+    <select id="selectProjectDetailList" parameterType="com.ruoyi.business.domain.model.Project" resultMap="ProjectDetailResult">
+        select p.id,
+        p.dept_id,
+        p.project_name,
+        p.start_date,
+        p.end_date,
+        p.project_status,
+        p.remark,
+        p.delete_flag,
+        p.created_by_id,
+        p.created_by_name,
+        p.created_time,
+        p.updated_by_id,
+        p.updated_by_name,
+        p.updated_time,
+        sd.dept_name
+        from project as p
+        inner join sys_dept sd on p.dept_id = sd.dept_id and sd.del_flag = '0'
+        <where>
+            and p.delete_flag=0
+            <if test="deptId != null ">
+                and p.dept_id = #{deptId}
+            </if>
+            <if test="projectName != null  and projectName != ''">
+                and p.project_name like concat('%', #{projectName}, '%')
+            </if>
+            <if test="startDate != null ">
+                and p.start_date = #{startDate}
+            </if>
+            <if test="endDate != null ">
+                and p.end_date = #{endDate}
+            </if>
+            <if test="projectStatus != null ">
+                and p.project_status = #{projectStatus}
+            </if>
+            <if test="deleteFlag != null ">
+                and p.delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and p.created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and p.created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and p.created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and p.updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and p.updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and p.updated_time = #{updatedTime}
             </if>
             <!-- 数据范围过滤 -->
             ${params.dataScope}

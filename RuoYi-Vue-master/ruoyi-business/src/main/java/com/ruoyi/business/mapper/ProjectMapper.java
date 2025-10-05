@@ -2,6 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Project;
+import com.ruoyi.business.domain.model.ProjectDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -37,6 +38,13 @@ public interface ProjectMapper {
      * @return 项目集合
      */
     List<ProjectDO> selectProjectList(Project project);
+    /**
+     * 查询项目列表
+     *
+     * @param project 项目
+     * @return 项目集合
+     */
+    List<ProjectDetailVO> selectProjectDetailList(Project project);
 
     /**
      * 新增项目

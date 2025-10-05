@@ -2,6 +2,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Project;
+import com.ruoyi.business.domain.model.ProjectDetailVO;
 
 import java.util.List;
 
@@ -36,6 +37,13 @@ public interface ProjectService {
      * @return 项目集合
      */
     List<ProjectDO> selectProjectList(Project project);
+    /**
+     * 查询项目列表
+     *
+     * @param project 项目
+     * @return 项目集合
+     */
+    List<ProjectDetailVO> selectProjectDetailList(Project project);
 
     /**
      * 新增项目

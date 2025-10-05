@@ -2,12 +2,15 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Project;
+import com.ruoyi.business.domain.model.ProjectDetailVO;
 import com.ruoyi.business.mapper.ProjectMapper;
 import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.annotation.DataScope;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -55,6 +58,17 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectDO> selectProjectList(Project project) {
         return projectMapper.selectProjectList(project);
     }
+    /**
+     * 查询项目列表
+     *
+     * @param project 项目
+     * @return 项目
+     */
+    @Override
+    @DataScope(deptAlias = "p", projectAlias = "p", isSelfTable = true)
+    public List<ProjectDetailVO> selectProjectDetailList(Project project) {
+        return projectMapper.selectProjectDetailList(project);
+    }
 
     /**
      * 新增项目
@@ -64,6 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public int insertProject(ProjectDO project) {
+        calculateProjectStatus(project);
         project.setBaseFieldValue();
         return projectMapper.insertProject(project);
     }
@@ -76,8 +91,24 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public int updateProject(ProjectDO project) {
+        calculateProjectStatus(project);
         project.setUpdatedFieldValue();
         return projectMapper.updateProject(project);
+    }
+
+    private void calculateProjectStatus(ProjectDO project) {
+        LocalDateTime now = LocalDateTime.now();
+        if (ObjectUtils.isEmpty(project.getStartDate()) || ObjectUtils.isEmpty(project.getEndDate())) {
+            return;
+        }
+        if (now.isBefore(project.getStartDate())) {
+            project.setProjectStatus(0);
+        } else if (now.isAfter(project.getEndDate())) {
+            project.setProjectStatus(2);
+        } else {
+            project.setProjectStatus(1);
+        }
+
     }
 
     /**
