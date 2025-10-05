@@ -65,6 +65,8 @@
             <if test="updatedTime != null ">
                 and e.updated_time = #{updatedTime}
             </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
     </select>
 
@@ -115,6 +117,8 @@
             <if test="updatedTime != null ">
                 and e.updated_time = #{updatedTime}
             </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
 
     </select>

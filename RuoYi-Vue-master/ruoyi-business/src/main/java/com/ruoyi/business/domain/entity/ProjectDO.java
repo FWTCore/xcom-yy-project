@@ -1,5 +1,7 @@
 package com.ruoyi.business.domain.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.ruoyi.business.utils.LenientLocalDateTimeDeserializer;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,11 +34,13 @@ public class ProjectDO extends BaseEntityDO {
     /**
      * 项目开始周期,;
      */
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime startDate;
 
     /**
      * 项目结束周期,;
      */
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime endDate;
 
     /**

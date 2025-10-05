@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Project;
+import com.ruoyi.business.domain.model.ProjectDetailVO;
 import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -48,7 +49,7 @@ public class ProjectController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(Project project) {
         startPage();
-        List<ProjectDO> list = projectService.selectProjectList(project);
+        List<ProjectDetailVO> list = projectService.selectProjectDetailList(project);
         return getDataTable(list);
     }
 
