@@ -1,77 +1,14 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类id" prop="categoryId">
-        <el-input
-          v-model="queryParams.categoryId"
-          placeholder="请输入分类id"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+      <el-form-item label="分类" prop="categoryId">
+        <el-select v-model="queryParams.categoryId" multiple placeholder="请选择">
+          <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName" :value="item.id"
+            style="width: 240px"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="品牌名称" prop="brandName">
-        <el-input
-          v-model="queryParams.brandName"
-          placeholder="请输入品牌名称"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="是否删除" prop="deleteFlag">
-        <el-input
-          v-model="queryParams.deleteFlag"
-          placeholder="请输入是否删除"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="创建人id" prop="createdById">
-        <el-input
-          v-model="queryParams.createdById"
-          placeholder="请输入创建人id"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="创建人" prop="createdByName">
-        <el-input
-          v-model="queryParams.createdByName"
-          placeholder="请输入创建人"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="创建时间" prop="createdTime">
-        <el-date-picker clearable
-          v-model="queryParams.createdTime"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择创建时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="更新人id" prop="updatedById">
-        <el-input
-          v-model="queryParams.updatedById"
-          placeholder="请输入更新人id"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="更新人" prop="updatedByName">
-        <el-input
-          v-model="queryParams.updatedByName"
-          placeholder="请输入更新人"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="更新时间" prop="updatedTime">
-        <el-date-picker clearable
-          v-model="queryParams.updatedTime"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择更新时间">
-        </el-date-picker>
+        <el-input v-model="queryParams.brandName" placeholder="请输入品牌名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -81,81 +18,50 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleAdd"
-          v-hasPermi="['business:brand:add']"
-        >新增</el-button>
+        <el-button type="primary" plain icon="Plus" @click="handleAdd"
+          v-hasPermi="['business:brand:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['business:brand:edit']"
-        >修改</el-button>
+        <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate"
+          v-hasPermi="['business:brand:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['business:brand:remove']"
-        >删除</el-button>
+        <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
+          v-hasPermi="['business:brand:remove']">删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['business:brand:export']"
-        >导出</el-button>
-      </el-col>
+      <!-- <el-col :span="1.5">
+        <el-button type="warning" plain icon="Download" @click="handleExport"
+          v-hasPermi="['business:brand:export']">导出</el-button>
+      </el-col> -->
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="brandList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键id;主键id" align="center" prop="id" />
+      <el-table-column label="序号" align="center" width="50">
+        <template #default="scope">
+          <span>{{ calculateIndex(scope.$index) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="分类id" align="center" prop="categoryId" />
       <el-table-column label="品牌名称" align="center" prop="brandName" />
-      <el-table-column label="是否删除" align="center" prop="deleteFlag" />
-      <el-table-column label="创建人id" align="center" prop="createdById" />
-      <el-table-column label="创建人" align="center" prop="createdByName" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="更新人id" align="center" prop="updatedById" />
-      <el-table-column label="更新人" align="center" prop="updatedByName" />
-      <el-table-column label="更新时间" align="center" prop="updatedTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.updatedTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['business:brand:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['business:brand:remove']">删除</el-button>
+          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['business:brand:edit']">修改</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['business:brand:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
-    <pagination
-      v-show="total>0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
-    />
+
+    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改品牌对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
@@ -165,37 +71,6 @@
         </el-form-item>
         <el-form-item label="品牌名称" prop="brandName">
           <el-input v-model="form.brandName" placeholder="请输入品牌名称" />
-        </el-form-item>
-        <el-form-item label="是否删除" prop="deleteFlag">
-          <el-input v-model="form.deleteFlag" placeholder="请输入是否删除" />
-        </el-form-item>
-        <el-form-item label="创建人id" prop="createdById">
-          <el-input v-model="form.createdById" placeholder="请输入创建人id" />
-        </el-form-item>
-        <el-form-item label="创建人" prop="createdByName">
-          <el-input v-model="form.createdByName" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="创建时间" prop="createdTime">
-          <el-date-picker clearable
-            v-model="form.createdTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择创建时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="更新人id" prop="updatedById">
-          <el-input v-model="form.updatedById" placeholder="请输入更新人id" />
-        </el-form-item>
-        <el-form-item label="更新人" prop="updatedByName">
-          <el-input v-model="form.updatedByName" placeholder="请输入更新人" />
-        </el-form-item>
-        <el-form-item label="更新时间" prop="updatedTime">
-          <el-date-picker clearable
-            v-model="form.updatedTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择更新时间">
-          </el-date-picker>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -210,6 +85,7 @@
 
 <script setup name="Brand">
 import { listBrand, getBrand, delBrand, addBrand, updateBrand } from "@/api/business/brand"
+import { listCategory } from "@/api/business/catrgory"
 
 const { proxy } = getCurrentInstance()
 
@@ -222,6 +98,7 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
+const categoryOptions = ref([])
 
 const data = reactive({
   form: {},
@@ -229,14 +106,7 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     categoryId: null,
-    brandName: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
+    brandName: null
   },
   rules: {
     deleteFlag: [
@@ -341,12 +211,12 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _ids = row.id || ids.value
-  proxy.$modal.confirm('是否确认删除品牌编号为"' + _ids + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认删除品牌编号为"' + _ids + '"的数据项？').then(function () {
     return delBrand(_ids)
   }).then(() => {
     getList()
     proxy.$modal.msgSuccess("删除成功")
-  }).catch(() => {})
+  }).catch(() => { })
 }
 
 /** 导出按钮操作 */
@@ -356,5 +226,18 @@ function handleExport() {
   }, `brand_${new Date().getTime()}.xlsx`)
 }
 
-getList()
+// 计算序号（考虑分页）
+const calculateIndex = (index) => {
+  return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
+}
+
+function getCategory() {
+  listCategory().then(response => {
+    categoryOptions.value = response.data
+  })
+}
+onMounted(() => {
+  getList()
+  getCategory()
+})
 </script>

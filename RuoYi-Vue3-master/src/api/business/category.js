@@ -42,3 +42,11 @@ export function delCategory(id) {
     method: 'delete'
   })
 }
+
+// 查询分类列表（所有）
+export function listCategory() {
+  return request({
+    url: '/category/listAll',
+    method: 'get'
+  })
+}
