@@ -18,10 +18,10 @@
 
     <h4 class="form-header h4">成员信息</h4>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="成员名称" prop="memberName">
+      <el-form-item label="名称" prop="memberName">
         <el-input v-model="queryParams.memberName" placeholder="请输入成员名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="成员手机号" prop="memberPhone">
+      <el-form-item label="手机号" prop="memberPhone">
         <el-input v-model="queryParams.memberPhone" placeholder="请输入成员手机号" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item>
