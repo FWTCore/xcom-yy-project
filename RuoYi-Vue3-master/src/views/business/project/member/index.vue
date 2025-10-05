@@ -76,6 +76,7 @@
 <script setup name="Member">
 import selectMember from "./selectMember"
 import { listMember, delMember } from "@/api/business/projectMember"
+import { getMember } from "@/api/business/project"
 
 const { proxy } = getCurrentInstance()
 
@@ -90,7 +91,12 @@ const total = ref(0)
 
 
 const data = reactive({
-  form: {},
+  form: {
+    deptId: null,
+    deptName: null,
+    projectId: null,
+    projectName: null
+  },
   queryParams: {
     pageNum: 1,
     pageSize: 10,
@@ -162,6 +168,14 @@ function handleExport() {
 // 计算序号（考虑分页）
 const calculateIndex = (index) => {
   return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
+}
+function getProjectInfo() {
+  getMember(route.params.projectId).then(res => {
+    form.deptId = res.data.deptId; 
+    form.deptName = res.data.deptName;
+    form.projectId = res.data.id;
+    form.projectName = res.data.projectName;
+  })
 }
 getList()
 </script>

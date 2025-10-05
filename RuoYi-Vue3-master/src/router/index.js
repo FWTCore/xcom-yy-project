@@ -126,7 +126,7 @@ export const dynamicRoutes = [
         path: 'user/:projectId(\\d+)',
         component: () => import('@/views/business/project/member/index'),
         name: 'ProjectMember',
-        meta: { title: '分配用户', activeMenu: '/business/project' }
+        meta: { title: '分配项目员工', activeMenu: '/business/project' }
       }
     ]
   },
