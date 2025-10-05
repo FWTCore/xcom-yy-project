@@ -2,9 +2,9 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="分类" prop="categoryId">
-        <el-select v-model="queryParams.categoryId" multiple placeholder="请选择">
-          <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName" :value="item.id"
-            style="width: 240px"></el-option>
+        <el-select v-model="queryParams.categoryId" multiple placeholder="请选择" style="width: 240px" clearable>
+          <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
+            :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="品牌名称" prop="brandName">
