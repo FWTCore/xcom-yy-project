@@ -85,7 +85,7 @@
 
 <script setup name="Brand">
 import { listBrand, getBrand, delBrand, addBrand, updateBrand } from "@/api/business/brand"
-import { listCategory } from "@/api/business/catrgory"
+import { listCategory } from "@/api/business/category"
 
 const { proxy } = getCurrentInstance()
 
