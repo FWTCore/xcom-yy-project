@@ -2,6 +2,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.ProjectMemberDO;
 import com.ruoyi.business.domain.model.ProjectMember;
+import com.ruoyi.common.core.domain.entity.SysUser;
 
 import java.util.List;
 
@@ -46,12 +47,28 @@ public interface ProjectMemberService {
     List<ProjectMemberDO> selectProjectMemberList(ProjectMember projectMember);
 
     /**
+     * 查询项目成员列表
+     *
+     * @param projectMember 项目成员
+     * @return 项目成员集合
+     */
+    List<SysUser> selectUnallocatedList(ProjectMember projectMember);
+
+    /**
      * 新增项目成员
      *
      * @param projectMember 项目成员
      * @return 结果
      */
     int insertProjectMember(ProjectMemberDO projectMember);
+    /**
+     * 新增项目成员
+     *
+     * @param projectId
+     * @param userIds
+     * @return 结果
+     */
+    int insertProjectMember(Long projectId, Long[] userIds);
 
     /**
      * 修改项目成员
