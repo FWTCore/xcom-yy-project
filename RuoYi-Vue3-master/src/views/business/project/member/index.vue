@@ -76,7 +76,7 @@
 <script setup name="Member">
 import selectMember from "./selectMember"
 import { listMember, delMember } from "@/api/business/projectMember"
-import { getMember } from "@/api/business/project"
+import { getProject } from "@/api/business/project"
 
 const { proxy } = getCurrentInstance()
 
@@ -170,12 +170,16 @@ const calculateIndex = (index) => {
   return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
 }
 function getProjectInfo() {
-  getMember(route.params.projectId).then(res => {
+  getProject(route.params.projectId).then(res => {
     form.deptId = res.data.deptId; 
     form.deptName = res.data.deptName;
     form.projectId = res.data.id;
     form.projectName = res.data.projectName;
   })
 }
-getList()
+
+onMounted(() => {
+  getProjectInfo()
+  getList()
+})
 </script>
