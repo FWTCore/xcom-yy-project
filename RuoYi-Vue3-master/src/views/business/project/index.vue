@@ -44,12 +44,12 @@
       </el-table-column>
       <el-table-column label="公司名称" align="center" prop="deptName" />
       <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="项目开始周期" align="center" prop="startDate" width="180">
+      <el-table-column label="开始周期" align="center" prop="startDate" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.startDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="项目结束周期" align="center" prop="endDate" width="180">
+      <el-table-column label="结束周期" align="center" prop="endDate" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.endDate, '{y}-{m}-{d}') }}</span>
         </template>
@@ -99,7 +99,7 @@
         <el-row>
           <el-col :span="12">
 
-            <el-form-item label="项目开始周期" prop="startDate">
+            <el-form-item label="开始周期" prop="startDate">
               <el-date-picker clearable v-model="form.startDate" type="date" value-format="YYYY-MM-DD"
                 placeholder="请选择项目开始周期">
               </el-date-picker>
@@ -107,18 +107,17 @@
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="项目结束周期" prop="endDate">
+            <el-form-item label="结束周期" prop="endDate">
               <el-date-picker clearable v-model="form.endDate" type="date" value-format="YYYY-MM-DD"
                 placeholder="请选择项目结束周期">
               </el-date-picker>
             </el-form-item>
           </el-col>
-
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" placeholder="请输入备注" />
+            <el-form-item label="备注">
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
