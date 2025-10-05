@@ -66,10 +66,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-tooltip :content="scope.row.memberType===0?'设置项目负责人':'取消项目负责人'" placement="top">
-            <el-button link type="primary" icon="Edit" @click="handleLeader(scope.row)"
-              v-hasPermi="['business:member:edit']"></el-button>
-          </el-tooltip>
+          <el-button link type="primary" icon="Edit" @click="handleLeader(scope.row)"
+            v-hasPermi="['business:member:edit']">{{ scope.row.memberType === 0 ? '设置项目负责人' : '取消项目负责人' }}</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
             v-hasPermi="['business:member:remove']">删除</el-button>
         </template>
@@ -198,8 +196,9 @@ function handleClose() {
 
 /** 设置项目负责人 */
 function handleLeader(row) {
-  setProjectLeader(row.id,route.params.projectId).then(response => {
+  setProjectLeader(row.id, route.params.projectId).then(response => {
     proxy.$modal.msgSuccess("项目负责人操作成功")
+    getList()
   })
 }
 onMounted(() => {
