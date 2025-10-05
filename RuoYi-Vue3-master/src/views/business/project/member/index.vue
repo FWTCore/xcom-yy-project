@@ -79,6 +79,7 @@ import { listMember, delMember } from "@/api/business/projectMember"
 
 const { proxy } = getCurrentInstance()
 
+const route = useRoute()
 const memberList = ref([])
 const loading = ref(true)
 const showSearch = ref(true)
