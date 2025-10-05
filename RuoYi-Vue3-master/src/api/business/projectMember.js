@@ -42,3 +42,20 @@ export function delMember(id) {
     method: 'delete'
   })
 }
+// 查询角色未授权用户列表
+export function unallocatedUserList(query) {
+  return request({
+    url: '/project-member/unallocatedList',
+    method: 'get',
+    params: query
+  })
+}
+
+// 授权用户选择
+export function authUserSelectAll(data) {
+  return request({
+    url: '/project-member/authUser',
+    method: 'put',
+    params: data
+  })
+}

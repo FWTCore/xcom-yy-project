@@ -65,11 +65,11 @@
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['business:project:edit']">修改</el-button>
-          <el-button link type="primary" icon="Plus">
-            <router-link :to="'/business/project/member/index/' + scope.row.dictId" class="link-type">
-              <span>添加成员</span>
-            </router-link>
-          </el-button>
+
+          <el-tooltip content="添加成员" placement="top" v-if="scope.row.roleId !== 1">
+            <el-button link type="primary" icon="Plus" @click="handleProjectMember(scope.row)"></el-button>
+          </el-tooltip>
+       
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
             v-hasPermi="['business:project:remove']">删除</el-button>
         </template>
@@ -302,6 +302,10 @@ function filterDisabledDept(deptList) {
 // 计算序号（考虑分页）
 const calculateIndex = (index) => {
   return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
+}
+/** 分配成员 */
+function handleProjectMember(row) {
+  router.push("/business/project-member/user/" + row.id)
 }
 
 onMounted(() => {

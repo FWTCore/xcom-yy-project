@@ -117,6 +117,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/business/project-member',
+    component: Layout,
+    hidden: true,
+    permissions: ['business:project:edit','business:project:add'],
+    children: [
+      {
+        path: 'user/:projectId(\\d+)',
+        component: () => import('@/views/business/project/member/index'),
+        name: 'ProjectMember',
+        meta: { title: '分配用户', activeMenu: '/business/project' }
+      }
+    ]
+  },
+  {
     path: '/system/dict-data',
     component: Layout,
     hidden: true,

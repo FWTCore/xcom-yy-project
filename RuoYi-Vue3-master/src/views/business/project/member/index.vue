@@ -1,45 +1,28 @@
 <template>
   <div class="app-container">
+    <h4 class="form-header h4">基本信息</h4>
+    <el-form :model="form" label-width="80px">
+      <el-row>
+        <el-col :span="8" :offset="2">
+          <el-form-item label="所属公司" prop="deptName">
+            <el-input v-model="form.deptName" disabled />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" :offset="2">
+          <el-form-item label="所属项目" prop="projectName">
+            <el-input v-model="form.projectName" disabled />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+
+    <h4 class="form-header h4">成员信息</h4>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="系统公司id" prop="deptId">
-        <el-input v-model="queryParams.deptId" placeholder="请输入系统公司id" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="项目id" prop="projectId">
-        <el-input v-model="queryParams.projectId" placeholder="请输入项目id" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="系统用户id" prop="systemUserId">
-        <el-input v-model="queryParams.systemUserId" placeholder="请输入系统用户id" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
       <el-form-item label="成员名称" prop="memberName">
         <el-input v-model="queryParams.memberName" placeholder="请输入成员名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="成员手机号" prop="memberPhone">
         <el-input v-model="queryParams.memberPhone" placeholder="请输入成员手机号" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="是否删除" prop="deleteFlag">
-        <el-input v-model="queryParams.deleteFlag" placeholder="请输入是否删除" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="创建人id" prop="createdById">
-        <el-input v-model="queryParams.createdById" placeholder="请输入创建人id" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="创建人" prop="createdByName">
-        <el-input v-model="queryParams.createdByName" placeholder="请输入创建人" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="创建时间" prop="createdTime">
-        <el-date-picker clearable v-model="queryParams.createdTime" type="date" value-format="YYYY-MM-DD"
-          placeholder="请选择创建时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="更新人id" prop="updatedById">
-        <el-input v-model="queryParams.updatedById" placeholder="请输入更新人id" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="更新人" prop="updatedByName">
-        <el-input v-model="queryParams.updatedByName" placeholder="请输入更新人" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="更新时间" prop="updatedTime">
-        <el-date-picker clearable v-model="queryParams.updatedTime" type="date" value-format="YYYY-MM-DD"
-          placeholder="请选择更新时间">
-        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -53,144 +36,66 @@
           v-hasPermi="['business:member:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['business:member:edit']">修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
           v-hasPermi="['business:member:remove']">删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="Download" @click="handleExport"
-          v-hasPermi="['business:member:export']">导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="memberList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="memberList" row-key="id" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键id;主键id" align="center" prop="id" />
-      <el-table-column label="系统公司id" align="center" prop="deptId" />
-      <el-table-column label="项目id" align="center" prop="projectId" />
-      <el-table-column label="系统用户id" align="center" prop="systemUserId" />
+      <el-table-column label="序号" align="center" width="50">
+        <template #default="scope">
+          <span>{{ calculateIndex(scope.$index) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="成员名称" align="center" prop="memberName" />
       <el-table-column label="成员类型" align="center" prop="memberType" />
       <el-table-column label="成员手机号" align="center" prop="memberPhone" />
-      <el-table-column label="是否删除" align="center" prop="deleteFlag" />
-      <el-table-column label="创建人id" align="center" prop="createdById" />
-      <el-table-column label="创建人" align="center" prop="createdByName" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="更新人id" align="center" prop="updatedById" />
-      <el-table-column label="更新人" align="center" prop="updatedByName" />
-      <el-table-column label="更新时间" align="center" prop="updatedTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.updatedTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['business:member:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
             v-hasPermi="['business:member:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改项目成员对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="memberRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="系统公司id" prop="deptId">
-          <el-input v-model="form.deptId" placeholder="请输入系统公司id" />
-        </el-form-item>
-        <el-form-item label="项目id" prop="projectId">
-          <el-input v-model="form.projectId" placeholder="请输入项目id" />
-        </el-form-item>
-        <el-form-item label="系统用户id" prop="systemUserId">
-          <el-input v-model="form.systemUserId" placeholder="请输入系统用户id" />
-        </el-form-item>
-        <el-form-item label="成员名称" prop="memberName">
-          <el-input v-model="form.memberName" placeholder="请输入成员名称" />
-        </el-form-item>
-        <el-form-item label="成员手机号" prop="memberPhone">
-          <el-input v-model="form.memberPhone" placeholder="请输入成员手机号" />
-        </el-form-item>
-        <el-form-item label="是否删除" prop="deleteFlag">
-          <el-input v-model="form.deleteFlag" placeholder="请输入是否删除" />
-        </el-form-item>
-        <el-form-item label="创建人id" prop="createdById">
-          <el-input v-model="form.createdById" placeholder="请输入创建人id" />
-        </el-form-item>
-        <el-form-item label="创建人" prop="createdByName">
-          <el-input v-model="form.createdByName" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="创建时间" prop="createdTime">
-          <el-date-picker clearable v-model="form.createdTime" type="date" value-format="YYYY-MM-DD"
-            placeholder="请选择创建时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="更新人id" prop="updatedById">
-          <el-input v-model="form.updatedById" placeholder="请输入更新人id" />
-        </el-form-item>
-        <el-form-item label="更新人" prop="updatedByName">
-          <el-input v-model="form.updatedByName" placeholder="请输入更新人" />
-        </el-form-item>
-        <el-form-item label="更新时间" prop="updatedTime">
-          <el-date-picker clearable v-model="form.updatedTime" type="date" value-format="YYYY-MM-DD"
-            placeholder="请选择更新时间">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
-        </div>
-      </template>
-    </el-dialog>
+    <select-member ref="selectRef" :projectId="queryParams.projectId" @ok="handleQuery" />
   </div>
 </template>
 
 <script setup name="Member">
-import { listMember, getMember, delMember, addMember, updateMember } from "@/api/business/projectMember"
+import selectMember from "./selectMember"
+import { listMember, delMember } from "@/api/business/projectMember"
 
 const { proxy } = getCurrentInstance()
 
 const memberList = ref([])
-const open = ref(false)
 const loading = ref(true)
 const showSearch = ref(true)
 const ids = ref([])
 const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
-const title = ref("")
+
 
 const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    deptId: null,
-    projectId: null,
-    systemUserId: null,
+    projectId: route.params.projectId,
     memberName: null,
-    memberType: null,
-    memberPhone: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
+    memberPhone: null
   },
   rules: {
     deleteFlag: [
@@ -199,7 +104,7 @@ const data = reactive({
   }
 })
 
-const { queryParams, form, rules } = toRefs(data)
+const { queryParams, form } = toRefs(data)
 
 /** 查询项目成员列表 */
 function getList() {
@@ -209,33 +114,6 @@ function getList() {
     total.value = response.total
     loading.value = false
   })
-}
-
-// 取消按钮
-function cancel() {
-  open.value = false
-  reset()
-}
-
-// 表单重置
-function reset() {
-  form.value = {
-    id: null,
-    deptId: null,
-    projectId: null,
-    systemUserId: null,
-    memberName: null,
-    memberType: null,
-    memberPhone: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
-  }
-  proxy.resetForm("memberRef")
 }
 
 /** 搜索按钮操作 */
@@ -259,41 +137,7 @@ function handleSelectionChange(selection) {
 
 /** 新增按钮操作 */
 function handleAdd() {
-  reset()
-  open.value = true
-  title.value = "添加项目成员"
-}
-
-/** 修改按钮操作 */
-function handleUpdate(row) {
-  reset()
-  const _id = row.id || ids.value
-  getMember(_id).then(response => {
-    form.value = response.data
-    open.value = true
-    title.value = "修改项目成员"
-  })
-}
-
-/** 提交按钮 */
-function submitForm() {
-  proxy.$refs["memberRef"].validate(valid => {
-    if (valid) {
-      if (form.value.id != null) {
-        updateMember(form.value).then(response => {
-          proxy.$modal.msgSuccess("修改成功")
-          open.value = false
-          getList()
-        })
-      } else {
-        addMember(form.value).then(response => {
-          proxy.$modal.msgSuccess("新增成功")
-          open.value = false
-          getList()
-        })
-      }
-    }
-  })
+  proxy.$refs["selectRef"].show()
 }
 
 /** 删除按钮操作 */
