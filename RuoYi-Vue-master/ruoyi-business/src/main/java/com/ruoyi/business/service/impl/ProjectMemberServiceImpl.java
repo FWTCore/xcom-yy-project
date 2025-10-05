@@ -1,15 +1,28 @@
 package com.ruoyi.business.service.impl;
 
+import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.entity.ProjectMemberDO;
 import com.ruoyi.business.domain.model.ProjectMember;
 import com.ruoyi.business.mapper.ProjectMemberMapper;
 import com.ruoyi.business.service.ProjectMemberService;
+import com.ruoyi.business.service.ProjectService;
+import com.ruoyi.common.annotation.DataScope;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.system.service.ISysUserService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
  * ProjectMember Service
@@ -22,6 +35,10 @@ import java.util.List;
 public class ProjectMemberServiceImpl implements ProjectMemberService {
     @Resource
     private ProjectMemberMapper projectMemberMapper;
+    @Resource
+    private ProjectService      projectService;
+    @Resource
+    private ISysUserService     userService;
 
     @Override
     public List<ProjectMemberDO> listProjectMemberByUserId(Long userId) {
@@ -60,8 +77,15 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
      * @return 项目成员
      */
     @Override
+    @DataScope(deptAlias = "pm", projectAlias = "pm")
     public List<ProjectMemberDO> selectProjectMemberList(ProjectMember projectMember) {
         return projectMemberMapper.selectProjectMemberList(projectMember);
+    }
+
+    @Override
+    @DataScope(deptAlias = "u", isUpgrade = true)
+    public List<SysUser> selectUnallocatedList(ProjectMember projectMember) {
+        return projectMemberMapper.selectUnallocatedList(projectMember);
     }
 
     /**
@@ -74,6 +98,42 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     public int insertProjectMember(ProjectMemberDO projectMember) {
         projectMember.setBaseFieldValue();
         return projectMemberMapper.insertProjectMember(projectMember);
+    }
+
+    @Override
+    public int insertProjectMember(Long projectId, Long[] userIds) {
+        ProjectDO projectDO = projectService.selectProjectById(projectId);
+        if (ObjectUtils.isEmpty(projectDO)) {
+            throw new ServiceException("项目数据不存在");
+        }
+        List<Long> userIdList = Arrays.asList(userIds);
+        List<SysUser> sysUsers = userService.selectUserByIds(userIdList, projectDO.getDeptId());
+        if (CollectionUtils.isEmpty(sysUsers)) {
+            throw new ServiceException("用户数据不存在");
+        }
+        Map<Long, SysUser> userMap = sysUsers.stream()
+            .collect(toMap(SysUser::getUserId, Function.identity(), (k1, k2) -> k2));
+        for (Long userId : userIdList) {
+            if (!userMap.containsKey(userId)) {
+                continue;
+            }
+            ProjectMember projectMember = new ProjectMember();
+            projectMember.setProjectId(projectId);
+            projectMember.setSystemUserId(userId);
+            List<ProjectMemberDO> projectMemberList = this.selectProjectMemberList(projectMember);
+            if (CollectionUtils.isNotEmpty(projectMemberList)) {
+                continue;
+            }
+            SysUser sysUser = userMap.get(userId);
+            ProjectMemberDO projectMemberDO = new ProjectMemberDO();
+            projectMemberDO.setDeptId(projectDO.getDeptId());
+            projectMemberDO.setProjectId(projectId);
+            projectMemberDO.setSystemUserId(userId);
+            projectMemberDO.setMemberName(sysUser.getNickName());
+            projectMemberDO.setMemberPhone(sysUser.getPhonenumber());
+            this.insertProjectMember(projectMemberDO);
+        }
+        return 0;
     }
 
     /**

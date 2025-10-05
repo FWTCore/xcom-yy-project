@@ -6,11 +6,14 @@ import com.ruoyi.business.service.ProjectMemberService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +55,17 @@ public class ProjectMemberController extends BaseController {
     }
 
     /**
+     * 查询项目成员列表
+     */
+    @PreAuthorize("@ss.hasPermi('business:member:list')")
+    @GetMapping("/unallocatedList")
+    public TableDataInfo unallocatedList(ProjectMember projectMember) {
+        startPage();
+        List<SysUser> list = projectMemberService.selectUnallocatedList(projectMember);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出项目成员列表
      */
     @PreAuthorize("@ss.hasPermi('business:member:export')")
@@ -80,6 +94,18 @@ public class ProjectMemberController extends BaseController {
     @PostMapping
     public AjaxResult add(@RequestBody ProjectMemberDO projectMember) {
         return toAjax(projectMemberService.insertProjectMember(projectMember));
+    }
+
+
+    /**
+     * 批量选择用户授权
+     */
+    @PreAuthorize("@ss.hasPermi('business:member:add')")
+    @Log(title = "项目成员管理", businessType = BusinessType.GRANT)
+    @PutMapping("/authUser")
+    public AjaxResult selectAuthUserAll(Long projectId, Long[] userIds)
+    {
+        return toAjax(projectMemberService.insertProjectMember(projectId, userIds));
     }
 
     /**

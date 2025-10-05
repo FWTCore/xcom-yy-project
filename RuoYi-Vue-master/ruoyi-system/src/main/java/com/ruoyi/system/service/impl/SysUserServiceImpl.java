@@ -129,6 +129,11 @@ public class SysUserServiceImpl implements ISysUserService
         return userMapper.selectUserById(userId);
     }
 
+    @Override
+    public List<SysUser> selectUserByIds(List<Long> userIds, Long deptId) {
+        return userMapper.selectUserByIds(userIds,deptId);
+    }
+
     /**
      * 查询用户所属角色组
      * 

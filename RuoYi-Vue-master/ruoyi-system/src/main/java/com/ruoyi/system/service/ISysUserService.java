@@ -50,6 +50,13 @@ public interface ISysUserService
      * @return 用户对象信息
      */
     public SysUser selectUserById(Long userId);
+    /**
+     * 通过用户ID查询用户
+     *
+     * @param userIds 用户ID
+     * @return 用户对象信息
+     */
+    List<SysUser> selectUserByIds(List<Long> userIds,Long deptId);
 
     /**
      * 根据用户ID查询用户所属角色组

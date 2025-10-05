@@ -2,6 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.ProjectMemberDO;
 import com.ruoyi.business.domain.model.ProjectMember;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -46,6 +47,13 @@ public interface ProjectMemberMapper {
      * @return 项目成员集合
      */
     List<ProjectMemberDO> selectProjectMemberList(ProjectMember projectMember);
+    /**
+     * 查询项目成员列表
+     *
+     * @param projectMember 项目成员
+     * @return 项目成员集合
+     */
+    List<SysUser> selectUnallocatedList(ProjectMember projectMember);
 
     /**
      * 新增项目成员
