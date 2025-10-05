@@ -50,7 +50,11 @@
         </template>
       </el-table-column>
       <el-table-column label="成员名称" align="center" prop="memberName" />
-      <el-table-column label="成员类型" align="center" prop="memberType" />
+      <el-table-column label="成员类型" align="center" prop="memberType">
+        <template #default="scope">
+          <dict-tag :options="project_member_type" :value="scope.row.memberType" />
+        </template>
+      </el-table-column>
       <el-table-column label="成员手机号" align="center" prop="memberPhone" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
@@ -79,6 +83,7 @@ import { listMember, delMember } from "@/api/business/projectMember"
 import { getProject } from "@/api/business/project"
 
 const { proxy } = getCurrentInstance()
+const { project_member_type } = proxy.useDict("project_member_type")
 
 const route = useRoute()
 const memberList = ref([])
@@ -170,7 +175,7 @@ const calculateIndex = (index) => {
   return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
 }
 function getProjectInfo() {
- return getProject(route.params.projectId).then(res => {
+  return getProject(route.params.projectId).then(res => {
     // 更推荐的响应式更新方式
     data.form.deptId = res.data.deptId
     data.form.deptName = res.data.deptName
