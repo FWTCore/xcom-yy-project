@@ -39,6 +39,9 @@
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
           v-hasPermi="['business:member:remove']">删除</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button type="warning" plain icon="Close" @click="handleClose">关闭</el-button>
+      </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -63,6 +66,10 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
+          <el-tooltip :content="scope.row.memberType===0?'设置项目负责人':'取消项目负责人'" placement="top">
+            <el-button link type="primary" icon="Edit" @click="handleLeader(scope.row)"
+              v-hasPermi="['business:member:edit']"></el-button>
+          </el-tooltip>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
             v-hasPermi="['business:member:remove']">删除</el-button>
         </template>
@@ -79,7 +86,7 @@
 
 <script setup name="Member">
 import selectMember from "./selectMember"
-import { listMember, delMember } from "@/api/business/projectMember"
+import { listMember, delMember, setProjectLeader } from "@/api/business/projectMember"
 import { getProject } from "@/api/business/project"
 
 const { proxy } = getCurrentInstance()
@@ -183,7 +190,18 @@ function getProjectInfo() {
     data.form.projectName = res.data.projectName
   })
 }
+/** 返回按钮操作 */
+function handleClose() {
+  const obj = { path: "/business/project" }
+  proxy.$tab.closeOpenPage(obj)
+}
 
+/** 设置项目负责人 */
+function handleLeader(row) {
+  setProjectLeader(row.id,route.params.projectId).then(response => {
+    proxy.$modal.msgSuccess("项目负责人操作成功")
+  })
+}
 onMounted(() => {
   getProjectInfo()
   getList()

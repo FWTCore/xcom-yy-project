@@ -59,3 +59,16 @@ export function authUserSelectAll(data) {
     params: data
   })
 }
+
+// 设置项目负责人
+export function setProjectLeader(id,projectId) {
+  const data = {
+    id,
+    projectId
+  }
+  return request({
+    url: '/project-member/setProjectLeader',
+    method: 'put',
+    data: data
+  })
+}
