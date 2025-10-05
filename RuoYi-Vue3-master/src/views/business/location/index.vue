@@ -6,8 +6,8 @@
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
           style="width: 240px" clearable />
       </el-form-item>
-      <el-form-item label="地点名称" prop="locationName">
-        <el-input v-model="queryParams.locationName" placeholder="请输入地点名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item label="地点名称" prop="searchName">
+        <el-input v-model="queryParams.searchName" placeholder="请输入地点名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>

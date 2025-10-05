@@ -6,7 +6,7 @@
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
           style="width: 240px" clearable />
       </el-form-item>
-      <el-form-item label="部门名称" prop="departmentName">
+      <el-form-item label="部门名称" prop="searchName">
         <el-input v-model="queryParams.searchName" placeholder="请输入部门名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item>
