@@ -54,7 +54,11 @@
           <span>{{ parseTime(scope.row.endDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="项目状态" align="center" prop="projectStatus" />
+      <el-table-column label="项目状态" align="center" prop="projectStatus">
+        <template #default="scope">
+          <dict-tag :options="project_status" :value="scope.row.projectStatus" />
+        </template>
+      </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
@@ -69,7 +73,7 @@
           <el-tooltip content="添加成员" placement="top">
             <el-button link type="primary" icon="Plus" @click="handleProjectMember(scope.row)">添加成员</el-button>
           </el-tooltip>
-       
+
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
             v-hasPermi="['business:project:remove']">删除</el-button>
         </template>
@@ -137,6 +141,7 @@ import { listProject, getProject, delProject, addProject, updateProject } from "
 import { deptTreeSelect } from "@/api/system/user"
 
 const { proxy } = getCurrentInstance()
+const { project_status } = proxy.useDict("project_status")
 
 const projectList = ref([])
 const open = ref(false)
