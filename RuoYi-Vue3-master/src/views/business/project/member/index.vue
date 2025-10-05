@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <h4 class="form-header h4">基本信息</h4>
-    <el-form :model="form" label-width="80px">
+    <el-form :model="data.form" label-width="80px">
       <el-row>
         <el-col :span="8" :offset="2">
           <el-form-item label="所属公司" prop="deptName">
@@ -172,10 +172,10 @@ const calculateIndex = (index) => {
 function getProjectInfo() {
  return getProject(route.params.projectId).then(res => {
     // 更推荐的响应式更新方式
-    state.form.deptId = res.data.deptId
-    state.form.deptName = res.data.deptName
-    state.form.projectId = res.data.id
-    state.form.projectName = res.data.projectName
+    data.form.deptId = res.data.deptId
+    data.form.deptName = res.data.deptName
+    data.form.projectId = res.data.id
+    data.form.projectName = res.data.projectName
   })
 }
 
