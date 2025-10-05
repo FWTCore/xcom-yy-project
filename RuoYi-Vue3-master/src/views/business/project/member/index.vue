@@ -171,6 +171,7 @@ const calculateIndex = (index) => {
 }
 function getProjectInfo() {
   getProject(route.params.projectId).then(res => {
+    console.log(res);
     form.deptId = res.data.deptId; 
     form.deptName = res.data.deptName;
     form.projectId = res.data.id;
