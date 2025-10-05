@@ -73,7 +73,6 @@
                 clearable check-strictly />
             </el-form-item>
           </el-col>
-
           <el-col :span="12">
             <el-form-item label="部门名称" prop="departmentName">
               <el-input v-model="form.departmentName" placeholder="请输入部门名称" />
@@ -234,7 +233,6 @@ function handleExport() {
   }, `department_${new Date().getTime()}.xlsx`)
 }
 
-getList()
 /** 查询公司下拉树结构 */
 function getDeptTree() {
   deptTreeSelect().then(response => {
