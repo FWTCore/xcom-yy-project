@@ -13,6 +13,9 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
+    <resultMap type="com.ruoyi.business.domain.model.EmployeeDetailVO" id="EmployeeDewtailResult" extends="EmployeeResult">
+        <result property="deptName" column="dept_name"/>
+    </resultMap>
 
     <sql id="selectEmployeeVO">
         select id,
@@ -25,46 +28,96 @@
                updated_by_id,
                updated_by_name,
                updated_time
-        from employee
+        from employee e
     </sql>
 
     <select id="selectEmployeeList" parameterType="com.ruoyi.business.domain.model.Employee" resultMap="EmployeeResult">
         <include refid="selectEmployeeVO"/>
         <where>
-            and delete_flag=0
+            and e.delete_flag=0
             <if test="deptId != null ">
-                and dept_id = #{deptId}
+                and e.dept_id = #{deptId}
             </if>
             <if test="employeeName != null  and employeeName != ''">
-                and employee_name =#{employeeName}
+                and e.employee_name =#{employeeName}
             </if>
             <if test="searchName != null  and searchName != ''">
-                and employee_name like concat('%', #{searchName}, '%')
+                and e.employee_name like concat('%', #{searchName}, '%')
             </if>
             <if test="deleteFlag != null ">
-                and delete_flag = #{deleteFlag}
+                and e.delete_flag = #{deleteFlag}
             </if>
             <if test="createdById != null ">
-                and created_by_id = #{createdById}
+                and e.created_by_id = #{createdById}
             </if>
             <if test="createdByName != null  and createdByName != ''">
-                and created_by_name like concat('%', #{createdByName}, '%')
+                and e.created_by_name like concat('%', #{createdByName}, '%')
             </if>
             <if test="createdTime != null ">
-                and created_time = #{createdTime}
+                and e.created_time = #{createdTime}
             </if>
             <if test="updatedById != null ">
-                and updated_by_id = #{updatedById}
+                and e.updated_by_id = #{updatedById}
             </if>
             <if test="updatedByName != null  and updatedByName != ''">
-                and updated_by_name like concat('%', #{updatedByName}, '%')
+                and e.updated_by_name like concat('%', #{updatedByName}, '%')
             </if>
             <if test="updatedTime != null ">
-                and updated_time = #{updatedTime}
+                and e.updated_time = #{updatedTime}
             </if>
         </where>
     </select>
 
+
+    <select id="selectEmployeeDetailList" parameterType="com.ruoyi.business.domain.model.Employee" resultMap="EmployeeDewtailResult">
+        select e.id,
+               e.dept_id,
+               e.employee_name,
+               e.delete_flag,
+               e.created_by_id,
+               e.created_by_name,
+               e.created_time,
+               e.updated_by_id,
+               e.updated_by_name,
+               e.updated_time,
+               sd.dept_name
+        from employee as e
+                 inner join sys_dept sd on e.dept_id = sd.dept_id and sd.del_flag = '0'
+        <where>
+            and e.delete_flag=0
+            <if test="deptId != null ">
+                and e.dept_id = #{deptId}
+            </if>
+            <if test="employeeName != null  and employeeName != ''">
+                and e.employee_name =#{employeeName}
+            </if>
+            <if test="searchName != null  and searchName != ''">
+                and e.employee_name like concat('%', #{searchName}, '%')
+            </if>
+            <if test="deleteFlag != null ">
+                and e.delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and e.created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and e.created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and e.created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and e.updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and e.updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and e.updated_time = #{updatedTime}
+            </if>
+        </where>
+
+    </select>
     <select id="selectEmployeeById" parameterType="Long"
             resultMap="EmployeeResult">
         <include refid="selectEmployeeVO"/>
@@ -199,4 +252,5 @@
             #{id}
         </foreach>
     </delete>
+
 </mapper>

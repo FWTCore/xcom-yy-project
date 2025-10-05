@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.model.Employee;
+import com.ruoyi.business.domain.model.EmployeeDetailVO;
 import com.ruoyi.business.service.EmployeeService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class EmployeeController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(Employee employee) {
         startPage();
-        List<EmployeeDO> list = employeeService.selectEmployeeList(employee);
+        List<EmployeeDetailVO> list = employeeService.selectEmployeeDetailList(employee);
         return getDataTable(list);
     }
 
@@ -57,8 +58,8 @@ public class EmployeeController extends BaseController {
     @Log(title = "员工", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Employee employee) {
-        List<EmployeeDO> list = employeeService.selectEmployeeList(employee);
-        ExcelUtil<EmployeeDO> util = new ExcelUtil<EmployeeDO>(EmployeeDO.class);
+        List<EmployeeDetailVO> list = employeeService.selectEmployeeDetailList(employee);
+        ExcelUtil<EmployeeDetailVO> util = new ExcelUtil<EmployeeDetailVO>(EmployeeDetailVO.class);
         util.exportExcel(response, list, "员工数据");
     }
 

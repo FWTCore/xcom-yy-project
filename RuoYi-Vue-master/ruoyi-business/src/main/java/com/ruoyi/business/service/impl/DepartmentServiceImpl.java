@@ -2,8 +2,10 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.model.Department;
+import com.ruoyi.business.domain.model.DepartmentDetailVO;
 import com.ruoyi.business.mapper.DepartmentMapper;
 import com.ruoyi.business.service.DepartmentService;
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -53,8 +55,20 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return 部门
      */
     @Override
+    @DataScope(deptAlias = "d", isUpgrade = true)
     public List<DepartmentDO> selectDepartmentList(Department department) {
         return departmentMapper.selectDepartmentList(department);
+    }
+    /**
+     * 查询部门列表
+     *
+     * @param department 部门
+     * @return 部门
+     */
+    @Override
+    @DataScope(deptAlias = "d", isUpgrade = true)
+    public List<DepartmentDetailVO> selectDepartmentDetailList(Department department) {
+        return departmentMapper.selectDepartmentDetailList(department);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.model.Employee;
+import com.ruoyi.business.domain.model.EmployeeDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -36,6 +37,13 @@ public interface EmployeeMapper {
      * @return 员工集合
      */
     List<EmployeeDO> selectEmployeeList(Employee employee);
+    /**
+     * 查询员工列表
+     *
+     * @param employee 员工
+     * @return 员工集合
+     */
+    List<EmployeeDetailVO> selectEmployeeDetailList(Employee employee);
 
     /**
      * 新增员工

@@ -14,6 +14,11 @@
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
 
+    <resultMap type="com.ruoyi.business.domain.model.DepartmentDetailVO" id="DepartmentDetailResult"
+               extends="DepartmentResult">
+        <result property="deptName" column="dept_name"/>
+    </resultMap>
+
     <sql id="selectDepartmentVO">
         select id,
                dept_id,
@@ -25,8 +30,9 @@
                updated_by_id,
                updated_by_name,
                updated_time
-        from department
+        from department as d
     </sql>
+
 
     <select id="selectDepartmentList" parameterType="com.ruoyi.business.domain.model.Department"
             resultMap="DepartmentResult">
@@ -62,6 +68,56 @@
             </if>
             <if test="updatedTime != null ">
                 and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDepartmentDetailList" parameterType="com.ruoyi.business.domain.model.Department"
+            resultMap="DepartmentDetailResult">
+        select d.id,
+        d.dept_id,
+        d.department_name,
+        d.delete_flag,
+        d.created_by_id,
+        d.created_by_name,
+        d.created_time,
+        d.updated_by_id,
+        d.updated_by_name,
+        d.updated_time,
+        sd.dept_name
+        from department as d
+        inner join sys_dept sd on d.dept_id = sd.dept_id and sd.del_flag = '0'
+        <where>
+           and d.delete_flag = 0
+            <if test="deptId != null ">
+                and d.dept_id = #{deptId}
+            </if>
+            <if test="departmentName != null  and departmentName != ''">
+                and d.department_name = #{departmentName}
+            </if>
+            <if test="searchName != null  and searchName != ''">
+                and d.department_name like concat('%', #{searchName}, '%')
+            </if>
+            <if test="deleteFlag != null ">
+                and d.delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and d.created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and d.created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and d.created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and d.updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and d.updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and d.updated_time = #{updatedTime}
             </if>
         </where>
     </select>

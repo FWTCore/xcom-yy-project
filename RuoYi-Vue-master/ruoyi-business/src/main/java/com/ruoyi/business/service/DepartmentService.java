@@ -2,6 +2,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.model.Department;
+import com.ruoyi.business.domain.model.DepartmentDetailVO;
 
 import java.util.List;
 
@@ -36,6 +37,13 @@ public interface DepartmentService {
      * @return 部门集合
      */
     List<DepartmentDO> selectDepartmentList(Department department);
+
+    /**
+     * 查询部门列表
+     * @param department
+     * @return
+     */
+    List<DepartmentDetailVO> selectDepartmentDetailList(Department department);
 
     /**
      * 新增部门

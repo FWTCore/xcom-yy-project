@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.model.Department;
+import com.ruoyi.business.domain.model.DepartmentDetailVO;
 import com.ruoyi.business.service.DepartmentService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -46,7 +47,7 @@ public class DepartmentController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(Department department) {
         startPage();
-        List<DepartmentDO> list = departmentService.selectDepartmentList(department);
+        List<DepartmentDetailVO> list = departmentService.selectDepartmentDetailList(department);
         return getDataTable(list);
     }
 
@@ -57,8 +58,8 @@ public class DepartmentController extends BaseController {
     @Log(title = "部门", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Department department) {
-        List<DepartmentDO> list = departmentService.selectDepartmentList(department);
-        ExcelUtil<DepartmentDO> util = new ExcelUtil<DepartmentDO>(DepartmentDO.class);
+        List<DepartmentDetailVO> list = departmentService.selectDepartmentDetailList(department);
+        ExcelUtil<DepartmentDetailVO> util = new ExcelUtil<DepartmentDetailVO>(DepartmentDetailVO.class);
         util.exportExcel(response, list, "部门数据");
     }
 

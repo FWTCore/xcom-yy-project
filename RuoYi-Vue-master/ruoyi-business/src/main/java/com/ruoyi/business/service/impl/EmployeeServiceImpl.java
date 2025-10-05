@@ -2,8 +2,10 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.model.Employee;
+import com.ruoyi.business.domain.model.EmployeeDetailVO;
 import com.ruoyi.business.mapper.EmployeeMapper;
 import com.ruoyi.business.service.EmployeeService;
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -53,8 +55,20 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return 员工
      */
     @Override
+    @DataScope(deptAlias = "e", isUpgrade = true)
     public List<EmployeeDO> selectEmployeeList(Employee employee) {
         return employeeMapper.selectEmployeeList(employee);
+    }
+    /**
+     * 查询员工列表
+     *
+     * @param employee 员工
+     * @return 员工
+     */
+    @Override
+    @DataScope(deptAlias = "e", isUpgrade = true)
+    public List<EmployeeDetailVO> selectEmployeeDetailList(Employee employee) {
+        return employeeMapper.selectEmployeeDetailList(employee);
     }
 
     /**

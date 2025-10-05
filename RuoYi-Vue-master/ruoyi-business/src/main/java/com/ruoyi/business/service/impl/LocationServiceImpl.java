@@ -2,8 +2,10 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.model.Location;
+import com.ruoyi.business.domain.model.LocationDetailVO;
 import com.ruoyi.business.mapper.LocationMapper;
 import com.ruoyi.business.service.LocationService;
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -54,8 +56,20 @@ public class LocationServiceImpl implements LocationService {
      * @return 存放地点
      */
     @Override
+    @DataScope(deptAlias = "l", isUpgrade = true)
     public List<LocationDO> selectLocationList(Location location) {
         return locationMapper.selectLocationList(location);
+    }
+    /**
+     * 查询存放地点列表
+     *
+     * @param location 存放地点
+     * @return 存放地点
+     */
+    @Override
+    @DataScope(deptAlias = "l", isUpgrade = true)
+    public List<LocationDetailVO> selectLocationDetailList(Location location) {
+        return locationMapper.selectLocationDetailList(location);
     }
 
     /**

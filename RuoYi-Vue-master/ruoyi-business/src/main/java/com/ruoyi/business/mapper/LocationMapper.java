@@ -2,6 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.model.Location;
+import com.ruoyi.business.domain.model.LocationDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -37,6 +38,13 @@ public interface LocationMapper {
      * @return 存放地点集合
      */
     List<LocationDO> selectLocationList(Location location);
+    /**
+     * 查询存放地点列表
+     *
+     * @param location 存放地点
+     * @return 存放地点集合
+     */
+    List<LocationDetailVO> selectLocationDetailList(Location location);
 
     /**
      * 新增存放地点

@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.model.Location;
+import com.ruoyi.business.domain.model.LocationDetailVO;
 import com.ruoyi.business.service.LocationService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -46,7 +47,7 @@ public class LocationController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(Location location) {
         startPage();
-        List<LocationDO> list = locationService.selectLocationList(location);
+        List<LocationDetailVO> list = locationService.selectLocationDetailList(location);
         return getDataTable(list);
     }
 
@@ -57,8 +58,8 @@ public class LocationController extends BaseController {
     @Log(title = "存放地点", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Location location) {
-        List<LocationDO> list = locationService.selectLocationList(location);
-        ExcelUtil<LocationDO> util = new ExcelUtil<LocationDO>(LocationDO.class);
+        List<LocationDetailVO> list = locationService.selectLocationDetailList(location);
+        ExcelUtil<LocationDetailVO> util = new ExcelUtil<LocationDetailVO>(LocationDetailVO.class);
         util.exportExcel(response, list, "存放地点数据");
     }
 
