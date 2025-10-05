@@ -50,6 +50,9 @@
 import { authUserSelectAll, unallocatedUserList } from "@/api/business/projectMember"
 
 const props = defineProps({
+     deptId: {
+        type: [Number, String]
+    },
     projectId: {
         type: [Number, String]
     }
@@ -66,6 +69,7 @@ const userIds = ref([])
 const queryParams = reactive({
     pageNum: 1,
     pageSize: 10,
+    deptId: undefined,
     projectId: undefined,
     userName: undefined,
     phonenumber: undefined
@@ -74,6 +78,7 @@ const queryParams = reactive({
 // 显示弹框
 function show() {
     queryParams.projectId = props.projectId
+    queryParams.deptId = props.deptId
     getList()
     visible.value = true
 }

@@ -69,7 +69,7 @@
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改项目成员对话框 -->
-    <select-member ref="selectRef" :projectId="queryParams.projectId" @ok="handleQuery" />
+    <select-member ref="selectRef" :projectId="queryParams.projectId" :deptId="data.form.deptId" @ok="handleQuery" />
   </div>
 </template>
 
