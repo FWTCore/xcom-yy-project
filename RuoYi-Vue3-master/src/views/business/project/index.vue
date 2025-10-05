@@ -148,6 +148,7 @@ const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
 const enabledDeptOptions = ref(undefined)
+const router = useRouter()
 
 const data = reactive({
   form: {},
