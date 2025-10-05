@@ -44,7 +44,7 @@ export function delCategory(id) {
 }
 
 // 查询分类列表（所有）
-export function listCategory() {
+export function listAllCategory() {
   return request({
     url: '/category/listAll',
     method: 'get'
