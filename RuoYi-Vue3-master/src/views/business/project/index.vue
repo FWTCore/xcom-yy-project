@@ -65,6 +65,11 @@
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['business:project:edit']">修改</el-button>
+          <el-button link type="primary" icon="Plus">
+            <router-link :to="'/business/project/member/index/' + scope.row.dictId" class="link-type">
+              <span>添加成员</span>
+            </router-link>
+          </el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
             v-hasPermi="['business:project:remove']">删除</el-button>
         </template>
@@ -102,7 +107,6 @@
           </el-col>
 
           <el-col :span="12">
-
             <el-form-item label="项目结束周期" prop="endDate">
               <el-date-picker clearable v-model="form.endDate" type="date" value-format="YYYY-MM-DD"
                 placeholder="请选择项目结束周期">

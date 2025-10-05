@@ -2,98 +2,42 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="系统公司id" prop="deptId">
-        <el-input
-          v-model="queryParams.deptId"
-          placeholder="请输入系统公司id"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.deptId" placeholder="请输入系统公司id" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="项目id" prop="projectId">
-        <el-input
-          v-model="queryParams.projectId"
-          placeholder="请输入项目id"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.projectId" placeholder="请输入项目id" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="系统用户id" prop="systemUserId">
-        <el-input
-          v-model="queryParams.systemUserId"
-          placeholder="请输入系统用户id"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.systemUserId" placeholder="请输入系统用户id" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="成员名称" prop="memberName">
-        <el-input
-          v-model="queryParams.memberName"
-          placeholder="请输入成员名称"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.memberName" placeholder="请输入成员名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="成员手机号" prop="memberPhone">
-        <el-input
-          v-model="queryParams.memberPhone"
-          placeholder="请输入成员手机号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.memberPhone" placeholder="请输入成员手机号" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="是否删除" prop="deleteFlag">
-        <el-input
-          v-model="queryParams.deleteFlag"
-          placeholder="请输入是否删除"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.deleteFlag" placeholder="请输入是否删除" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="创建人id" prop="createdById">
-        <el-input
-          v-model="queryParams.createdById"
-          placeholder="请输入创建人id"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.createdById" placeholder="请输入创建人id" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="创建人" prop="createdByName">
-        <el-input
-          v-model="queryParams.createdByName"
-          placeholder="请输入创建人"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.createdByName" placeholder="请输入创建人" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="创建时间" prop="createdTime">
-        <el-date-picker clearable
-          v-model="queryParams.createdTime"
-          type="date"
-          value-format="YYYY-MM-DD"
+        <el-date-picker clearable v-model="queryParams.createdTime" type="date" value-format="YYYY-MM-DD"
           placeholder="请选择创建时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="更新人id" prop="updatedById">
-        <el-input
-          v-model="queryParams.updatedById"
-          placeholder="请输入更新人id"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.updatedById" placeholder="请输入更新人id" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="更新人" prop="updatedByName">
-        <el-input
-          v-model="queryParams.updatedByName"
-          placeholder="请输入更新人"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+        <el-input v-model="queryParams.updatedByName" placeholder="请输入更新人" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="更新时间" prop="updatedTime">
-        <el-date-picker clearable
-          v-model="queryParams.updatedTime"
-          type="date"
-          value-format="YYYY-MM-DD"
+        <el-date-picker clearable v-model="queryParams.updatedTime" type="date" value-format="YYYY-MM-DD"
           placeholder="请选择更新时间">
         </el-date-picker>
       </el-form-item>
@@ -105,42 +49,20 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleAdd"
-          v-hasPermi="['business:member:add']"
-        >新增</el-button>
+        <el-button type="primary" plain icon="Plus" @click="handleAdd"
+          v-hasPermi="['business:member:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['business:member:edit']"
-        >修改</el-button>
+        <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate"
+          v-hasPermi="['business:member:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['business:member:remove']"
-        >删除</el-button>
+        <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
+          v-hasPermi="['business:member:remove']">删除</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['business:member:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="Download" @click="handleExport"
+          v-hasPermi="['business:member:export']">导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -171,19 +93,16 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['business:member:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['business:member:remove']">删除</el-button>
+          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['business:member:edit']">修改</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['business:member:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
-    <pagination
-      v-show="total>0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
-    />
+
+    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改项目成员对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
@@ -213,10 +132,7 @@
           <el-input v-model="form.createdByName" placeholder="请输入创建人" />
         </el-form-item>
         <el-form-item label="创建时间" prop="createdTime">
-          <el-date-picker clearable
-            v-model="form.createdTime"
-            type="date"
-            value-format="YYYY-MM-DD"
+          <el-date-picker clearable v-model="form.createdTime" type="date" value-format="YYYY-MM-DD"
             placeholder="请选择创建时间">
           </el-date-picker>
         </el-form-item>
@@ -227,10 +143,7 @@
           <el-input v-model="form.updatedByName" placeholder="请输入更新人" />
         </el-form-item>
         <el-form-item label="更新时间" prop="updatedTime">
-          <el-date-picker clearable
-            v-model="form.updatedTime"
-            type="date"
-            value-format="YYYY-MM-DD"
+          <el-date-picker clearable v-model="form.updatedTime" type="date" value-format="YYYY-MM-DD"
             placeholder="请选择更新时间">
           </el-date-picker>
         </el-form-item>
@@ -386,12 +299,12 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _ids = row.id || ids.value
-  proxy.$modal.confirm('是否确认删除项目成员编号为"' + _ids + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认删除项目成员编号为"' + _ids + '"的数据项？').then(function () {
     return delMember(_ids)
   }).then(() => {
     getList()
     proxy.$modal.msgSuccess("删除成功")
-  }).catch(() => {})
+  }).catch(() => { })
 }
 
 /** 导出按钮操作 */
