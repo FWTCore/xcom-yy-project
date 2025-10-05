@@ -159,5 +159,9 @@ function handleExport() {
   }, `member_${new Date().getTime()}.xlsx`)
 }
 
+// 计算序号（考虑分页）
+const calculateIndex = (index) => {
+  return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
+}
 getList()
 </script>
