@@ -170,7 +170,7 @@ const calculateIndex = (index) => {
   return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
 }
 function getProjectInfo() {
-  getProject(route.params.projectId).then(res => {
+ return getProject(route.params.projectId).then(res => {
     // 直接改同一块内存，保证响应式
     Object.assign(state.form, {
       deptId: res.data.deptId,
@@ -181,7 +181,7 @@ function getProjectInfo() {
   })
 }
 
-onMounted(() => {
+onMounted(async () => {
   await getProjectInfo()
   getList()
 })
