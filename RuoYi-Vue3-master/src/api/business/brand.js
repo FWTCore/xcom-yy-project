@@ -42,3 +42,10 @@ export function delBrand(id) {
     method: 'delete'
   })
 }
+// 查询分类列表（所有）
+export function listAllBrand(categoryId) {
+  return request({
+    url: '/brand/listAll/' + categoryId,
+    method: 'get'
+  })
+}
