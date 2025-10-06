@@ -7,7 +7,7 @@
             :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="品牌id" prop="brandId">
+      <el-form-item label="品牌" prop="brandId">
         <el-select v-model="queryParams.brandId" placeholder="请选择" style="width: 240px" clearable>
           <el-option v-for="item in brandOptions" :key="item.id" :label="item.brandName" :value="item.id"></el-option>
         </el-select>
@@ -299,7 +299,7 @@ function getCategory() {
   })
 }
 function getBrand() {
-  listAllBrand().then(response => {
+  listAllBrand(queryParams.categoryId).then(response => {
     brandOptions.value = response.data
   })
 }
