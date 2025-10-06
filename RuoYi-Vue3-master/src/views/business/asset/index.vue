@@ -4,7 +4,7 @@
       <el-form-item label="归属公司" prop="deptId">
         <el-tree-select v-model="queryParams.deptId" :data="enabledDeptOptions"
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
-          style="width: 240px" clearable />
+          style="width: 240px" clearable @change="handleTreeNodeClick" />
       </el-form-item>
       <el-form-item label="项目" prop="projectId">
         <el-select v-model="queryParams.projectId" placeholder="请选择" style="width: 240px" clearable>
@@ -19,7 +19,8 @@
         <el-input v-model="queryParams.originalCode" placeholder="请输入原始编码" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="分类" prop="categoryId">
-        <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable>
+         <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable
+          @change="handleNodeClick">
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
             :value="item.id"></el-option>
         </el-select>
@@ -291,6 +292,9 @@
 
 <script setup name="Asset">
 import { listAsset, getAsset, delAsset, addAsset, updateAsset } from "@/api/system/asset"
+import { listAllCategory } from "@/api/business/category"
+import { listAllBrand } from "@/api/business/brand"
+import { listAllProject } from "@/api/business/project"
 
 const { proxy } = getCurrentInstance()
 
@@ -304,6 +308,8 @@ const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
 const enabledDeptOptions = ref(undefined)
+const categoryOptions = ref([])
+const brandOptions = ref([])
 
 const data = reactive({
   form: {},
@@ -499,8 +505,52 @@ const calculateIndex = (index) => {
   return (queryParams.value.pageNum - 1) * queryParams.value.pageSize + index + 1
 }
 
+function getCategory() {
+  listAllCategory().then(response => {
+    categoryOptions.value = response.data
+  })
+}
+function handleNodeClick(data) {
+  getBrand(data)
+}
+
+function getBrand(categoryId) {
+  if (categoryId === null || categoryId === undefined || categoryId === '' || Number.isNaN(categoryId)) {
+    brandOptions.value = [] // 清空品牌选项
+    queryParams.brandId = null // 重置已选品牌
+    return
+  }
+  listAllBrand(categoryId).then(response => {
+    brandOptions.value = response.data
+    queryParams.brandId = null
+  })
+}
+
+function handleNodeClickForForm(data) {
+  getFormBrand(data)
+}
+
+
+function getFormBrand(categoryId) {
+  if (categoryId === null || categoryId === undefined || categoryId === '' || Number.isNaN(categoryId)) {
+    brandFormOptions.value = [] // 清空品牌选项
+    form.brandId = null // 重置已选品牌
+    return
+  }
+  listAllBrand(categoryId).then(response => {
+    brandFormOptions.value = response.data
+    form.brandId = null
+  })
+}
+
+/** 节点单击事件 */
+function handleTreeNodeClick(data) {
+  console.log(data)
+}
+
 onMounted(() => {
   getDeptTree()
+  getCategory()
   getList()
 })
 </script>

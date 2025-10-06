@@ -42,3 +42,10 @@ export function delProject(id) {
     method: 'delete'
   })
 }
+// 查询分类列表（所有）
+export function listAllProject(deptId) {
+  return request({
+    url: '/project/listAll/' + deptId,
+    method: 'get'
+  })
+}
