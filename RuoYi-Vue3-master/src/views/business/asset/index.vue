@@ -174,7 +174,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="项目" prop="projectId">
+            <el-form-item prop="projectId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择公司" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  项目
+                </span>
+              </template>
               <el-select v-model="form.projectId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in projectFormOptions" :key="item.id" :label="item.projectName"
                   :value="item.id"></el-option>
@@ -242,7 +250,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="地点" prop="locationId">
+            <el-form-item prop="locationId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择公司" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  地点
+                </span>
+              </template>
               <el-select v-model="form.locationId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in locationFormOptions" :key="item.id" :label="item.locationName"
                   :value="item.id"></el-option>
@@ -252,7 +268,15 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="管理部门" prop="managedDeptId">
+            <el-form-item prop="managedDeptId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择公司" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  管理部门
+                </span>
+              </template>
               <el-select v-model="form.managedDeptId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
                   :value="item.id"></el-option>
@@ -260,7 +284,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="使用部门" prop="usingDeptId">
+            <el-form-item prop="usingDeptId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择公司" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  使用部门
+                </span>
+              </template>
               <el-select v-model="form.usingDeptId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
                   :value="item.id"></el-option>
@@ -270,7 +302,15 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="管理员工" prop="managedEmpId">
+            <el-form-item prop="managedEmpId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择公司" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  管理员工
+                </span>
+              </template>
               <el-select v-model="form.managedEmpId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
                   :value="item.id"></el-option>
@@ -278,7 +318,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="使用员工" prop="usingEmpId">
+            <el-form-item prop="usingEmpId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择公司" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  使用员工
+                </span>
+              </template>
               <el-select v-model="form.usingEmpId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
                   :value="item.id"></el-option>
