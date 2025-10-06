@@ -345,7 +345,6 @@ const projectFormOptions = ref([])
 const brandFormOptions = ref([])
 const locationFormOptions = ref([])
 const deptFormOptions = ref([])
-const deptFormOptions = ref([])
 const empFormOptions = ref([])
 
 const data = reactive({
