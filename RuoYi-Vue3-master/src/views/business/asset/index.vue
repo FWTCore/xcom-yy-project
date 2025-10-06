@@ -319,7 +319,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item prop="usingEmpId">
-              <template #label style="width: 240px">
+              <template #label>
                 <span>
                   <el-tooltip content="需要先选择公司" placement="top">
                     <el-icon><question-filled /></el-icon>
