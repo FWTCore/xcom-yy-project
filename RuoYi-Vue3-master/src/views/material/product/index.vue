@@ -305,8 +305,7 @@ const calculateIndex = (index) => {
 }
 
 function handleNodeClick(data) {
-  console.log(data)
-  getBrand()
+  getBrand(data)
 }
 
 function getCategory() {
@@ -314,9 +313,8 @@ function getCategory() {
     categoryOptions.value = response.data
   })
 }
-function getBrand() {
-  const id = queryParams.categoryId
-  if (id === null || id === undefined || id === '' || Number.isNaN(id)) {
+function getBrand(categoryId) {
+  if (categoryId === null || categoryId === undefined || categoryId === '' || Number.isNaN(categoryId)) {
     brandOptions.value = [] // 清空品牌选项
     queryParams.brandId = null // 重置已选品牌
     return
@@ -331,6 +329,5 @@ function getBrand() {
 onMounted(() => {
   getList()
   getCategory()
-  getBrand()
 })
 </script>
