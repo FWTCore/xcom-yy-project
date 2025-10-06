@@ -138,7 +138,7 @@
           <el-col :span="12">
             <el-form-item label="物资主图片" prop="mainImageUrl">
               <template>
-                <ImageUploader v-model="form.mainImageUrl" :default-image="form.mainImageUrl" />
+                <uploadImage v-model="form.mainImageUrl" :default-image="form.mainImageUrl" />
               </template>
             </el-form-item>
           </el-col>
@@ -158,6 +158,7 @@
 import { listMaterial, getMaterial, delMaterial, addMaterial, updateMaterial } from "@/api/business/material"
 import { listAllCategory } from "@/api/business/category"
 import { listAllBrand } from "@/api/business/brand"
+import uploadImage from "@/views/common/uploadImage"
 
 const { proxy } = getCurrentInstance()
 
