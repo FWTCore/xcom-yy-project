@@ -1,6 +1,9 @@
 package com.ruoyi.business.domain.model;
 
+import com.ruoyi.business.domain.entity.BrandDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -12,24 +15,16 @@ import java.io.Serializable;
  */
 
 @Data
-public class BrandDetailVO implements Serializable {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class BrandDetailVO extends BrandDO {
 
     private static final long serialVersionUID = -7059884802225152123L;
-    private Long              id;
 
-    /**
-     * 分类id,;
-     */
-    private Long              categoryId;
     /**
      * 分类名称,;
      */
     private String            categoryName;
-
-    /**
-     * 品牌名称,;
-     */
-    private String            brandName;
 
     /**
      * 是否填写品牌,;

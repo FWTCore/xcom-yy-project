@@ -1,8 +1,10 @@
 package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.entity.DepartmentDO;
+import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.model.Department;
 import com.ruoyi.business.domain.model.DepartmentDetailVO;
+import com.ruoyi.business.domain.model.Location;
 import com.ruoyi.business.service.DepartmentService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -100,5 +102,16 @@ public class DepartmentController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(departmentService.deleteDepartmentByIds(ids));
+    }
+
+    /**
+     * 查询列表
+     */
+    @GetMapping("/listAll/{deptId}")
+    public AjaxResult listAll(@PathVariable Long deptId) {
+        Department department = new Department();
+        department.setDeptId(deptId);
+        List<DepartmentDO> list = departmentService.selectDepartmentList(department);
+        return success(list);
     }
 }

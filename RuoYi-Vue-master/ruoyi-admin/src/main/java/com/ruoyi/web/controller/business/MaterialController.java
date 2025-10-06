@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Material;
+import com.ruoyi.business.domain.model.MaterialDetailVO;
 import com.ruoyi.business.service.MaterialService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +52,7 @@ public class MaterialController extends BaseController
     public TableDataInfo list(Material material)
     {
         startPage();
-        List<MaterialDO> list = materialService.selectMaterialList(material);
+        List<MaterialDetailVO> list = materialService.selectMaterialDetailList(material);
         return getDataTable(list);
     }
 

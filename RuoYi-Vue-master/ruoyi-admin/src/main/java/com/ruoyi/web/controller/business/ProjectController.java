@@ -1,6 +1,8 @@
 package com.ruoyi.web.controller.business;
 
+import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.entity.ProjectDO;
+import com.ruoyi.business.domain.model.Brand;
 import com.ruoyi.business.domain.model.Project;
 import com.ruoyi.business.domain.model.ProjectDetailVO;
 import com.ruoyi.business.service.ProjectService;
@@ -102,5 +104,16 @@ public class ProjectController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(projectService.deleteProjectByIds(ids));
+    }
+
+    /**
+     * 查询项目列表
+     */
+    @GetMapping("/listAll/{deptId}")
+    public AjaxResult listAll(@PathVariable Long deptId) {
+        Project project = new Project();
+        project.setDeptId(deptId);
+        List<ProjectDO> list = projectService.selectProjectList(project);
+        return success(list);
     }
 }

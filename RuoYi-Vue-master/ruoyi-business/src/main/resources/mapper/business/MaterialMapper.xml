@@ -282,6 +282,12 @@
         <if test="materialName != null and materialName != ''">
             and m.material_name = #{materialName}
         </if>
+        <if test="searchMaterialName != null and searchMaterialName != ''">
+            and m.material_name like concat('%', #{searchMaterialName}, '%')
+        </if>
+        <if test="searchSpecification != null and searchSpecification != ''">
+            and m.specification like concat('%', #{searchSpecification}, '%')
+        </if>
         <if test="searchName != null  and searchName != ''">
             and (m.material_name like concat('%', #{searchName}, '%')
             or m.specification like concat('%', #{searchName}, '%')

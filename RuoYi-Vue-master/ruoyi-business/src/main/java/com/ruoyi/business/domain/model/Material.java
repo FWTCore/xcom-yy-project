@@ -31,11 +31,14 @@ public class Material extends BaseEntityDO {
      * 物资名称,;
      */
     private String materialName;
+    private String searchMaterialName;
 
     /**
      * 规格型号,;
      */
     private String specification;
+    private String searchSpecification;
+
     private String searchName;
     private String leftSearchMaterialName;
     private String leftSearchSpecification;

@@ -1,8 +1,10 @@
 package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.entity.LocationDO;
+import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Location;
 import com.ruoyi.business.domain.model.LocationDetailVO;
+import com.ruoyi.business.domain.model.Project;
 import com.ruoyi.business.service.LocationService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -100,5 +102,17 @@ public class LocationController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(locationService.deleteLocationByIds(ids));
+    }
+
+
+    /**
+     * 查询列表
+     */
+    @GetMapping("/listAll/{deptId}")
+    public AjaxResult listAll(@PathVariable Long deptId) {
+        Location location = new Location();
+        location.setDeptId(deptId);
+        List<LocationDO> list = locationService.selectLocationList(location);
+        return success(list);
     }
 }

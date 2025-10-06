@@ -5,7 +5,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.BrandDO;
+import com.ruoyi.business.domain.entity.CategoryDO;
 import com.ruoyi.business.domain.model.Brand;
+import com.ruoyi.business.domain.model.BrandDetailVO;
+import com.ruoyi.business.domain.model.Category;
 import com.ruoyi.business.service.BrandService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +50,7 @@ public class BrandController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(Brand brand) {
         startPage();
-        List<BrandDO> list = brandService.selectBrandList(brand);
+        List<BrandDetailVO> list = brandService.selectBrandDetailList(brand);
         return getDataTable(list);
     }
 
@@ -100,5 +103,16 @@ public class BrandController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(brandService.deleteBrandByIds(ids));
+    }
+
+    /**
+     * 查询品牌列表
+     */
+    @GetMapping("/listAll/{categoryId}")
+    public AjaxResult listAll(@PathVariable Long categoryId) {
+        Brand brand = new Brand();
+        brand.setCategoryId(categoryId);
+        List<BrandDO> list = brandService.selectBrandList(brand);
+        return success(list);
     }
 }
