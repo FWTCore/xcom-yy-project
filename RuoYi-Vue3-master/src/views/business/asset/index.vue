@@ -555,7 +555,7 @@ function getProject(projectId) {
     queryParams.projectId = null // 重置
     return
   }
-  listAllProject().then(response => {
+  listAllProject(projectId).then(response => {
     projectOptions.value = response.data
      queryParams.brandId = null
   })
