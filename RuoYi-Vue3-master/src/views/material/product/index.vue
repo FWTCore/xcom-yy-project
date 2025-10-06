@@ -65,8 +65,15 @@
       <el-table-column label="品牌" align="center" prop="brandName" />
       <el-table-column label="物资名称" align="center" prop="materialName" />
       <el-table-column label="规格型号" align="center" prop="specification" />
-      <el-table-column label="物资主图片" align="center" prop="mainImageUrl" />
-      <el-table-column label="物资图片" align="center" prop="imageUrl" />
+      <el-table-column label="物资主图片" align="center" prop="mainImageUrl">
+        <template #default="scope">
+          <div v-if="scope.row.mainImageUrl">
+            <img :src="scope.row.mainImageUrl" :alt="scope.row.mainImageName"
+              style="width: 50px; height: 50px; object-fit: cover;" />
+          </div>
+          <div v-else>无</div>
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
@@ -91,7 +98,8 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="分类" prop="categoryId">
-              <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable @change="handleNodeClickForForm">
+              <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable
+                @change="handleNodeClickForForm">
                 <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
                   :value="item.id"></el-option>
               </el-select>
@@ -129,7 +137,9 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="物资主图片" prop="mainImageUrl">
-              <el-input v-model="form.mainImageUrl" placeholder="请输入物资主图片" />
+              <template>
+                <ImageUploader v-model="form.mainImageUrl" :default-image="form.mainImageUrl" />
+              </template>
             </el-form-item>
           </el-col>
         </el-row>
@@ -320,7 +330,7 @@ function getBrand(categoryId) {
   }
   listAllBrand(categoryId).then(response => {
     brandOptions.value = response.data
-    queryParams.brandId = null 
+    queryParams.brandId = null
   })
 }
 
@@ -336,7 +346,7 @@ function getFormBrand(categoryId) {
   }
   listAllBrand(categoryId).then(response => {
     brandFormOptions.value = response.data
-    form.brandId = null 
+    form.brandId = null
   })
 }
 
