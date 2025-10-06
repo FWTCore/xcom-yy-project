@@ -315,11 +315,15 @@ function getCategory() {
   })
 }
 function getBrand() {
-  if (queryParams.categoryId === null || queryParams.categoryId === undefined || queryParams.categoryId === '' || Number.isNaN(queryParams.categoryId)) {
-    return;
+  const id = queryParams.categoryId
+  if (id === null || id === undefined || id === '' || Number.isNaN(id)) {
+    brandOptions.value = [] // 清空品牌选项
+    queryParams.brandId = null // 重置已选品牌
+    return
   }
   listAllBrand(queryParams.categoryId).then(response => {
     brandOptions.value = response.data
+    queryParams.brandId = null 
   })
 }
 
