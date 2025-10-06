@@ -176,7 +176,7 @@
           <el-col :span="12">
             <el-form-item label="项目" prop="projectId">
               <el-select v-model="form.projectId" placeholder="请选择" style="width: 240px" clearable>
-                <el-option v-for="item in projectOptions" :key="item.id" :label="item.projectName"
+                <el-option v-for="item in projectFormOptions" :key="item.id" :label="item.projectName"
                   :value="item.id"></el-option>
               </el-select>
             </el-form-item>
@@ -583,15 +583,15 @@ function getFormBrand(categoryId) {
 function handleTreeNodeClick(data) {
   getProject(data)
 }
-function getProject(projectId) {
-  if (projectId === null || projectId === undefined || projectId === '' || Number.isNaN(projectId)) {
+function getProject(deptId) {
+  if (deptId === null || deptId === undefined || deptId === '' || Number.isNaN(deptId)) {
     projectOptions.value = [] // 清空选项
     queryParams.projectId = null // 重置
     return
   }
-  listAllProject(projectId).then(response => {
+  listAllProject(deptId).then(response => {
     projectOptions.value = response.data
-    queryParams.brandId = null
+    queryParams.projectId = null
   })
 }
 
@@ -602,13 +602,13 @@ function handleTreeNodeFormClick(data) {
   getDepartment(data)
   getEmployee(data)
 }
-function getFormProject(projectId) {
-  if (projectId === null || projectId === undefined || projectId === '' || Number.isNaN(projectId)) {
+function getFormProject(deptId) {
+  if (deptId === null || deptId === undefined || deptId === '' || Number.isNaN(deptId)) {
     projectFormOptions.value = [] // 清空选项
     form.projectId = null // 重置
     return
   }
-  listAllProject(projectId).then(response => {
+  listAllProject(deptId).then(response => {
     projectFormOptions.value = response.data
     form.projectId = null
   })
