@@ -7,7 +7,7 @@
           style="width: 240px" clearable @change="handleTreeNodeClick" />
       </el-form-item>
       <el-form-item prop="projectId">
-         <template #label>
+        <template #label>
           <span>
             <el-tooltip content="需要先选择公司" placement="top">
               <el-icon><question-filled /></el-icon>
@@ -21,13 +21,15 @@
         </el-select>
       </el-form-item>
       <el-form-item label="临时编码" prop="temporaryCode">
-        <el-input v-model="queryParams.temporaryCode" placeholder="请输入临时编码" style="width: 240px" clearable  @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.temporaryCode" placeholder="请输入临时编码" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="原始编码" prop="originalCode">
-        <el-input v-model="queryParams.originalCode" placeholder="请输入原始编码" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.originalCode" placeholder="请输入原始编码" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="分类" prop="categoryId">
-         <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable
+        <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable
           @change="handleNodeClick">
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
             :value="item.id"></el-option>
@@ -47,32 +49,40 @@
         </el-select>
       </el-form-item>
       <el-form-item label="资产名称" prop="assetName">
-        <el-input v-model="queryParams.assetName" placeholder="请输入资产名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.assetName" placeholder="请输入资产名称" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="规格型号" prop="specification">
-        <el-input v-model="queryParams.specification" placeholder="请输入规格型号" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.specification" placeholder="请输入规格型号" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="地点名称" prop="locationName">
-        <el-input v-model="queryParams.locationName" placeholder="请输入地点名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.locationName" placeholder="请输入地点名称" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="管理部门" prop="managedDeptName">
-        <el-input v-model="queryParams.managedDeptName" placeholder="请输入管理部门名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.managedDeptName" placeholder="请输入管理部门名称" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="使用部门" prop="usingDeptName">
-        <el-input v-model="queryParams.usingDeptName" placeholder="请输入使用部门名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.usingDeptName" placeholder="请输入使用部门名称" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="管理员工" prop="managedEmpName">
-        <el-input v-model="queryParams.managedEmpName" placeholder="请输入管理员工名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.managedEmpName" placeholder="请输入管理员工名称" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="使用员工" prop="usingEmpName">
-        <el-input v-model="queryParams.usingEmpName" placeholder="请输入使用员工名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.usingEmpName" placeholder="请输入使用员工名称" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="采集人" prop="collectorUserName">
-        <el-input v-model="queryParams.collectorUserName" placeholder="请输入采集人名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.collectorUserName" placeholder="请输入采集人名称" style="width: 240px" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="采集时间" prop="collectorTime">
-        <el-date-picker clearable v-model="queryParams.collectorTime" type="date" style="width: 240px" value-format="YYYY-MM-DD"
-          placeholder="请选择采集时间">
+        <el-date-picker clearable v-model="queryParams.collectorTime" type="date" style="width: 240px"
+          value-format="YYYY-MM-DD" placeholder="请选择采集时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -153,21 +163,23 @@
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改资产对话框 -->
-    <el-dialog :title="title" v-model="open" width="600px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="800px" append-to-body>
       <el-form ref="assetRef" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="归属公司" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="enabledDeptOptions"
                 :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
-                clearable check-strictly />
+                clearable check-strictly @change="handleTreeNodeFormClick" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-select v-model="form.projectId" placeholder="请选择" style="width: 240px" clearable>
-              <el-option v-for="item in projectOptions" :key="item.id" :label="item.projectName"
-                :value="item.id"></el-option>
-            </el-select>
+            <el-form-item label="项目" prop="projectId">
+              <el-select v-model="form.projectId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in projectOptions" :key="item.id" :label="item.projectName"
+                  :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
         </el-row>
         <el-row>
@@ -182,7 +194,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="分类" prop="categoryId">
@@ -193,7 +204,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-
           <el-col :span="12">
             <el-form-item prop="brandId">
               <template #label>
@@ -216,7 +226,6 @@
             <el-form-item label="资产名称" prop="assetName">
               <el-input v-model="form.assetName" placeholder="请输入资产名称" />
             </el-form-item>
-
           </el-col>
           <el-col :span="12">
             <el-form-item label="规格型号" prop="specification">
@@ -232,41 +241,51 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="12"><el-form-item label="地点id" prop="locationId">
-              <el-input v-model="form.locationId" placeholder="请输入地点id" />
+          <el-col :span="12">
+            <el-form-item label="地点" prop="locationId">
+              <el-select v-model="form.locationId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in locationFormOptions" :key="item.id" :label="item.locationName"
+                  :value="item.id"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
-
-
         <el-row>
           <el-col :span="12">
-            <el-form-item label="管理部门id" prop="managedDeptId">
-              <el-input v-model="form.managedDeptId" placeholder="请输入管理部门id" />
+            <el-form-item label="管理部门" prop="managedDeptId">
+              <el-select v-model="form.managedDeptId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
+                  :value="item.id"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-
-            <el-form-item label="使用部门id" prop="usingDeptId">
-              <el-input v-model="form.usingDeptId" placeholder="请输入使用部门id" />
+            <el-form-item label="使用部门" prop="usingDeptId">
+              <el-select v-model="form.usingDeptId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
+                  :value="item.id"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
-            <el-form-item label="管理员工id" prop="managedEmpId">
-              <el-input v-model="form.managedEmpId" placeholder="请输入管理员工id" />
+            <el-form-item label="管理员工" prop="managedEmpId">
+              <el-select v-model="form.managedEmpId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
+                  :value="item.id"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-
-            <el-form-item label="使用员工id" prop="usingEmpId">
-              <el-input v-model="form.usingEmpId" placeholder="请输入使用员工id" />
+            <el-form-item label="使用员工" prop="usingEmpId">
+              <el-select v-model="form.usingEmpId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
+                  :value="item.id"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="主图片" prop="mainImageUrl">
@@ -274,7 +293,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-
             <el-form-item label="图片" prop="imageUrl">
               <el-input v-model="form.imageUrl" placeholder="请输入图片" />
             </el-form-item>
@@ -304,6 +322,9 @@ import { deptTreeSelect } from "@/api/system/user"
 import { listAllCategory } from "@/api/business/category"
 import { listAllBrand } from "@/api/business/brand"
 import { listAllProject } from "@/api/business/project"
+import { listAllLocation } from "@/api/business/location"
+import { listAllDepartment } from "@/api/business/department"
+import { listAllEmployee } from "@/api/business/employee"
 
 const { proxy } = getCurrentInstance()
 
@@ -320,6 +341,12 @@ const enabledDeptOptions = ref(undefined)
 const categoryOptions = ref([])
 const brandOptions = ref([])
 const projectOptions = ref([])
+const projectFormOptions = ref([])
+const brandFormOptions = ref([])
+const locationFormOptions = ref([])
+const deptFormOptions = ref([])
+const deptFormOptions = ref([])
+const empFormOptions = ref([])
 
 const data = reactive({
   form: {},
@@ -558,16 +585,74 @@ function handleTreeNodeClick(data) {
   getProject(data)
 }
 function getProject(projectId) {
-   if (projectId === null || projectId === undefined || projectId === '' || Number.isNaN(projectId)) {
+  if (projectId === null || projectId === undefined || projectId === '' || Number.isNaN(projectId)) {
     projectOptions.value = [] // 清空选项
     queryParams.projectId = null // 重置
     return
   }
   listAllProject(projectId).then(response => {
     projectOptions.value = response.data
-     queryParams.brandId = null
+    queryParams.brandId = null
   })
 }
+
+/** 节点单击事件 */
+function handleTreeNodeFormClick(data) {
+  getFormProject(data)
+  getLocation(data)
+  getDepartment(data)
+  getEmployee(data)
+}
+function getFormProject(projectId) {
+  if (projectId === null || projectId === undefined || projectId === '' || Number.isNaN(projectId)) {
+    projectFormOptions.value = [] // 清空选项
+    form.projectId = null // 重置
+    return
+  }
+  listAllProject(projectId).then(response => {
+    projectFormOptions.value = response.data
+    form.projectId = null
+  })
+}
+function getLocation(deptId) {
+  if (deptId === null || deptId === undefined || deptId === '' || Number.isNaN(deptId)) {
+    locationFormOptions.value = [] // 清空选项
+    form.locationId = null // 重置
+    return
+  }
+  listAllLocation(deptId).then(response => {
+    locationFormOptions.value = response.data
+    form.locationId = null
+  })
+}
+function getDepartment(deptId) {
+  if (deptId === null || deptId === undefined || deptId === '' || Number.isNaN(deptId)) {
+    deptFormOptions.value = [] // 清空选项
+    form.managedDeptId = null // 重置
+    form.usingDeptId = null // 重置
+    return
+  }
+  listAllDepartment(deptId).then(response => {
+    deptFormOptions.value = response.data
+    form.managedDeptId = null
+    form.usingDeptId = null
+  })
+}
+function getEmployee(deptId) {
+  if (deptId === null || deptId === undefined || deptId === '' || Number.isNaN(deptId)) {
+    listAllEmployee.value = [] // 清空选项
+    form.managedEmpId = null // 重置
+    form.usingEmpId = null // 重置
+    return
+  }
+  listAllDepartment(deptId).then(response => {
+    listAllEmployee.value = response.data
+    form.managedEmpId = null
+    form.usingEmpId = null
+  })
+}
+
+
 
 onMounted(() => {
   getDeptTree()

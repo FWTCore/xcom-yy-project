@@ -42,3 +42,11 @@ export function delLocation(id) {
     method: 'delete'
   })
 }
+
+// 查询列表（所有）
+export function listAllLocation(deptId) {
+  return request({
+    url: '/location/listAll/' + deptId,
+    method: 'get'
+  })
+}

@@ -42,3 +42,11 @@ export function delEmployee(id) {
     method: 'delete'
   })
 }
+
+// 查询列表（所有）
+export function listAllEmployee(deptId) {
+  return request({
+    url: '/employee/listAll/' + deptId,
+    method: 'get'
+  })
+}

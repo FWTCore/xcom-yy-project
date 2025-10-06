@@ -42,3 +42,11 @@ export function delDepartment(id) {
     method: 'delete'
   })
 }
+
+// 查询列表（所有）
+export function listAllDepartment(deptId) {
+  return request({
+    url: '/department/listAll/' + deptId,
+    method: 'get'
+  })
+}
