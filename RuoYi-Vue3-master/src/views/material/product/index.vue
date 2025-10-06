@@ -2,12 +2,21 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="分类" prop="categoryId">
-        <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable @node-click="handleNodeClick">
+        <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable
+          @node-click="handleNodeClick">
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
             :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="品牌" prop="brandId">
+      <el-form-item prop="brandId">
+        <template #label>
+          <span>
+            <el-tooltip content="需要先选择分类" placement="top">
+              <el-icon><question-filled /></el-icon>
+            </el-tooltip>
+            品牌
+          </span>
+        </template>
         <el-select v-model="queryParams.brandId" placeholder="请选择" style="width: 240px" clearable>
           <el-option v-for="item in brandOptions" :key="item.id" :label="item.brandName" :value="item.id"></el-option>
         </el-select>
@@ -81,7 +90,7 @@
       <el-form ref="materialRef" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="分类id" prop="categoryId">
+            <el-form-item label="分类" prop="categoryId">
               <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in branOptions" :key="item.id" :label="item.categoryName"
                   :value="item.id"></el-option>
@@ -90,7 +99,15 @@
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="分类id" prop="categoryId">
+            <el-form-item prop="brandId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择分类" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  品牌
+                </span>
+              </template>
               <el-select v-model="form.brandId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in categoryOptions" :key="item.id" :label="item.brandName"
                   :value="item.id"></el-option>
@@ -299,6 +316,9 @@ function getCategory() {
   })
 }
 function getBrand() {
+  if (queryParams.categoryId === null || queryParams.categoryId === undefined || queryParams.categoryId === '' || Number.isNaN(queryParams.categoryId)) {
+    return;
+  }
   listAllBrand(queryParams.categoryId).then(response => {
     brandOptions.value = response.data
   })
