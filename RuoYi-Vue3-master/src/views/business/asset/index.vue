@@ -13,10 +13,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="临时编码" prop="temporaryCode">
-        <el-input v-model="queryParams.temporaryCode" placeholder="请输入临时编码" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.temporaryCode" placeholder="请输入临时编码" style="width: 240px" clearable  @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="原始编码" prop="originalCode">
-        <el-input v-model="queryParams.originalCode" placeholder="请输入原始编码" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.originalCode" placeholder="请输入原始编码" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="分类" prop="categoryId">
          <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable
@@ -39,31 +39,31 @@
         </el-select>
       </el-form-item>
       <el-form-item label="资产名称" prop="assetName">
-        <el-input v-model="queryParams.assetName" placeholder="请输入资产名称" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.assetName" placeholder="请输入资产名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="规格型号" prop="specification">
-        <el-input v-model="queryParams.specification" placeholder="请输入规格型号" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.specification" placeholder="请输入规格型号" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="地点名称" prop="locationName">
-        <el-input v-model="queryParams.locationName" placeholder="请输入地点名称" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.locationName" placeholder="请输入地点名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="管理部门名称" prop="managedDeptName">
-        <el-input v-model="queryParams.managedDeptName" placeholder="请输入管理部门名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item label="管理部门" prop="managedDeptName">
+        <el-input v-model="queryParams.managedDeptName" placeholder="请输入管理部门名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="使用部门名称" prop="usingDeptName">
-        <el-input v-model="queryParams.usingDeptName" placeholder="请输入使用部门名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item label="使用部门" prop="usingDeptName">
+        <el-input v-model="queryParams.usingDeptName" placeholder="请输入使用部门名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="管理员工名称" prop="managedEmpName">
-        <el-input v-model="queryParams.managedEmpName" placeholder="请输入管理员工名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item label="管理员工" prop="managedEmpName">
+        <el-input v-model="queryParams.managedEmpName" placeholder="请输入管理员工名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="使用员工名称" prop="usingEmpName">
-        <el-input v-model="queryParams.usingEmpName" placeholder="请输入使用员工名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item label="使用员工" prop="usingEmpName">
+        <el-input v-model="queryParams.usingEmpName" placeholder="请输入使用员工名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="采集人名称" prop="collectorUserName">
-        <el-input v-model="queryParams.collectorUserName" placeholder="请输入采集人名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item label="采集人" prop="collectorUserName">
+        <el-input v-model="queryParams.collectorUserName" placeholder="请输入采集人名称" style="width: 240px" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="采集时间" prop="collectorTime">
-        <el-date-picker clearable v-model="queryParams.collectorTime" type="date" value-format="YYYY-MM-DD"
+        <el-date-picker clearable v-model="queryParams.collectorTime" type="date" style="width: 240px" value-format="YYYY-MM-DD"
           placeholder="请选择采集时间">
         </el-date-picker>
       </el-form-item>
