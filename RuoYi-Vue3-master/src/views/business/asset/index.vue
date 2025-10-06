@@ -6,7 +6,15 @@
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
           style="width: 240px" clearable @change="handleTreeNodeClick" />
       </el-form-item>
-      <el-form-item label="项目" prop="projectId">
+      <el-form-item prop="projectId">
+         <template #label>
+          <span>
+            <el-tooltip content="需要先选择公司" placement="top">
+              <el-icon><question-filled /></el-icon>
+            </el-tooltip>
+            项目
+          </span>
+        </template>
         <el-select v-model="queryParams.projectId" placeholder="请选择" style="width: 240px" clearable>
           <el-option v-for="item in projectOptions" :key="item.id" :label="item.projectName"
             :value="item.id"></el-option>
