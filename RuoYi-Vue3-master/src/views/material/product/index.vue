@@ -319,7 +319,7 @@ function getBrand(categoryId) {
     queryParams.brandId = null // 重置已选品牌
     return
   }
-  listAllBrand(queryParams.categoryId).then(response => {
+  listAllBrand(categoryId).then(response => {
     brandOptions.value = response.data
     queryParams.brandId = null 
   })
