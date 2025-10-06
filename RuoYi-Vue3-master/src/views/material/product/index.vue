@@ -65,7 +65,7 @@
       <el-table-column label="品牌" align="center" prop="brandName" />
       <el-table-column label="物资名称" align="center" prop="materialName" />
       <el-table-column label="规格型号" align="center" prop="specification" />
-      <el-table-column label="物资主图片" align="center" prop="mainImageUrl">
+      <el-table-column label="物资图片" align="center" prop="mainImageUrl">
         <template #default="scope">
           <div v-if="scope.row.mainImageUrl">
             <img :src="scope.row.mainImageUrl" :alt="scope.row.mainImageName"
@@ -136,7 +136,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="物资主图片" prop="mainImageUrl">
+            <el-form-item label="物资图片" prop="mainImageUrl">
               <template>
                 <uploadImage v-model="form.mainImageUrl" :default-image="form.mainImageUrl" />
               </template>
