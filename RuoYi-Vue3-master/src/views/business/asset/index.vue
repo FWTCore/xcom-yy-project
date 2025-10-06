@@ -311,6 +311,7 @@ const title = ref("")
 const enabledDeptOptions = ref(undefined)
 const categoryOptions = ref([])
 const brandOptions = ref([])
+const projectOptions = ref([])
 
 const data = reactive({
   form: {},
@@ -546,7 +547,18 @@ function getFormBrand(categoryId) {
 
 /** 节点单击事件 */
 function handleTreeNodeClick(data) {
-  console.log(data)
+  getProject(data)
+}
+function getProject(projectId) {
+   if (projectId === null || projectId === undefined || projectId === '' || Number.isNaN(projectId)) {
+    projectOptions.value = [] // 清空选项
+    queryParams.projectId = null // 重置
+    return
+  }
+  listAllProject().then(response => {
+    projectOptions.value = response.data
+     queryParams.brandId = null
+  })
 }
 
 onMounted(() => {
