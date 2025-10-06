@@ -91,13 +91,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="分类" prop="categoryId">
-              <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable>
-                <el-option v-for="item in branOptions" :key="item.id" :label="item.categoryName"
+              <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable @change="handleNodeClickForForm">
+                <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
                   :value="item.id"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-
           <el-col :span="12">
             <el-form-item prop="brandId">
               <template #label>
@@ -109,7 +108,7 @@
                 </span>
               </template>
               <el-select v-model="form.brandId" placeholder="请选择" style="width: 240px" clearable>
-                <el-option v-for="item in categoryOptions" :key="item.id" :label="item.brandName"
+                <el-option v-for="item in brandFormOptions" :key="item.id" :label="item.brandName"
                   :value="item.id"></el-option>
               </el-select>
             </el-form-item>
@@ -117,13 +116,11 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-
             <el-form-item label="物资名称" prop="materialName">
               <el-input v-model="form.materialName" placeholder="请输入物资名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-
             <el-form-item label="规格型号" prop="specification">
               <el-input v-model="form.specification" placeholder="请输入规格型号" />
             </el-form-item>
@@ -165,6 +162,7 @@ const total = ref(0)
 const title = ref("")
 const categoryOptions = ref([])
 const brandOptions = ref([])
+const brandFormOptions = ref([])
 
 const data = reactive({
   form: {},
@@ -219,6 +217,7 @@ function reset() {
     updatedByName: null,
     updatedTime: null
   }
+  brandFormOptions.value = []
   proxy.resetForm("materialRef")
 }
 
@@ -322,6 +321,22 @@ function getBrand(categoryId) {
   listAllBrand(categoryId).then(response => {
     brandOptions.value = response.data
     queryParams.brandId = null 
+  })
+}
+
+function handleNodeClickForForm(data) {
+  getFormBrand(data)
+}
+
+function getFormBrand(categoryId) {
+  if (categoryId === null || categoryId === undefined || categoryId === '' || Number.isNaN(categoryId)) {
+    brandFormOptions.value = [] // 清空品牌选项
+    form.brandId = null // 重置已选品牌
+    return
+  }
+  listAllBrand(categoryId).then(response => {
+    brandFormOptions.value = response.data
+    form.brandId = null 
   })
 }
 
