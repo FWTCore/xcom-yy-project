@@ -231,7 +231,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND u.dept_id = #{deptId}
 		</if>
 		<if test="userIds != null and userIds.size() > 0">
-			AND u.id in
+			AND u.user_id in
 			<foreach collection="userIds" item="id" open="(" close=")" separator=",">
 				#{id}
 			</foreach>

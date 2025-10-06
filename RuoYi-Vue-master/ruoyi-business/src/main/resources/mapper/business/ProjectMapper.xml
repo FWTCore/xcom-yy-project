@@ -146,10 +146,26 @@
     </select>
 
     <select id="selectProjectById" parameterType="Long"
-            resultMap="ProjectResult">
-        <include refid="selectProjectVO"/>
-        where id = #{id}
-        and delete_flag=0
+            resultMap="ProjectDetailResult">
+        select p.id,
+               p.dept_id,
+               p.project_name,
+               p.start_date,
+               p.end_date,
+               p.project_status,
+               p.remark,
+               p.delete_flag,
+               p.created_by_id,
+               p.created_by_name,
+               p.created_time,
+               p.updated_by_id,
+               p.updated_by_name,
+               p.updated_time,
+               sd.dept_name
+        from project as p
+                 inner join sys_dept sd on p.dept_id = sd.dept_id and sd.del_flag = '0'
+        where p.id = #{id}
+        and p.delete_flag=0
     </select>
     <select id="selectProjectByIds"
             resultMap="ProjectResult">

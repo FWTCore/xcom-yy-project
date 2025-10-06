@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
      * @return 项目
      */
     @Override
-    public ProjectDO selectProjectById(Long id) {
+    public ProjectDetailVO selectProjectById(Long id) {
         return projectMapper.selectProjectById(id);
     }
 

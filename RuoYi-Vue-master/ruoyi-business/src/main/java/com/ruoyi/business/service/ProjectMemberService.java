@@ -69,6 +69,13 @@ public interface ProjectMemberService {
      * @return 结果
      */
     int insertProjectMember(Long projectId, Long[] userIds);
+    /**
+     * 新增项目成员
+     *
+     * @param projectMember
+     * @return 结果
+     */
+    int setProjectLeader(ProjectMember projectMember);
 
     /**
      * 修改项目成员

@@ -21,7 +21,7 @@ public interface ProjectMapper {
      * @param id 项目主键
      * @return 项目
      */
-    ProjectDO selectProjectById(Long id);
+    ProjectDetailVO selectProjectById(Long id);
 
     /**
      * 查询项目

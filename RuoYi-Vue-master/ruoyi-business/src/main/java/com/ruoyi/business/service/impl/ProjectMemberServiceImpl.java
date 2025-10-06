@@ -113,6 +113,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         }
         Map<Long, SysUser> userMap = sysUsers.stream()
             .collect(toMap(SysUser::getUserId, Function.identity(), (k1, k2) -> k2));
+        int resultData = 0;
         for (Long userId : userIdList) {
             if (!userMap.containsKey(userId)) {
                 continue;
@@ -131,9 +132,37 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
             projectMemberDO.setSystemUserId(userId);
             projectMemberDO.setMemberName(sysUser.getNickName());
             projectMemberDO.setMemberPhone(sysUser.getPhonenumber());
+            projectMemberDO.setMemberType(0);
             this.insertProjectMember(projectMemberDO);
+            resultData++;
         }
-        return 0;
+        return resultData;
+    }
+
+    @Override
+    public int setProjectLeader(ProjectMember projectMember) {
+
+        ProjectMemberDO projectMemberDO = this.selectProjectMemberById(projectMember.getId());
+        if (ObjectUtils.isEmpty(projectMemberDO)) {
+            throw new ServiceException("用户数据不存在");
+        }
+        if (!projectMemberDO.getProjectId().equals(projectMember.getProjectId())) {
+            throw new ServiceException("用户数据不存在");
+        }
+        if (projectMemberDO.getMemberType().equals(1)) {
+            projectMemberDO.setMemberType(0);
+        } else {
+            ProjectMember projectMemberQuery = new ProjectMember();
+            projectMemberQuery.setDeptId(projectMemberDO.getDeptId());
+            projectMemberQuery.setProjectId(projectMemberDO.getProjectId());
+            List<ProjectMemberDO> projectMemberDOS = this.selectProjectMemberList(projectMemberQuery);
+            if (CollectionUtils.isNotEmpty(projectMemberDOS) && projectMemberDOS.stream()
+                .anyMatch(e -> e.getMemberType().equals(1) && !e.getId().equals(projectMember.getId()))) {
+                throw new ServiceException("该项目已存在项目负责人");
+            }
+            projectMemberDO.setMemberType(1);
+        }
+        return this.updateProjectMember(projectMemberDO);
     }
 
     /**

@@ -96,16 +96,24 @@ public class ProjectMemberController extends BaseController {
         return toAjax(projectMemberService.insertProjectMember(projectMember));
     }
 
-
     /**
      * 批量选择用户授权
      */
     @PreAuthorize("@ss.hasPermi('business:member:add')")
     @Log(title = "项目成员管理", businessType = BusinessType.GRANT)
     @PutMapping("/authUser")
-    public AjaxResult selectAuthUserAll(Long projectId, Long[] userIds)
-    {
+    public AjaxResult selectAuthUserAll(Long projectId, Long[] userIds) {
         return toAjax(projectMemberService.insertProjectMember(projectId, userIds));
+    }
+
+    /**
+     * 设置项目负责人
+     */
+    @PreAuthorize("@ss.hasPermi('business:member:edit')")
+    @Log(title = "设置/取消项目负责人", businessType = BusinessType.GRANT)
+    @PutMapping("/setProjectLeader")
+    public AjaxResult setProjectLeader(@RequestBody ProjectMember projectMember) {
+        return toAjax(projectMemberService.setProjectLeader(projectMember));
     }
 
     /**

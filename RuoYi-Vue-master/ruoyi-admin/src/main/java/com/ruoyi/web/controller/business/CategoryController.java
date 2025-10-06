@@ -52,6 +52,16 @@ public class CategoryController extends BaseController {
     }
 
     /**
+     * 查询分类列表
+     */
+    @GetMapping("/listAll")
+    public AjaxResult listAll() {
+        Category category = new Category();
+        List<CategoryDO> list = categoryService.selectCategoryList(category);
+        return success(list);
+    }
+
+    /**
      * 导出分类列表
      */
     @PreAuthorize("@ss.hasPermi('business:category:export')")
