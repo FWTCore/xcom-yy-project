@@ -306,8 +306,7 @@ const calculateIndex = (index) => {
 
 function handleNodeClick(data) {
   console.log(data)
-  // queryParams.value.categoryId = data.id
-  // handleQuery()
+  getBrand()
 }
 
 function getCategory() {
