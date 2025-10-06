@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item label="品牌id" prop="brandId">
         <el-select v-model="queryParams.brandId" placeholder="请选择" style="width: 240px" clearable>
-          <el-option v-for="item in branOptions" :key="item.id" :label="item.brandName" :value="item.id"></el-option>
+          <el-option v-for="item in brandOptions" :key="item.id" :label="item.brandName" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="物资名称" prop="searchMaterialName">
@@ -146,6 +146,8 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
+const categoryOptions = ref([])
+const brandOptions = ref([])
 
 const data = reactive({
   form: {},
@@ -298,7 +300,7 @@ function getCategory() {
 }
 function getBrand() {
   listAllBrand().then(response => {
-    branOptions.value = response.data
+    brandOptions.value = response.data
   })
 }
 
