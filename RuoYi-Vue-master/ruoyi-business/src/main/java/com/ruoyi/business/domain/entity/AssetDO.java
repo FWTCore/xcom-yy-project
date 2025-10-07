@@ -1,5 +1,7 @@
 package com.ruoyi.business.domain.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.ruoyi.business.utils.LenientLocalDateTimeDeserializer;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -77,6 +79,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 生产时间,;
      */
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime productionTime;
 
     /**

@@ -2,6 +2,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
+import com.ruoyi.business.domain.model.AssetDetailVO;
 import com.ruoyi.business.domain.model.HomeAssetStatsVO;
 import com.ruoyi.business.model.request.AssetCopyReqBO;
 
@@ -47,6 +48,13 @@ public interface AssetService {
      * @return 资产集合
      */
     List<AssetDO> selectAssetList(Asset asset);
+    /**
+     * 查询资产列表
+     *
+     * @param asset 资产
+     * @return 资产集合
+     */
+    List<AssetDetailVO> selectAssetDetailList(Asset asset);
 
     /**
      * 新增资产

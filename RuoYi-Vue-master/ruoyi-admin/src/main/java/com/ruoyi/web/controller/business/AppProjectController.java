@@ -5,11 +5,13 @@ import com.ruoyi.business.domain.model.Project;
 import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.page.TableDataDetail;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.web.controller.business.request.SearchQueryRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,20 +29,20 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api(tags = "App-项目管理")
-@RequestMapping("/m/project")
+@RequestMapping("/m/customer/project")
 public class AppProjectController extends BaseController {
 
     @Resource
     private ProjectService projectService;
 
     @ApiOperation("App-获取项目列表")
-    @PostMapping(value = "/pageData")
-    public TableDataInfo pageData(SearchQueryRequest request) {
+    @GetMapping(value = "/pageData")
+    public TableDataDetail pageData(SearchQueryRequest request) {
         startPage();
         Project project = new Project();
         project.setSearchName(request.getSearchName());
         List<ProjectDO> resp = projectService.selectProjectList(project);
-        return getDataTable(resp);
+        return getDataDetailTable(resp);
     }
 
 }

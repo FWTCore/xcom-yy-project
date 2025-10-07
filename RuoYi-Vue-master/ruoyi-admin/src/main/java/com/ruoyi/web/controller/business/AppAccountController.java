@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.business;
 
+import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * App-账户管理
@@ -30,20 +33,21 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @Api(tags = "App-账户管理")
-@RequestMapping("/m/account")
+@RequestMapping("/base/m-account")
 public class AppAccountController extends BaseController {
 
     @Resource
     private SysLoginService sysLoginService;
 
+    @Anonymous
     @ApiOperation("App-账户登录")
     @PostMapping(value = "/login")
     public AjaxResult login(@RequestBody LoginBody loginBody) {
-        AjaxResult ajax = AjaxResult.success();
         // 生成令牌
         String token = sysLoginService.loginNoCaptcha(loginBody.getUsername(), loginBody.getPassword());
-        ajax.put(Constants.TOKEN, token);
-        return ajax;
+        Map<String, String> resultData = new HashMap<>();
+        resultData.put(Constants.TOKEN, token);
+        return success(resultData);
     }
 
     @ApiOperation("App-获取登录用户信息")

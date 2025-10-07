@@ -27,7 +27,7 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @Api(tags = "App-账户管理")
-@RequestMapping("/m/account")
+@RequestMapping("/base/m-home")
 public class AppHomeController extends BaseController {
 
     @Resource

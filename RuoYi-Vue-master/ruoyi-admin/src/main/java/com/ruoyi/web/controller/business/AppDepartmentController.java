@@ -5,6 +5,7 @@ import com.ruoyi.business.domain.model.Department;
 import com.ruoyi.business.service.DepartmentService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataDetail;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.web.controller.business.request.DepartmentUpsertRequest;
 import com.ruoyi.web.controller.business.request.SearchQueryRequest;
@@ -12,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,21 +32,21 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api(tags = "App-部门管理")
-@RequestMapping("/m/department")
+@RequestMapping("/m/customer/department")
 public class AppDepartmentController extends BaseController {
 
     @Resource
     private DepartmentService departmentService;
 
     @ApiOperation("App-获取部门列表")
-    @PostMapping(value = "/pageData")
-    public TableDataInfo pageData(SearchQueryRequest request) {
+    @GetMapping(value = "/pageData")
+    public TableDataDetail pageData(SearchQueryRequest request) {
         startPage();
         Department department = new Department();
         department.setDeptId(getProjectCompanyId());
         department.setSearchName(request.getSearchName());
         List<DepartmentDO> resp = departmentService.selectDepartmentList(department);
-        return getDataTable(resp);
+        return getDataDetailTable(resp);
     }
 
     @ApiOperation("App-新增/编辑部门")

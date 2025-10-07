@@ -4,6 +4,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
 
+import com.ruoyi.common.core.page.TableDataDetail;
 import com.ruoyi.common.exception.ServiceException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
@@ -80,6 +81,19 @@ public class BaseController {
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setMsg("查询成功");
         rspData.setRows(list);
+        rspData.setTotal(new PageInfo(list).getTotal());
+        return rspData;
+    }
+
+    /**
+     * 响应请求分页数据
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected TableDataDetail getDataDetailTable(List<?> list) {
+        TableDataDetail rspData = new TableDataDetail();
+        rspData.setCode(HttpStatus.SUCCESS);
+        rspData.setMsg("查询成功");
+        rspData.setData(list);
         rspData.setTotal(new PageInfo(list).getTotal());
         return rspData;
     }

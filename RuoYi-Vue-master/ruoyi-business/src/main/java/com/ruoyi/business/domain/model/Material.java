@@ -1,5 +1,6 @@
 package com.ruoyi.business.domain.model;
 
+import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Material extends BaseEntityDO {
+public class Material extends MaterialDO {
 
     /**
      * 分类id,;

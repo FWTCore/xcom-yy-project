@@ -6,10 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
+import com.ruoyi.business.domain.model.AssetDetailVO;
 import com.ruoyi.business.service.AssetService;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.web.controller.business.convert.WebAssetConvert;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +52,7 @@ public class AssetController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(Asset asset) {
         startPage();
-        List<AssetDO> list = assetService.selectAssetList(asset);
+        List<AssetDetailVO> list = assetService.selectAssetDetailList(asset);
         return getDataTable(list);
     }
 
@@ -81,7 +84,10 @@ public class AssetController extends BaseController {
     @Log(title = "资产", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody AssetDO asset) {
-        return toAjax(assetService.updateAsset(asset));
+        if (ObjectUtils.isEmpty(asset.getDeptId()) || ObjectUtils.isEmpty(asset.getProjectId())) {
+            throw new ServiceException("公司和项目不能为空");
+        }
+        return toAjax(assetService.upsetAsset(asset));
     }
 
     /**
@@ -91,7 +97,13 @@ public class AssetController extends BaseController {
     @Log(title = "资产", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody AssetDO asset) {
-        return toAjax(assetService.updateAsset(asset));
+        if (ObjectUtils.isEmpty(asset.getId())) {
+            throw new ServiceException("编辑数据id错误");
+        }
+        if (ObjectUtils.isEmpty(asset.getDeptId()) || ObjectUtils.isEmpty(asset.getProjectId())) {
+            throw new ServiceException("公司和项目不能为空");
+        }
+        return toAjax(assetService.upsetAsset(asset));
     }
 
     /**

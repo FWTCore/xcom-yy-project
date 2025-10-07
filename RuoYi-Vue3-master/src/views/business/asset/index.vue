@@ -80,11 +80,6 @@
         <el-input v-model="queryParams.searchCollectorUserName" placeholder="请输入采集人名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="采集时间" prop="collectorTime">
-        <el-date-picker clearable v-model="queryParams.collectorTime" type="date" style="width: 240px"
-          value-format="YYYY-MM-DD" placeholder="请选择采集时间">
-        </el-date-picker>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -144,11 +139,6 @@
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="主图片" align="center" prop="mainImageUrl" />
       <el-table-column label="主图片" align="center" prop="mainImageName" />
-      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
@@ -414,10 +404,14 @@ const data = reactive({
     searchUsingDeptName: null,
     searchManagedEmpName: null,
     searchUsingEmpName: null,
-    searchCollectorUserName: null,
-    collectorTime: null
+    searchCollectorUserName: null
   },
   rules: {
+    deptId: [{ required: true, message: "公司不能为空", trigger: "blur" }],
+    projectId: [{ required: true, message: "项目不能为空", trigger: "blur" }],
+    temporaryCode: [{ required: true, message: "临时编码不能为空", trigger: "blur" }],
+    categoryId: [{ required: true, message: "分类不能为空", trigger: "blur" }],
+    assetName: [{ required: true, message: "资产名称不能为空", trigger: "blur" }],
     deleteFlag: [
       { required: true, message: "是否删除不能为空", trigger: "blur" }
     ],

@@ -7,6 +7,7 @@ import com.ruoyi.business.domain.model.Location;
 import com.ruoyi.business.service.LocationService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataDetail;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.web.controller.business.request.LocationUpsertRequest;
 import com.ruoyi.web.controller.business.request.SearchQueryRequest;
@@ -14,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,20 +34,20 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api(tags = "App-存放地点管理")
-@RequestMapping("/m/location")
+@RequestMapping("/m/customer/location")
 public class AppLocationController extends BaseController {
     @Resource
     private LocationService locationService;
 
     @ApiOperation("App-获取存放地点列表")
-    @PostMapping(value = "/pageData")
-    public TableDataInfo pageData(SearchQueryRequest request) {
+    @GetMapping(value = "/pageData")
+    public TableDataDetail pageData(SearchQueryRequest request) {
         startPage();
         Location location = new Location();
         location.setDeptId(getProjectCompanyId());
         location.setSearchName(request.getSearchName());
         List<LocationDO> resp = locationService.selectLocationList(location);
-        return getDataTable(resp);
+        return getDataDetailTable(resp);
     }
 
     @ApiOperation("App-新增/编辑存放地点")
