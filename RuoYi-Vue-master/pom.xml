@@ -308,8 +308,6 @@
             <properties>
                 <!--当前环境-->
                 <profile.name>test</profile.name>
-                <!--Nacos服务地址-->
-                <config.server-addr>jeecg-boot-nacos:8848</config.server-addr>
             </properties>
         </profile>
         <!-- 生产 -->
@@ -318,15 +316,7 @@
             <properties>
                 <!--当前环境-->
                 <profile.name>prod</profile.name>
-                <!--Nacos服务地址-->
-                <config.server-addr>jeecg-boot-nacos:8848</config.server-addr>
             </properties>
-        </profile>
-        <!-- SpringCloud运行环境 -->
-        <profile>
-            <id>SpringCloud</id>
-            <modules>
-            </modules>
         </profile>
     </profiles>
 
