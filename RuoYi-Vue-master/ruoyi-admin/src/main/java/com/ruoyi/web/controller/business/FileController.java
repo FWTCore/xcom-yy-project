@@ -37,14 +37,14 @@ public class FileController extends BaseController {
      */
     @Log(title = "图片上传", businessType = BusinessType.UPDATE)
     @PostMapping("/uploadImage")
-    public AjaxResult avatar(@RequestParam("imageFile") MultipartFile file) throws Exception {
+    public AjaxResult avatar(@RequestParam("file") MultipartFile file) throws Exception {
         if (!file.isEmpty()) {
             LoginUser loginUser = getLoginUser();
             String fileUrl = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION,
                 true);
             UploadFileVO resultData = new UploadFileVO();
             resultData.setFileUrl(fileUrl);
-            resultData.setFileName(file.getName());
+            resultData.setFileName(file.getOriginalFilename());
             return success(resultData);
         }
         return error("上传图片异常，请联系管理员");

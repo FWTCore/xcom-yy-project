@@ -68,8 +68,9 @@
       <el-table-column label="物资图片" align="center" prop="mainImageUrl">
         <template #default="scope">
           <div v-if="scope.row.mainImageUrl">
-            <img :src="scope.row.mainImageUrl" :alt="scope.row.mainImageName"
-              style="width: 50px; height: 50px; object-fit: cover;" />
+            <el-image :src="scope.row.mainImageUrl" :alt="scope.row.mainImageName"
+              :preview-src-list="[scope.row.mainImageUrl]"
+              style="width: 50px; height: 50px; object-fit: cover; cursor: pointer;" hide-on-click-modal />
           </div>
           <div v-else>无</div>
         </template>
@@ -137,9 +138,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="物资图片" prop="mainImageUrl">
-              <template>
-                <uploadImage v-model="form.mainImageUrl" :default-image="form.mainImageUrl" />
-              </template>
+              <upload-image v-model="form.mainImageUrl" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -158,7 +157,7 @@
 import { listMaterial, getMaterial, delMaterial, addMaterial, updateMaterial } from "@/api/business/material"
 import { listAllCategory } from "@/api/business/category"
 import { listAllBrand } from "@/api/business/brand"
-import uploadImage from "@/views/common/uploadImage"
+import uploadImage from "@/views/common/uploadImage.vue"
 
 const { proxy } = getCurrentInstance()
 

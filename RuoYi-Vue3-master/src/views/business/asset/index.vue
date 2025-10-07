@@ -137,8 +137,16 @@
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="主图片" align="center" prop="mainImageUrl" />
-      <el-table-column label="主图片" align="center" prop="mainImageName" />
+      <el-table-column label="主图片" align="center" prop="mainImageUrl">
+        <template #default="scope">
+          <div v-if="scope.row.mainImageUrl">
+            <el-image :src="scope.row.mainImageUrl" :alt="scope.row.mainImageName"
+              :preview-src-list="[scope.row.mainImageUrl]"
+              style="width: 50px; height: 50px; object-fit: cover; cursor: pointer;" hide-on-click-modal />
+          </div>
+          <div v-else>无</div>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
@@ -327,12 +335,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="主图片" prop="mainImageUrl">
-              <el-input v-model="form.mainImageUrl" placeholder="请输入主图片" />
+              <upload-image v-model="form.mainImageUrl" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="图片" prop="imageUrl">
-              <el-input v-model="form.imageUrl" placeholder="请输入图片" />
+              <upload-image v-model="form.imageUrl" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -363,6 +371,7 @@ import { listAllProject } from "@/api/business/project"
 import { listAllLocation } from "@/api/business/location"
 import { listAllDepartment } from "@/api/business/department"
 import { listAllEmployee } from "@/api/business/employee"
+import uploadImage from "@/views/common/uploadImage.vue"
 
 const { proxy } = getCurrentInstance()
 

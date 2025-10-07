@@ -8,33 +8,19 @@
                     <Plus />
                 </el-icon>
             </div>
+            <!-- 隐藏的文件输入 -->
+            <input ref="fileInput" type="file" accept="image/*" style="display: none" @change="handleFileChange" />
         </div>
-
-        <!-- 文件上传对话框 -->
-        <el-dialog v-model="dialogVisible" title="上传图片" width="30%" :before-close="handleClose">
-            <el-upload class="upload-demo" drag :auto-upload="false" :show-file-list="false" :on-change="handleChange"
-                accept="image/*">
-                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-                <div class="el-upload__text">
-                    拖拽图片到此处或 <em>点击选择</em>
-                </div>
-            </el-upload>
-            <template #footer>
-                <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button type="primary" @click="submitUpload" :loading="uploading">
-                        确认上传
-                    </el-button>
-                </span>
-            </template>
-        </el-dialog>
     </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import { Plus, UploadFilled } from '@element-plus/icons-vue'
+<script setup name="UploadImage">
+import { ref, getCurrentInstance, onUnmounted } from 'vue'
+import { Plus } from '@element-plus/icons-vue'
 import { uploadImage } from '@/api/fileUpload'
+import uploadImg from '@/assets/images/upload.png'
+
+const { proxy } = getCurrentInstance()
 
 const props = defineProps({
     defaultImage: {
@@ -45,50 +31,60 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const imageUrl = ref(props.defaultImage || '')
-const dialogVisible = ref(false)
+const imageUrl = ref(props.defaultImage || uploadImg)
+const fileInput = ref(null)
 const uploading = ref(false)
-const currentFile = ref(null)
 
 // 点击图片或+号
 const handleClick = () => {
-    dialogVisible.value = true
-}
-
-// 关闭对话框
-const handleClose = () => {
-    dialogVisible.value = false
-    currentFile.value = null
+    fileInput.value.click()
 }
 
 // 文件选择变化
-const handleChange = (file) => {
-    // 检查文件类型
-    if (!file.raw.type.startsWith('image/')) {
-        proxy.$modal.msgError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。")
-        return false
-    }
-    currentFile.value = file.raw
-}
+const handleFileChange = async (event) => {
+    const file = event.target.files[0]
+    if (!file) return
 
-// 提交上传
-const submitUpload = async () => {
-    if (!currentFile.value) {
-        proxy.$modal.msgError("请先选择图片")
+    // 检查文件类型
+    if (!file.type.startsWith('image/')) {
+        proxy.$modal.msgError("请上传图片文件（JPG/PNG等）")
         return
     }
 
+    // 检查文件大小（5MB限制）
+    const maxSize = 5 * 1024 * 1024
+    if (file.size > maxSize) {
+        proxy.$modal.msgError("图片大小不能超过5MB")
+        return
+    }
+
+    // 创建预览URL
+    if (imageUrl.value.startsWith('blob:')) {
+        URL.revokeObjectURL(imageUrl.value)
+    }
+    imageUrl.value = URL.createObjectURL(file)
+
+    // 直接上传
+    await submitUpload(file)
+}
+
+// 提交上传
+const submitUpload = async (file) => {
     uploading.value = true
     try {
         const formData = new FormData()
-        formData.append('file', currentFile.value)
+        formData.append('file', file)
 
         const res = await uploadImage(formData)
         if (res.code === 200) {
-            imageUrl.value = res.data.fileUrl
-            emit('update:modelValue', res.data.fileUrl)
+            // 上传成功后使用服务器返回的URL替换预览URL
+            if (imageUrl.value.startsWith('blob:')) {
+                URL.revokeObjectURL(imageUrl.value)
+            }
+            const imageFileUrl=import.meta.env.VITE_APP_BASE_API + res.data.fileUrl
+            imageUrl.value = imageFileUrl
+            emit('update:modelValue', imageFileUrl)
             proxy.$modal.msgSuccess("上传成功")
-            dialogVisible.value = false
         } else {
             proxy.$modal.msgError(res.message || '上传失败')
         }
@@ -98,6 +94,13 @@ const submitUpload = async () => {
         uploading.value = false
     }
 }
+
+// 组件卸载时清理
+onUnmounted(() => {
+    if (imageUrl.value.startsWith('blob:')) {
+        URL.revokeObjectURL(imageUrl.value)
+    }
+})
 </script>
 
 <style scoped>
@@ -123,6 +126,14 @@ const submitUpload = async () => {
     border-color: #409eff;
 }
 
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* 或 cover */
+    display: block;
+}
+
 .avatar {
     width: 100%;
     height: 100%;
@@ -136,14 +147,5 @@ const submitUpload = async () => {
 
 .uploader-icon:hover {
     color: #409eff;
-}
-
-:deep(.el-upload) {
-    width: 100%;
-}
-
-:deep(.el-upload-dragger) {
-    width: 100%;
-    padding: 20px;
 }
 </style>
