@@ -1,5 +1,7 @@
 package com.ruoyi.business.domain.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.ruoyi.business.utils.LenientLocalDateTimeDeserializer;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,11 +35,20 @@ public class Asset extends BaseEntityDO {
      * 临时编码,;
      */
     private String        temporaryCode;
+    /**
+     * 临时编码,;
+     */
+    private String        searchTemporaryCode;
 
     /**
      * 原始编码,;
      */
     private String        originalCode;
+
+    /**
+     * 原始编码,;
+     */
+    private String        searchOriginalCode;
 
     /**
      * 分类id,;
@@ -70,13 +81,24 @@ public class Asset extends BaseEntityDO {
     private String        assetName;
 
     /**
+     * 资产名称,;
+     */
+    private String        searchAssetName;
+
+    /**
      * 规格型号,;
      */
     private String        specification;
 
     /**
+     * 规格型号,;
+     */
+    private String        searchSpecification;
+
+    /**
      * 生产时间,;
      */
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime productionTime;
 
     /**
@@ -90,6 +112,11 @@ public class Asset extends BaseEntityDO {
     private String        locationName;
 
     /**
+     * 地点名称,;
+     */
+    private String        searchLocationName;
+
+    /**
      * 管理部门id,;
      */
     private Long          managedDeptId;
@@ -98,6 +125,10 @@ public class Asset extends BaseEntityDO {
      * 管理部门名称,;
      */
     private String        managedDeptName;
+    /**
+     * 管理部门名称,;
+     */
+    private String        searchManagedDeptName;
 
     /**
      * 使用部门id,;
@@ -108,6 +139,10 @@ public class Asset extends BaseEntityDO {
      * 使用部门名称,;
      */
     private String        usingDeptName;
+    /**
+     * 使用部门名称,;
+     */
+    private String        searchUsingDeptName;
 
     /**
      * 管理员工id,;
@@ -118,6 +153,10 @@ public class Asset extends BaseEntityDO {
      * 管理员工名称,;
      */
     private String        managedEmpName;
+    /**
+     * 管理员工名称,;
+     */
+    private String        searchManagedEmpName;
 
     /**
      * 使用员工id,;
@@ -128,6 +167,10 @@ public class Asset extends BaseEntityDO {
      * 使用员工名称,;
      */
     private String        usingEmpName;
+    /**
+     * 使用员工名称,;
+     */
+    private String        searchUsingEmpName;
 
     /**
      * 采集人id,;
@@ -138,10 +181,15 @@ public class Asset extends BaseEntityDO {
      * 采集人名称,;
      */
     private String        collectorUserName;
+    /**
+     * 采集人名称,;
+     */
+    private String        searchCollectorUserName;
 
     /**
      * 采集时间,;
      */
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime collectorTime;
 
     /**

@@ -20,12 +20,12 @@
             :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="临时编码" prop="temporaryCode">
-        <el-input v-model="queryParams.temporaryCode" placeholder="请输入临时编码" style="width: 240px" clearable
+      <el-form-item label="临时编码" prop="searchTemporaryCode">
+        <el-input v-model="queryParams.searchTemporaryCode" placeholder="请输入临时编码" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="原始编码" prop="originalCode">
-        <el-input v-model="queryParams.originalCode" placeholder="请输入原始编码" style="width: 240px" clearable
+      <el-form-item label="原始编码" prop="searchOriginalCode">
+        <el-input v-model="queryParams.searchOriginalCode" placeholder="请输入原始编码" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="分类" prop="categoryId">
@@ -48,36 +48,36 @@
           <el-option v-for="item in brandOptions" :key="item.id" :label="item.brandName" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="资产名称" prop="assetName">
-        <el-input v-model="queryParams.assetName" placeholder="请输入资产名称" style="width: 240px" clearable
+      <el-form-item label="资产名称" prop="searchAssetName">
+        <el-input v-model="queryParams.searchAssetName" placeholder="请输入资产名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="规格型号" prop="specification">
-        <el-input v-model="queryParams.specification" placeholder="请输入规格型号" style="width: 240px" clearable
+      <el-form-item label="规格型号" prop="searchProductionTime">
+        <el-input v-model="queryParams.searchProductionTime" placeholder="请输入规格型号" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="地点名称" prop="locationName">
-        <el-input v-model="queryParams.locationName" placeholder="请输入地点名称" style="width: 240px" clearable
+      <el-form-item label="地点名称" prop="searchLocationName">
+        <el-input v-model="queryParams.searchLocationName" placeholder="请输入地点名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="管理部门" prop="managedDeptName">
-        <el-input v-model="queryParams.managedDeptName" placeholder="请输入管理部门名称" style="width: 240px" clearable
+      <el-form-item label="管理部门" prop="searchManagedDeptName">
+        <el-input v-model="queryParams.searchManagedDeptName" placeholder="请输入管理部门名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="使用部门" prop="usingDeptName">
-        <el-input v-model="queryParams.usingDeptName" placeholder="请输入使用部门名称" style="width: 240px" clearable
+        <el-input v-model="queryParams.searchUsingDeptName" placeholder="请输入使用部门名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="管理员工" prop="managedEmpName">
-        <el-input v-model="queryParams.managedEmpName" placeholder="请输入管理员工名称" style="width: 240px" clearable
+      <el-form-item label="管理员工" prop="searchManagedEmpName">
+        <el-input v-model="queryParams.searchManagedEmpName" placeholder="请输入管理员工名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="使用员工" prop="usingEmpName">
-        <el-input v-model="queryParams.usingEmpName" placeholder="请输入使用员工名称" style="width: 240px" clearable
+      <el-form-item label="使用员工" prop="searchUsingEmpName">
+        <el-input v-model="queryParams.searchUsingEmpName" placeholder="请输入使用员工名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="采集人" prop="collectorUserName">
-        <el-input v-model="queryParams.collectorUserName" placeholder="请输入采集人名称" style="width: 240px" clearable
+      <el-form-item label="采集人" prop="searchCollectorUserName">
+        <el-input v-model="queryParams.searchCollectorUserName" placeholder="请输入采集人名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="采集时间" prop="collectorTime">
@@ -131,11 +131,11 @@
         </template>
       </el-table-column>
       <el-table-column label="地点名称" align="center" prop="locationName" />
-      <el-table-column label="管理部门名称" align="center" prop="managedDeptName" />
-      <el-table-column label="使用部门名称" align="center" prop="usingDeptName" />
-      <el-table-column label="管理员工名称" align="center" prop="managedEmpName" />
-      <el-table-column label="使用员工名称" align="center" prop="usingEmpName" />
-      <el-table-column label="采集人名称" align="center" prop="collectorUserName" />
+      <el-table-column label="管理部门" align="center" prop="managedDeptName" />
+      <el-table-column label="使用部门" align="center" prop="usingDeptName" />
+      <el-table-column label="管理员工" align="center" prop="managedEmpName" />
+      <el-table-column label="使用员工" align="center" prop="usingEmpName" />
+      <el-table-column label="采集人" align="center" prop="collectorUserName" />
       <el-table-column label="采集时间" align="center" prop="collectorTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.collectorTime, '{y}-{m}-{d}') }}</span>
@@ -143,7 +143,7 @@
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="主图片" align="center" prop="mainImageUrl" />
-      <el-table-column label="主图片名称" align="center" prop="mainImageName" />
+      <el-table-column label="主图片" align="center" prop="mainImageName" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
@@ -402,19 +402,19 @@ const data = reactive({
     pageSize: 10,
     deptId: null,
     projectId: null,
-    temporaryCode: null,
-    originalCode: null,
+    searchTemporaryCode: null,
+    searchOriginalCode: null,
     categoryId: null,
     brandId: null,
-    assetName: null,
+    searchAssetName: null,
     specification: null,
-    productionTime: null,
-    locationName: null,
-    managedDeptName: null,
-    usingDeptName: null,
-    managedEmpName: null,
-    usingEmpName: null,
-    collectorUserName: null,
+    searchProductionTime: null,
+    searchLocationName: null,
+    searchManagedDeptName: null,
+    searchUsingDeptName: null,
+    searchManagedEmpName: null,
+    searchUsingEmpName: null,
+    searchCollectorUserName: null,
     collectorTime: null
   },
   rules: {

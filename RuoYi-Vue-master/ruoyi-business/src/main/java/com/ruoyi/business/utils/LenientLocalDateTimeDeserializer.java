@@ -25,8 +25,9 @@ public class LenientLocalDateTimeDeserializer extends LocalDateTimeDeserializer 
     @Override
     public LocalDateTime deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
         String text = p.getText();
-        if (text == null || text.length() == 0)
+        if (text == null || text.length() == 0) {
             return null;
+        }
 
         // 已经是完整格式
         if (text.length() > 10) {

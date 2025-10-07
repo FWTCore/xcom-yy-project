@@ -106,8 +106,14 @@
             <if test="temporaryCode != null  and temporaryCode != ''">
                 and temporary_code = #{temporaryCode}
             </if>
+            <if test="searchTemporaryCode != null  and searchTemporaryCode != ''">
+                and temporary_code like concat('%', #{searchTemporaryCode}, '%')
+            </if>
             <if test="originalCode != null  and originalCode != ''">
                 and original_code = #{originalCode}
+            </if>
+            <if test="searchOriginalCode != null  and searchOriginalCode != ''">
+                and original_code like concat('%', #{searchOriginalCode}, '%')
             </if>
             <if test="categoryId != null ">
                 and category_id = #{categoryId}
@@ -125,10 +131,16 @@
                 and material_id = #{materialId}
             </if>
             <if test="assetName != null  and assetName != ''">
-                and asset_name like concat('%', #{assetName}, '%')
+                and asset_name = #{assetName}
+            </if>
+            <if test="searchAssetName != null  and searchAssetName != ''">
+                and asset_name like concat('%', #{searchAssetName}, '%')
             </if>
             <if test="specification != null  and specification != ''">
                 and specification = #{specification}
+            </if>
+            <if test="searchSpecification != null  and searchSpecification != ''">
+                and specification like concat('%', #{searchSpecification}, '%')
             </if>
             <if test="productionTime != null ">
                 and production_time = #{productionTime}
@@ -137,37 +149,55 @@
                 and location_id = #{locationId}
             </if>
             <if test="locationName != null  and locationName != ''">
-                and location_name like concat('%', #{locationName}, '%')
+                and location_name =#{locationName}
+            </if>
+            <if test="searchLocationName != null  and searchLocationName != ''">
+                and location_name like concat('%', #{searchLocationName}, '%')
             </if>
             <if test="managedDeptId != null ">
                 and managed_dept_Id = #{managedDeptId}
             </if>
             <if test="managedDeptName != null  and managedDeptName != ''">
-                and managed_dept_name like concat('%', #{managedDeptName}, '%')
+                and managed_dept_name =#{managedDeptName}
+            </if>
+            <if test="searchManagedDeptName != null  and searchManagedDeptName != ''">
+                and managed_dept_name like concat('%', #{searchManagedDeptName}, '%')
             </if>
             <if test="usingDeptId != null ">
                 and using_dept_Id = #{usingDeptId}
             </if>
             <if test="usingDeptName != null  and usingDeptName != ''">
-                and using_dept_name like concat('%', #{usingDeptName}, '%')
+                and using_dept_name =#{usingDeptName}
+            </if>
+            <if test="searchUsingDeptName != null  and searchUsingDeptName != ''">
+                and using_dept_name like concat('%', #{searchUsingDeptName}, '%')
             </if>
             <if test="managedEmpId != null ">
                 and managed_emp_Id = #{managedEmpId}
             </if>
             <if test="managedEmpName != null  and managedEmpName != ''">
-                and managed_emp_name like concat('%', #{managedEmpName}, '%')
+                and managed_emp_name =#{managedEmpName}
+            </if>
+            <if test="searchManagedEmpName != null  and searchManagedEmpName != ''">
+                and managed_emp_name like concat('%', #{searchManagedEmpName}, '%')
             </if>
             <if test="usingEmpId != null ">
                 and using_emp_Id = #{usingEmpId}
             </if>
             <if test="usingEmpName != null  and usingEmpName != ''">
-                and using_emp_name like concat('%', #{usingEmpName}, '%')
+                and using_emp_name =#{usingEmpName}
+            </if>
+            <if test="searchUsingEmpName != null  and searchUsingEmpName != ''">
+                and using_emp_name like concat('%', #{searchUsingEmpName}, '%')
             </if>
             <if test="collectorUserId != null ">
                 and collector_user_id = #{collectorUserId}
             </if>
             <if test="collectorUserName != null  and collectorUserName != ''">
-                and collector_user_name like concat('%', #{collectorUserName}, '%')
+                and collector_user_name =#{collectorUserName}
+            </if>
+            <if test="searchCollectorUserName != null  and searchCollectorUserName != ''">
+                and collector_user_name like concat('%', #{searchCollectorUserName}, '%')
             </if>
             <if test="collectorTime != null ">
                 and collector_time = #{collectorTime}
