@@ -141,7 +141,7 @@
         <template #default="scope">
           <div v-if="scope.row.mainImageUrl">
             <el-image :src="scope.row.mainImageUrl" :alt="scope.row.mainImageName"
-              :preview-src-list="[scope.row.mainImageUrl]"
+              :preview-src-list="[scope.row.mainImageUrl]" preview-teleported
               style="width: 50px; height: 50px; object-fit: cover; cursor: pointer;" hide-on-click-modal />
           </div>
           <div v-else>无</div>
