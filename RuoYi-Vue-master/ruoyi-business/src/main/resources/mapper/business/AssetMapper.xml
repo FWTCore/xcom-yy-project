@@ -113,6 +113,9 @@
             <if test="searchTemporaryCode != null  and searchTemporaryCode != ''">
                 and temporary_code like concat('%', #{searchTemporaryCode}, '%')
             </if>
+            <if test="leftSearchTemporaryCode != null  and leftSearchTemporaryCode != ''">
+                and temporary_code like concat(#{leftSearchTemporaryCode}, '%')
+            </if>
             <if test="originalCode != null  and originalCode != ''">
                 and original_code = #{originalCode}
             </if>
@@ -257,7 +260,8 @@
         </where>
     </select>
 
-    <select id="selectAssetDetailList" parameterType="com.ruoyi.business.domain.model.Asset" resultMap="AssetDetailResult">
+    <select id="selectAssetDetailList" parameterType="com.ruoyi.business.domain.model.Asset"
+            resultMap="AssetDetailResult">
         select a.id,
         a.dept_id,
         a.project_id,

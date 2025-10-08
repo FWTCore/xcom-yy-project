@@ -199,7 +199,33 @@ public class AssetServiceImpl implements AssetService {
             || !copyReqBO.getProjectId().equals(pureData.getProjectId())) {
             throw new ServiceException("复制的资产不存在");
         }
-        List<String> codeList = generateAssetCode(pureData.getTemporaryCode(), copyReqBO.getCopyNum());
+        Asset searchAsset = new Asset();
+        searchAsset.setDeptId(pureData.getDeptId());
+        searchAsset.setProjectId(pureData.getProjectId());
+        searchAsset.setLeftSearchTemporaryCode(pureData.getTemporaryCode());
+        List<AssetDO> assetList = this.selectAssetList(searchAsset);
+        if (CollectionUtils.isEmpty(assetList)) {
+            throw new ServiceException("复制的资产不存在");
+        }
+        assetList.sort((o1, o2) -> {
+            String[] parts1 = o1.getTemporaryCode().split("-");
+            String[] parts2 = o2.getTemporaryCode().split("-");
+            int minLength = Math.min(parts1.length, parts2.length);
+            // 逐级比较数值部分
+            for (int i = 0; i < minLength; i++) {
+                int num1 = Integer.parseInt(parts1[i]);
+                int num2 = Integer.parseInt(parts2[i]);
+                // 数值降序：大数在前
+                if (num1 != num2) {
+                    return Integer.compare(num2, num1);
+                }
+            }
+            // 当公共部分完全相同时，比较层级深度
+            // 更多细分部分（更长）的字符串排在前面
+            return Integer.compare(parts2.length, parts1.length);
+        });
+        String temporaryCode = assetList.get(0).getTemporaryCode();
+        List<String> codeList = generateAssetCode(temporaryCode, copyReqBO.getCopyNum());
         if (CollectionUtils.isEmpty(codeList)) {
             throw new ServiceException("资产复制生成编号异常");
         }
@@ -228,9 +254,9 @@ public class AssetServiceImpl implements AssetService {
                 throw new ServiceException("临时编码存在多个，数据异常");
             }
             AssetDO existAsset = assetList.get(0);
-            if (!existAsset.getId().equals(data.getId())) {
-                throw new ServiceException("编辑数据id错误");
-            }
+            data.setId(existAsset.getId());
+        } else {
+            data.setId(null);
         }
         CategoryDO categoryDO = categoryService.selectCategoryById(data.getCategoryId());
         if (ObjectUtils.isEmpty(categoryDO)) {

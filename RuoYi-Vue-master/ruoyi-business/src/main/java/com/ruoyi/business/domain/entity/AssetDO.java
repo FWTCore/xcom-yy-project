@@ -1,13 +1,16 @@
 package com.ruoyi.business.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.ruoyi.business.utils.LenientLocalDateTimeDeserializer;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 资产;asset数据表的DO对象
@@ -80,6 +83,7 @@ public class AssetDO extends BaseEntityDO {
      * 生产时间,;
      */
     @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime productionTime;
 
     /**

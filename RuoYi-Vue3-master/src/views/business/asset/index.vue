@@ -133,7 +133,7 @@
       <el-table-column label="采集人" align="center" prop="collectorUserName" />
       <el-table-column label="采集时间" align="center" prop="collectorTime" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.collectorTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.collectorTime, '{y}-{m}-{d}  {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
@@ -347,7 +347,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" placeholder="请输入备注" />
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

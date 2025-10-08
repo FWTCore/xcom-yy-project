@@ -38,6 +38,10 @@ public class Asset extends BaseEntityDO {
     /**
      * 临时编码,;
      */
+    private String        leftSearchTemporaryCode;
+    /**
+     * 临时编码,;
+     */
     private String        searchTemporaryCode;
 
     /**
