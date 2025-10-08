@@ -68,6 +68,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
+        order by e.updated_time desc
     </select>
 
 
@@ -120,6 +121,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
+        order by e.updated_time desc
 
     </select>
     <select id="selectEmployeeById" parameterType="Long"

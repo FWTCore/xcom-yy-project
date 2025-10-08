@@ -237,5 +237,6 @@
         <if test="updatedTime != null ">
             and b.updated_time = #{updatedTime}
         </if>
+        order by b.updated_time desc
     </select>
 </mapper>

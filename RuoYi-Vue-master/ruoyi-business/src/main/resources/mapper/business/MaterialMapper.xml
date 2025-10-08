@@ -88,6 +88,7 @@
                 and updated_time = #{updatedTime}
             </if>
         </where>
+        order by updated_time desc
     </select>
 
     <select id="selectMaterialById" parameterType="Long" resultMap="MaterialResult">
@@ -301,5 +302,6 @@
         <if test="leftSearchSpecification != null  and leftSearchSpecification != ''">
             and m.specification like concat(#{leftSearchSpecification}, '%')
         </if>
+        order by m.updated_time desc
     </select>
 </mapper>

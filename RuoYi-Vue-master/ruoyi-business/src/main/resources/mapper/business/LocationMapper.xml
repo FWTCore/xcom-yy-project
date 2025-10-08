@@ -73,6 +73,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
+        order by updated_time desc
     </select>
 
     <select id="selectLocationDetailList" parameterType="com.ruoyi.business.domain.model.Location" resultMap="LocationDetailResult">
@@ -128,6 +129,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
+        order by l.updated_time desc
     </select>
 
     <select id="selectLocationById" parameterType="Long"

@@ -73,6 +73,7 @@
                 and updated_time = #{updatedTime}
             </if>
         </where>
+        order by updated_time desc
     </select>
 
     <select id="selectCategoryById" parameterType="Long" resultMap="CategoryResult">
