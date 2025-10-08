@@ -70,6 +70,7 @@
             </if>
             and delete_flag=0
         </where>
+        order by updated_time desc,id desc
     </select>
 
     <select id="selectBrandById" parameterType="Long" resultMap="BrandResult">
@@ -237,6 +238,6 @@
         <if test="updatedTime != null ">
             and b.updated_time = #{updatedTime}
         </if>
-        order by b.updated_time desc
+        order by b.updated_time desc,b.id desc
     </select>
 </mapper>

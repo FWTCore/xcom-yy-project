@@ -61,6 +61,7 @@ public class ProjectMemberController extends BaseController {
     @GetMapping("/unallocatedList")
     public TableDataInfo unallocatedList(ProjectMember projectMember) {
         startPage();
+        projectMember.setDeptId(100L);
         List<SysUser> list = projectMemberService.selectUnallocatedList(projectMember);
         return getDataTable(list);
     }

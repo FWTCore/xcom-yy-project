@@ -258,7 +258,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
-        order by a.collector_time desc
+        order by a.collector_time desc ,a.id desc
     </select>
 
     <select id="selectAssetDetailList" parameterType="com.ruoyi.business.domain.model.Asset"
@@ -462,7 +462,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
-        order by a.collector_time desc
+        order by a.collector_time desc ,a.id desc
     </select>
 
     <select id="selectAssetById" parameterType="Long"

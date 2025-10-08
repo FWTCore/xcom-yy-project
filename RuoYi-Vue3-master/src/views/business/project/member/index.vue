@@ -4,7 +4,7 @@
     <el-form :model="data.form" label-width="80px">
       <el-row>
         <el-col :span="8" :offset="2">
-          <el-form-item label="所属公司" prop="deptName">
+          <el-form-item label="所属单位" prop="deptName">
             <el-input v-model="form.deptName" disabled />
           </el-form-item>
         </el-col>
@@ -78,7 +78,7 @@
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改项目成员对话框 -->
-    <select-member ref="selectRef" :projectId="queryParams.projectId" :deptId="data.form.deptId" @ok="handleQuery" />
+    <select-member ref="selectRef" :projectId="queryParams.projectId" @ok="handleQuery" />
   </div>
 </template>
 

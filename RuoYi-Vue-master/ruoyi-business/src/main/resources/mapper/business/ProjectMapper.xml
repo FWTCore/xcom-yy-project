@@ -85,7 +85,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
-        order by p.updated_time desc
+        order by p.updated_time desc,p.id desc
     </select>
 
     <select id="selectProjectDetailList" parameterType="com.ruoyi.business.domain.model.Project" resultMap="ProjectDetailResult">
@@ -147,7 +147,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
-        order by p.updated_time desc
+        order by p.updated_time desc,p.id desc
     </select>
 
     <select id="selectProjectById" parameterType="Long"

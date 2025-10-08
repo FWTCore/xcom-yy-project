@@ -107,7 +107,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
             throw new ServiceException("项目数据不存在");
         }
         List<Long> userIdList = Arrays.asList(userIds);
-        List<SysUser> sysUsers = userService.selectUserByIds(userIdList, projectDO.getDeptId());
+        List<SysUser> sysUsers = userService.selectUserByIds(userIdList, 100L);
         if (CollectionUtils.isEmpty(sysUsers)) {
             throw new ServiceException("用户数据不存在");
         }

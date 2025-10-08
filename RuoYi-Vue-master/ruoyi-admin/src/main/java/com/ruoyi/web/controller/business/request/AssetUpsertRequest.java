@@ -97,29 +97,25 @@ public class AssetUpsertRequest implements Serializable {
     /**
      * 管理部门id,;
      */
-    @ApiModelProperty(value = "管理部门id", required = true)
-    @NotNull(message = "管理部门不能为空")
+    @ApiModelProperty(value = "管理部门id")
     private Long              managedDeptId;
 
     /**
      * 使用部门id,;
      */
-    @ApiModelProperty(value = "使用部门id", required = true)
-    @NotNull(message = "使用部门不能为空")
+    @ApiModelProperty(value = "使用部门id")
     private Long              usingDeptId;
 
     /**
      * 管理员工id,;
      */
-    @ApiModelProperty(value = "管理员工id", required = true)
-    @NotNull(message = "管理员工不能为空")
+    @ApiModelProperty(value = "管理员工id")
     private Long              managedEmpId;
 
     /**
      * 使用员工id,;
      */
-    @ApiModelProperty(value = "使用员工id", required = true)
-    @NotNull(message = "使用员工不能为空")
+    @ApiModelProperty(value = "使用员工id")
     private Long              usingEmpId;
 
     /**

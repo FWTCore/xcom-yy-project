@@ -202,7 +202,13 @@ public class AssetServiceImpl implements AssetService {
         Asset searchAsset = new Asset();
         searchAsset.setDeptId(pureData.getDeptId());
         searchAsset.setProjectId(pureData.getProjectId());
-        searchAsset.setLeftSearchTemporaryCode(pureData.getTemporaryCode());
+        String temporaryCode = pureData.getTemporaryCode();
+        String assetCodeSeparator = pureData.getTemporaryCode().substring(pureData.getTemporaryCode().length() - 2,
+            pureData.getTemporaryCode().length() - 1);
+        if (assetCodeSeparator.equals("-")) {
+            temporaryCode = pureData.getTemporaryCode().substring(0, pureData.getTemporaryCode().length() - 2);
+        }
+        searchAsset.setLeftSearchTemporaryCode(temporaryCode);
         List<AssetDO> assetList = this.selectAssetList(searchAsset);
         if (CollectionUtils.isEmpty(assetList)) {
             throw new ServiceException("复制的资产不存在");
@@ -224,8 +230,8 @@ public class AssetServiceImpl implements AssetService {
             // 更多细分部分（更长）的字符串排在前面
             return Integer.compare(parts2.length, parts1.length);
         });
-        String temporaryCode = assetList.get(0).getTemporaryCode();
-        List<String> codeList = generateAssetCode(temporaryCode, copyReqBO.getCopyNum());
+        String maxTemporaryCode = assetList.get(0).getTemporaryCode();
+        List<String> codeList = generateAssetCode(maxTemporaryCode, copyReqBO.getCopyNum());
         if (CollectionUtils.isEmpty(codeList)) {
             throw new ServiceException("资产复制生成编号异常");
         }
@@ -243,7 +249,6 @@ public class AssetServiceImpl implements AssetService {
      * @param data
      */
     private void validAndSetField(AssetDO data) {
-
         Asset searchAsset = new Asset();
         searchAsset.setDeptId(data.getDeptId());
         searchAsset.setProjectId(data.getProjectId());
@@ -328,6 +333,8 @@ public class AssetServiceImpl implements AssetService {
             if (deptMap.containsKey(data.getUsingDeptId())) {
                 data.setUsingDeptName(deptMap.get(data.getUsingDeptId()).getDepartmentName());
             }
+        } else {
+            throw new ServiceException("管理部门和使用部门必填1个");
         }
         List<Long> employeeIds = new ArrayList<>();
         if (ObjectUtils.isNotEmpty(data.getManagedEmpId())) {
@@ -349,6 +356,8 @@ public class AssetServiceImpl implements AssetService {
             if (empMap.containsKey(data.getUsingEmpId())) {
                 data.setUsingEmpName(empMap.get(data.getUsingEmpId()).getEmployeeName());
             }
+        } else {
+            throw new ServiceException("管理员工和使用员工必须填写1个");
         }
     }
 
