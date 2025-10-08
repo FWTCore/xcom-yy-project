@@ -125,6 +125,7 @@
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
+        order by d.updated_time desc
     </select>
 
     <select id="selectDepartmentById" parameterType="Long"
