@@ -52,12 +52,6 @@ public class AssetUpsertRequest implements Serializable {
     private Long              categoryId;
 
     /**
-     * 品牌id,;
-     */
-    @ApiModelProperty(value = "品牌id")
-    private Long              brandId;
-
-    /**
      * 品牌名称,;
      */
     @ApiModelProperty(value = "品牌名称")

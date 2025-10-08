@@ -57,7 +57,7 @@ public class AppMaterialController extends BaseController {
         startPage();
         Material material = new Material();
         material.setCategoryId(request.getCategoryId());
-        material.setBrandId(request.getBrandId());
+        material.setBrandName(request.getBrandName());
         material.setLeftSearchMaterialName(request.getSearchName());
         List<MaterialDetailVO> resp = materialService.selectMaterialDetailList(material);
         return getDataDetailTable(resp);
@@ -69,8 +69,7 @@ public class AppMaterialController extends BaseController {
         startPage();
         Material material = new Material();
         material.setCategoryId(request.getCategoryId());
-        material.setBrandId(request.getBrandId());
-        material.setBrandId(request.getBrandId());
+        material.setBrandName(request.getBrandName());
         material.setMaterialName(request.getMaterialName());
         material.setLeftSearchSpecification(request.getSearchName());
         List<MaterialDetailVO> resp = materialService.selectMaterialDetailList(material);

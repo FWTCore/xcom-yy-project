@@ -27,6 +27,10 @@ public class Material extends MaterialDO {
      * 品牌id,;
      */
     private Long   brandId;
+    /**
+     * 品牌id,;
+     */
+    private String   brandName;
 
     /**
      * 物资名称,;

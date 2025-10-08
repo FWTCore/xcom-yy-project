@@ -3,15 +3,19 @@ package com.ruoyi.business.service.impl;
 import com.ruoyi.business.convert.MaterialConvert;
 import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.entity.MaterialDO;
+import com.ruoyi.business.domain.model.Brand;
 import com.ruoyi.business.domain.model.Material;
 import com.ruoyi.business.domain.model.MaterialDetailVO;
 import com.ruoyi.business.mapper.MaterialMapper;
+import com.ruoyi.business.service.BrandService;
 import com.ruoyi.business.service.MaterialService;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.StringUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**

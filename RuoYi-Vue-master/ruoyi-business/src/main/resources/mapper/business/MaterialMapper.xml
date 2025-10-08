@@ -280,6 +280,9 @@
         <if test="brandId != null ">
             and m.brand_id = #{brandId}
         </if>
+        <if test="brandName != null and brandName != ''">
+            and b.brand_name = #{brandName}
+        </if>
         <if test="materialName != null and materialName != ''">
             and m.material_name = #{materialName}
         </if>

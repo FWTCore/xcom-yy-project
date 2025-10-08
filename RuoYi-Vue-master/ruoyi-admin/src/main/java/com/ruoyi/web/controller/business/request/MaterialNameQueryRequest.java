@@ -20,8 +20,8 @@ public class MaterialNameQueryRequest implements Serializable {
     private static final long serialVersionUID = -7059884802225152123L;
     @ApiModelProperty(value = "门类id")
     private Long              categoryId;
-    @ApiModelProperty(value = "品牌id")
-    private Long              brandId;
+    @ApiModelProperty(value = "品牌名称")
+    private String            brandName;
     @ApiModelProperty(value = "搜索关键词")
     private String            searchName;
 }
