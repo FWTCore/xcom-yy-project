@@ -198,7 +198,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
             SysDept info = deptMapper.selectDeptById(dept.getParentId());
             // 如果父节点不为正常状态,则不允许新增子节点
             if (!UserConstants.DEPT_NORMAL.equals(info.getStatus())) {
-                throw new ServiceException("公司停用，不允许新增");
+                throw new ServiceException("单位停用，不允许新增");
             }
             dept.setAncestors(info.getAncestors() + "," + dept.getParentId());
         } else {

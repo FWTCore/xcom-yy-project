@@ -46,7 +46,7 @@ public class LoginUserVO implements Serializable {
     /**
      * 公司名称,;
      */
-    @ApiModelProperty(value = "公司名称")
+    @ApiModelProperty(value = "单位名称")
     private String            companyName;
 
 }

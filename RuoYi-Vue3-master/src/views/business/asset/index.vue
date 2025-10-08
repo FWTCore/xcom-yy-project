@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="归属公司" prop="deptId">
+      <el-form-item label="归属单位" prop="deptId">
         <el-tree-select v-model="queryParams.deptId" :data="enabledDeptOptions"
-          :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
+          :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
           style="width: 240px" clearable @change="handleTreeNodeClick" />
       </el-form-item>
       <el-form-item prop="projectId">
         <template #label>
           <span>
-            <el-tooltip content="需要先选择公司" placement="top">
+            <el-tooltip content="需要先选择单位" placement="top">
               <el-icon><question-filled /></el-icon>
             </el-tooltip>
             项目
@@ -112,7 +112,7 @@
           <span>{{ calculateIndex(scope.$index) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="所属公司" align="center" prop="deptName" />
+      <el-table-column label="所属单位" align="center" prop="deptName" />
       <el-table-column label="项目" align="center" prop="projectName" />
       <el-table-column label="临时编码" align="center" prop="temporaryCode" />
       <el-table-column label="原始编码" align="center" prop="originalCode" />
@@ -165,9 +165,9 @@
       <el-form ref="assetRef" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="归属公司" prop="deptId">
+            <el-form-item label="归属单位" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="enabledDeptOptions"
-                :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
+                :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
                 clearable check-strictly @change="handleTreeNodeFormClick" />
             </el-form-item>
           </el-col>
@@ -175,7 +175,7 @@
             <el-form-item prop="projectId">
               <template #label>
                 <span>
-                  <el-tooltip content="需要先选择公司" placement="top">
+                  <el-tooltip content="需要先选择单位" placement="top">
                     <el-icon><question-filled /></el-icon>
                   </el-tooltip>
                   项目
@@ -251,7 +251,7 @@
             <el-form-item prop="locationId">
               <template #label>
                 <span>
-                  <el-tooltip content="需要先选择公司" placement="top">
+                  <el-tooltip content="需要先选择单位" placement="top">
                     <el-icon><question-filled /></el-icon>
                   </el-tooltip>
                   地点
@@ -269,7 +269,7 @@
             <el-form-item prop="managedDeptId">
               <template #label>
                 <span>
-                  <el-tooltip content="需要先选择公司" placement="top">
+                  <el-tooltip content="需要先选择单位" placement="top">
                     <el-icon><question-filled /></el-icon>
                   </el-tooltip>
                   管理部门
@@ -285,7 +285,7 @@
             <el-form-item prop="usingDeptId">
               <template #label>
                 <span>
-                  <el-tooltip content="需要先选择公司" placement="top">
+                  <el-tooltip content="需要先选择单位" placement="top">
                     <el-icon><question-filled /></el-icon>
                   </el-tooltip>
                   使用部门
@@ -303,7 +303,7 @@
             <el-form-item prop="managedEmpId">
               <template #label>
                 <span>
-                  <el-tooltip content="需要先选择公司" placement="top">
+                  <el-tooltip content="需要先选择单位" placement="top">
                     <el-icon><question-filled /></el-icon>
                   </el-tooltip>
                   管理员工
@@ -319,7 +319,7 @@
             <el-form-item prop="usingEmpId">
               <template #label>
                 <span>
-                  <el-tooltip content="需要先选择公司" placement="top">
+                  <el-tooltip content="需要先选择单位" placement="top">
                     <el-icon><question-filled /></el-icon>
                   </el-tooltip>
                   使用员工
@@ -416,7 +416,7 @@ const data = reactive({
     searchCollectorUserName: null
   },
   rules: {
-    deptId: [{ required: true, message: "公司不能为空", trigger: "blur" }],
+    deptId: [{ required: true, message: "单位不能为空", trigger: "blur" }],
     projectId: [{ required: true, message: "项目不能为空", trigger: "blur" }],
     temporaryCode: [{ required: true, message: "临时编码不能为空", trigger: "blur" }],
     categoryId: [{ required: true, message: "分类不能为空", trigger: "blur" }],
@@ -583,14 +583,14 @@ function handleExport() {
 }
 
 
-/** 查询公司下拉树结构 */
+/** 查询单位下拉树结构 */
 function getDeptTree() {
   deptTreeSelect().then(response => {
     enabledDeptOptions.value = filterDisabledDept(JSON.parse(JSON.stringify(response.data)))
   })
 }
 
-/** 过滤禁用的公司 */
+/** 过滤禁用的单位 */
 function filterDisabledDept(deptList) {
   return deptList.filter(dept => {
     if (dept.disabled) {

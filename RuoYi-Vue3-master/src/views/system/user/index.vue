@@ -2,11 +2,11 @@
   <div class="app-container">
     <el-row :gutter="20">
       <splitpanes :horizontal="appStore.device === 'mobile'" class="default-theme">
-        <!--公司数据-->
+        <!--单位数据-->
         <pane size="16">
           <el-col>
             <div class="head-container">
-              <el-input v-model="deptName" placeholder="请输入公司名称" clearable prefix-icon="Search"
+              <el-input v-model="deptName" placeholder="请输入单位名称" clearable prefix-icon="Search"
                 style="margin-bottom: 20px" />
             </div>
             <div class="head-container">
@@ -75,7 +75,7 @@
                 v-if="columns.userName.visible" :show-overflow-tooltip="true" />
               <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName"
                 v-if="columns.nickName.visible" :show-overflow-tooltip="true" />
-              <el-table-column label="公司" align="center" key="deptName" prop="dept.deptName"
+              <el-table-column label="单位" align="center" key="deptName" prop="dept.deptName"
                 v-if="columns.deptName.visible" :show-overflow-tooltip="true" />
               <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber"
                 v-if="columns.phonenumber.visible" width="120" />
@@ -129,9 +129,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="归属公司" prop="deptId">
+            <el-form-item label="归属单位" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="enabledDeptOptions"
-                :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
+                :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
                 clearable check-strictly />
             </el-form-item>
           </el-col>
@@ -289,7 +289,7 @@ const columns = ref({
   userId: { label: '用户编号', visible: true },
   userName: { label: '用户账号', visible: true },
   nickName: { label: '用户昵称', visible: true },
-  deptName: { label: '公司', visible: true },
+  deptName: { label: '单位', visible: true },
   phonenumber: { label: '手机号码', visible: true },
   status: { label: '状态', visible: true },
   createTime: { label: '创建时间', visible: true }
@@ -308,7 +308,7 @@ const data = reactive({
   rules: {
     userName: [{ required: true, message: "用户账号不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户账号长度必须介于 2 和 20 之间", trigger: "blur" }],
     nickName: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
-    deptId: [{ required: true, message: "归属公司不能为空", trigger: "blur" }],
+    deptId: [{ required: true, message: "归属单位不能为空", trigger: "blur" }],
     password: [{ required: true, message: "用户密码不能为空", trigger: "blur" }, { min: 5, max: 20, message: "用户密码长度必须介于 5 和 20 之间", trigger: "blur" }, { pattern: /^[^<>"'|\\]+$/, message: "不能包含非法字符：< > \" ' \\\ |", trigger: "blur" }],
     email: [{ type: "email", message: "请输入正确的邮箱地址", trigger: ["blur", "change"] }],
     phonenumber: [{ pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: "请输入正确的手机号码", trigger: "blur" }]
@@ -323,7 +323,7 @@ const filterNode = (value, data) => {
   return data.label.indexOf(value) !== -1
 }
 
-/** 根据名称筛选公司树 */
+/** 根据名称筛选单位树 */
 watch(deptName, val => {
   proxy.$refs["deptTreeRef"].filter(val)
 })
@@ -338,7 +338,7 @@ function getList() {
   })
 }
 
-/** 查询公司下拉树结构 */
+/** 查询单位下拉树结构 */
 function getDeptTree() {
   deptTreeSelect().then(response => {
     deptOptions.value = response.data
@@ -346,7 +346,7 @@ function getDeptTree() {
   })
 }
 
-/** 过滤禁用的公司 */
+/** 过滤禁用的单位 */
 function filterDisabledDept(deptList) {
   return deptList.filter(dept => {
     if (dept.disabled) {

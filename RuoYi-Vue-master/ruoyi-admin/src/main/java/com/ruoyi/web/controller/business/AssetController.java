@@ -94,7 +94,7 @@ public class AssetController extends BaseController {
     @PostMapping
     public AjaxResult add(@RequestBody AssetDO asset) {
         if (ObjectUtils.isEmpty(asset.getDeptId()) || ObjectUtils.isEmpty(asset.getProjectId())) {
-            throw new ServiceException("公司和项目不能为空");
+            throw new ServiceException("单位和项目不能为空");
         }
         return toAjax(assetService.upsetAsset(asset));
     }
@@ -110,7 +110,7 @@ public class AssetController extends BaseController {
             throw new ServiceException("编辑数据id错误");
         }
         if (ObjectUtils.isEmpty(asset.getDeptId()) || ObjectUtils.isEmpty(asset.getProjectId())) {
-            throw new ServiceException("公司和项目不能为空");
+            throw new ServiceException("单位和项目不能为空");
         }
         return toAjax(assetService.upsetAsset(asset));
     }

@@ -65,12 +65,12 @@ public class CategoryController extends BaseController {
      * 导出分类列表
      */
     @PreAuthorize("@ss.hasPermi('business:category:export')")
-    @Log(title = "分类", businessType = BusinessType.EXPORT)
+    @Log(title = "门类", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Category category) {
         List<CategoryDO> list = categoryService.selectCategoryList(category);
         ExcelUtil<CategoryDO> util = new ExcelUtil<CategoryDO>(CategoryDO.class);
-        util.exportExcel(response, list, "分类数据");
+        util.exportExcel(response, list, "门类数据");
     }
 
     /**
@@ -86,7 +86,7 @@ public class CategoryController extends BaseController {
      * 新增分类
      */
     @PreAuthorize("@ss.hasPermi('business:category:add')")
-    @Log(title = "分类", businessType = BusinessType.INSERT)
+    @Log(title = "门类", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CategoryDO category) {
         return toAjax(categoryService.insertCategory(category));
@@ -96,7 +96,7 @@ public class CategoryController extends BaseController {
      * 修改分类
      */
     @PreAuthorize("@ss.hasPermi('business:category:edit')")
-    @Log(title = "分类", businessType = BusinessType.UPDATE)
+    @Log(title = "门类", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CategoryDO category) {
         return toAjax(categoryService.updateCategory(category));
@@ -106,7 +106,7 @@ public class CategoryController extends BaseController {
      * 删除分类
      */
     @PreAuthorize("@ss.hasPermi('business:category:remove')")
-    @Log(title = "分类", businessType = BusinessType.DELETE)
+    @Log(title = "门类", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(categoryService.deleteCategoryByIds(ids));

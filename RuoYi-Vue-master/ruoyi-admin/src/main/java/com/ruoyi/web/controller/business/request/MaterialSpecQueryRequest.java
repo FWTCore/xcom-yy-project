@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class MaterialSpecQueryRequest implements Serializable {
 
     private static final long serialVersionUID = -7059884802225152123L;
-    @ApiModelProperty(value = "分类id")
+    @ApiModelProperty(value = "门类id")
     private Long              categoryId;
     @ApiModelProperty(value = "品牌id")
     private Long              brandId;

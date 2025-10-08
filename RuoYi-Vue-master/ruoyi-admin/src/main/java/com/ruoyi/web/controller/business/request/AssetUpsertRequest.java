@@ -47,8 +47,8 @@ public class AssetUpsertRequest implements Serializable {
     /**
      * 分类id,;
      */
-    @ApiModelProperty(value = "分类id", required = true)
-    @NotNull(message = "分类不能为空")
+    @ApiModelProperty(value = "门类id", required = true)
+    @NotNull(message = "门类不能为空")
     private Long              categoryId;
 
     /**

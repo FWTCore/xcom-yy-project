@@ -1,17 +1,17 @@
 <template>
    <div class="app-container">
       <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
-         <el-form-item label="公司名称" prop="deptName">
+         <el-form-item label="单位名称" prop="deptName">
             <el-input
                v-model="queryParams.deptName"
-               placeholder="请输入公司名称"
+               placeholder="请输入单位名称"
                clearable
                style="width: 200px"
                @keyup.enter="handleQuery"
             />
          </el-form-item>
          <el-form-item label="状态" prop="status">
-            <el-select v-model="queryParams.status" placeholder="公司状态" clearable style="width: 200px">
+            <el-select v-model="queryParams.status" placeholder="单位状态" clearable style="width: 200px">
                <el-option
                   v-for="dict in sys_normal_disable"
                   :key="dict.value"
@@ -55,7 +55,7 @@
          :default-expand-all="isExpandAll"
          :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       >
-         <el-table-column prop="deptName" label="公司名称" width="260"></el-table-column>
+         <el-table-column prop="deptName" label="单位名称" width="260"></el-table-column>
          <el-table-column prop="orderNum" label="排序" width="200"></el-table-column>
          <el-table-column prop="status" label="状态" width="100">
             <template #default="scope">
@@ -76,25 +76,25 @@
          </el-table-column>
       </el-table>
 
-      <!-- 添加或修改公司对话框 -->
+      <!-- 添加或修改单位对话框 -->
       <el-dialog :title="title" v-model="open" width="600px" append-to-body>
          <el-form ref="deptRef" :model="form" :rules="rules" label-width="80px">
             <el-row>
                <!-- <el-col :span="24" v-if="form.parentId !== 0">
-                  <el-form-item label="上级公司" prop="parentId">
+                  <el-form-item label="上级单位" prop="parentId">
                      <el-tree-select
                         v-model="form.parentId"
                         :data="deptOptions"
                         :props="{ value: 'deptId', label: 'deptName', children: 'children' }"
                         value-key="deptId"
-                        placeholder="选择上级公司"
+                        placeholder="选择上级单位"
                         check-strictly
                      />
                   </el-form-item>
                </el-col> -->
                <el-col :span="12">
-                  <el-form-item label="公司名称" prop="deptName">
-                     <el-input v-model="form.deptName" placeholder="请输入公司名称" />
+                  <el-form-item label="单位名称" prop="deptName">
+                     <el-input v-model="form.deptName" placeholder="请输入单位名称" />
                   </el-form-item>
                </el-col>
                <el-col :span="12">
@@ -118,7 +118,7 @@
                   </el-form-item>
                </el-col>
                <el-col :span="12">
-                  <el-form-item label="公司状态">
+                  <el-form-item label="单位状态">
                      <el-radio-group v-model="form.status">
                         <el-radio
                            v-for="dict in sys_normal_disable"
@@ -162,8 +162,8 @@ const data = reactive({
     status: undefined
   },
   rules: {
-   //  parentId: [{ required: true, message: "上级公司不能为空", trigger: "blur" }],
-    deptName: [{ required: true, message: "公司名称不能为空", trigger: "blur" }],
+   //  parentId: [{ required: true, message: "上级单位不能为空", trigger: "blur" }],
+    deptName: [{ required: true, message: "单位名称不能为空", trigger: "blur" }],
     orderNum: [{ required: true, message: "显示排序不能为空", trigger: "blur" }],
     email: [{ type: "email", message: "请输入正确的邮箱地址", trigger: ["blur", "change"] }],
     phone: [{ pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: "请输入正确的手机号码", trigger: "blur" }]
@@ -172,7 +172,7 @@ const data = reactive({
 
 const { queryParams, form, rules } = toRefs(data)
 
-/** 查询公司列表 */
+/** 查询单位列表 */
 function getList() {
   loading.value = true
   listDept(queryParams.value).then(response => {
@@ -223,7 +223,7 @@ function handleAdd(row) {
     form.value.parentId = row.deptId
   }
   open.value = true
-  title.value = "添加公司"
+  title.value = "添加单位"
 }
 
 /** 展开/折叠操作 */
@@ -244,7 +244,7 @@ function handleUpdate(row) {
   getDept(row.deptId).then(response => {
     form.value = response.data
     open.value = true
-    title.value = "修改公司"
+    title.value = "修改单位"
   })
 }
 

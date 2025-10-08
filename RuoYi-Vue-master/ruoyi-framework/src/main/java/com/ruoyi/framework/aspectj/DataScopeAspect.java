@@ -119,23 +119,17 @@ public class DataScopeAspect {
 
         for (SysRole role : user.getRoles()) {
             String dataScope = role.getDataScope();
-            log.error("权限code：" + dataScope);
             if (conditions.contains(dataScope) || StringUtils.equals(role.getStatus(), UserConstants.ROLE_DISABLE)) {
-                log.error("权限code已包含或者角色无效");
                 continue;
             }
 //            if (!StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission))) {
-//                log.error("权限code跳过，角色权限：" + String.join(",", role.getPermissions()) + "; 权限："
-//                        + String.join(",", permission));
 //                continue;
 //            }
             if (DATA_SCOPE_ALL.equals(dataScope)) {
-                log.error("所有数据");
                 sqlString = new StringBuilder();
                 conditions.add(dataScope);
                 break;
             } else if (DATA_SCOPE_CUSTOM.equals(dataScope)) {
-                log.error("自定义数据");
                 if (scopeCustomIds.size() > 1) {
                     // 多个自定数据权限使用in查询，避免多次拼接。
                     sqlString.append(StringUtils.format(
@@ -147,7 +141,6 @@ public class DataScopeAspect {
                         role.getRoleId()));
                 }
             } else if (DATA_SCOPE_DEPT.equals(dataScope)) {
-                log.error("本公司数据");
                 sqlString.append(StringUtils.format(" OR {}.dept_id = {} ", deptAlias, user.getDeptId()));
             } else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope)) {
                 sqlString.append(StringUtils.format(
@@ -161,10 +154,8 @@ public class DataScopeAspect {
                     sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
                 }
             } else if (DATA_SCOPE_PROJECT.equals(dataScope)) {
-                log.error("所在项目数据");
-                // 上升是项目所在公司
+                // 上升是项目所在单位
                 if (controllerDataScope.isUpgrade()) {
-                    log.error("上升所在项目公司数据");
                     if (ObjectUtils.isNotEmpty(loginUser.getProjectCompanyId())) {
                         sqlString.append(
                             StringUtils.format(" OR {}.dept_id = {} ", deptAlias, loginUser.getProjectCompanyId()));
@@ -195,7 +186,6 @@ public class DataScopeAspect {
 
         // 角色都不包含传递过来的权限字符，这个时候sqlString也会为空，所以要限制一下,不查询任何数据
         if (StringUtils.isEmpty(conditions)) {
-            log.error("没权限");
             sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
         }
 

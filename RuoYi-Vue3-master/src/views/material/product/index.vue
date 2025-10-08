@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类" prop="categoryId">
+      <el-form-item label="门类" prop="categoryId">
         <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable
           @change="handleNodeClick">
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
@@ -11,7 +11,7 @@
       <el-form-item prop="brandId">
         <template #label>
           <span>
-            <el-tooltip content="需要先选择分类" placement="top">
+            <el-tooltip content="需要先选择门类" placement="top">
               <el-icon><question-filled /></el-icon>
             </el-tooltip>
             品牌
@@ -61,7 +61,7 @@
           <span>{{ calculateIndex(scope.$index) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="分类" align="center" prop="categoryName" />
+      <el-table-column label="门类" align="center" prop="categoryName" />
       <el-table-column label="品牌" align="center" prop="brandName" />
       <el-table-column label="物资名称" align="center" prop="materialName" />
       <el-table-column label="规格型号" align="center" prop="specification" />
@@ -98,7 +98,7 @@
       <el-form ref="materialRef" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="分类" prop="categoryId">
+            <el-form-item label="门类" prop="categoryId">
               <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable
                 @change="handleNodeClickForForm">
                 <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
@@ -110,7 +110,7 @@
             <el-form-item prop="brandId">
               <template #label>
                 <span>
-                  <el-tooltip content="需要先选择分类" placement="top">
+                  <el-tooltip content="需要先选择门类" placement="top">
                     <el-icon><question-filled /></el-icon>
                   </el-tooltip>
                   品牌

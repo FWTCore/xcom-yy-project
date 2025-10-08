@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="归属公司" prop="deptId">
+      <el-form-item label="归属单位" prop="deptId">
         <el-tree-select v-model="queryParams.deptId" :data="enabledDeptOptions"
-          :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
+          :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
           style="width: 240px" clearable />
       </el-form-item>
       <el-form-item label="部门名称" prop="searchName">
@@ -42,7 +42,7 @@
           <span>{{ calculateIndex(scope.$index) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="公司名称" align="center" prop="deptName" />
+      <el-table-column label="单位名称" align="center" prop="deptName" />
       <el-table-column label="部门名称" align="center" prop="departmentName" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
@@ -67,9 +67,9 @@
       <el-form ref="departmentRef" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="归属公司" prop="deptId">
+            <el-form-item label="归属单位" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="enabledDeptOptions"
-                :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属公司"
+                :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
                 clearable check-strictly />
             </el-form-item>
           </el-col>
@@ -233,14 +233,14 @@ function handleExport() {
   }, `department_${new Date().getTime()}.xlsx`)
 }
 
-/** 查询公司下拉树结构 */
+/** 查询单位下拉树结构 */
 function getDeptTree() {
   deptTreeSelect().then(response => {
     enabledDeptOptions.value = filterDisabledDept(JSON.parse(JSON.stringify(response.data)))
   })
 }
 
-/** 过滤禁用的公司 */
+/** 过滤禁用的单位 */
 function filterDisabledDept(deptList) {
   return deptList.filter(dept => {
     if (dept.disabled) {

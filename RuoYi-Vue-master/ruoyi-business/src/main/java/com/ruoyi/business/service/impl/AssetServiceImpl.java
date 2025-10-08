@@ -141,14 +141,14 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public int upsetAsset(AssetDO asset) {
         if (Objects.isNull(asset.getProjectId()) || Objects.isNull(asset.getDeptId())) {
-            throw new ServiceException("项目和公司数据异常");
+            throw new ServiceException("项目和单位数据异常");
         }
         ProjectDetailVO projectDetailVO = projectService.selectProjectById(asset.getProjectId());
         if (ObjectUtils.isEmpty(projectDetailVO)) {
             throw new ServiceException("项目不存在");
         }
         if (!asset.getDeptId().equals(projectDetailVO.getDeptId())) {
-            throw new ServiceException("项目所属公司不存在");
+            throw new ServiceException("项目所属单位不存在");
         }
 
         validAndSetField(asset);
@@ -189,7 +189,7 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public Boolean copyData(AssetCopyReqBO copyReqBO) {
         if (ObjectUtils.isEmpty(copyReqBO.getProjectId()) || ObjectUtils.isEmpty((copyReqBO.getDeptId()))) {
-            throw new ServiceException("项目和公司数据异常");
+            throw new ServiceException("项目和单位数据异常");
         }
         AssetDO pureData = this.selectAssetById(copyReqBO.getId());
         if (ObjectUtils.isEmpty(pureData)) {
@@ -260,12 +260,12 @@ public class AssetServiceImpl implements AssetService {
         }
         CategoryDO categoryDO = categoryService.selectCategoryById(data.getCategoryId());
         if (ObjectUtils.isEmpty(categoryDO)) {
-            throw new ServiceException("分类不存在");
+            throw new ServiceException("门类不存在");
         }
         data.setCategoryName(categoryDO.getCategoryName());
         if (BooleanUtils.isTrue(categoryDO.getHasBrand()) && StringUtils.isBlank(data.getBrandName())
             && ObjectUtils.isEmpty(data.getBrandId())) {
-            throw new ServiceException(String.format("分类【%s】要求品牌必填", data.getCategoryName()));
+            throw new ServiceException(String.format("门类【%s】要求品牌必填", data.getCategoryName()));
         }
 
         if (StringUtils.isNotBlank(data.getBrandName())) {
@@ -282,10 +282,10 @@ public class AssetServiceImpl implements AssetService {
         }
 
         if (BooleanUtils.isTrue(categoryDO.getHasMaterialName()) && StringUtils.isBlank(data.getAssetName())) {
-            throw new ServiceException(String.format("分类【%s】要求资产名称必填", data.getCategoryName()));
+            throw new ServiceException(String.format("门类【%s】要求资产名称必填", data.getCategoryName()));
         }
         if (BooleanUtils.isTrue(categoryDO.getHasSpecification()) && StringUtils.isBlank(data.getSpecification())) {
-            throw new ServiceException(String.format("分类【%s】要求规格型号必填", data.getCategoryName()));
+            throw new ServiceException(String.format("门类【%s】要求规格型号必填", data.getCategoryName()));
         }
 
         if (StringUtils.isNotBlank(data.getAssetName()) || StringUtils.isNotBlank(data.getSpecification())) {

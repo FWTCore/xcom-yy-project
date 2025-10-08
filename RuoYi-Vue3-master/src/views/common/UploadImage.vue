@@ -122,10 +122,7 @@ const submitUpload = async (file) => {
             if (imageUrl.value.startsWith('blob:')) {
                 URL.revokeObjectURL(imageUrl.value)
             }
-            const imageFileUrl = res.data.fileUrl.startsWith('http')
-                ? res.data.fileUrl
-                : import.meta.env.VITE_APP_BASE_API + res.data.fileUrl
-            imageUrl.value = imageFileUrl
+            imageUrl.value = res.data.fileFullUrl
             emit('update:modelValue', res.data.fileUrl)
             proxy.$modal.msgSuccess("上传成功")
         } else {
