@@ -6,6 +6,7 @@ import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.time.LocalDateTime;
 
@@ -47,9 +48,28 @@ public class ProjectDO extends BaseEntityDO {
      * 项目状态,;
      */
     private Integer       projectStatus;
+    /**
+     * 项目状态,;
+     */
+    private String        projectStatusDesc;
 
     /**
      * 备注,;
      */
     private String        remark;
+
+    public String getProjectStatusDesc() {
+        if (ObjectUtils.isEmpty(this.projectStatus)) {
+            return "未开始";
+        }
+        if (this.projectStatus.equals(1)) {
+
+            return "进行中";
+        }
+        if (this.projectStatus.equals(2)) {
+            return "已结束";
+        }
+        return "未开始";
+    }
+
 }

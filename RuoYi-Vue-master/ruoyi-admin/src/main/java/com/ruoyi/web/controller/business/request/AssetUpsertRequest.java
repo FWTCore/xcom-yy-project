@@ -1,5 +1,7 @@
 package com.ruoyi.web.controller.business.request;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.ruoyi.business.utils.LenientLocalDateTimeDeserializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -81,6 +83,7 @@ public class AssetUpsertRequest implements Serializable {
      * 生产时间,;
      */
     @ApiModelProperty(value = "生产时间")
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime     productionTime;
 
     /**
@@ -130,22 +133,11 @@ public class AssetUpsertRequest implements Serializable {
     @ApiModelProperty(value = "主图片", required = true)
     @NotEmpty(message = "主图片不能为空")
     private String            mainImageUrl;
-    /**
-     * 主图片名称,;
-     */
-    @ApiModelProperty(value = "主图片名称")
-    @NotEmpty(message = "主图片名称不能为空")
-    private String            mainImageName;
 
     /**
      * 图片,;
      */
     @ApiModelProperty(value = "图片")
     private String            imageUrl;
-    /**
-     * 图片名称,;
-     */
-    @ApiModelProperty(value = "图片名称")
-    private String            imageUrlName;
 
 }

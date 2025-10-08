@@ -50,7 +50,7 @@ public class AppAssetController extends BaseController {
     public TableDataDetail pageData(AssetQueryRequest request) {
         startPage();
         Asset asset = new Asset();
-        asset.setProjectId(getProjectCompanyId());
+        asset.setProjectId(getProjectId());
         asset.setLocationId(request.getLocationId());
         asset.setSearchDeptId(request.getDeptId());
         asset.setSearchName(request.getSearchName());

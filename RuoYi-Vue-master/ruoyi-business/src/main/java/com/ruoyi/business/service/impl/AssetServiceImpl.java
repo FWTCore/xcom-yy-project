@@ -103,13 +103,13 @@ public class AssetServiceImpl implements AssetService {
      * @return 资产
      */
     @Override
-    @DataScope(deptAlias = "a", projectAlias = "a")
+//    @DataScope(deptAlias = "a", projectAlias = "a")
     public List<AssetDO> selectAssetList(Asset asset) {
         return assetMapper.selectAssetList(asset);
     }
 
     @Override
-    @DataScope(deptAlias = "a", projectAlias = "a")
+//    @DataScope(deptAlias = "a", projectAlias = "a")
     public List<AssetDetailVO> selectAssetDetailList(Asset asset) {
         return assetMapper.selectAssetDetailList(asset);
     }

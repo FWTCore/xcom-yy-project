@@ -40,7 +40,7 @@ public class AppBrandController extends BaseController {
         startPage();
         Brand brand = new Brand();
         brand.setCategoryId(request.getCategoryId());
-        brand.setBrandName(request.getSearchName());
+        brand.setSearchName(request.getSearchName());
         List<BrandDetailVO> respData = brandService.selectBrandDetailList(brand);
         return getDataDetailTable(respData);
     }

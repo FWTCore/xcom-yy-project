@@ -54,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
      * @return 项目
      */
     @Override
-    @DataScope(deptAlias = "p", projectAlias = "p", isSelfTable = true)
+//    @DataScope(deptAlias = "p", projectAlias = "p", isSelfTable = true)
     public List<ProjectDO> selectProjectList(Project project) {
         return projectMapper.selectProjectList(project);
     }

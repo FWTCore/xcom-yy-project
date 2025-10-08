@@ -53,19 +53,19 @@ public class AppMaterialController extends BaseController {
 
     @ApiOperation("App-模糊查询物资名称列表")
     @GetMapping(value = "/pageSearchName")
-    public TableDataInfo pageSearchName(MaterialNameQueryRequest request) {
+    public TableDataDetail pageSearchName(MaterialNameQueryRequest request) {
         startPage();
         Material material = new Material();
         material.setCategoryId(request.getCategoryId());
         material.setBrandId(request.getBrandId());
         material.setLeftSearchMaterialName(request.getSearchName());
         List<MaterialDetailVO> resp = materialService.selectMaterialDetailList(material);
-        return getDataTable(resp);
+        return getDataDetailTable(resp);
     }
 
     @ApiOperation("App-模糊查询物资规格列表")
     @GetMapping(value = "/pageSearchSpec")
-    public TableDataInfo pageSearchSpec(MaterialSpecQueryRequest request) {
+    public TableDataDetail pageSearchSpec(MaterialSpecQueryRequest request) {
         startPage();
         Material material = new Material();
         material.setCategoryId(request.getCategoryId());
@@ -74,7 +74,7 @@ public class AppMaterialController extends BaseController {
         material.setMaterialName(request.getMaterialName());
         material.setLeftSearchSpecification(request.getSearchName());
         List<MaterialDetailVO> resp = materialService.selectMaterialDetailList(material);
-        return getDataTable(resp);
+        return getDataDetailTable(resp);
     }
 
 }

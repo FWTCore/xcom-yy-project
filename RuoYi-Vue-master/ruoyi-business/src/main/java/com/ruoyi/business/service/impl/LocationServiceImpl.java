@@ -56,7 +56,7 @@ public class LocationServiceImpl implements LocationService {
      * @return 存放地点
      */
     @Override
-    @DataScope(deptAlias = "l", isUpgrade = true)
+//    @DataScope(deptAlias = "l", isUpgrade = true)
     public List<LocationDO> selectLocationList(Location location) {
         return locationMapper.selectLocationList(location);
     }
@@ -67,7 +67,7 @@ public class LocationServiceImpl implements LocationService {
      * @return 存放地点
      */
     @Override
-    @DataScope(deptAlias = "l", isUpgrade = true)
+//    @DataScope(deptAlias = "l", isUpgrade = true)
     public List<LocationDetailVO> selectLocationDetailList(Location location) {
         return locationMapper.selectLocationDetailList(location);
     }

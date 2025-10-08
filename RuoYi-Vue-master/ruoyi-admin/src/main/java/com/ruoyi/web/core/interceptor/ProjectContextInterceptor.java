@@ -1,5 +1,8 @@
 package com.ruoyi.web.core.interceptor;
 
+import com.ruoyi.business.domain.entity.ProjectDO;
+import com.ruoyi.business.domain.model.Project;
+import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.model.LoginUser;
@@ -7,6 +10,7 @@ import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.framework.web.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.util.MapUtil;
@@ -34,7 +38,10 @@ import java.util.stream.Collectors;
 public class ProjectContextInterceptor implements HandlerInterceptor {
 
     @Resource
-    private TokenService tokenService;
+    private TokenService   tokenService;
+
+    @Resource
+    private ProjectService projectService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -46,16 +53,17 @@ public class ProjectContextInterceptor implements HandlerInterceptor {
         try {
             long projectId = Long.parseLong(projectIdStr);
             LoginUser loginUser = SecurityUtils.getLoginUser();
-            if (ObjectUtils.isNotEmpty(loginUser.getParticipatedProjectIds())
-                && loginUser.getParticipatedProjectIds().size() > 0) {
-                if (!loginUser.getParticipatedProjectIds().containsKey(projectId)) {
-                    throw new ServiceException("项目访问非法", HttpStatus.BAD_REQUEST);
-                }
-                Long deptId = loginUser.getParticipatedProjectIds().get(projectId);
-                loginUser.setProjectId(projectId);
-                loginUser.setProjectCompanyId(deptId);
-                tokenService.refreshToken(loginUser);
+            Project project = new Project();
+            project.setId(projectId);
+            List<ProjectDO> projectList = projectService.selectProjectList(project);
+            if (CollectionUtils.isEmpty(projectList)) {
+                throw new ServiceException("项目访问非法", HttpStatus.BAD_REQUEST);
             }
+            ProjectDO projectDO = projectList.get(0);
+            loginUser.setProjectId(projectId);
+            loginUser.setProjectCompanyId(projectDO.getDeptId());
+            tokenService.refreshToken(loginUser);
+
         } catch (Exception ignored) {
             throw new ServiceException("项目访问非法", HttpStatus.BAD_REQUEST);
         }

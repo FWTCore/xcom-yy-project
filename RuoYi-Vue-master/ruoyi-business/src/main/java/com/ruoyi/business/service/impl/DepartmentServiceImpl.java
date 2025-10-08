@@ -55,7 +55,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return 部门
      */
     @Override
-    @DataScope(deptAlias = "d", isUpgrade = true)
+//    @DataScope(deptAlias = "d", isUpgrade = true)
     public List<DepartmentDO> selectDepartmentList(Department department) {
         return departmentMapper.selectDepartmentList(department);
     }
@@ -66,7 +66,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return 部门
      */
     @Override
-    @DataScope(deptAlias = "d", isUpgrade = true)
+//    @DataScope(deptAlias = "d", isUpgrade = true)
     public List<DepartmentDetailVO> selectDepartmentDetailList(Department department) {
         return departmentMapper.selectDepartmentDetailList(department);
     }

@@ -47,7 +47,10 @@
                 and p.dept_id = #{deptId}
             </if>
             <if test="projectName != null  and projectName != ''">
-                and p.project_name like concat('%', #{projectName}, '%')
+                and p.project_name = #{projectName}
+            </if>
+            <if test="searchName != null  and searchName != ''">
+                and p.project_name like concat('%', #{searchName}, '%')
             </if>
             <if test="startDate != null ">
                 and p.start_date = #{startDate}

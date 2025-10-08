@@ -39,7 +39,6 @@ public class FileController extends BaseController {
     @PostMapping("/uploadImage")
     public AjaxResult avatar(@RequestParam("file") MultipartFile file) throws Exception {
         if (!file.isEmpty()) {
-            LoginUser loginUser = getLoginUser();
             String fileUrl = FileUploadUtils.upload(RuoYiConfig.getUploadPath(), file, MimeTypeUtils.IMAGE_EXTENSION,
                 true);
             UploadFileVO resultData = new UploadFileVO();

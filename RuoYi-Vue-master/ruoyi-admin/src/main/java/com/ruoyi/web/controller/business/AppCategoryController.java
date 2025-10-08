@@ -39,7 +39,7 @@ public class AppCategoryController extends BaseController {
     public TableDataDetail pageData(SearchQueryRequest request) {
         startPage();
         Category category = new Category();
-        category.setCategoryName(request.getSearchName());
+        category.setSearchName(request.getSearchName());
         List<CategoryDO> resp = categoryService.selectCategoryList(category);
         return getDataDetailTable(resp);
     }

@@ -4,6 +4,7 @@ import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.model.Department;
 import com.ruoyi.business.domain.model.DepartmentDetailVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface DepartmentMapper {
      * @param ids 部门主键
      * @return 部门
      */
-    List<DepartmentDO> selectDepartmentByIds(List<Long> ids);
+    List<DepartmentDO> selectDepartmentByIds(@Param("ids") List<Long> ids);
 
     /**
      * 查询部门列表

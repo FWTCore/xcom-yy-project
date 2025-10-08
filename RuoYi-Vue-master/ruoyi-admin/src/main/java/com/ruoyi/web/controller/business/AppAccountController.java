@@ -57,6 +57,7 @@ public class AppAccountController extends BaseController {
         SysUser user = loginUser.getUser();
         LoginUserVO result = new LoginUserVO();
         result.setUserId(user.getUserId());
+        result.setUserName(user.getNickName());
         result.setAvatar(user.getAvatar());
         result.setMobilePhone(user.getPhonenumber());
         result.setCompanyId(user.getDeptId());

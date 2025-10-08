@@ -4,6 +4,7 @@ import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.model.Employee;
 import com.ruoyi.business.domain.model.EmployeeDetailVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface EmployeeMapper {
      * @param ids 员工主键
      * @return 员工
      */
-    List<EmployeeDO> selectEmployeeByIds(List<Long> ids);
+    List<EmployeeDO> selectEmployeeByIds(@Param("ids") List<Long> ids);
 
     /**
      * 查询员工列表

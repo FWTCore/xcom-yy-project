@@ -64,7 +64,7 @@
         <el-input v-model="queryParams.searchManagedDeptName" placeholder="请输入管理部门名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="使用部门" prop="usingDeptName">
+      <el-form-item label="使用部门" prop="searchUsingDeptName">
         <el-input v-model="queryParams.searchUsingDeptName" placeholder="请输入使用部门名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
