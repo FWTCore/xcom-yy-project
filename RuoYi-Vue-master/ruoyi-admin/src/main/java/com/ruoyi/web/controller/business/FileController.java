@@ -11,6 +11,7 @@ import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.common.utils.file.MimeTypeUtils;
 import com.ruoyi.web.controller.business.response.UploadFileVO;
+import com.ruoyi.web.controller.utils.ImageUrlUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,8 +43,9 @@ public class FileController extends BaseController {
             String fileUrl = FileUploadUtils.upload(RuoYiConfig.getUploadPath(), file, MimeTypeUtils.IMAGE_EXTENSION,
                 true);
             UploadFileVO resultData = new UploadFileVO();
-            resultData.setFileUrl(fileUrl);
             resultData.setFileName(file.getOriginalFilename());
+            resultData.setFileUrl(fileUrl);
+            resultData.setFileFullUrl(ImageUrlUtil.paddedImageUrl(fileUrl));
             return success(resultData);
         }
         return error("上传图片异常，请联系管理员");

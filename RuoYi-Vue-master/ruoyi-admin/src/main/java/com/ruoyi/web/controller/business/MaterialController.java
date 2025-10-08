@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.business;
 
-
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -9,8 +8,11 @@ import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Material;
 import com.ruoyi.business.domain.model.MaterialDetailVO;
 import com.ruoyi.business.service.MaterialService;
+import com.ruoyi.common.config.RuoYiConfig;
+import com.ruoyi.web.controller.utils.ImageUrlUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +41,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 @RestController
 @Api(tags = "物资管理")
 @RequestMapping("/material")
-public class MaterialController extends BaseController
-{
+public class MaterialController extends BaseController {
+
     @Resource
     private MaterialService materialService;
 
@@ -49,10 +51,15 @@ public class MaterialController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('business:material:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Material material)
-    {
+    public TableDataInfo list(Material material) {
         startPage();
         List<MaterialDetailVO> list = materialService.selectMaterialDetailList(material);
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (MaterialDetailVO data : list) {
+                data.setMainImageUrl(ImageUrlUtil.paddedImageUrl(data.getMainImageUrl()));
+                data.setImageUrl(ImageUrlUtil.paddedImageUrl(data.getImageUrl()));
+            }
+        }
         return getDataTable(list);
     }
 
@@ -62,8 +69,7 @@ public class MaterialController extends BaseController
     @PreAuthorize("@ss.hasPermi('business:material:export')")
     @Log(title = "物资", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, Material material)
-    {
+    public void export(HttpServletResponse response, Material material) {
         List<MaterialDO> list = materialService.selectMaterialList(material);
         ExcelUtil<MaterialDO> util = new ExcelUtil<MaterialDO>(MaterialDO.class);
         util.exportExcel(response, list, "物资数据");
@@ -74,8 +80,7 @@ public class MaterialController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('business:material:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(materialService.selectMaterialById(id));
     }
 
@@ -85,8 +90,7 @@ public class MaterialController extends BaseController
     @PreAuthorize("@ss.hasPermi('business:material:add')")
     @Log(title = "物资", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody MaterialDO material)
-    {
+    public AjaxResult add(@RequestBody MaterialDO material) {
         return toAjax(materialService.insertMaterial(material));
     }
 
@@ -96,8 +100,7 @@ public class MaterialController extends BaseController
     @PreAuthorize("@ss.hasPermi('business:material:edit')")
     @Log(title = "物资", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody MaterialDO material)
-    {
+    public AjaxResult edit(@RequestBody MaterialDO material) {
         return toAjax(materialService.updateMaterial(material));
     }
 
@@ -107,8 +110,7 @@ public class MaterialController extends BaseController
     @PreAuthorize("@ss.hasPermi('business:material:remove')")
     @Log(title = "物资", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(materialService.deleteMaterialByIds(ids));
     }
 }

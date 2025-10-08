@@ -1,9 +1,13 @@
 package com.ruoyi.business.domain.model;
 
 import com.ruoyi.business.domain.entity.AssetDO;
+import com.ruoyi.common.config.RuoYiConfig;
+import com.ruoyi.common.utils.StringUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import javax.annotation.Resource;
 
 /**
  * 资产 明细

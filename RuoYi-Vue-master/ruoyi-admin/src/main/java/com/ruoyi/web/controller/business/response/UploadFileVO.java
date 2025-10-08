@@ -22,4 +22,6 @@ public class UploadFileVO implements Serializable {
     private String            fileName;
     @ApiModelProperty(value = "文件地址")
     private String            fileUrl;
+    @ApiModelProperty(value = "文件地址")
+    private String            fileFullUrl;
 }

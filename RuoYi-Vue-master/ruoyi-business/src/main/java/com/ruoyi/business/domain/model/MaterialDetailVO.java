@@ -1,10 +1,13 @@
 package com.ruoyi.business.domain.model;
 
 import com.ruoyi.business.domain.entity.MaterialDO;
+import com.ruoyi.common.config.RuoYiConfig;
+import com.ruoyi.common.utils.StringUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 
 /**
@@ -43,4 +46,5 @@ public class MaterialDetailVO extends MaterialDO {
      * 是否填写规格型号,;
      */
     private Boolean hasSpecification;
+
 }
