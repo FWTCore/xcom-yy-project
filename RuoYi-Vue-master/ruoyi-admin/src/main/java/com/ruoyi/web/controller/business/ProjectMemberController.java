@@ -46,7 +46,7 @@ public class ProjectMemberController extends BaseController {
     /**
      * 查询项目成员列表
      */
-    @PreAuthorize("@ss.hasPermi('business:member:list')")
+    @PreAuthorize("@ss.hasPermi('business:member:edit')")
     @GetMapping("/list")
     public TableDataInfo list(ProjectMember projectMember) {
         startPage();
@@ -57,7 +57,7 @@ public class ProjectMemberController extends BaseController {
     /**
      * 查询项目成员列表
      */
-    @PreAuthorize("@ss.hasPermi('business:member:list')")
+    @PreAuthorize("@ss.hasPermi('business:member:edit')")
     @GetMapping("/unallocatedList")
     public TableDataInfo unallocatedList(ProjectMember projectMember) {
         startPage();
@@ -80,7 +80,7 @@ public class ProjectMemberController extends BaseController {
     /**
      * 获取项目成员详细信息
      */
-    @PreAuthorize("@ss.hasPermi('business:member:query')")
+    @PreAuthorize("@ss.hasPermi('business:member:edit')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(projectMemberService.selectProjectMemberById(id));
@@ -89,7 +89,7 @@ public class ProjectMemberController extends BaseController {
     /**
      * 新增项目成员
      */
-    @PreAuthorize("@ss.hasPermi('business:member:add')")
+    @PreAuthorize("@ss.hasPermi('business:member:edit')")
     @Log(title = "项目成员", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ProjectMemberDO projectMember) {
@@ -99,7 +99,7 @@ public class ProjectMemberController extends BaseController {
     /**
      * 批量选择用户授权
      */
-    @PreAuthorize("@ss.hasPermi('business:member:add')")
+    @PreAuthorize("@ss.hasPermi('business:member:edit')")
     @Log(title = "项目成员管理", businessType = BusinessType.GRANT)
     @PutMapping("/authUser")
     public AjaxResult selectAuthUserAll(Long projectId, Long[] userIds) {

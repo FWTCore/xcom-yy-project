@@ -53,19 +53,15 @@ public class ProjectContextInterceptor implements HandlerInterceptor {
         try {
             long projectId = Long.parseLong(projectIdStr);
             LoginUser loginUser = SecurityUtils.getLoginUser();
-            Project project = new Project();
-            project.setId(projectId);
-            List<ProjectDO> projectList = projectService.selectProjectList(project);
-            if (CollectionUtils.isEmpty(projectList)) {
+            ProjectDO project = projectService.selectProjectById(projectId);
+            if (ObjectUtils.isEmpty(project)) {
                 throw new ServiceException("项目访问非法", HttpStatus.BAD_REQUEST);
             }
-            ProjectDO projectDO = projectList.get(0);
             loginUser.setProjectId(projectId);
-            loginUser.setProjectCompanyId(projectDO.getDeptId());
+            loginUser.setProjectCompanyId(project.getDeptId());
             tokenService.refreshToken(loginUser);
 
         } catch (Exception ignored) {
-            throw new ServiceException("项目访问非法", HttpStatus.BAD_REQUEST);
         }
         return true;
     }

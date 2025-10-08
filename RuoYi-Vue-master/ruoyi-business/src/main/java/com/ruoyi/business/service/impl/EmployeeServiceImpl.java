@@ -55,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return 员工
      */
     @Override
-//    @DataScope(deptAlias = "e", isUpgrade = true)
+    @DataScope(deptAlias = "e", isUpgrade = true)
     public List<EmployeeDO> selectEmployeeList(Employee employee) {
         return employeeMapper.selectEmployeeList(employee);
     }
@@ -66,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return 员工
      */
     @Override
-//    @DataScope(deptAlias = "e", isUpgrade = true)
+    @DataScope(deptAlias = "e", isUpgrade = true)
     public List<EmployeeDetailVO> selectEmployeeDetailList(Employee employee) {
         return employeeMapper.selectEmployeeDetailList(employee);
     }
