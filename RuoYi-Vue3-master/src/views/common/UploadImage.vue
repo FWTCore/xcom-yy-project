@@ -2,10 +2,16 @@
     <div class="image-uploader">
         <!-- 图片展示区域 -->
         <div class="image-preview" @click="handleClick">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="图片预览" />
+            <img v-if="imageUrl && imageUrl !== uploadImg" :src="imageUrl" class="avatar" alt="图片预览" />
             <div v-else class="uploader-icon">
                 <el-icon>
                     <Plus />
+                </el-icon>
+            </div>
+            <!-- 删除按钮 -->
+            <div v-if="imageUrl && imageUrl !== uploadImg" class="delete-btn" @click.stop="handleDelete">
+                <el-icon>
+                    <Close />
                 </el-icon>
             </div>
             <!-- 隐藏的文件输入 -->
@@ -15,14 +21,18 @@
 </template>
 
 <script setup name="UploadImage">
-import { ref, getCurrentInstance, onUnmounted } from 'vue'
-import { Plus } from '@element-plus/icons-vue'
+import { ref, watch, getCurrentInstance, onUnmounted } from 'vue'
+import { Plus, Close } from '@element-plus/icons-vue'
 import { uploadImage } from '@/api/fileUpload'
 import uploadImg from '@/assets/images/upload.png'
 
 const { proxy } = getCurrentInstance()
 
 const props = defineProps({
+    modelValue: {
+        type: String,
+        default: ''
+    },
     defaultImage: {
         type: String,
         default: ''
@@ -31,9 +41,17 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const imageUrl = ref(props.defaultImage || uploadImg)
+// 优先使用 modelValue，其次使用 defaultImage
+const imageUrl = ref(props.modelValue || props.defaultImage || uploadImg)
 const fileInput = ref(null)
 const uploading = ref(false)
+
+// 监听 modelValue 变化
+watch(() => props.modelValue, (newVal) => {
+    if (newVal !== undefined) {
+        imageUrl.value = newVal || uploadImg
+    }
+})
 
 // 点击图片或+号
 const handleClick = () => {
@@ -81,7 +99,9 @@ const submitUpload = async (file) => {
             if (imageUrl.value.startsWith('blob:')) {
                 URL.revokeObjectURL(imageUrl.value)
             }
-            const imageFileUrl=import.meta.env.VITE_APP_BASE_API + res.data.fileUrl
+            const imageFileUrl = res.data.fileUrl.startsWith('http') 
+                ? res.data.fileUrl 
+                : import.meta.env.VITE_APP_BASE_API + res.data.fileUrl
             imageUrl.value = imageFileUrl
             emit('update:modelValue', imageFileUrl)
             proxy.$modal.msgSuccess("上传成功")
@@ -95,6 +115,17 @@ const submitUpload = async (file) => {
     }
 }
 
+// 删除图片
+const handleDelete = (e) => {
+    e.stopPropagation() // 阻止冒泡到父元素
+    if (imageUrl.value.startsWith('blob:')) {
+        URL.revokeObjectURL(imageUrl.value)
+    }
+    imageUrl.value = uploadImg
+    emit('update:modelValue', '')
+    proxy.$modal.msgSuccess("图片已删除")
+}
+
 // 组件卸载时清理
 onUnmounted(() => {
     if (imageUrl.value.startsWith('blob:')) {
@@ -106,6 +137,7 @@ onUnmounted(() => {
 <style scoped>
 .image-uploader {
     display: inline-block;
+    position: relative;
 }
 
 .image-preview {
@@ -130,7 +162,6 @@ onUnmounted(() => {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* 或 cover */
     display: block;
 }
 
@@ -147,5 +178,25 @@ onUnmounted(() => {
 
 .uploader-icon:hover {
     color: #409eff;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0 0 0 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.delete-btn:hover {
+    background-color: rgba(255, 0, 0, 0.7);
 }
 </style>

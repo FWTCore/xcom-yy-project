@@ -138,7 +138,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="物资图片" prop="mainImageUrl">
-              <upload-image v-model="form.mainImageUrl" />
+              <upload-image v-model="form.mainImageUrl" :defaultImage="form.mainImageUrl"/>
             </el-form-item>
           </el-col>
         </el-row>
