@@ -83,7 +83,6 @@ public class AssetDO extends BaseEntityDO {
      * 生产时间,;
      */
     @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime productionTime;
 
     /**

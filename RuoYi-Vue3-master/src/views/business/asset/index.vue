@@ -335,12 +335,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="主图片" prop="mainImageUrl">
-              <upload-image v-model="form.mainImageUrl" />
+              <upload-image v-model="form.mainImageUrl" :defaultImage="form.imageUrl"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="图片" prop="imageUrl">
-              <upload-image v-model="form.imageUrl" />
+              <upload-image v-model="form.imageUrl" :defaultImage="form.imageUrl"/>
             </el-form-item>
           </el-col>
         </el-row>
