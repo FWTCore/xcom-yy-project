@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类名称" prop="categoryName">
-        <el-input v-model="queryParams.searchName" placeholder="请输入分类名称" style="width: 240px" clearable
+      <el-form-item label="门类名称" prop="categoryName">
+        <el-input v-model="queryParams.searchName" placeholder="请输入门类名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="品牌" prop="hasBrand">
@@ -56,7 +56,7 @@
           <span>{{ calculateIndex(scope.$index) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="分类名称" align="center" prop="categoryName" />
+      <el-table-column label="门类名称" align="center" prop="categoryName" />
       <el-table-column label="是否填写品牌" align="center" prop="hasBrand">
         <template #default="scope">
           <el-switch v-model="scope.row.hasBrand" :active-value="true" :inactive-value="false" disabled>
@@ -93,13 +93,13 @@
     <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-    <!-- 添加或修改分类对话框 -->
+    <!-- 添加或修改门类对话框 -->
     <el-dialog :title="title" v-model="open" width="600px" append-to-body>
       <el-form ref="categoryRef" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="分类名称" prop="categoryName">
-              <el-input v-model="form.categoryName" placeholder="请输入分类名称" />
+            <el-form-item label="门类名称" prop="categoryName">
+              <el-input v-model="form.categoryName" placeholder="请输入门类名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -174,7 +174,7 @@ const data = reactive({
 
 const { queryParams, form, rules } = toRefs(data)
 
-/** 查询分类列表 */
+/** 查询门类列表 */
 function getList() {
   loading.value = true
   listCategory(queryParams.value).then(response => {
@@ -232,7 +232,7 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset()
   open.value = true
-  title.value = "添加分类"
+  title.value = "添加门类"
 }
 
 /** 修改按钮操作 */
@@ -242,7 +242,7 @@ function handleUpdate(row) {
   getCategory(_id).then(response => {
     form.value = response.data
     open.value = true
-    title.value = "修改分类"
+    title.value = "修改门类"
   })
 }
 
@@ -270,7 +270,7 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _ids = row.id || ids.value
-  proxy.$modal.confirm('是否确认删除分类编号为"' + _ids + '"的数据项？').then(function () {
+  proxy.$modal.confirm('是否确认删除门类编号为"' + _ids + '"的数据项？').then(function () {
     return delCategory(_ids)
   }).then(() => {
     getList()

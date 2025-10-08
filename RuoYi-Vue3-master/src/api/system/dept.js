@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询公司列表
+// 查询单位列表
 export function listDept(query) {
   return request({
     url: '/system/dept/list',
@@ -9,7 +9,7 @@ export function listDept(query) {
   })
 }
 
-// 查询公司列表（排除节点）
+// 查询单位列表（排除节点）
 export function listDeptExcludeChild(deptId) {
   return request({
     url: '/system/dept/list/exclude/' + deptId,
@@ -17,7 +17,7 @@ export function listDeptExcludeChild(deptId) {
   })
 }
 
-// 查询公司详细
+// 查询单位详细
 export function getDept(deptId) {
   return request({
     url: '/system/dept/' + deptId,
@@ -25,7 +25,7 @@ export function getDept(deptId) {
   })
 }
 
-// 新增公司
+// 新增单位
 export function addDept(data) {
   return request({
     url: '/system/dept',
@@ -34,7 +34,7 @@ export function addDept(data) {
   })
 }
 
-// 修改公司
+// 修改单位
 export function updateDept(data) {
   return request({
     url: '/system/dept',
@@ -43,7 +43,7 @@ export function updateDept(data) {
   })
 }
 
-// 删除公司
+// 删除单位
 export function delDept(deptId) {
   return request({
     url: '/system/dept/' + deptId,

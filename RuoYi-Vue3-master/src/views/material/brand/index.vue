@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类" prop="categoryId">
+      <el-form-item label="门类" prop="categoryId">
         <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable>
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
             :value="item.id"></el-option>
@@ -43,7 +43,7 @@
           <span>{{ calculateIndex(scope.$index) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="分类" align="center" prop="categoryName" />
+      <el-table-column label="门类" align="center" prop="categoryName" />
       <el-table-column label="品牌名称" align="center" prop="brandName" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
@@ -68,7 +68,7 @@
       <el-form ref="brandRef" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="分类id" prop="categoryId">
+            <el-form-item label="门类id" prop="categoryId">
               <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
                   :value="item.id"></el-option>

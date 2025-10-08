@@ -199,8 +199,8 @@ const deptRef = ref(null)
 const dataScopeOptions = ref([
   { value: "1", label: "全部数据权限" },
   { value: "2", label: "自定数据权限" },
-  { value: "3", label: "本公司数据权限" },
-  // { value: "4", label: "本公司及以下数据权限" },
+  { value: "3", label: "本单位数据权限" },
+  // { value: "4", label: "本单位及以下数据权限" },
   // { value: "5", label: "仅本人数据权限" },
   { value: "6", label: "参与项目数据权限" }
 ])
@@ -309,11 +309,11 @@ function getMenuTreeselect() {
   })
 }
 
-/** 所有公司节点数据 */
+/** 所有单位节点数据 */
 function getDeptAllCheckedKeys() {
-  // 目前被选中的公司节点
+  // 目前被选中的单位节点
   let checkedKeys = deptRef.value.getCheckedKeys()
-  // 半选中的公司节点
+  // 半选中的单位节点
   let halfCheckedKeys = deptRef.value.getHalfCheckedKeys()
   checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys)
   return checkedKeys
@@ -382,7 +382,7 @@ function getRoleMenuTreeselect(roleId) {
   })
 }
 
-/** 根据角色ID查公司树结构 */
+/** 根据角色ID查单位树结构 */
 function getDeptTree(roleId) {
   return deptTreeSelect(roleId).then(response => {
     deptOptions.value = response.depts

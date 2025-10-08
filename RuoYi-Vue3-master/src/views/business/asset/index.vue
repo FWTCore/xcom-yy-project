@@ -28,7 +28,7 @@
         <el-input v-model="queryParams.searchOriginalCode" placeholder="请输入原始编码" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="分类" prop="categoryId">
+      <el-form-item label="门类" prop="categoryId">
         <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable
           @change="handleNodeClick">
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
@@ -38,7 +38,7 @@
       <el-form-item label="品牌id" prop="brandId">
         <template #label>
           <span>
-            <el-tooltip content="需要先选择分类" placement="top">
+            <el-tooltip content="需要先选择门类" placement="top">
               <el-icon><question-filled /></el-icon>
             </el-tooltip>
             品牌
@@ -116,7 +116,7 @@
       <el-table-column label="项目" align="center" prop="projectName" />
       <el-table-column label="临时编码" align="center" prop="temporaryCode" />
       <el-table-column label="原始编码" align="center" prop="originalCode" />
-      <el-table-column label="分类名称" align="center" prop="categoryName" />
+      <el-table-column label="门类名称" align="center" prop="categoryName" />
       <el-table-column label="品牌名称" align="center" prop="brandName" />
       <el-table-column label="资产名称" align="center" prop="assetName" />
       <el-table-column label="规格型号" align="center" prop="specification" />
@@ -202,7 +202,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="分类" prop="categoryId">
+            <el-form-item label="门类" prop="categoryId">
               <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable
                 @change="handleNodeClickForForm">
                 <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
@@ -214,7 +214,7 @@
             <el-form-item prop="brandId">
               <template #label>
                 <span>
-                  <el-tooltip content="需要先选择分类" placement="top">
+                  <el-tooltip content="需要先选择门类" placement="top">
                     <el-icon><question-filled /></el-icon>
                   </el-tooltip>
                   品牌
@@ -419,7 +419,7 @@ const data = reactive({
     deptId: [{ required: true, message: "单位不能为空", trigger: "blur" }],
     projectId: [{ required: true, message: "项目不能为空", trigger: "blur" }],
     temporaryCode: [{ required: true, message: "临时编码不能为空", trigger: "blur" }],
-    categoryId: [{ required: true, message: "分类不能为空", trigger: "blur" }],
+    categoryId: [{ required: true, message: "门类不能为空", trigger: "blur" }],
     assetName: [{ required: true, message: "资产名称不能为空", trigger: "blur" }],
     deleteFlag: [
       { required: true, message: "是否删除不能为空", trigger: "blur" }
