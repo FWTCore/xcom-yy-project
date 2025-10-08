@@ -71,7 +71,8 @@
             v-hasPermi="['business:project:edit']">修改</el-button>
 
           <el-tooltip content="添加成员" placement="top">
-            <el-button link type="primary" icon="Plus" @click="handleProjectMember(scope.row)">添加成员</el-button>
+            <el-button link type="primary" icon="Plus" @click="handleProjectMember(scope.row)"
+              v-hasPermi="['business:member:edit']">添加成员</el-button>
           </el-tooltip>
 
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
