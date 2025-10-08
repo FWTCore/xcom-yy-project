@@ -270,13 +270,7 @@ public class AssetServiceImpl implements AssetService {
 
         if (StringUtils.isNotBlank(data.getBrandName())) {
             Long brandId = brandService.insertNotExistBrand(data.getCategoryId(), data.getBrandName());
-            if (ObjectUtils.isEmpty(data.getBrandId())) {
-                data.setBrandId(brandId);
-            } else {
-                if (!brandId.equals(data.getBrandId())) {
-                    throw new ServiceException("品牌id错误");
-                }
-            }
+            data.setBrandId(brandId);
         } else {
             if (ObjectUtils.isNotEmpty(data.getBrandId())) {
                 BrandDO brandDO = brandService.selectBrandById(data.getBrandId());
