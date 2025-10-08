@@ -68,8 +68,8 @@
       <el-table-column label="物资图片" align="center" prop="mainImageUrl">
         <template #default="scope">
           <div v-if="scope.row.mainImageUrl">
-            <el-image :src="scope.row.mainImageUrl" :alt="scope.row.mainImageName"
-              :preview-src-list="[scope.row.mainImageUrl]" preview-teleported
+            <el-image :src="normalizeImageUrl(scope.row.mainImageUrl)" :alt="scope.row.mainImageName"
+              :preview-src-list="[normalizeImageUrl(scope.row.mainImageUrl)]" preview-teleported
               style="width: 50px; height: 50px; object-fit: cover; cursor: pointer;" hide-on-click-modal />
           </div>
           <div v-else>无</div>
@@ -138,7 +138,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="物资图片" prop="mainImageUrl">
-              <upload-image v-model="form.mainImageUrl" :defaultImage="form.mainImageUrl"/>
+              <upload-image v-model="form.mainImageUrl" :defaultImage="form.mainImageUrl" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -192,7 +192,23 @@ const data = reactive({
 })
 
 const { queryParams, form, rules } = toRefs(data)
-
+/**
+ * 标准化图片URL
+ * @param url 原始URL
+ * @returns 处理后的URL
+ */
+function normalizeImageUrl(url) {
+  if (!url) return undefined
+  // 如果已经是完整URL或base64数据，直接返回
+  if (url.startsWith('http') || url.startsWith('data:')) {
+    return url
+  }
+  // 处理相对路径
+  if (!url.startsWith('/api')) {
+    url = import.meta.env.VITE_APP_BASE_API + url
+  }
+  return url
+}
 /** 查询物资列表 */
 function getList() {
   loading.value = true

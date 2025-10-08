@@ -42,16 +42,39 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 // 优先使用 modelValue，其次使用 defaultImage
-const imageUrl = ref(props.modelValue || props.defaultImage || uploadImg)
+const imageUrl = ref(
+    normalizeImageUrl(props.modelValue) ||
+    normalizeImageUrl(props.defaultImage) ||
+    uploadImg
+)
 const fileInput = ref(null)
 const uploading = ref(false)
 
 // 监听 modelValue 变化
 watch(() => props.modelValue, (newVal) => {
     if (newVal !== undefined) {
-        imageUrl.value = newVal || uploadImg
+        imageUrl.value = normalizeImageUrl(newVal) || uploadImg
     }
 })
+
+/**
+ * 标准化图片URL
+ * @param url 原始URL
+ * @returns 处理后的URL
+ */
+function normalizeImageUrl(url) {
+    console.log(url)
+    if (!url) return undefined
+    // 如果已经是完整URL或base64数据，直接返回
+    if (url.startsWith('http') || url.startsWith('data:')) {
+        return url
+    }
+    // 处理相对路径
+    if (!url.startsWith('/api')) {
+        return import.meta.env.VITE_APP_BASE_API + url
+    }
+    return url
+}
 
 // 点击图片或+号
 const handleClick = () => {
@@ -99,11 +122,11 @@ const submitUpload = async (file) => {
             if (imageUrl.value.startsWith('blob:')) {
                 URL.revokeObjectURL(imageUrl.value)
             }
-            const imageFileUrl = res.data.fileUrl.startsWith('http') 
-                ? res.data.fileUrl 
+            const imageFileUrl = res.data.fileUrl.startsWith('http')
+                ? res.data.fileUrl
                 : import.meta.env.VITE_APP_BASE_API + res.data.fileUrl
             imageUrl.value = imageFileUrl
-            emit('update:modelValue', imageFileUrl)
+            emit('update:modelValue', res.data.fileUrl)
             proxy.$modal.msgSuccess("上传成功")
         } else {
             proxy.$modal.msgError(res.message || '上传失败')
