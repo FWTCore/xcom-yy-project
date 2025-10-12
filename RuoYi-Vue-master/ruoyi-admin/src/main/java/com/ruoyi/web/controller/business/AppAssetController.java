@@ -73,7 +73,7 @@ public class AppAssetController extends BaseController {
     @PostMapping(value = "/copy")
     public AjaxResult copy(@RequestBody @Validated AssetCopyRequest request) {
         if (request.getCopyNum().compareTo(0) <= 0 || request.getCopyNum().compareTo(50) > 0) {
-            throw new ServiceException("复制数量区间显示0-20，请不要超过范围");
+            throw new ServiceException("复制数量区间显示0-50，请不要超过范围");
         }
         AssetCopyReqBO copyReqBO = new AssetCopyReqBO();
         copyReqBO.setId(request.getId());
