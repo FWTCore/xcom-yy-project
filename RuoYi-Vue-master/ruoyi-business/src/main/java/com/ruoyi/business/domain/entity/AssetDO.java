@@ -93,9 +93,9 @@ public class AssetDO extends BaseEntityDO {
      * 生产时间,;
      */
     @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
+    @Excel(name = "生产时间", dateFormat = "yyyy-MM-dd")
     private LocalDateTime productionTime;
 
-    @Excel(name = "生产时间")
     private String        productionTimeStr;
 
     public String getProductionTimeStr() {
@@ -171,38 +171,32 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 采集时间,;
      */
+    @Excel(name = "采集时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime collectorTime;
-
-    @Excel(name = "采集时间")
-    private String        collectorTimeStr;
-
-    public String getCollectorTimeStr() {
-        return DateUtils.convertTimeString(this.collectorTime);
-    }
 
     /**
      * 备注,;
      */
     @Excel(name = "备注")
-    private String remark;
+    private String        remark;
 
     /**
      * 主图片,;
      */
-    private String mainImageUrl;
+    private String        mainImageUrl;
 
     /**
      * 主图片名称,;
      */
-    private String mainImageName;
+    private String        mainImageName;
 
     /**
      * 图片,;
      */
-    private String imageUrl;
+    private String        imageUrl;
 
     /**
      * 图片名称,;
      */
-    private String imageUrlName;
+    private String        imageUrlName;
 }
