@@ -246,6 +246,9 @@
         <if test="memberName != null and memberName != ''">
             AND u.user_name like concat('%', #{memberName}, '%')
         </if>
+        <if test="userName != null and userName != ''">
+            AND u.user_name like concat('%', #{userName}, '%')
+        </if>
         <if test="memberPhone != null and memberPhone != ''">
             AND u.phonenumber like concat('%', #{memberPhone}, '%')
         </if>
