@@ -25,12 +25,12 @@ public class AssetDetailVO extends AssetDO {
     /**
      * 部门名称,;
      */
-    @Excel(name = "所属单位")
+    @Excel(name = "所属单位", sort = 1)
     private String deptName;
 
     /**
      * 项目名称,;
      */
-    @Excel(name = "项目")
+    @Excel(name = "项目", sort = 1)
     private String projectName;
 }
