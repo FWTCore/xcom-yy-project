@@ -72,8 +72,8 @@ public class AssetController extends BaseController {
     @Log(title = "资产", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Asset asset) {
-        List<AssetDO> list = assetService.selectAssetList(asset);
-        ExcelUtil<AssetDO> util = new ExcelUtil<AssetDO>(AssetDO.class);
+        List<AssetDetailVO> list = assetService.selectAssetDetailList(asset);
+        ExcelUtil<AssetDetailVO> util = new ExcelUtil<AssetDetailVO>(AssetDetailVO.class);
         util.exportExcel(response, list, "资产数据");
     }
 

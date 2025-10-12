@@ -3,8 +3,10 @@ package com.ruoyi.business.domain.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.ruoyi.business.utils.LenientLocalDateTimeDeserializer;
+import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.core.domain.BaseEntityDO;
+import com.ruoyi.common.utils.DateUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -39,11 +41,13 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 临时编码,;
      */
+    @Excel(name = "临时编码")
     private String        temporaryCode;
 
     /**
      * 原始编码,;
      */
+    @Excel(name = "原始编码")
     private String        originalCode;
 
     /**
@@ -54,6 +58,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 分类名称,;
      */
+    @Excel(name = "门类名称")
     private String        categoryName;
 
     /**
@@ -64,6 +69,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 品牌名称,;
      */
+    @Excel(name = "品牌名称")
     private String        brandName;
 
     /**
@@ -74,11 +80,13 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 资产名称,;
      */
+    @Excel(name = "资产名称")
     private String        assetName;
 
     /**
      * 规格型号,;
      */
+    @Excel(name = "规格型号")
     private String        specification;
 
     /**
@@ -86,6 +94,13 @@ public class AssetDO extends BaseEntityDO {
      */
     @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime productionTime;
+
+    @Excel(name = "生产时间")
+    private String        productionTimeStr;
+
+    public String getProductionTimeStr() {
+        return DateUtils.convertDateString(this.productionTime);
+    }
 
     /**
      * 地点id,;
@@ -95,6 +110,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 地点名称,;
      */
+    @Excel(name = "地点名称")
     private String        locationName;
 
     /**
@@ -105,6 +121,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 管理部门名称,;
      */
+    @Excel(name = "管理部门")
     private String        managedDeptName;
 
     /**
@@ -115,6 +132,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 使用部门名称,;
      */
+    @Excel(name = "使用部门")
     private String        usingDeptName;
 
     /**
@@ -125,6 +143,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 管理员工名称,;
      */
+    @Excel(name = "管理员工")
     private String        managedEmpName;
 
     /**
@@ -135,6 +154,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 使用员工名称,;
      */
+    @Excel(name = "使用员工")
     private String        usingEmpName;
 
     /**
@@ -145,6 +165,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 采集人名称,;
      */
+    @Excel(name = "采集人")
     private String        collectorUserName;
 
     /**
@@ -152,28 +173,36 @@ public class AssetDO extends BaseEntityDO {
      */
     private LocalDateTime collectorTime;
 
+    @Excel(name = "采集时间")
+    private String        collectorTimeStr;
+
+    public String getCollectorTimeStr() {
+        return DateUtils.convertTimeString(this.collectorTime);
+    }
+
     /**
      * 备注,;
      */
-    private String        remark;
+    @Excel(name = "备注")
+    private String remark;
 
     /**
      * 主图片,;
      */
-    private String        mainImageUrl;
+    private String mainImageUrl;
 
     /**
      * 主图片名称,;
      */
-    private String        mainImageName;
+    private String mainImageName;
 
     /**
      * 图片,;
      */
-    private String        imageUrl;
+    private String imageUrl;
 
     /**
      * 图片名称,;
      */
-    private String        imageUrlName;
+    private String imageUrlName;
 }

@@ -36,6 +36,10 @@ public class ProjectMember extends BaseEntityDO {
      * 成员名称,;
      */
     private String  memberName;
+    /**
+     * 成员名称,;
+     */
+    private String  userName;
 
     /**
      * 成员类型,;
