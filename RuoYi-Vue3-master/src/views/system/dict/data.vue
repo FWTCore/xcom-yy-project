@@ -36,10 +36,10 @@
             <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
                v-hasPermi="['system:dict:remove']">删除</el-button>
          </el-col>
-         <el-col :span="1.5">
+         <!-- <el-col :span="1.5">
             <el-button type="warning" plain icon="Download" @click="handleExport"
                v-hasPermi="['system:dict:export']">导出</el-button>
-         </el-col>
+         </el-col> -->
          <el-col :span="1.5">
             <el-button type="warning" plain icon="Close" @click="handleClose">关闭</el-button>
          </el-col>
