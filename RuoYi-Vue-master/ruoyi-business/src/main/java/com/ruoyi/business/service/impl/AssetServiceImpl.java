@@ -154,7 +154,7 @@ public class AssetServiceImpl implements AssetService {
         validAndSetField(asset);
         LoginUser loginUser = SecurityUtils.getLoginUser();
         asset.setCollectorUserId(loginUser.getUserId());
-        asset.setCollectorUserName(loginUser.getUsername());
+        asset.setCollectorUserName(loginUser.getUser().getNickName());
         asset.setCollectorTime(LocalDateTime.now());
         if (ObjectUtils.isEmpty(asset.getId())) {
             return this.insertAsset(asset);
