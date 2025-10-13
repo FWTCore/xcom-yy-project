@@ -364,7 +364,7 @@
 
 <script setup name="Asset">
 import { listAsset, getAsset, delAsset, addAsset, updateAsset } from "@/api/business/asset"
-import { deptTreeSelect } from "@/api/system/user"
+import { deptTreeNoAuthSelect } from "@/api/system/user"
 import { listAllCategory } from "@/api/business/category"
 import { listAllBrand } from "@/api/business/brand"
 import { listAllProject } from "@/api/business/project"
@@ -585,7 +585,7 @@ function handleExport() {
 
 /** 查询单位下拉树结构 */
 function getDeptTree() {
-  deptTreeSelect().then(response => {
+  deptTreeNoAuthSelect().then(response => {
     enabledDeptOptions.value = filterDisabledDept(JSON.parse(JSON.stringify(response.data)))
   })
 }

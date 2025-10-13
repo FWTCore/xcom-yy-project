@@ -134,3 +134,11 @@ export function deptTreeSelect() {
     method: 'get'
   })
 }
+
+// 查询单位下拉树结构
+export function deptTreeNoAuthSelect() {
+  return request({
+    url: '/system/user/deptTreeNoAuth',
+    method: 'get'
+  })
+}

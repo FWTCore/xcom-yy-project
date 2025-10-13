@@ -92,7 +92,7 @@
 
 <script setup name="Location">
 import { listLocation, getLocation, delLocation, addLocation, updateLocation } from "@/api/business/location"
-import { deptTreeSelect } from "@/api/system/user"
+import { deptTreeNoAuthSelect } from "@/api/system/user"
 
 const { proxy } = getCurrentInstance()
 
@@ -236,7 +236,7 @@ function handleExport() {
 
 /** 查询单位下拉树结构 */
 function getDeptTree() {
-  deptTreeSelect().then(response => {
+  deptTreeNoAuthSelect().then(response => {
     enabledDeptOptions.value = filterDisabledDept(JSON.parse(JSON.stringify(response.data)))
   })
 }
