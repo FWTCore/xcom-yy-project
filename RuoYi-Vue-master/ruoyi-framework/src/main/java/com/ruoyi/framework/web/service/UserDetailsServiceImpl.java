@@ -70,8 +70,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // 添加项目权限
         List<ProjectMemberDO> projectMemberList = projectMemberService.listProjectMemberByUserId(user.getUserId());
         if (!CollectionUtils.isEmpty(projectMemberList)) {
-            Map<Long, Long> projectMap = projectMemberList.stream().collect(Collectors.toMap(ProjectMemberDO::getId,
-                ProjectMemberDO::getDeptId, (existing, replacement) -> replacement));
+            Map<Long, Long> projectMap = projectMemberList.stream().collect(Collectors.toMap(
+                ProjectMemberDO::getProjectId, ProjectMemberDO::getDeptId, (existing, replacement) -> replacement));
             loginUser.setParticipatedProjectIds(projectMap);
         }
 

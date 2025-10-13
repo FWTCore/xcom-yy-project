@@ -177,20 +177,40 @@ public class DataScopeAspect {
                         }
                     }
                 } else {
-                    if (StringUtils.isNotBlank(projectAlias)
-                        && !CollectionUtils.isEmpty(loginUser.getParticipatedProjectIds())) {
-                        List<String> projectIds = loginUser.getParticipatedProjectIds().keySet().stream()
-                            .map(Object::toString).collect(Collectors.toList());
-                        if (controllerDataScope.isSelfTable()) {
-                            sqlString.append(
-                                StringUtils.format(" OR {}.id in ({}) ", projectAlias, String.join(",", projectIds)));
+                    if (controllerDataScope.isSelfTable()) {
+                        if (ObjectUtils.isNotEmpty(loginUser.getProjectId())) {
+                            sqlString
+                                .append(StringUtils.format(" OR {}.id = {} ", projectAlias, loginUser.getProjectId()));
                         } else {
-                            sqlString.append(StringUtils.format(" OR {}.project_id in  ({})  ", projectAlias,
-                                String.join(",", projectIds)));
+                            if (!CollectionUtils.isEmpty(loginUser.getParticipatedProjectIds())) {
+                                List<String> projectIds = loginUser.getParticipatedProjectIds().keySet().stream()
+                                    .map(Object::toString).collect(Collectors.toList());
+
+                                sqlString.append(StringUtils.format(" OR {}.id in ({}) ", projectAlias,
+                                    String.join(",", projectIds)));
+                            } else {
+                                // 数据权限为仅本人且没有userAlias别名不查询任何数据
+                                sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
+                            }
                         }
                     } else {
-                        // 数据权限为仅本人且没有userAlias别名不查询任何数据
-                        sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
+
+                        if (ObjectUtils.isNotEmpty(loginUser.getProjectId())) {
+                            sqlString.append(
+                                StringUtils.format(" OR {}.project_id = {} ", projectAlias, loginUser.getProjectId()));
+                        } else {
+
+                            if (!CollectionUtils.isEmpty(loginUser.getParticipatedProjectIds())) {
+                                List<String> projectIds = loginUser.getParticipatedProjectIds().keySet().stream()
+                                    .map(Object::toString).collect(Collectors.toList());
+
+                                sqlString.append(StringUtils.format(" OR {}.project_id in ({}) ", projectAlias,
+                                    String.join(",", projectIds)));
+                            } else {
+                                // 数据权限为仅本人且没有userAlias别名不查询任何数据
+                                sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
+                            }
+                        }
                     }
                 }
             }
