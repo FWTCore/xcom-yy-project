@@ -170,9 +170,9 @@ public class DataScopeAspect {
                             .map(Object::toString).collect(Collectors.toList());
                         if (controllerDataScope.isSelfTable()) {
                             sqlString.append(
-                                StringUtils.format(" OR {}.id in {} ", projectAlias, String.join(",", projectIds)));
+                                StringUtils.format(" OR {}.id in ({}) ", projectAlias, String.join(",", projectIds)));
                         } else {
-                            sqlString.append(StringUtils.format(" OR {}.project_id in {} ", projectAlias,
+                            sqlString.append(StringUtils.format(" OR {}.project_id in  ({})  ", projectAlias,
                                 String.join(",", projectIds)));
                         }
                     } else {
