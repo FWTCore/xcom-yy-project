@@ -43,7 +43,7 @@ public class CategoryController extends BaseController {
     /**
      * 查询分类列表
      */
-    @PreAuthorize("@ss.hasPermi('business:category:list')")
+    @PreAuthorize("@ss.hasPermi('material:category:list')")
     @GetMapping("/list")
     public TableDataInfo list(Category category) {
         startPage();
@@ -64,7 +64,7 @@ public class CategoryController extends BaseController {
     /**
      * 导出分类列表
      */
-    @PreAuthorize("@ss.hasPermi('business:category:export')")
+    @PreAuthorize("@ss.hasPermi('material:category:export')")
     @Log(title = "门类", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Category category) {
@@ -76,7 +76,7 @@ public class CategoryController extends BaseController {
     /**
      * 获取分类详细信息
      */
-    @PreAuthorize("@ss.hasPermi('business:category:query')")
+    @PreAuthorize("@ss.hasPermi('material:category:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(categoryService.selectCategoryById(id));
@@ -85,7 +85,7 @@ public class CategoryController extends BaseController {
     /**
      * 新增分类
      */
-    @PreAuthorize("@ss.hasPermi('business:category:add')")
+    @PreAuthorize("@ss.hasPermi('material:category:add')")
     @Log(title = "门类", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CategoryDO category) {
@@ -95,7 +95,7 @@ public class CategoryController extends BaseController {
     /**
      * 修改分类
      */
-    @PreAuthorize("@ss.hasPermi('business:category:edit')")
+    @PreAuthorize("@ss.hasPermi('material:category:edit')")
     @Log(title = "门类", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CategoryDO category) {
@@ -105,7 +105,7 @@ public class CategoryController extends BaseController {
     /**
      * 删除分类
      */
-    @PreAuthorize("@ss.hasPermi('business:category:remove')")
+    @PreAuthorize("@ss.hasPermi('material:category:remove')")
     @Log(title = "门类", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {

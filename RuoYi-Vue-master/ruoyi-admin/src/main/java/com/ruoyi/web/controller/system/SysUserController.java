@@ -235,6 +235,6 @@ public class SysUserController extends BaseController {
      */
     @GetMapping("/deptTreeNoAuth")
     public AjaxResult deptTreeNoAuth(SysDept dept) {
-        return success(deptService.selectDeptTreeList(dept));
+        return success(deptService.selectDeptTreeNoAuthList(dept));
     }
 }

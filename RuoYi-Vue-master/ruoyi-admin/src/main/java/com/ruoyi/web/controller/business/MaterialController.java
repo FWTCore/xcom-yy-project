@@ -49,7 +49,7 @@ public class MaterialController extends BaseController {
     /**
      * 查询物资列表
      */
-    @PreAuthorize("@ss.hasPermi('business:material:list')")
+    @PreAuthorize("@ss.hasPermi('material:product:query')")
     @GetMapping("/list")
     public TableDataInfo list(Material material) {
         startPage();
@@ -66,7 +66,7 @@ public class MaterialController extends BaseController {
     /**
      * 导出物资列表
      */
-    @PreAuthorize("@ss.hasPermi('business:material:export')")
+    @PreAuthorize("@ss.hasPermi('material:product:export')")
     @Log(title = "物资", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Material material) {
@@ -78,7 +78,7 @@ public class MaterialController extends BaseController {
     /**
      * 获取物资详细信息
      */
-    @PreAuthorize("@ss.hasPermi('business:material:query')")
+    @PreAuthorize("@ss.hasPermi('material:product:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(materialService.selectMaterialById(id));
@@ -87,7 +87,7 @@ public class MaterialController extends BaseController {
     /**
      * 新增物资
      */
-    @PreAuthorize("@ss.hasPermi('business:material:add')")
+    @PreAuthorize("@ss.hasPermi('material:product:add')")
     @Log(title = "物资", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody MaterialDO material) {
@@ -97,7 +97,7 @@ public class MaterialController extends BaseController {
     /**
      * 修改物资
      */
-    @PreAuthorize("@ss.hasPermi('business:material:edit')")
+    @PreAuthorize("@ss.hasPermi('material:product:edit')")
     @Log(title = "物资", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody MaterialDO material) {
@@ -107,7 +107,7 @@ public class MaterialController extends BaseController {
     /**
      * 删除物资
      */
-    @PreAuthorize("@ss.hasPermi('business:material:remove')")
+    @PreAuthorize("@ss.hasPermi('material:product:remove')")
     @Log(title = "物资", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {

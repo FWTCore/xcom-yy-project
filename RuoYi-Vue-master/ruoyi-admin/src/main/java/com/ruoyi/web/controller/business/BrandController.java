@@ -46,7 +46,7 @@ public class BrandController extends BaseController {
     /**
      * 查询品牌列表
      */
-    @PreAuthorize("@ss.hasPermi('business:brand:list')")
+    @PreAuthorize("@ss.hasPermi('material:brand:list')")
     @GetMapping("/list")
     public TableDataInfo list(Brand brand) {
         startPage();
@@ -57,7 +57,7 @@ public class BrandController extends BaseController {
     /**
      * 导出品牌列表
      */
-    @PreAuthorize("@ss.hasPermi('business:brand:export')")
+    @PreAuthorize("@ss.hasPermi('material:brand:export')")
     @Log(title = "品牌", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Brand brand) {
@@ -69,7 +69,7 @@ public class BrandController extends BaseController {
     /**
      * 获取品牌详细信息
      */
-    @PreAuthorize("@ss.hasPermi('business:brand:query')")
+    @PreAuthorize("@ss.hasPermi('material:brand:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(brandService.selectBrandById(id));
@@ -78,7 +78,7 @@ public class BrandController extends BaseController {
     /**
      * 新增品牌
      */
-    @PreAuthorize("@ss.hasPermi('business:brand:add')")
+    @PreAuthorize("@ss.hasPermi('material:brand:add')")
     @Log(title = "品牌", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BrandDO brand) {
@@ -88,7 +88,7 @@ public class BrandController extends BaseController {
     /**
      * 修改品牌
      */
-    @PreAuthorize("@ss.hasPermi('business:brand:edit')")
+    @PreAuthorize("@ss.hasPermi('material:brand:edit')")
     @Log(title = "品牌", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BrandDO brand) {
@@ -98,7 +98,7 @@ public class BrandController extends BaseController {
     /**
      * 删除品牌
      */
-    @PreAuthorize("@ss.hasPermi('business:brand:remove')")
+    @PreAuthorize("@ss.hasPermi('material:brand:remove')")
     @Log(title = "品牌", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {

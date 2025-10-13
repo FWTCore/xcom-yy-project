@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.alibaba.fastjson2.JSON;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.framework.web.service.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.UserConstants;
@@ -30,43 +34,43 @@ import org.springframework.util.CollectionUtils;
  *
  * @author ruoyi
  */
-@Slf4j
 @Aspect
 @Component
 public class DataScopeAspect {
+    private static final Logger log                       = LoggerFactory.getLogger(DataScopeAspect.class);
     /**
      * 全部数据权限
      */
-    public static final String DATA_SCOPE_ALL            = "1";
+    public static final String  DATA_SCOPE_ALL            = "1";
 
     /**
      * 自定数据权限
      */
-    public static final String DATA_SCOPE_CUSTOM         = "2";
+    public static final String  DATA_SCOPE_CUSTOM         = "2";
 
     /**
      * 部门数据权限
      */
-    public static final String DATA_SCOPE_DEPT           = "3";
+    public static final String  DATA_SCOPE_DEPT           = "3";
 
     /**
      * 部门及以下数据权限
      */
-    public static final String DATA_SCOPE_DEPT_AND_CHILD = "4";
+    public static final String  DATA_SCOPE_DEPT_AND_CHILD = "4";
 
     /**
      * 仅本人数据权限
      */
-    public static final String DATA_SCOPE_SELF           = "5";
+    public static final String  DATA_SCOPE_SELF           = "5";
     /**
      * 参与项目数据权限
      */
-    public static final String DATA_SCOPE_PROJECT        = "6";
+    public static final String  DATA_SCOPE_PROJECT        = "6";
 
     /**
      * 数据权限过滤关键字
      */
-    public static final String DATA_SCOPE                = "dataScope";
+    public static final String  DATA_SCOPE                = "dataScope";
 
     @Before("@annotation(controllerDataScope)")
     public void doBefore(JoinPoint point, DataScope controllerDataScope) throws Throwable {
@@ -102,8 +106,8 @@ public class DataScopeAspect {
         if (StringUtils.isEmpty(deptAlias)) {
             throw new ServiceException("权限设置异常", HttpStatus.UNAUTHORIZED);
         }
-
         LoginUser loginUser = SecurityUtils.getLoginUser();
+        log.error("所在项目：" + JSON.toJSONString(loginUser.getParticipatedProjectIds()));
 
         SysUser user = loginUser.getUser();
         StringBuilder sqlString = new StringBuilder();
@@ -119,12 +123,14 @@ public class DataScopeAspect {
 
         for (SysRole role : user.getRoles()) {
             String dataScope = role.getDataScope();
-            if (conditions.contains(dataScope) || StringUtils.equals(role.getStatus(), UserConstants.ROLE_DISABLE)) {
+            if (StringUtils.equals(role.getStatus(), UserConstants.ROLE_DISABLE)) {
                 continue;
             }
-//            if (!StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission))) {
-//                continue;
-//            }
+            //            if (!StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission))) {
+            //                continue;
+            //            }
+
+            log.error("角色权限类型：" + dataScope);
             if (DATA_SCOPE_ALL.equals(dataScope)) {
                 sqlString = new StringBuilder();
                 conditions.add(dataScope);
@@ -160,8 +166,15 @@ public class DataScopeAspect {
                         sqlString.append(
                             StringUtils.format(" OR {}.dept_id = {} ", deptAlias, loginUser.getProjectCompanyId()));
                     } else {
-                        // 数据权限为仅本人且没有userAlias别名不查询任何数据
-                        sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
+                        if (!CollectionUtils.isEmpty(loginUser.getParticipatedProjectIds())) {
+                            List<String> deptIds = loginUser.getParticipatedProjectIds().values().stream()
+                                .map(Object::toString).collect(Collectors.toList());
+                            sqlString.append(
+                                StringUtils.format(" OR {}.dept_id in  ({})  ", deptAlias, String.join(",", deptIds)));
+                        } else {
+                            // 数据权限为仅本人且没有userAlias别名不查询任何数据
+                            sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
+                        }
                     }
                 } else {
                     if (StringUtils.isNotBlank(projectAlias)
@@ -187,6 +200,9 @@ public class DataScopeAspect {
         // 角色都不包含传递过来的权限字符，这个时候sqlString也会为空，所以要限制一下,不查询任何数据
         if (StringUtils.isEmpty(conditions)) {
             sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
+            log.error("权限脚本：无");
+        } else {
+            log.error("权限脚本：" + sqlString);
         }
 
         if (StringUtils.isNotBlank(sqlString.toString())) {

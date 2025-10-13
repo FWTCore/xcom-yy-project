@@ -43,8 +43,14 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @return 部门信息集合
      */
     @Override
-    @DataScope(deptAlias = "d")
+    @DataScope(deptAlias = "d", isUpgrade = true)
     public List<SysDept> selectDeptList(SysDept dept) {
+        return deptMapper.selectDeptList(dept);
+    }
+
+    @Override
+    @DataScope(deptAlias = "d", isUpgrade = true)
+    public List<SysDept> selectDeptNoAuthList(SysDept dept) {
         return deptMapper.selectDeptList(dept);
     }
 
@@ -57,6 +63,18 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public List<TreeSelect> selectDeptTreeList(SysDept dept) {
         List<SysDept> depts = SpringUtils.getAopProxy(this).selectDeptList(dept);
+        return buildDeptTreeSelect(depts);
+    }
+
+    /**
+     * 查询部门树结构信息
+     *
+     * @param dept 部门信息
+     * @return 部门树信息集合
+     */
+    @Override
+    public List<TreeSelect> selectDeptTreeNoAuthList(SysDept dept) {
+        List<SysDept> depts = SpringUtils.getAopProxy(this).selectDeptNoAuthList(dept);
         return buildDeptTreeSelect(depts);
     }
 
@@ -225,7 +243,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         }
         int result = deptMapper.updateDept(dept);
         if (UserConstants.DEPT_NORMAL.equals(dept.getStatus()) && StringUtils.isNotEmpty(dept.getAncestors())
-                && !StringUtils.equals("0", dept.getAncestors())) {
+            && !StringUtils.equals("0", dept.getAncestors())) {
             // 如果该部门是启用状态，则启用该部门的所有上级部门
             updateParentDeptStatusNormal(dept);
         }
