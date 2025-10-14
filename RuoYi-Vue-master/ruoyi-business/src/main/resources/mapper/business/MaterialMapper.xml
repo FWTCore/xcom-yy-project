@@ -54,6 +54,9 @@
             <if test="brandId != null ">
                 and brand_id = #{brandId}
             </if>
+            <if test="brandId == null ">
+                and brand_id is null
+            </if>
             <if test="materialName != null  and materialName != ''">
                 and material_name = #{materialName}
             </if>

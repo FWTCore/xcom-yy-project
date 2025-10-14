@@ -121,11 +121,11 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public Long insertNotExistMaterial(MaterialDO material) {
-        Material materialQuery = MaterialConvert.INSTANCE.toMaterial(material);
-        materialQuery.setMainImageUrl(null);
-        materialQuery.setMainImageName(null);
-        materialQuery.setImageUrl(null);
-        materialQuery.setImageUrlName(null);
+        Material materialQuery = new Material();
+        materialQuery.setCategoryId(material.getCategoryId());
+        materialQuery.setBrandId(material.getBrandId());
+        materialQuery.setMaterialName(material.getMaterialName());
+        materialQuery.setSpecification(material.getSpecification());
         List<MaterialDO> materialList = this.selectMaterialList(materialQuery);
         if (CollectionUtils.isEmpty(materialList)) {
             // 创建商品
