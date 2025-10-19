@@ -1,6 +1,7 @@
 package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.AssetDO;
+import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.entity.CategoryDO;
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.entity.EmployeeDO;
@@ -314,12 +315,19 @@ public class AssetServiceImpl implements AssetService {
         }
         data.setCategoryName(categoryDO.getCategoryName());
 
-        if (BooleanUtils.isTrue(categoryDO.getHasBrand()) && StringUtils.isBlank(data.getBrandName())) {
+        if (BooleanUtils.isTrue(categoryDO.getHasBrand()) && StringUtils.isBlank(data.getBrandName())
+            && ObjectUtils.isEmpty(data.getBrandId())) {
             throw new ServiceException(String.format("门类【%s】要求品牌必填", data.getCategoryName()));
         }
         if (StringUtils.isNotBlank(data.getBrandName())) {
             Long brandId = brandService.insertNotExistBrand(data.getCategoryId(), data.getBrandName());
             data.setBrandId(brandId);
+        } else if (ObjectUtils.isNotEmpty(data.getBrandId())) {
+            BrandDO brandDO = brandService.selectBrandById(data.getBrandId());
+            if (ObjectUtils.isEmpty(brandDO)) {
+                throw new ServiceException("品牌不存在必填");
+            }
+            data.setBrandName(brandDO.getBrandName());
         }
 
         if (BooleanUtils.isTrue(categoryDO.getHasMaterialName()) && StringUtils.isBlank(data.getAssetName())) {

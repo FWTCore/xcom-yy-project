@@ -446,7 +446,6 @@ const data = reactive({
   rules: {
     deptId: [{ required: true, message: "单位不能为空", trigger: "blur" }],
     projectId: [{ required: true, message: "项目不能为空", trigger: "blur" }],
-    temporaryCode: [{ required: true, message: "临时编码不能为空", trigger: "blur" }],
     categoryId: [{ required: true, message: "门类不能为空", trigger: "blur" }],
     assetName: [{ required: true, message: "资产名称不能为空", trigger: "blur" }],
     deleteFlag: [
