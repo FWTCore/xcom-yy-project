@@ -56,6 +56,11 @@
         <el-input v-model="queryParams.searchProductionTime" placeholder="请输入规格型号" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
+      <el-form-item label="资产状态" prop="assetStatus">
+        <el-select v-model="queryParams.assetStatus" placeholder="资产状态" clearable style="width: 240px">
+          <el-option v-for="dict in asset_status" :key="dict.value" :label="dict.label" :value="dict.value" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="地点名称" prop="searchLocationName">
         <el-input v-model="queryParams.searchLocationName" placeholder="请输入地点名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
@@ -80,6 +85,10 @@
         <el-input v-model="queryParams.searchCollectorUserName" placeholder="请输入采集人名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
+      <el-form-item label="采集时间" style="width: 308px">
+        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-"
+          start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -88,7 +97,8 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['business:asset:add']">新增</el-button>
+        <el-button type="primary" plain icon="Plus" @click="handleAdd"
+          v-hasPermi="['business:asset:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate"
@@ -125,6 +135,11 @@
           <span>{{ parseTime(scope.row.productionTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="资产状态" align="center" prop="assetStatus">
+        <template #default="scope">
+          <dict-tag :options="asset_status" :value="scope.row.assetStatus" />
+        </template>
+      </el-table-column>
       <el-table-column label="地点名称" align="center" prop="locationName" />
       <el-table-column label="管理部门" align="center" prop="managedDeptName" />
       <el-table-column label="使用部门" align="center" prop="usingDeptName" />
@@ -133,7 +148,7 @@
       <el-table-column label="采集人" align="center" prop="collectorUserName" />
       <el-table-column label="采集时间" align="center" prop="collectorTime" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.collectorTime, '{y}-{m}-{d}  {h}:{i}:{s}') }}</span>
+          <span>{{ parseTime(scope.row.collectorTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
@@ -242,12 +257,20 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="生产时间" prop="productionTime">
-              <el-date-picker clearable v-model="form.productionTime" type="date" value-format="YYYY-MM-DD"
-                placeholder="请选择生产时间">
+              <el-date-picker v-model="form.productionTime" type="date" value-format="YYYY-MM-DD" placeholder="请选择生产时间">
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item label="资产状态" prop="assetStatus">
+              <el-select v-model="form.assetStatus" placeholder="资产状态" value-key="value">
+                <el-option v-for="dict in asset_status" :key="dict.value" :label="dict.label" :value="dict.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
             <el-form-item prop="locationId">
               <template #label>
                 <span>
@@ -335,12 +358,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="主图片" prop="mainImageUrl">
-              <upload-image v-model="form.mainImageUrl" :defaultImage="form.imageUrl"/>
+              <upload-image v-model="form.mainImageUrl" :defaultImage="form.imageUrl" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="图片" prop="imageUrl">
-              <upload-image v-model="form.imageUrl" :defaultImage="form.imageUrl"/>
+              <upload-image v-model="form.imageUrl" :defaultImage="form.imageUrl" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -373,7 +396,10 @@ import { listAllDepartment } from "@/api/business/department"
 import { listAllEmployee } from "@/api/business/employee"
 import uploadImage from "@/views/common/uploadImage.vue"
 
+
+
 const { proxy } = getCurrentInstance()
+const { asset_status } = proxy.useDict("asset_status")
 
 const assetList = ref([])
 const open = ref(false)
@@ -393,6 +419,7 @@ const brandFormOptions = ref([])
 const locationFormOptions = ref([])
 const deptFormOptions = ref([])
 const empFormOptions = ref([])
+const dateRange = ref([])
 
 const data = reactive({
   form: {},
@@ -413,7 +440,8 @@ const data = reactive({
     searchUsingDeptName: null,
     searchManagedEmpName: null,
     searchUsingEmpName: null,
-    searchCollectorUserName: null
+    searchCollectorUserName: null,
+    assetStatus: null
   },
   rules: {
     deptId: [{ required: true, message: "单位不能为空", trigger: "blur" }],
@@ -448,7 +476,7 @@ function normalizeImageUrl(url) {
 /** 查询资产列表 */
 function getList() {
   loading.value = true
-  listAsset(queryParams.value).then(response => {
+  listAsset(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
     assetList.value = response.rows
     total.value = response.total
     loading.value = false
@@ -514,6 +542,7 @@ function handleQuery() {
 
 /** 重置按钮操作 */
 function resetQuery() {
+  dateRange.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
@@ -537,9 +566,11 @@ function handleUpdate(row) {
   reset()
   const _id = row.id || ids.value
   getAsset(_id).then(response => {
-    form.value = response.data
+    form.value = { ...response.data, assetStatus: String(response.data.assetStatus) }
     open.value = true
     title.value = "修改资产"
+    handleTreeNodeFormClick(form.value.deptId)
+    getFormBrand(form.value.categoryId)
   })
 }
 
@@ -706,13 +737,13 @@ function getDepartment(deptId) {
 }
 function getEmployee(deptId) {
   if (deptId === null || deptId === undefined || deptId === '' || Number.isNaN(deptId)) {
-    listAllEmployee.value = [] // 清空选项
+    empFormOptions.value = [] // 清空选项
     form.managedEmpId = null // 重置
     form.usingEmpId = null // 重置
     return
   }
-  listAllDepartment(deptId).then(response => {
-    listAllEmployee.value = response.data
+  listAllEmployee(deptId).then(response => {
+    empFormOptions.value = response.data
     form.managedEmpId = null
     form.usingEmpId = null
   })

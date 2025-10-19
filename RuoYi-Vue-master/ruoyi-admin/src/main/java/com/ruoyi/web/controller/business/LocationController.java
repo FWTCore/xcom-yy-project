@@ -81,7 +81,7 @@ public class LocationController extends BaseController {
     @Log(title = "存放地点", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody LocationDO location) {
-        return toAjax(locationService.insertLocation(location));
+        return toAjax(locationService.upsetData(location));
     }
 
     /**
@@ -91,7 +91,7 @@ public class LocationController extends BaseController {
     @Log(title = "存放地点", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody LocationDO location) {
-        return toAjax(locationService.updateLocation(location));
+        return toAjax(locationService.upsetData(location));
     }
 
     /**
@@ -103,7 +103,6 @@ public class LocationController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(locationService.deleteLocationByIds(ids));
     }
-
 
     /**
      * 查询列表

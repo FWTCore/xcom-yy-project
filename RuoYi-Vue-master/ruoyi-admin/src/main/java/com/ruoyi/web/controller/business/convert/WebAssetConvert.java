@@ -23,11 +23,4 @@ public interface WebAssetConvert {
      * @return
      */
     AssetDO toAssetDO(AssetUpsertRequest request);
-
-    /**
-     * Asset to AssetDO
-     * @param asset
-     * @return
-     */
-    AssetDO toAssetDO(Asset asset);
 }

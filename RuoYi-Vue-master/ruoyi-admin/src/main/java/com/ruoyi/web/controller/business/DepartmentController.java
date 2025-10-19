@@ -81,7 +81,7 @@ public class DepartmentController extends BaseController {
     @Log(title = "部门", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody DepartmentDO department) {
-        return toAjax(departmentService.insertDepartment(department));
+        return toAjax(departmentService.upsetData(department));
     }
 
     /**
@@ -91,7 +91,7 @@ public class DepartmentController extends BaseController {
     @Log(title = "部门", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody DepartmentDO department) {
-        return toAjax(departmentService.updateDepartment(department));
+        return toAjax(departmentService.upsetData(department));
     }
 
     /**

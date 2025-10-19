@@ -5,8 +5,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.EmployeeDO;
+import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Employee;
 import com.ruoyi.business.domain.model.EmployeeDetailVO;
+import com.ruoyi.business.domain.model.Project;
 import com.ruoyi.business.service.EmployeeService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -79,7 +81,7 @@ public class EmployeeController extends BaseController {
     @Log(title = "员工", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody EmployeeDO employee) {
-        return toAjax(employeeService.insertEmployee(employee));
+        return toAjax(employeeService.upsetData(employee));
     }
 
     /**
@@ -89,7 +91,7 @@ public class EmployeeController extends BaseController {
     @Log(title = "员工", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody EmployeeDO employee) {
-        return toAjax(employeeService.updateEmployee(employee));
+        return toAjax(employeeService.upsetData(employee));
     }
 
     /**
@@ -100,5 +102,16 @@ public class EmployeeController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(employeeService.deleteEmployeeByIds(ids));
+    }
+
+    /**
+     * 查询项目列表
+     */
+    @GetMapping("/listAll/{deptId}")
+    public AjaxResult listAll(@PathVariable Long deptId) {
+        Employee employee = new Employee();
+        employee.setDeptId(deptId);
+        List<EmployeeDO> list = employeeService.selectEmployeeList(employee);
+        return success(list);
     }
 }

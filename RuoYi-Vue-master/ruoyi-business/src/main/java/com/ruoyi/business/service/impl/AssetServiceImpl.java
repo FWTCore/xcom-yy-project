@@ -159,7 +159,6 @@ public class AssetServiceImpl implements AssetService {
         if (ObjectUtils.isEmpty(asset.getId())) {
             return this.insertAsset(asset);
         } else {
-            asset.setUpdatedFieldValue();
             return this.updateAsset(asset);
         }
     }
@@ -216,20 +215,16 @@ public class AssetServiceImpl implements AssetService {
         assetList.sort((o1, o2) -> {
             String[] parts1 = o1.getTemporaryCode().split("-");
             String[] parts2 = o2.getTemporaryCode().split("-");
-            int minLength = Math.min(parts1.length, parts2.length);
-            // 逐级比较数值部分
-            for (int i = 0; i < minLength; i++) {
-                int num1 = Integer.parseInt(parts1[i]);
-                int num2 = Integer.parseInt(parts2[i]);
-                // 数值降序：大数在前
-                if (num1 != num2) {
-                    return Integer.compare(num2, num1);
-                }
+
+            if (parts2.length != parts1.length) {
+                return Integer.compare(parts2.length, parts1.length);
             }
-            // 当公共部分完全相同时，比较层级深度
-            // 更多细分部分（更长）的字符串排在前面
-            return Integer.compare(parts2.length, parts1.length);
+
+            int num1 = Integer.parseInt(parts1[parts1.length - 1]);
+            int num2 = Integer.parseInt(parts2[parts2.length - 1]);
+            return Integer.compare(num2, num1);
         });
+
         String maxTemporaryCode = assetList.get(0).getTemporaryCode();
         List<String> codeList = generateAssetCode(maxTemporaryCode, copyReqBO.getCopyNum());
         if (CollectionUtils.isEmpty(codeList)) {
@@ -239,6 +234,11 @@ public class AssetServiceImpl implements AssetService {
             //清除id，用来新增
             pureData.setId(null);
             pureData.setTemporaryCode(code);
+            pureData.setBaseFieldValue();
+            LoginUser loginUser = SecurityUtils.getLoginUser();
+            pureData.setCollectorUserId(loginUser.getUserId());
+            pureData.setCollectorUserName(loginUser.getUser().getNickName());
+            pureData.setCollectorTime(LocalDateTime.now());
             this.insertAsset(pureData);
         }
         return true;
@@ -316,6 +316,9 @@ public class AssetServiceImpl implements AssetService {
             if (CollectionUtils.isEmpty(deptPureDataList)) {
                 throw new ServiceException("管理部门和使用部门id错误");
             }
+            if (deptPureDataList.stream().anyMatch(e -> !e.getDeptId().equals(data.getDeptId()))) {
+                throw new ServiceException("管理部门和使用部门存在不是当前所属部门的数据");
+            }
             Map<Long, DepartmentDO> deptMap = deptPureDataList.stream()
                 .collect(toMap(DepartmentDO::getId, Function.identity(), (k1, k2) -> k2));
             if (deptMap.containsKey(data.getManagedDeptId())) {
@@ -338,6 +341,9 @@ public class AssetServiceImpl implements AssetService {
             List<EmployeeDO> empPureDataList = employeeService.selectEmployeeByIds(employeeIds);
             if (CollectionUtils.isEmpty(empPureDataList)) {
                 throw new ServiceException("管理员工和使用员工id错误");
+            }
+            if (empPureDataList.stream().anyMatch(e -> !e.getDeptId().equals(data.getDeptId()))) {
+                throw new ServiceException("管理员工和使用员工存在不是当前所属部门的数据");
             }
             Map<Long, EmployeeDO> empMap = empPureDataList.stream()
                 .collect(toMap(EmployeeDO::getId, Function.identity(), (k1, k2) -> k2));

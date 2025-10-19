@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  * 部门;department数据表的DO对象
  *
@@ -20,11 +22,15 @@ public class Department extends BaseEntityDO {
     /**
      * 系统公司id,;
      */
-    private Long   deptId;
+    private Long         deptId;
 
     /**
      * 部门名称,;
      */
-    private String departmentName;
-    private String searchName;
+    private String       departmentName;
+    private String       searchName;
+    /**
+     * 部门名称,;
+     */
+    private List<String> departmentNames;
 }
