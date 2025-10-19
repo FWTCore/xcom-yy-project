@@ -45,6 +45,11 @@ public class Asset extends BaseEntityDO {
     private String        searchTemporaryCode;
 
     /**
+     * 匹配code
+     */
+    private String        matchCode;
+
+    /**
      * 原始编码,;
      */
     private String        originalCode;

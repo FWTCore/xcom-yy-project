@@ -48,6 +48,7 @@ public interface AssetService {
      * @return 资产集合
      */
     List<AssetDO> selectAssetList(Asset asset);
+
     /**
      * 查询资产列表
      *
@@ -101,4 +102,13 @@ public interface AssetService {
      * @return
      */
     Boolean copyData(AssetCopyReqBO copyReqBO);
+
+    /**
+     * 查询资产
+     *
+     * @param code 资产编码
+     * @param projectId 项目id
+     * @return 资产
+     */
+    AssetDetailVO selectAssetByCode(String code, Long projectId);
 }

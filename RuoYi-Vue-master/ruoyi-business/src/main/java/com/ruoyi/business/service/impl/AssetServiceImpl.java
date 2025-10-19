@@ -1,7 +1,6 @@
 package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.AssetDO;
-import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.entity.CategoryDO;
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.entity.EmployeeDO;
@@ -10,8 +9,11 @@ import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.AssetDetailVO;
 import com.ruoyi.business.domain.model.HomeAssetStatsVO;
+import com.ruoyi.business.domain.model.OriginalAsset;
+import com.ruoyi.business.domain.model.OriginalAssetDetailVO;
 import com.ruoyi.business.domain.model.ProjectDetailVO;
 import com.ruoyi.business.mapper.AssetMapper;
+import com.ruoyi.business.model.convert.AssetConvert;
 import com.ruoyi.business.model.request.AssetCopyReqBO;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.business.service.BrandService;
@@ -20,6 +22,7 @@ import com.ruoyi.business.service.DepartmentService;
 import com.ruoyi.business.service.EmployeeService;
 import com.ruoyi.business.service.LocationService;
 import com.ruoyi.business.service.MaterialService;
+import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.core.domain.model.LoginUser;
@@ -29,12 +32,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.omg.CORBA.Object;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -53,21 +56,23 @@ import static java.util.stream.Collectors.toMap;
 public class AssetServiceImpl implements AssetService {
 
     @Resource
-    private AssetMapper       assetMapper;
+    private AssetMapper          assetMapper;
     @Resource
-    private CategoryService   categoryService;
+    private CategoryService      categoryService;
     @Resource
-    private BrandService      brandService;
+    private BrandService         brandService;
     @Resource
-    private MaterialService   materialService;
+    private MaterialService      materialService;
     @Resource
-    private LocationService   locationService;
+    private LocationService      locationService;
     @Resource
-    private DepartmentService departmentService;
+    private DepartmentService    departmentService;
     @Resource
-    private EmployeeService   employeeService;
+    private EmployeeService      employeeService;
     @Resource
-    private ProjectService    projectService;
+    private ProjectService       projectService;
+    @Resource
+    private OriginalAssetService originalAssetService;
 
     @Override
     public HomeAssetStatsVO getHomeAssetStats(Long projectId) {
@@ -242,6 +247,34 @@ public class AssetServiceImpl implements AssetService {
             this.insertAsset(pureData);
         }
         return true;
+    }
+
+    @Override
+    public AssetDetailVO selectAssetByCode(String code, Long projectId) {
+        Asset assetQuery = new Asset();
+        assetQuery.setProjectId(projectId);
+        assetQuery.setMatchCode(code);
+        List<AssetDetailVO> assetDetailList = this.selectAssetDetailList(assetQuery);
+        if (CollectionUtils.isNotEmpty(assetDetailList)) {
+            AssetDetailVO matchData = assetDetailList.stream().filter(e -> e.getTemporaryCode().equals(code))
+                .findFirst().orElse(null);
+            if (ObjectUtils.isNotEmpty(matchData)) {
+                return matchData;
+            }
+            matchData = assetDetailList.stream().filter(e -> e.getOriginalCode().equals(code)).findFirst().orElse(null);
+            if (ObjectUtils.isNotEmpty(matchData)) {
+                return matchData;
+            }
+        }
+        OriginalAsset originalAssetQuery = new OriginalAsset();
+        originalAssetQuery.setProjectId(projectId);
+        originalAssetQuery.setOriginalCode(code);
+        List<OriginalAssetDetailVO> originalAssetDetailList = originalAssetService
+            .selectOriginalAssetDetailList(originalAssetQuery);
+        if (CollectionUtils.isEmpty(originalAssetDetailList)) {
+            return new AssetDetailVO();
+        }
+        return AssetConvert.INSTANCE.toAssetDetailVO(originalAssetDetailList.get(0));
     }
 
     /**
