@@ -148,6 +148,9 @@ public class AssetServiceImpl implements AssetService {
         if (Objects.isNull(asset.getProjectId()) || Objects.isNull(asset.getDeptId())) {
             throw new ServiceException("项目和单位数据异常");
         }
+        if (StringUtils.isBlank(asset.getTemporaryCode()) && StringUtils.isBlank(asset.getOriginalCode())) {
+            throw new ServiceException("临时编码和原始编码不能同时为空");
+        }
         ProjectDetailVO projectDetailVO = projectService.selectProjectById(asset.getProjectId());
         if (ObjectUtils.isEmpty(projectDetailVO)) {
             throw new ServiceException("项目不存在");
@@ -272,9 +275,14 @@ public class AssetServiceImpl implements AssetService {
         List<OriginalAssetDetailVO> originalAssetDetailList = originalAssetService
             .selectOriginalAssetDetailList(originalAssetQuery);
         if (CollectionUtils.isEmpty(originalAssetDetailList)) {
-            return new AssetDetailVO();
+            AssetDetailVO resultData = new AssetDetailVO();
+            resultData.setTemporaryCode(code);
+            resultData.setOriginalCode(code);
+            return resultData;
         }
-        return AssetConvert.INSTANCE.toAssetDetailVO(originalAssetDetailList.get(0));
+        AssetDetailVO resultData = AssetConvert.INSTANCE.toAssetDetailVO(originalAssetDetailList.get(0));
+        resultData.setId(null);
+        return resultData;
     }
 
     /**
@@ -285,7 +293,11 @@ public class AssetServiceImpl implements AssetService {
         Asset searchAsset = new Asset();
         searchAsset.setDeptId(data.getDeptId());
         searchAsset.setProjectId(data.getProjectId());
-        searchAsset.setTemporaryCode(data.getTemporaryCode());
+        if (StringUtils.isNotBlank(data.getTemporaryCode())) {
+            searchAsset.setTemporaryCode(data.getTemporaryCode());
+        } else {
+            searchAsset.setOriginalCode(data.getOriginalCode());
+        }
         List<AssetDO> assetList = this.selectAssetList(searchAsset);
         if (CollectionUtils.isNotEmpty(assetList)) {
             if (assetList.size() > 1) {
