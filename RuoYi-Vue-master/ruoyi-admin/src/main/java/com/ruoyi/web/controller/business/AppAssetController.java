@@ -95,7 +95,7 @@ public class AppAssetController extends BaseController {
         if (StringUtils.isEmpty(code)) {
             throw new ServiceException("资产编码不能为空");
         }
-        return success(assetService.selectAssetByCode(code, getProjectCompanyId()));
+        return success(assetService.selectAssetByCode(code, getProjectId()));
     }
 
 }

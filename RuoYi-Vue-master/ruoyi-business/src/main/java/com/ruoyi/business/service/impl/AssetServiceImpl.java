@@ -302,7 +302,7 @@ public class AssetServiceImpl implements AssetService {
         List<AssetDO> assetList = this.selectAssetList(searchAsset);
         if (CollectionUtils.isNotEmpty(assetList)) {
             if (assetList.size() > 1) {
-                throw new ServiceException("临时编码存在多个，数据异常");
+                throw new ServiceException("临时/原始编码存在多个，请核对数据");
             }
             AssetDO existAsset = assetList.get(0);
             data.setId(existAsset.getId());
