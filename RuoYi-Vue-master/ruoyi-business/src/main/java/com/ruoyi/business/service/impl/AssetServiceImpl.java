@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -260,14 +261,27 @@ public class AssetServiceImpl implements AssetService {
         assetQuery.setMatchCode(code);
         List<AssetDetailVO> assetDetailList = this.selectAssetDetailList(assetQuery);
         if (CollectionUtils.isNotEmpty(assetDetailList)) {
-            AssetDetailVO matchData = assetDetailList.stream().filter(e -> e.getTemporaryCode().equals(code))
-                .findFirst().orElse(null);
-            if (ObjectUtils.isNotEmpty(matchData)) {
-                return matchData;
+            List<AssetDetailVO> matchDataList = assetDetailList.stream().filter(e -> e.getTemporaryCode().equals(code))
+                .collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(matchDataList)) {
+                if (matchDataList.size() != 1) {
+                    throw new ServiceException("【项目资产】临时编号存在多条数据，数据异常");
+                }
+                AssetDetailVO matchData = matchDataList.get(0);
+                if (ObjectUtils.isNotEmpty(matchData)) {
+                    return matchData;
+                }
             }
-            matchData = assetDetailList.stream().filter(e -> e.getOriginalCode().equals(code)).findFirst().orElse(null);
-            if (ObjectUtils.isNotEmpty(matchData)) {
-                return matchData;
+            matchDataList = assetDetailList.stream().filter(e -> e.getOriginalCode().equals(code))
+                .collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(matchDataList)) {
+                if (matchDataList.size() != 1) {
+                    throw new ServiceException("【项目资产】原始编号存在多条数据，数据异常");
+                }
+                AssetDetailVO matchData = matchDataList.get(0);
+                if (ObjectUtils.isNotEmpty(matchData)) {
+                    return matchData;
+                }
             }
         }
         OriginalAsset originalAssetQuery = new OriginalAsset();
