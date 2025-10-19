@@ -12,6 +12,7 @@ import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.core.page.TableDataDetail;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.web.controller.business.convert.WebAssetConvert;
 import com.ruoyi.web.controller.business.request.AssetCopyRequest;
 import com.ruoyi.web.controller.business.request.AssetQueryRequest;
@@ -88,8 +89,12 @@ public class AppAssetController extends BaseController {
     /**
      * 获取资产详细信息
      */
+    @ApiOperation("App-扫码获取资产")
     @GetMapping(value = "/{code}")
     public AjaxResult getInfo(@PathVariable("code") String code) {
+        if (StringUtils.isEmpty(code)) {
+            throw new ServiceException("资产编码不能为空");
+        }
         return success(assetService.selectAssetByCode(code, getProjectCompanyId()));
     }
 
