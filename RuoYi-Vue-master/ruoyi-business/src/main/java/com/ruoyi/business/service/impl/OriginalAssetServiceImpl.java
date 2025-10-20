@@ -267,21 +267,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                 importData.setSpecification(data.getSpecification());
 
                 if (StringUtils.isNotEmpty(data.getLocationName())) {
-                    Location location = new Location();
-                    location.setDeptId(importData.getDeptId());
-                    location.setLocationName(data.getLocationName());
-                    List<LocationDO> locationList = locationService.selectLocationList(location);
-                    if (CollectionUtils.isEmpty(locationList)) {
-                        failureNum++;
-                        failureMsg.append("<br/>" + failureNum + "、原始编号 " + data.getOriginalCode() + " 的地点名称不存在");
-                        continue;
-                    }
-                    if (categoryList.size() != 1) {
-                        failureNum++;
-                        failureMsg.append("<br/>" + failureNum + "、原始编号 " + data.getOriginalCode() + " 的地点名称数据存在多个");
-                        continue;
-                    }
-                    LocationDO locationDO = locationList.get(0);
+                    LocationDO locationDO = locationService.insertNotExistData(importData.getDeptId(),
+                        data.getLocationName());
                     importData.setLocationId(locationDO.getId());
                     importData.setLocationName(locationDO.getLocationName());
                 }
@@ -294,15 +281,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                     departmentNameList.add(data.getUsingDeptName());
                 }
                 if (!departmentNameList.isEmpty()) {
-                    Department departmentQuery = new Department();
-                    departmentQuery.setDeptId(importData.getDeptId());
-                    departmentQuery.setDepartmentNames(new ArrayList<>(departmentNameList));
-                    List<DepartmentDO> departmentList = departmentService.selectDepartmentList(departmentQuery);
-                    if (CollectionUtils.isEmpty(departmentList) || departmentList.size() != departmentNameList.size()) {
-                        failureNum++;
-                        failureMsg.append("<br/>" + failureNum + "、原始编号 " + data.getOriginalCode() + " 管理部门或使用部门不存在");
-                        continue;
-                    }
+                    List<DepartmentDO> departmentList = departmentService.insertNotExistData(importData.getDeptId(),
+                        new ArrayList<>(departmentNameList));
                     DepartmentDO departmentDO = departmentList.stream()
                         .filter(e -> e.getDepartmentName().equals(data.getManagedDeptName())).findFirst().orElse(null);
                     if (ObjectUtils.isNotEmpty(departmentDO)) {
@@ -325,15 +305,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                     empNameList.add(data.getUsingEmpName());
                 }
                 if (CollectionUtils.isNotEmpty(empNameList)) {
-                    Employee employeeQuery = new Employee();
-                    employeeQuery.setDeptId(importData.getDeptId());
-                    employeeQuery.setEmployeeNames(new ArrayList<>(empNameList));
-                    List<EmployeeDO> employeeList = employeeService.selectEmployeeList(employeeQuery);
-                    if (CollectionUtils.isEmpty(employeeList) || employeeList.size() != empNameList.size()) {
-                        failureNum++;
-                        failureMsg.append("<br/>" + failureNum + "、原始编号 " + data.getOriginalCode() + " 的管理员工或使用员工不存在");
-                        continue;
-                    }
+                    List<EmployeeDO> employeeList = employeeService.insertNotExistData(importData.getDeptId(),
+                        new ArrayList<>(empNameList));
                     EmployeeDO employeeDO = employeeList.stream()
                         .filter(e -> e.getEmployeeName().equals(data.getManagedEmpName())).findFirst().orElse(null);
                     if (ObjectUtils.isNotEmpty(employeeDO)) {
@@ -347,7 +320,6 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                         importData.setUsingEmpName(employeeDO.getEmployeeName());
                     }
                 }
-
                 importData.setRemark(data.getRemark());
 
                 if (ObjectUtils.isNotEmpty(importData.getId())) {

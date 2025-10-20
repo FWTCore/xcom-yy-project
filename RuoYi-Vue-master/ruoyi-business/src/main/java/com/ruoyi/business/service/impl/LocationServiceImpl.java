@@ -60,6 +60,7 @@ public class LocationServiceImpl implements LocationService {
     public List<LocationDO> selectLocationList(Location location) {
         return locationMapper.selectLocationList(location);
     }
+
     /**
      * 查询存放地点列表
      *
@@ -146,5 +147,21 @@ public class LocationServiceImpl implements LocationService {
             this.updateLocation(data);
         }
         return true;
+    }
+
+    @Override
+    public LocationDO insertNotExistData(Long deptId, String locationName) {
+        Location location = new Location();
+        location.setDeptId(deptId);
+        location.setLocationName(locationName);
+        List<LocationDO> locationList = this.selectLocationList(location);
+        if (CollectionUtils.isEmpty(locationList)) {
+            LocationDO resultData = new LocationDO();
+            resultData.setDeptId(deptId);
+            resultData.setLocationName(locationName);
+            this.insertLocation(resultData);
+            return resultData;
+        }
+        return locationList.get(0);
     }
 }

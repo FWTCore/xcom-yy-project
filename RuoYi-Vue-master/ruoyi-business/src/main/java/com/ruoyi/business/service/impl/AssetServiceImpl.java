@@ -261,7 +261,8 @@ public class AssetServiceImpl implements AssetService {
         assetQuery.setMatchCode(code);
         List<AssetDetailVO> assetDetailList = this.selectAssetDetailList(assetQuery);
         if (CollectionUtils.isNotEmpty(assetDetailList)) {
-            List<AssetDetailVO> matchDataList = assetDetailList.stream().filter(e -> e.getTemporaryCode().equals(code))
+            List<AssetDetailVO> matchDataList = assetDetailList.stream()
+                .filter(e -> StringUtils.isNotBlank(e.getTemporaryCode()) && e.getTemporaryCode().equals(code))
                 .collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(matchDataList)) {
                 if (matchDataList.size() != 1) {
@@ -272,7 +273,8 @@ public class AssetServiceImpl implements AssetService {
                     return matchData;
                 }
             }
-            matchDataList = assetDetailList.stream().filter(e -> e.getOriginalCode().equals(code))
+            matchDataList = assetDetailList.stream()
+                .filter(e -> StringUtils.isNotBlank(e.getOriginalCode()) && e.getOriginalCode().equals(code))
                 .collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(matchDataList)) {
                 if (matchDataList.size() != 1) {

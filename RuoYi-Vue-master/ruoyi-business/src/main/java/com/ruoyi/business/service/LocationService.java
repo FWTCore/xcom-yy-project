@@ -38,6 +38,7 @@ public interface LocationService {
      * @return 存放地点集合
      */
     List<LocationDO> selectLocationList(Location location);
+
     /**
      * 查询存放地点列表
      *
@@ -84,4 +85,12 @@ public interface LocationService {
      * @return
      */
     Boolean upsetData(LocationDO data);
+
+    /**
+     * 新增不存在的地点
+     * @param deptId
+     * @param locationName
+     * @return
+     */
+    LocationDO insertNotExistData(Long deptId, String locationName);
 }

@@ -83,4 +83,12 @@ public interface DepartmentService {
      * @return
      */
     Boolean upsetData(DepartmentDO data);
+
+    /**
+     * 新增不存在的数据
+     * @param deptId
+     * @param departmentNames
+     * @return
+     */
+    List<DepartmentDO> insertNotExistData(Long deptId, List<String> departmentNames);
 }

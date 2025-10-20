@@ -12,6 +12,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,6 +60,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentDO> selectDepartmentList(Department department) {
         return departmentMapper.selectDepartmentList(department);
     }
+
     /**
      * 查询部门列表
      *
@@ -145,5 +147,34 @@ public class DepartmentServiceImpl implements DepartmentService {
             this.updateDepartment(data);
         }
         return true;
+    }
+
+    @Override
+    public List<DepartmentDO> insertNotExistData(Long deptId, List<String> departmentNames) {
+        List<DepartmentDO> resultData = new ArrayList<>();
+        Department departmentQuery = new Department();
+        departmentQuery.setDeptId(deptId);
+        departmentQuery.setDepartmentNames(departmentNames);
+        List<DepartmentDO> departmentList = this.selectDepartmentList(departmentQuery);
+        for (String departmentName : departmentNames) {
+            if (CollectionUtils.isEmpty(departmentList)) {
+                DepartmentDO departmentDO = new DepartmentDO();
+                departmentDO.setDeptId(deptId);
+                departmentDO.setDepartmentName(departmentName);
+                this.insertDepartment(departmentDO);
+                resultData.add(departmentDO);
+            } else {
+                DepartmentDO departmentDO = departmentList.stream()
+                    .filter(e -> e.getDepartmentName().equals(departmentName)).findFirst().orElse(null);
+                if (ObjectUtils.isEmpty(departmentDO)) {
+                    departmentDO = new DepartmentDO();
+                    departmentDO.setDeptId(deptId);
+                    departmentDO.setDepartmentName(departmentName);
+                    this.insertDepartment(departmentDO);
+                }
+                resultData.add(departmentDO);
+            }
+        }
+        return resultData;
     }
 }

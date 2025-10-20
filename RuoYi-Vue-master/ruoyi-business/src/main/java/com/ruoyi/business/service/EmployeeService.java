@@ -38,6 +38,7 @@ public interface EmployeeService {
      * @return 员工集合
      */
     List<EmployeeDO> selectEmployeeList(Employee employee);
+
     /**
      * 查询员工列表
      *
@@ -78,12 +79,19 @@ public interface EmployeeService {
      */
     int deleteEmployeeById(Long id);
 
-
     /**
      * 新增、更新数据
      * @param data
      * @return
      */
     Boolean upsetData(EmployeeDO data);
+
+    /**
+     * 新增不存在的数据
+     * @param deptId
+     * @param employeeNames
+     * @return
+     */
+    List<EmployeeDO> insertNotExistData(Long deptId, List<String> employeeNames);
 
 }

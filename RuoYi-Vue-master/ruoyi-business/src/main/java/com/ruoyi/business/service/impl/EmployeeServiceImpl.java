@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,6 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDO> selectEmployeeList(Employee employee) {
         return employeeMapper.selectEmployeeList(employee);
     }
+
     /**
      * 查询员工列表
      *
@@ -145,5 +147,35 @@ public class EmployeeServiceImpl implements EmployeeService {
             this.updateEmployee(data);
         }
         return true;
+    }
+
+    @Override
+    public List<EmployeeDO> insertNotExistData(Long deptId, List<String> employeeNames) {
+        List<EmployeeDO> resultData = new ArrayList<>();
+        Employee employeeQuery = new Employee();
+        employeeQuery.setDeptId(deptId);
+        employeeQuery.setEmployeeNames(employeeNames);
+        List<EmployeeDO> employeeList = this.selectEmployeeList(employeeQuery);
+
+        for (String employeeName : employeeNames) {
+            if (CollectionUtils.isEmpty(employeeList)) {
+                EmployeeDO employeeDO = new EmployeeDO();
+                employeeDO.setDeptId(deptId);
+                employeeDO.setEmployeeName(employeeName);
+                this.insertEmployee(employeeDO);
+                resultData.add(employeeDO);
+            } else {
+                EmployeeDO employeeDO = employeeList.stream().filter(e -> e.getEmployeeName().equals(employeeName))
+                    .findFirst().orElse(null);
+                if (ObjectUtils.isEmpty(employeeDO)) {
+                    employeeDO = new EmployeeDO();
+                    employeeDO.setDeptId(deptId);
+                    employeeDO.setEmployeeName(employeeName);
+                    this.insertEmployee(employeeDO);
+                }
+                resultData.add(employeeDO);
+            }
+        }
+        return resultData;
     }
 }
