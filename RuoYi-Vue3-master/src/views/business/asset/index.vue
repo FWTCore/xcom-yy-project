@@ -52,8 +52,8 @@
         <el-input v-model="queryParams.searchAssetName" placeholder="请输入资产名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="规格型号" prop="searchProductionTime">
-        <el-input v-model="queryParams.searchProductionTime" placeholder="请输入规格型号" style="width: 240px" clearable
+      <el-form-item label="规格型号" prop="searchSpecification">
+        <el-input v-model="queryParams.searchSpecification" placeholder="请输入规格型号" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="资产状态" prop="assetStatus">
@@ -433,8 +433,7 @@ const data = reactive({
     categoryId: null,
     brandId: null,
     searchAssetName: null,
-    specification: null,
-    searchProductionTime: null,
+    searchSpecification: null,
     searchLocationName: null,
     searchManagedDeptName: null,
     searchUsingDeptName: null,

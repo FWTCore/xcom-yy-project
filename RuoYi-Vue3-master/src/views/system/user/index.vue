@@ -24,10 +24,14 @@
                 <el-input v-model="queryParams.userName" placeholder="请输入用户账号" clearable style="width: 240px"
                   @keyup.enter="handleQuery" />
               </el-form-item>
-              <el-form-item label="手机号码" prop="phonenumber">
-                <el-input v-model="queryParams.phonenumber" placeholder="请输入手机号码" clearable style="width: 240px"
+              <el-form-item label="账户名称" prop="nickName">
+                <el-input v-model="queryParams.nickName" placeholder="请输入账户名称" clearable style="width: 240px"
                   @keyup.enter="handleQuery" />
               </el-form-item>
+              <!-- <el-form-item label="手机号码" prop="phonenumber">
+                <el-input v-model="queryParams.phonenumber" placeholder="请输入手机号码" clearable style="width: 240px"
+                  @keyup.enter="handleQuery" />
+              </el-form-item> -->
               <el-form-item label="状态" prop="status">
                 <el-select v-model="queryParams.status" placeholder="用户状态" clearable style="width: 240px">
                   <el-option v-for="dict in sys_normal_disable" :key="dict.value" :label="dict.label"
@@ -302,6 +306,7 @@ const data = reactive({
     pageSize: 10,
     userName: undefined,
     phonenumber: undefined,
+    nickName: undefined,
     status: undefined,
     deptId: undefined
   },
