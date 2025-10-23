@@ -80,6 +80,10 @@ public class AssetUpsertRequest implements Serializable {
     @ApiModelProperty(value = "生产时间")
     @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime     productionTime;
+    /**
+     * 资产状态
+     */
+    private Integer           assetStatus;
 
     /**
      * 地点id,;
