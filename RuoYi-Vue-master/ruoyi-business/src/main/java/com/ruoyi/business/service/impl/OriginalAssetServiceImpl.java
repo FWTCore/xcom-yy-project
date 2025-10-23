@@ -227,6 +227,7 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                 importData.setProjectId(existProject.getId());
 
                 OriginalAsset originalAssetQuery = new OriginalAsset();
+                originalAssetQuery.setProjectId(existProject.getId());
                 originalAssetQuery.setOriginalCode(data.getOriginalCode());
                 List<OriginalAssetDO> originalAssetList = this.selectOriginalAssetList(originalAssetQuery);
                 if (CollectionUtils.isNotEmpty(originalAssetList)) {

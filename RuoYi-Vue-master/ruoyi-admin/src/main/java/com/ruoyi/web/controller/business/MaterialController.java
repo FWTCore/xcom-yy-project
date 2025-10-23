@@ -70,8 +70,8 @@ public class MaterialController extends BaseController {
     @Log(title = "物资", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Material material) {
-        List<MaterialDO> list = materialService.selectMaterialList(material);
-        ExcelUtil<MaterialDO> util = new ExcelUtil<MaterialDO>(MaterialDO.class);
+        List<MaterialDetailVO> list = materialService.selectMaterialDetailList(material);
+        ExcelUtil<MaterialDetailVO> util = new ExcelUtil<MaterialDetailVO>(MaterialDetailVO.class);
         util.exportExcel(response, list, "物资数据");
     }
 

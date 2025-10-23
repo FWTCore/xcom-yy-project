@@ -63,6 +63,9 @@
             <if test="specification != null  and specification != ''">
                 and specification = #{specification}
             </if>
+            <if test="specification == null  or specification == ''">
+                and specification is null
+            </if>
             <if test="mainImageUrl != null  and mainImageUrl != ''">
                 and main_image_url = #{mainImageUrl}
             </if>
