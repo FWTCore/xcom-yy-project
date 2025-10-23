@@ -545,6 +545,9 @@
             <if test="productionTime != null">
                 production_time,
             </if>
+            <if test="assetStatus != null">
+                asset_status,
+            </if>
             <if test="locationId != null">
                 location_id,
             </if>
@@ -657,6 +660,9 @@
             </if>
             <if test="productionTime != null">
                 #{productionTime},
+            </if>
+            <if test="assetStatus != null">
+                #{assetStatus},
             </if>
             <if test="locationId != null">
                 #{locationId},
@@ -786,6 +792,10 @@
             <if test="productionTime != null">
                 production_time =
                 #{productionTime},
+            </if>
+            <if test="assetStatus != null">
+                asset_status =
+                #{assetStatus},
             </if>
             <if test="locationId != null">
                 location_id =

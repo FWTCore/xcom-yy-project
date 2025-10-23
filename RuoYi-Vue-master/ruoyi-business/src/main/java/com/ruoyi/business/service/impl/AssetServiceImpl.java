@@ -229,10 +229,7 @@ public class AssetServiceImpl implements AssetService {
             if (parts2.length != parts1.length) {
                 return Integer.compare(parts2.length, parts1.length);
             }
-
-            int num1 = Integer.parseInt(parts1[parts1.length - 1]);
-            int num2 = Integer.parseInt(parts2[parts2.length - 1]);
-            return Integer.compare(num2, num1);
+            return parts2[parts2.length - 1].compareTo(parts1[parts1.length - 1]);
         });
 
         String maxTemporaryCode = assetList.get(0).getTemporaryCode();
