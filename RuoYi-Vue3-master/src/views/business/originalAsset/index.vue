@@ -167,6 +167,20 @@
         </el-row>
         <el-row>
           <el-col :span="12">
+            <el-form-item label="原始编码" prop="originalCode">
+              <el-input v-model="form.originalCode" placeholder="请输入原始编码" :disabled="!!form.id"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+
+            <el-form-item label="资产名称" prop="assetName">
+              <el-input v-model="form.assetName" placeholder="请输入资产名称" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
             <el-form-item label="门类" prop="categoryId">
               <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable>
                 <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
@@ -180,22 +194,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="原始编码" prop="originalCode">
-              <el-input v-model="form.originalCode" placeholder="请输入原始编码" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="12">
-
-            <el-form-item label="资产名称" prop="assetName">
-              <el-input v-model="form.assetName" placeholder="请输入资产名称" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="规格型号" prop="specification">

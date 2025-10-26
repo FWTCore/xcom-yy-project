@@ -206,12 +206,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="临时编码" prop="temporaryCode">
-              <el-input v-model="form.temporaryCode" placeholder="请输入临时编码" />
+              <el-input v-model="form.temporaryCode" placeholder="请输入临时编码" :disabled="!!form.id" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="原始编码" prop="originalCode">
-              <el-input v-model="form.originalCode" placeholder="请输入原始编码" />
+              <el-input v-model="form.originalCode" placeholder="请输入原始编码" :disabled="!!form.id" />
             </el-form-item>
           </el-col>
         </el-row>
