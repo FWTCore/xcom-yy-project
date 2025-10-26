@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.business;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.OriginalAsset;
@@ -82,7 +83,7 @@ public class OriginalAssetController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:original_asset:add')")
     @Log(title = "原始资产", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody OriginalAssetDO originalAsset) {
+    public AjaxResult add(@RequestBody @Valid OriginalAssetDO originalAsset) {
         return toAjax(originalAssetService.insertOriginalAsset(originalAsset));
     }
 
@@ -92,7 +93,7 @@ public class OriginalAssetController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:original_asset:edit')")
     @Log(title = "原始资产", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody OriginalAssetDO originalAsset) {
+    public AjaxResult edit(@RequestBody @Valid OriginalAssetDO originalAsset) {
         return toAjax(originalAssetService.updateOriginalAsset(originalAsset));
     }
 

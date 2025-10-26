@@ -11,6 +11,8 @@
         <result property="brandName" column="brand_name"/>
         <result property="assetName" column="asset_name"/>
         <result property="specification" column="specification"/>
+        <result property="obtainTime" column="obtain_time"/>
+        <result property="productPrice" column="product_price"/>
         <result property="locationId" column="location_id"/>
         <result property="locationName" column="location_name"/>
         <result property="managedDeptId" column="managed_dept_Id"/>
@@ -46,6 +48,8 @@
                brand_name,
                asset_name,
                specification,
+               obtain_time,
+               product_price,
                location_id,
                location_name,
                managed_dept_Id,
@@ -191,6 +195,8 @@
         a.brand_name,
         a.asset_name,
         a.specification,
+        a.obtain_time,
+        a.product_price,
         a.location_id,
         a.location_name,
         a.managed_dept_Id,
@@ -368,6 +374,12 @@
             <if test="specification != null">
                 specification,
             </if>
+            <if test="obtainTime != null">
+                obtain_time,
+            </if>
+            <if test="productPrice != null">
+                product_price,
+            </if>
             <if test="locationId != null">
                 location_id,
             </if>
@@ -447,6 +459,12 @@
             </if>
             <if test="specification != null">
                 #{specification},
+            </if>
+            <if test="obtainTime != null">
+                #{obtainTime},
+            </if>
+            <if test="productPrice != null">
+                #{productPrice},
             </if>
             <if test="locationId != null">
                 #{locationId},
@@ -539,6 +557,14 @@
             <if test="specification != null">
                 specification =
                 #{specification},
+            </if>
+            <if test="obtainTime != null">
+                obtain_time =
+                #{obtainTime},
+            </if>
+            <if test="productPrice != null">
+                product_price =
+                #{productPrice},
             </if>
             <if test="locationId != null">
                 location_id =

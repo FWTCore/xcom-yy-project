@@ -1,10 +1,16 @@
 package com.ruoyi.business.domain.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.ruoyi.business.utils.LenientLocalDateTimeDeserializer;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * 原始资产对象 original_asset
@@ -21,105 +27,118 @@ public class OriginalAssetDO extends BaseEntityDO {
     /**
      * 系统公司id,;
      */
-    private Long   deptId;
+    private Long          deptId;
 
     /**
      * 项目id,;
      */
-    private Long   projectId;
+    private Long          projectId;
     /**
      * 原始编码,;
      */
     @Excel(name = "原始编码")
-    private String originalCode;
+    private String        originalCode;
 
     /**
      * 分类id,;
      */
-    private Long   categoryId;
+    private Long          categoryId;
 
     /**
      * 分类名称,;
      */
     @Excel(name = "门类名称")
-    private String categoryName;
+    private String        categoryName;
 
     /**
      * 品牌名称,;
      */
     @Excel(name = "品牌")
-    private String brandName;
+    private String        brandName;
 
     /**
      * 资产名称,;
      */
     @Excel(name = "资产名称")
-    private String assetName;
+    private String        assetName;
 
     /**
      * 规格型号,;
      */
     @Excel(name = "规格型号")
-    private String specification;
+    private String        specification;
 
     /**
      * 地点id,;
      */
-    private Long   locationId;
+    private Long          locationId;
 
     /**
      * 地点名称,;
      */
     @Excel(name = "地点名称")
-    private String locationName;
+    private String        locationName;
 
     /**
      * 管理部门id,;
      */
-    private Long   managedDeptId;
+    private Long          managedDeptId;
 
     /**
      * 管理部门名称,;
      */
     @Excel(name = "管理部门")
-    private String managedDeptName;
+    private String        managedDeptName;
 
     /**
      * 使用部门id,;
      */
-    private Long   usingDeptId;
+    private Long          usingDeptId;
 
     /**
      * 使用部门名称,;
      */
     @Excel(name = "使用部门")
-    private String usingDeptName;
+    private String        usingDeptName;
 
     /**
      * 管理员工id,;
      */
-    private Long   managedEmpId;
+    private Long          managedEmpId;
 
     /**
      * 管理员工名称,;
      */
     @Excel(name = "管理员工")
-    private String managedEmpName;
+    private String        managedEmpName;
 
     /**
      * 使用员工id,;
      */
-    private Long   usingEmpId;
+    private Long          usingEmpId;
 
     /**
      * 使用员工名称,;
      */
     @Excel(name = "使用员工")
-    private String usingEmpName;
+    private String        usingEmpName;
 
     /**
      * 备注,;
      */
     @Excel(name = "备注")
-    private String remark;
+    private String        remark;
+    /**
+     * 获得时间,;
+     */
+    @Excel(name = "获得时间")
+    @NotNull(message = "获得时间不能为空")
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
+    private LocalDateTime obtainTime;
+    /**
+     * 价值,;
+     */
+    @Excel(name = "价值")
+    @NotNull(message = "价值不能为空")
+    private BigDecimal    productPrice;
 }

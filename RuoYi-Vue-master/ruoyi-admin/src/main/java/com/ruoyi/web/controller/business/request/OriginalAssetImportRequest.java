@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * 原始资产导入请求模型
@@ -22,69 +24,77 @@ public class OriginalAssetImportRequest implements Serializable {
      * 部门名称,;
      */
     @Excel(name = "所属单位", sort = 1, cellType = Excel.ColumnType.TEXT, prompt = "所属单位")
-    private String deptName;
+    private String            deptName;
 
     /**
      * 项目名称,;
      */
     @Excel(name = "项目", sort = 2, cellType = Excel.ColumnType.TEXT, prompt = "项目")
-    private String projectName;
+    private String            projectName;
     /**
      * 原始编码,;
      */
     @Excel(name = "原始编码", cellType = Excel.ColumnType.TEXT, prompt = "原始编码")
-    private String originalCode;
+    private String            originalCode;
     /**
      * 分类名称,;
      */
     @Excel(name = "门类名称", cellType = Excel.ColumnType.TEXT, prompt = "门类名称")
-    private String categoryName;
+    private String            categoryName;
     /**
      * 品牌名称,;
      */
     @Excel(name = "品牌", cellType = Excel.ColumnType.TEXT, prompt = "品牌")
-    private String brandName;
+    private String            brandName;
     /**
      * 资产名称,;
      */
     @Excel(name = "资产名称", cellType = Excel.ColumnType.TEXT, prompt = "资产名称")
-    private String assetName;
+    private String            assetName;
     /**
      * 规格型号,;
      */
     @Excel(name = "规格型号", cellType = Excel.ColumnType.TEXT, prompt = "规格型号")
-    private String specification;
+    private String            specification;
+    /**
+     * 获得时间,;
+     */
+    @Excel(name = "获得时间", cellType = Excel.ColumnType.TEXT, prompt = "格式：2025-10-01", dateFormat = "yyyy-MM-dd")
+    private String            obtainTime;
+    /**
+     * 价值,;
+     */
+    @Excel(name = "价值", cellType = Excel.ColumnType.TEXT, prompt = "价值")
+    private String            productPrice;
     /**
      * 地点名称,;
      */
     @Excel(name = "地点名称", cellType = Excel.ColumnType.TEXT, prompt = "地点名称")
-    private String locationName;
+    private String            locationName;
     /**
      * 管理部门名称,;
      */
     @Excel(name = "管理部门", cellType = Excel.ColumnType.TEXT, prompt = "管理部门")
-    private String managedDeptName;
+    private String            managedDeptName;
     /**
      * 使用部门名称,;
      */
     @Excel(name = "使用部门", cellType = Excel.ColumnType.TEXT, prompt = "使用部门")
-    private String usingDeptName;
+    private String            usingDeptName;
     /**
      * 管理员工名称,;
      */
     @Excel(name = "管理员工", cellType = Excel.ColumnType.TEXT, prompt = "管理员工")
-    private String managedEmpName;
+    private String            managedEmpName;
     /**
      * 使用员工名称,;
      */
     @Excel(name = "使用员工", cellType = Excel.ColumnType.TEXT, prompt = "使用员工")
-    private String usingEmpName;
+    private String            usingEmpName;
     /**
      * 备注,;
      */
     @Excel(name = "备注", cellType = Excel.ColumnType.TEXT, prompt = "备注")
-    private String remark;
-
-
+    private String            remark;
 
 }

@@ -218,6 +218,16 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                     failureMsg.append("<br/>" + failureNum + "、原始编号 " + data.getOriginalCode() + " 的资产名称为空");
                     continue;
                 }
+                if (ObjectUtils.isEmpty(data.getObtainTime())) {
+                    failureNum++;
+                    failureMsg.append("<br/>" + failureNum + "、原始编号 " + data.getOriginalCode() + " 的获得时间为空");
+                    continue;
+                }
+                if (ObjectUtils.isEmpty(data.getProductPrice())) {
+                    failureNum++;
+                    failureMsg.append("<br/>" + failureNum + "、原始编号 " + data.getOriginalCode() + " 的价值为空");
+                    continue;
+                }
 
                 OriginalAssetDO importData = new OriginalAssetDO();
                 importData.setDeptId(existSysDept.getDeptId());
@@ -263,6 +273,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                 importData.setBrandName(data.getBrandName());
                 importData.setAssetName(data.getAssetName());
                 importData.setSpecification(data.getSpecification());
+                importData.setObtainTime(data.getObtainTime());
+                importData.setProductPrice(data.getProductPrice());
 
                 if (StringUtils.isNotEmpty(data.getLocationName())) {
                     LocationDO locationDO = locationService.insertNotExistData(importData.getDeptId(),
