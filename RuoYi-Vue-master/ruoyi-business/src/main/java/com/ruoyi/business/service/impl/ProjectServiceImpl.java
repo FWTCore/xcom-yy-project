@@ -54,10 +54,11 @@ public class ProjectServiceImpl implements ProjectService {
      * @return 项目
      */
     @Override
-    @DataScope(deptAlias = "p", projectAlias = "p", isSelfTable = true)
+    @DataScope(deptAlias = "p", projectAlias = "p", isSelfTable = true, isIgnoreHeaderProject = true)
     public List<ProjectDO> selectProjectList(Project project) {
         return projectMapper.selectProjectList(project);
     }
+
     /**
      * 查询项目列表
      *
@@ -65,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
      * @return 项目
      */
     @Override
-    @DataScope(deptAlias = "p", projectAlias = "p", isSelfTable = true)
+    @DataScope(deptAlias = "p", projectAlias = "p", isSelfTable = true, isIgnoreHeaderProject = true)
     public List<ProjectDetailVO> selectProjectDetailList(Project project) {
         return projectMapper.selectProjectDetailList(project);
     }

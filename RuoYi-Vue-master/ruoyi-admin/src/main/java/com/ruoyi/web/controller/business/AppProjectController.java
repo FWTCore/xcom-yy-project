@@ -4,9 +4,11 @@ import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Project;
 import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.annotation.DataScope;
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataDetail;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.web.controller.business.request.SearchQueryRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +39,7 @@ public class AppProjectController extends BaseController {
 
     @ApiOperation("App-获取项目列表")
     @GetMapping(value = "/pageData")
+    @Log(title = "App-获取项目列表", businessType = BusinessType.OTHER)
     public TableDataDetail pageData(SearchQueryRequest request) {
         startPage();
         Project project = new Project();

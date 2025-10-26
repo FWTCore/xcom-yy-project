@@ -178,7 +178,8 @@ public class DataScopeAspect {
                     }
                 } else {
                     if (controllerDataScope.isSelfTable()) {
-                        if (ObjectUtils.isNotEmpty(loginUser.getProjectId())) {
+                        if (ObjectUtils.isNotEmpty(loginUser.getProjectId())
+                            && !controllerDataScope.isIgnoreHeaderProject()) {
                             sqlString
                                 .append(StringUtils.format(" OR {}.id = {} ", projectAlias, loginUser.getProjectId()));
                         } else {
@@ -194,8 +195,8 @@ public class DataScopeAspect {
                             }
                         }
                     } else {
-
-                        if (ObjectUtils.isNotEmpty(loginUser.getProjectId())) {
+                        if (ObjectUtils.isNotEmpty(loginUser.getProjectId())
+                            && !controllerDataScope.isIgnoreHeaderProject()) {
                             sqlString.append(
                                 StringUtils.format(" OR {}.project_id = {} ", projectAlias, loginUser.getProjectId()));
                         } else {

@@ -43,6 +43,12 @@ public @interface DataScope {
     boolean isUpgrade() default false;
 
     /**
+     * 是否忽略header的项目
+     * @return
+     */
+    boolean isIgnoreHeaderProject() default false;
+
+    /**
      * 权限字符（用于多个角色匹配符合要求的权限）默认根据权限注解@ss获取，多个权限用逗号分隔开来
      */
     String permission() default "";
