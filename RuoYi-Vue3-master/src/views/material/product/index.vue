@@ -54,7 +54,7 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="materialList" row-key="id" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="materialList" :height="tableHeight" row-key="id" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" width="50">
         <template #default="scope">
@@ -173,7 +173,15 @@ const title = ref("")
 const categoryOptions = ref([])
 const brandOptions = ref([])
 const brandFormOptions = ref([])
+const tableHeight = ref('400px')
 
+// 响应式高度计算
+const calculateTableHeight = () => {
+  const windowHeight = window.innerHeight
+  // 减去页面其他元素高度（头部、搜索栏、分页等）
+  const otherElementsHeight = 300 // 根据实际情况调整
+  tableHeight.value = `${windowHeight - otherElementsHeight}px`
+}
 const data = reactive({
   form: {},
   queryParams: {
@@ -370,5 +378,10 @@ function getFormBrand(categoryId) {
 onMounted(() => {
   getList()
   getCategory()
+  calculateTableHeight()
+  window.addEventListener('resize', calculateTableHeight)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', calculateTableHeight)
 })
 </script>

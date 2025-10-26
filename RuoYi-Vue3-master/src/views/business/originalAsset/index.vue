@@ -92,7 +92,8 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="originalAssetList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="originalAssetList" :height="tableHeight"
+      @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" width="50">
         <template #default="scope">
@@ -106,6 +107,12 @@
       <el-table-column label="品牌名称" align="center" prop="brandName" />
       <el-table-column label="资产名称" align="center" prop="assetName" />
       <el-table-column label="规格型号" align="center" prop="specification" />
+      <el-table-column label="获得时间" align="center" prop="obtainTime">
+        <template #default="scope">
+          <span>{{ parseTime(scope.row.obtainTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="价值" align="center" prop="productPrice" />
       <el-table-column label="地点名称" align="center" prop="locationName" />
       <el-table-column label="管理部门名称" align="center" prop="managedDeptName" />
       <el-table-column label="使用部门名称" align="center" prop="usingDeptName" />
@@ -195,7 +202,19 @@
               <el-input v-model="form.specification" placeholder="请输入规格型号" />
             </el-form-item>
           </el-col>
-
+          <el-col :span="12">
+            <el-form-item label="获得时间" prop="obtainTime">
+              <el-date-picker v-model="form.obtainTime" type="date" value-format="YYYY-MM-DD" placeholder="请选择获得时间">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="价值" prop="productPrice">
+              <el-input-number v-model="form.productPrice" placeholder="请输入价值" />
+            </el-form-item>
+          </el-col>
           <el-col :span="12">
             <el-form-item prop="locationId">
               <template #label>
@@ -213,6 +232,7 @@
             </el-form-item>
           </el-col>
         </el-row>
+
         <el-row>
           <el-col :span="12">
             <el-form-item prop="managedDeptId">
@@ -297,7 +317,7 @@
       </template>
     </el-dialog>
 
-        <!-- 导入对话框 -->
+    <!-- 导入对话框 -->
     <el-dialog :title="upload.title" v-model="upload.open" width="400px" append-to-body>
       <el-upload ref="uploadRef" :limit="1" accept=".xlsx, .xls" :headers="upload.headers"
         :action="upload.url + '?updateSupport=' + upload.updateSupport" :disabled="upload.isUploading"
@@ -347,6 +367,16 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
+const tableHeight = ref('400px')
+
+// 响应式高度计算
+const calculateTableHeight = () => {
+  const windowHeight = window.innerHeight
+  // 减去页面其他元素高度（头部、搜索栏、分页等）
+  const otherElementsHeight = 400 // 根据实际情况调整
+  tableHeight.value = `${windowHeight - otherElementsHeight}px`
+}
+
 
 const enabledDeptOptions = ref(undefined)
 const categoryOptions = ref([])
@@ -395,6 +425,8 @@ const data = reactive({
     originalCode: [{ required: true, message: "原始编码不能为空", trigger: "blur" }],
     categoryId: [{ required: true, message: "门类不能为空", trigger: "blur" }],
     assetName: [{ required: true, message: "资产名称不能为空", trigger: "blur" }],
+    obtainTime: [{ required: true, message: "获得时间不能为空", trigger: "blur" }],
+    productPrice: [{ required: true, message: "价值不能为空", trigger: "blur" }],
     deleteFlag: [
       { required: true, message: "是否删除不能为空", trigger: "blur" }
     ],
@@ -431,6 +463,8 @@ function reset() {
     brandName: null,
     assetName: null,
     specification: null,
+    obtainTime: null,
+    productPrice: null,
     locationId: null,
     locationName: null,
     managedDeptId: null,
@@ -686,5 +720,11 @@ onMounted(() => {
   getDeptTree()
   getCategory()
   getList()
+  calculateTableHeight()
+  window.addEventListener('resize', calculateTableHeight)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', calculateTableHeight)
 })
 </script>
