@@ -17,7 +17,7 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
-    <resultMap type="com.ruoyi.business.domain.model.ProjectDetailVO" id="ProjectDetailResult" extends="ProjectResult">
+    <resultMap type="com.ruoyi.business.model.response.ProjectDetailVO" id="ProjectDetailResult" extends="ProjectResult">
         <result property="deptName" column="dept_name"/>
     </resultMap>
 

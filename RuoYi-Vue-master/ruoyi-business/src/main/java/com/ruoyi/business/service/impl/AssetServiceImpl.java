@@ -8,11 +8,13 @@ import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Asset;
-import com.ruoyi.business.domain.model.AssetDetailVO;
-import com.ruoyi.business.domain.model.HomeAssetStatsVO;
+import com.ruoyi.business.model.request.CollectionStatsReqBO;
+import com.ruoyi.business.model.response.AssetDetailVO;
+import com.ruoyi.business.model.response.CollectionStatsVO;
+import com.ruoyi.business.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.domain.model.OriginalAsset;
-import com.ruoyi.business.domain.model.OriginalAssetDetailVO;
-import com.ruoyi.business.domain.model.ProjectDetailVO;
+import com.ruoyi.business.model.response.OriginalAssetDetailVO;
+import com.ruoyi.business.model.response.ProjectDetailVO;
 import com.ruoyi.business.mapper.AssetMapper;
 import com.ruoyi.business.model.convert.AssetConvert;
 import com.ruoyi.business.model.request.AssetCopyReqBO;
@@ -297,6 +299,19 @@ public class AssetServiceImpl implements AssetService {
         AssetDetailVO resultData = AssetConvert.INSTANCE.toAssetDetailVO(originalAssetDetailList.get(0));
         resultData.setId(null);
         return resultData;
+    }
+
+    @Override
+    public List<CollectionStatsVO> selectCollectionStatsForDimension(CollectionStatsReqBO reqBO) {
+        if (Objects.equals(reqBO.getDimensionType(), 1)) {
+            return assetMapper.selectDimensionStatsForUser(reqBO);
+        } else if (Objects.equals(reqBO.getDimensionType(), 2)) {
+            return assetMapper.selectDimensionStatsForUsingEmp(reqBO);
+        } else if (Objects.equals(reqBO.getDimensionType(), 3)) {
+            return assetMapper.selectDimensionStatsForLocation(reqBO);
+        } else {
+            throw new ServiceException("采集统计，统计类型错误");
+        }
     }
 
     /**

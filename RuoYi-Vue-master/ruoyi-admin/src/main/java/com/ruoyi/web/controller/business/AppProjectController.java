@@ -39,7 +39,6 @@ public class AppProjectController extends BaseController {
 
     @ApiOperation("App-获取项目列表")
     @GetMapping(value = "/pageData")
-    @Log(title = "App-获取项目列表", businessType = BusinessType.OTHER)
     public TableDataDetail pageData(SearchQueryRequest request) {
         startPage();
         Project project = new Project();

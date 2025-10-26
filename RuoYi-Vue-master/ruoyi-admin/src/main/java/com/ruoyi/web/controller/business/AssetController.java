@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
-import com.ruoyi.business.domain.model.AssetDetailVO;
+import com.ruoyi.business.model.response.AssetDetailVO;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.web.controller.utils.ImageUrlUtil;

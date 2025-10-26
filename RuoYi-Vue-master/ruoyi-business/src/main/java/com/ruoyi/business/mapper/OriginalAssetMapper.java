@@ -2,7 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.OriginalAsset;
-import com.ruoyi.business.domain.model.OriginalAssetDetailVO;
+import com.ruoyi.business.model.response.OriginalAssetDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

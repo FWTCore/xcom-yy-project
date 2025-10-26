@@ -2,7 +2,7 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Project;
-import com.ruoyi.business.domain.model.ProjectDetailVO;
+import com.ruoyi.business.model.response.ProjectDetailVO;
 import com.ruoyi.business.mapper.ProjectMapper;
 import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.annotation.DataScope;

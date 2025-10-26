@@ -1,4 +1,4 @@
-package com.ruoyi.business.domain.model;
+package com.ruoyi.business.model.response;
 
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.common.annotation.Excel;

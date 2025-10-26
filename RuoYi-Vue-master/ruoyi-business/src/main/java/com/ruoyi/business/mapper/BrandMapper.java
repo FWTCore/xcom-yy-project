@@ -2,7 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.model.Brand;
-import com.ruoyi.business.domain.model.BrandDetailVO;
+import com.ruoyi.business.model.response.BrandDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

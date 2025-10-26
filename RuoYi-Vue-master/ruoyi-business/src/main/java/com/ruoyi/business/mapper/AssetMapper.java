@@ -2,8 +2,10 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
-import com.ruoyi.business.domain.model.AssetDetailVO;
-import com.ruoyi.business.domain.model.HomeAssetStatsVO;
+import com.ruoyi.business.model.request.CollectionStatsReqBO;
+import com.ruoyi.business.model.response.AssetDetailVO;
+import com.ruoyi.business.model.response.CollectionStatsVO;
+import com.ruoyi.business.model.response.HomeAssetStatsVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -49,6 +51,7 @@ public interface AssetMapper {
      * @return 资产集合
      */
     List<AssetDO> selectAssetList(Asset asset);
+
     /**
      * 查询资产列表
      *
@@ -88,5 +91,26 @@ public interface AssetMapper {
      * @return 结果
      */
     int deleteAssetByIds(Long[] ids);
+
+    /**
+     * 按采集人统计
+     * @param reqBO
+     * @return
+     */
+    List<CollectionStatsVO> selectDimensionStatsForUser(CollectionStatsReqBO reqBO);
+
+    /**
+     * 按使用部门统计
+     * @param reqBO
+     * @return
+     */
+    List<CollectionStatsVO> selectDimensionStatsForUsingEmp(CollectionStatsReqBO reqBO);
+
+    /**
+     * 按存放地点统计
+     * @param reqBO
+     * @return
+     */
+    List<CollectionStatsVO> selectDimensionStatsForLocation(CollectionStatsReqBO reqBO);
 
 }

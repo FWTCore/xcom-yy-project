@@ -2,7 +2,7 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.model.Department;
-import com.ruoyi.business.domain.model.DepartmentDetailVO;
+import com.ruoyi.business.model.response.DepartmentDetailVO;
 import com.ruoyi.business.mapper.DepartmentMapper;
 import com.ruoyi.business.service.DepartmentService;
 import com.ruoyi.common.annotation.DataScope;

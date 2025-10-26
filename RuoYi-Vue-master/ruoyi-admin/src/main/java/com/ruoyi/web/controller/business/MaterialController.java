@@ -6,15 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Material;
-import com.ruoyi.business.domain.model.MaterialDetailVO;
+import com.ruoyi.business.model.response.MaterialDetailVO;
 import com.ruoyi.business.service.MaterialService;
-import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.web.controller.utils.ImageUrlUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;

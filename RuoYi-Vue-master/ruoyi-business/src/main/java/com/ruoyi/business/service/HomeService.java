@@ -1,6 +1,6 @@
 package com.ruoyi.business.service;
 
-import com.ruoyi.business.domain.model.HomeAssetStatsVO;
+import com.ruoyi.business.model.response.HomeAssetStatsVO;
 
 /**
  * HomeService

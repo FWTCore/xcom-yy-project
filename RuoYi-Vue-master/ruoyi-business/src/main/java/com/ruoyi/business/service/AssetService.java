@@ -2,8 +2,10 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
-import com.ruoyi.business.domain.model.AssetDetailVO;
-import com.ruoyi.business.domain.model.HomeAssetStatsVO;
+import com.ruoyi.business.model.request.CollectionStatsReqBO;
+import com.ruoyi.business.model.response.AssetDetailVO;
+import com.ruoyi.business.model.response.CollectionStatsVO;
+import com.ruoyi.business.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.model.request.AssetCopyReqBO;
 
 import java.util.List;
@@ -111,4 +113,12 @@ public interface AssetService {
      * @return 资产
      */
     AssetDetailVO selectAssetByCode(String code, Long projectId);
+
+    /**
+     * 查询维度统计
+     * @param reqBO
+     * @return
+     */
+    List<CollectionStatsVO> selectCollectionStatsForDimension(CollectionStatsReqBO reqBO);
+
 }

@@ -1,10 +1,8 @@
 package com.ruoyi.web.controller.business;
 
-import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.entity.ProjectDO;
-import com.ruoyi.business.domain.model.Brand;
 import com.ruoyi.business.domain.model.Project;
-import com.ruoyi.business.domain.model.ProjectDetailVO;
+import com.ruoyi.business.model.response.ProjectDetailVO;
 import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;

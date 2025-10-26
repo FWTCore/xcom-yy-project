@@ -13,7 +13,7 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
-    <resultMap type="com.ruoyi.business.domain.model.EmployeeDetailVO" id="EmployeeDewtailResult"
+    <resultMap type="com.ruoyi.business.model.response.EmployeeDetailVO" id="EmployeeDewtailResult"
                extends="EmployeeResult">
         <result property="deptName" column="dept_name"/>
     </resultMap>

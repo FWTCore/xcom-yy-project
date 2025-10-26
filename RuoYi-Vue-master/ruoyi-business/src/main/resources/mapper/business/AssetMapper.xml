@@ -42,7 +42,7 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
-    <resultMap type="com.ruoyi.business.domain.model.AssetDetailVO" id="AssetDetailResult" extends="AssetResult">
+    <resultMap type="com.ruoyi.business.model.response.AssetDetailVO" id="AssetDetailResult" extends="AssetResult">
         <result property="deptName" column="dept_name"/>
         <result property="projectName" column="project_name"/>
     </resultMap>
@@ -91,7 +91,7 @@
     </sql>
 
 
-    <select id="getHomeAssetStats" resultType="com.ruoyi.business.domain.model.HomeAssetStatsVO">
+    <select id="getHomeAssetStats" resultType="com.ruoyi.business.model.response.HomeAssetStatsVO">
         SELECT COUNT(1)                                                                      AS collectionCount,
                COUNT(CASE WHEN original_code IS NOT NULL AND original_code != '' THEN 1 END) AS matchCount
         FROM asset
@@ -913,4 +913,76 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectDimensionStatsForUser" resultType="com.ruoyi.business.model.response.CollectionStatsVO">
+        select mainData.dimensionId,
+        user.nick_name as dimensionName,
+        mainData.dimensionCount
+        from (
+        select a.collector_user_id as dimensionId,
+        count(1) as dimensionCount
+        from asset as a
+        where a.delete_flag = 0
+        and a.project_id=#{projectId}
+        <if test="startTime != null and startTime != ''">
+            <!-- 开始时间检索 -->
+            AND date_format(a.collector_time,'%Y%m%d') &gt;= date_format(#{startTime},'%Y%m%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            <!-- 结束时间检索 -->
+            AND date_format(a.collector_time,'%Y%m%d') &lt;= date_format(#{endTime},'%Y%m%d')
+        </if>
+        group by a.collector_user_id
+        ) as mainData
+        inner join sys_user as user on mainData.dimensionId = user.user_id
+        order by user.user_name
+    </select>
+
+    <select id="selectDimensionStatsForUsingEmp" resultType="com.ruoyi.business.model.response.CollectionStatsVO">
+        select mainData.dimensionId,
+        d.department_name as dimensionName,
+        mainData.dimensionCount
+        from (
+        select a.using_dept_Id as dimensionId,
+        count(1) as dimensionCount
+        from asset as a
+        where a.delete_flag = 0
+        and a.project_id=#{projectId}
+        <if test="startTime != null and startTime != ''">
+            <!-- 开始时间检索 -->
+            AND date_format(a.collector_time,'%Y%m%d') &gt;= date_format(#{startTime},'%Y%m%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            <!-- 结束时间检索 -->
+            AND date_format(a.collector_time,'%Y%m%d') &lt;= date_format(#{endTime},'%Y%m%d')
+        </if>
+        group by a.using_dept_Id
+        ) as mainData
+        inner join department as d on mainData.dimensionId = d.id
+        order by d.department_name
+    </select>
+
+    <select id="selectDimensionStatsForLocation" resultType="com.ruoyi.business.model.response.CollectionStatsVO">
+        select mainData.dimensionId,
+        l.location_name as dimensionName,
+        mainData.dimensionCount
+        from (
+        select a.location_id as dimensionId,
+        count(1) as dimensionCount
+        from asset as a
+        where a.delete_flag = 0
+        and a.project_id=#{projectId}
+        <if test="startTime != null and startTime != ''">
+            <!-- 开始时间检索 -->
+            AND date_format(a.collector_time,'%Y%m%d') &gt;= date_format(#{startTime},'%Y%m%d')
+        </if>
+        <if test="endTime != null and endTime != ''">
+            <!-- 结束时间检索 -->
+            AND date_format(a.collector_time,'%Y%m%d') &lt;= date_format(#{endTime},'%Y%m%d')
+        </if>
+        group by a.location_id
+        ) as mainData
+        inner join location as l on mainData.dimensionId = l.id
+        order by l.location_name
+    </select>
 </mapper>

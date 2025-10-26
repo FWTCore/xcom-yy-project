@@ -1,17 +1,15 @@
 package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.model.Brand;
-import com.ruoyi.business.domain.model.BrandDetailVO;
+import com.ruoyi.business.model.response.BrandDetailVO;
 import com.ruoyi.business.service.BrandService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataDetail;
-import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.web.controller.business.request.BrandQueryRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -2,7 +2,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.model.Location;
-import com.ruoyi.business.domain.model.LocationDetailVO;
+import com.ruoyi.business.model.response.LocationDetailVO;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Material;
-import com.ruoyi.business.domain.model.MaterialDetailVO;
+import com.ruoyi.business.model.response.MaterialDetailVO;
 
 import java.util.List;
 

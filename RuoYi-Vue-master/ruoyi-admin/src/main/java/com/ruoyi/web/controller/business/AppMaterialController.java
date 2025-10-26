@@ -1,24 +1,17 @@
 package com.ruoyi.web.controller.business;
 
-import com.ruoyi.business.domain.entity.CategoryDO;
-import com.ruoyi.business.domain.entity.MaterialDO;
-import com.ruoyi.business.domain.model.Category;
 import com.ruoyi.business.domain.model.Material;
-import com.ruoyi.business.domain.model.MaterialDetailVO;
+import com.ruoyi.business.model.response.MaterialDetailVO;
 import com.ruoyi.business.service.MaterialService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataDetail;
-import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.web.controller.business.request.MaterialNameQueryRequest;
 import com.ruoyi.web.controller.business.request.MaterialSpecQueryRequest;
 import com.ruoyi.web.controller.business.request.SearchQueryRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

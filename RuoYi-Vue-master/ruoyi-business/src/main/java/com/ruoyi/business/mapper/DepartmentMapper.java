@@ -2,7 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.model.Department;
-import com.ruoyi.business.domain.model.DepartmentDetailVO;
+import com.ruoyi.business.model.response.DepartmentDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

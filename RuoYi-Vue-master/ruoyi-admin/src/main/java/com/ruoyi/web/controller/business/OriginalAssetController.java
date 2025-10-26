@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.OriginalAsset;
-import com.ruoyi.business.domain.model.OriginalAssetDetailVO;
+import com.ruoyi.business.model.response.OriginalAssetDetailVO;
 import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.web.controller.business.convert.WebOriginalAssetConvert;

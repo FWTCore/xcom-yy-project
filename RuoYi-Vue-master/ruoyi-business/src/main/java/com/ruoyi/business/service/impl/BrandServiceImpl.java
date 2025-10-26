@@ -4,12 +4,11 @@ import java.util.List;
 
 import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.model.Brand;
-import com.ruoyi.business.domain.model.BrandDetailVO;
+import com.ruoyi.business.model.response.BrandDetailVO;
 import com.ruoyi.business.mapper.BrandMapper;
 import com.ruoyi.business.service.BrandService;
 import com.ruoyi.common.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
