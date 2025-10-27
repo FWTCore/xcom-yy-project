@@ -2,6 +2,7 @@ package com.ruoyi.business.model.request;
 
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
  * @author xcom
  * @date 2025/10/26
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class CollectionStatsReqBO extends BaseEntityDO {
 

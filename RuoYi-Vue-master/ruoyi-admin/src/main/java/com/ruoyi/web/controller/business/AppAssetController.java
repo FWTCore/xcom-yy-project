@@ -17,6 +17,7 @@ import com.ruoyi.web.controller.business.request.AssetUpsertRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -53,6 +55,14 @@ public class AppAssetController extends BaseController {
         asset.setLocationId(request.getLocationId());
         asset.setSearchDeptId(request.getDeptId());
         asset.setSearchName(request.getSearchName());
+        asset.setUsingDeptId(request.getUsingDeptId());
+        asset.setCollectorUserId(request.getCollectorUserId());
+        if (ObjectUtils.isNotEmpty(request.getStartTime())) {
+            asset.getParams().put("beginTime", request.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        }
+        if (ObjectUtils.isNotEmpty(request.getStartTime())) {
+            asset.getParams().put("endTime", request.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        }
         List<AssetDetailVO> resp = assetService.selectAssetDetailList(asset);
         return getDataDetailTable(resp);
     }

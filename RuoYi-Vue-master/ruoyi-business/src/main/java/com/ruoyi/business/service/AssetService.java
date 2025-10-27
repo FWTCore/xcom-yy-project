@@ -2,6 +2,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
+import com.ruoyi.business.model.request.AssetBatchUpdateReqBO;
 import com.ruoyi.business.model.request.CollectionStatsReqBO;
 import com.ruoyi.business.model.response.AssetDetailVO;
 import com.ruoyi.business.model.response.CollectionStatsVO;
@@ -120,5 +121,12 @@ public interface AssetService {
      * @return
      */
     List<CollectionStatsVO> selectCollectionStatsForDimension(CollectionStatsReqBO reqBO);
+
+    /**
+     * 批量修改资产
+     * @param batchUpdateReqBO
+     * @return
+     */
+    Boolean batchUpdate(AssetBatchUpdateReqBO batchUpdateReqBO);
 
 }

@@ -105,6 +105,10 @@
           v-hasPermi="['business:asset:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
+        <el-button type="warning" plain icon="Edit" @click="handleBatchUpdate"
+          v-hasPermi="['business:asset:edit']">批量编辑</el-button>
+      </el-col>
+      <el-col :span="1.5">
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
           v-hasPermi="['business:asset:remove']">删除</el-button>
       </el-col>
@@ -235,7 +239,7 @@
                   品牌
                 </span>
               </template>
-              <el-select v-model="form.brandId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="form.brandId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in brandFormOptions" :key="item.id" :label="item.brandName"
                   :value="item.id"></el-option>
               </el-select>
@@ -382,11 +386,131 @@
         </div>
       </template>
     </el-dialog>
+
+    <!-- 批量修改 -->
+    <el-dialog :title="batchTitle" v-model="batchOpen" width="800px" append-to-body>
+      <el-form ref="batchAssetRef" :model="batchForm" label-width="80px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="资产名称" prop="assetName">
+              <el-input v-model="batchForm.assetName" placeholder="请输入资产名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="规格型号" prop="specification">
+              <el-input v-model="batchForm.specification" placeholder="请输入规格型号" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="门类" prop="categoryId">
+              <el-select v-model="batchForm.categoryId" placeholder="请选择" style="width: 240px" clearable
+                @change="handleNodeClickForForm">
+                <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
+                  :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="brandId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择门类" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  品牌
+                </span>
+              </template>
+              <el-select v-model="batchForm.brandId" placeholder="请选择" style="width: 240px" clearable filterable>
+                <el-option v-for="item in brandFormOptions" :key="item.id" :label="item.brandName"
+                  :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item prop="managedDeptId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择单位" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  管理部门
+                </span>
+              </template>
+              <el-select v-model="batchForm.managedDeptId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
+                  :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="usingDeptId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择单位" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  使用部门
+                </span>
+              </template>
+              <el-select v-model="batchForm.usingDeptId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
+                  :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item prop="managedEmpId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择单位" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  管理员工
+                </span>
+              </template>
+              <el-select v-model="batchForm.managedEmpId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
+                  :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="usingEmpId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择单位" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  使用员工
+                </span>
+              </template>
+              <el-select v-model="batchForm.usingEmpId" placeholder="请选择" style="width: 240px" clearable>
+                <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
+                  :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="submitBatchForm">确 定</el-button>
+          <el-button @click="cancelBatch">取 消</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
   </div>
 </template>
 
 <script setup name="Asset">
-import { listAsset, getAsset, delAsset, addAsset, updateAsset } from "@/api/business/asset"
+import { listAsset, getAsset, delAsset, addAsset, updateAsset, updateAssetBatch } from "@/api/business/asset"
 import { deptTreeNoAuthSelect } from "@/api/system/user"
 import { listAllCategory } from "@/api/business/category"
 import { listAllBrand } from "@/api/business/brand"
@@ -410,6 +534,10 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
+const batchTitle = ref("")
+const batchOpen = ref(false)
+const batchProjectIds = ref([])
+const batchDeptId = ref(0)
 const enabledDeptOptions = ref(undefined)
 const categoryOptions = ref([])
 const brandOptions = ref([])
@@ -432,6 +560,7 @@ const calculateTableHeight = () => {
 
 const data = reactive({
   form: {},
+  batchForm: {},
   queryParams: {
     pageNum: 1,
     pageSize: 10,
@@ -462,7 +591,7 @@ const data = reactive({
   }
 })
 
-const { queryParams, form, rules } = toRefs(data)
+const { queryParams, form, rules, batchForm } = toRefs(data)
 /**
  * 标准化图片URL
  * @param url 原始URL
@@ -559,6 +688,8 @@ function handleSelectionChange(selection) {
   ids.value = selection.map(item => item.id)
   single.value = selection.length != 1
   multiple.value = !selection.length
+  batchProjectIds.value = [...new Set(selection.map(item => item.projectId))];
+  batchDeptId.value = selection.length > 0 ? selection[0].deptId : null;
 }
 
 /** 新增按钮操作 */
@@ -756,6 +887,97 @@ function getEmployee(deptId) {
   })
 }
 
+/** 修改按钮操作 */
+function handleBatchUpdate() {
+  resetBatch()
+  // 检查项目选择
+  if (!batchProjectIds.value.length || batchProjectIds.value.length > 1) {
+    proxy.$modal.msgWarning("批量修改的数据项只能是同一个项目");
+    return;
+  }
+  // 检查数据项选择 - 修复点
+  if (!ids.value || ids.value.length === 0) {
+    proxy.$modal.msgWarning("请选择需要批量修改的数据项");
+    return;
+  }
+  batchForm.value = { id: ids.value };
+  batchOpen.value = true
+  batchTitle.value = "批量修改资产（共" + ids.value.length + "项）"
+  handleTreeNodeBatchClick(batchDeptId.value)
+}
+
+/** 节点单击事件 */
+function handleTreeNodeBatchClick(data) {
+  getDepartment(data)
+  getEmployee(data)
+}
+/** 提交按钮 */
+function submitBatchForm() {
+  proxy.$refs["batchAssetRef"].validate(valid => {
+    if (valid) {
+      if (batchForm.value.id == null || batchForm.value.id.length === 0) {
+        proxy.$modal.msgWarning("请选择需要批量修改的数据项")
+        return
+      }
+      const { id, ...rest } = batchForm.value;
+      const batchData = { ...rest, ids: id };
+      updateAssetBatch(batchData).then(response => {
+        proxy.$modal.msgSuccess("批量修改成功")
+        batchOpen.value = false
+        getList()
+      })
+    }
+  })
+}
+// 取消按钮
+function cancelBatch() {
+  batchOpen.value = false
+  resetBatch()
+}
+// 表单重置
+function resetBatch() {
+  batchForm.value = {
+    id: null,
+    deptId: null,
+    projectId: null,
+    temporaryCode: null,
+    originalCode: null,
+    categoryId: null,
+    categoryName: null,
+    brandId: null,
+    brandName: null,
+    materialId: null,
+    assetName: null,
+    specification: null,
+    productionTime: null,
+    locationId: null,
+    locationName: null,
+    managedDeptId: null,
+    managedDeptName: null,
+    usingDeptId: null,
+    usingDeptName: null,
+    managedEmpId: null,
+    managedEmpName: null,
+    usingEmpId: null,
+    usingEmpName: null,
+    collectorUserId: null,
+    collectorUserName: null,
+    collectorTime: null,
+    remark: null,
+    mainImageUrl: null,
+    mainImageName: null,
+    imageUrl: null,
+    imageUrlName: null,
+    deleteFlag: null,
+    createdById: null,
+    createdByName: null,
+    createdTime: null,
+    updatedById: null,
+    updatedByName: null,
+    updatedTime: null
+  }
+  proxy.resetForm("batchAssetRef")
+}
 
 
 onMounted(() => {

@@ -3,12 +3,16 @@ package com.ruoyi.web.controller.business;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
+import com.ruoyi.business.model.request.AssetBatchUpdateReqBO;
 import com.ruoyi.business.model.response.AssetDetailVO;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.web.controller.business.convert.WebAssetConvert;
+import com.ruoyi.web.controller.business.request.AssetBatchUpdateRequest;
 import com.ruoyi.web.controller.utils.ImageUrlUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -120,5 +124,16 @@ public class AssetController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(assetService.deleteAssetByIds(ids));
+    }
+
+    /**
+     * 批量修改资产
+     */
+    @PreAuthorize("@ss.hasPermi('business:asset:edit')")
+    @Log(title = "资产", businessType = BusinessType.UPDATE)
+    @PutMapping("/batch")
+    public AjaxResult batchEdit(@RequestBody @Valid AssetBatchUpdateRequest batchUpdateRequest) {
+        AssetBatchUpdateReqBO batchUpdateReqBO = WebAssetConvert.INSTANCE.toAssetBatchUpdateReqBO(batchUpdateRequest);
+        return toAjax(assetService.batchUpdate(batchUpdateReqBO));
     }
 }

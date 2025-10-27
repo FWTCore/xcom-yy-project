@@ -8,6 +8,7 @@ import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Asset;
+import com.ruoyi.business.model.request.AssetBatchUpdateReqBO;
 import com.ruoyi.business.model.request.CollectionStatsReqBO;
 import com.ruoyi.business.model.response.AssetDetailVO;
 import com.ruoyi.business.model.response.CollectionStatsVO;
@@ -28,6 +29,7 @@ import com.ruoyi.business.service.MaterialService;
 import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.annotation.DataScope;
+import com.ruoyi.common.core.domain.BaseEntityDO;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -35,12 +37,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.omg.CORBA.Object;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -312,6 +314,144 @@ public class AssetServiceImpl implements AssetService {
         } else {
             throw new ServiceException("采集统计，统计类型错误");
         }
+    }
+
+    @Override
+    public Boolean batchUpdate(AssetBatchUpdateReqBO batchUpdateReqBO) {
+        List<AssetDO> assetList = this.selectAssetByIds(batchUpdateReqBO.getIds());
+        if (CollectionUtils.isEmpty(assetList)) {
+            throw new ServiceException("批量编辑数据不存在");
+        }
+        if (assetList.stream().map(AssetDO::getProjectId).distinct().count() != 1) {
+            throw new ServiceException("批量修改的数据项只能是同一个项目");
+        }
+        AssetDO existAsset = assetList.get(0);
+
+        CategoryDO categoryDO = null;
+        if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getCategoryId())) {
+            categoryDO = categoryService.selectCategoryById(batchUpdateReqBO.getCategoryId());
+            if (ObjectUtils.isEmpty(categoryDO)) {
+                throw new ServiceException("分类不存在");
+            }
+        }
+        BrandDO brandDO = null;
+        if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getBrandId())) {
+            brandDO = brandService.selectBrandById(batchUpdateReqBO.getBrandId());
+            if (ObjectUtils.isEmpty(brandDO)) {
+                throw new ServiceException("品牌不存在");
+            }
+            if (!brandDO.getCategoryId().equals(batchUpdateReqBO.getCategoryId())) {
+                throw new ServiceException("分类下无该品牌");
+            }
+        }
+
+        Map<Long, DepartmentDO> departmentMap = new HashMap<>();
+        List<Long> departmentIds = new ArrayList<>();
+        if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getManagedDeptId())) {
+            departmentIds.add(batchUpdateReqBO.getManagedDeptId());
+        }
+        if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getUsingDeptId())) {
+            departmentIds.add(batchUpdateReqBO.getUsingDeptId());
+        }
+        if (CollectionUtils.isNotEmpty(departmentIds)) {
+            List<DepartmentDO> departmentList = departmentService.selectDepartmentByIds(departmentIds);
+            if (CollectionUtils.isEmpty(departmentList)) {
+                throw new ServiceException("部门不存在");
+            }
+            if (departmentList.stream().noneMatch(e -> e.getDeptId().equals(existAsset.getDeptId()))) {
+                throw new ServiceException("部门存在单位不属于资产的单位");
+            }
+            departmentMap = departmentList.stream()
+                .collect(toMap(BaseEntityDO::getId, Function.identity(), (k1, k2) -> k2));
+        }
+
+        Map<Long, EmployeeDO> employeeMap = new HashMap<>();
+        List<Long> employeeIds = new ArrayList<>();
+        if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getManagedEmpId())) {
+            employeeIds.add(batchUpdateReqBO.getManagedEmpId());
+        }
+        if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getUsingEmpId())) {
+            employeeIds.add(batchUpdateReqBO.getUsingEmpId());
+        }
+        if (CollectionUtils.isNotEmpty(employeeIds)) {
+            List<EmployeeDO> employeeList = employeeService.selectEmployeeByIds(employeeIds);
+            if (CollectionUtils.isEmpty(employeeList)) {
+                throw new ServiceException("人员不存在");
+            }
+            if (employeeList.stream().noneMatch(e -> e.getDeptId().equals(existAsset.getDeptId()))) {
+                throw new ServiceException("人员存在单位不属于资产的单位");
+            }
+            employeeMap = employeeList.stream()
+                .collect(toMap(BaseEntityDO::getId, Function.identity(), (k1, k2) -> k2));
+        }
+
+        Map<Long, AssetDO> assetMap = assetList.stream()
+            .collect(toMap(BaseEntityDO::getId, Function.identity(), (k1, k2) -> k2));
+        for (Long id : batchUpdateReqBO.getIds()) {
+            AssetDO assetDO = assetMap.get(id);
+            boolean isUpdate = false;
+            if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getCategoryId())) {
+                assetDO.setCategoryId(categoryDO.getId());
+                assetDO.setCategoryName(categoryDO.getCategoryName());
+            }
+            if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getBrandId())) {
+                assetDO.setBrandId(brandDO.getId());
+                assetDO.setBrandName(brandDO.getBrandName());
+            }
+            if (StringUtils.isNotBlank(batchUpdateReqBO.getAssetName())) {
+                assetDO.setAssetName(batchUpdateReqBO.getAssetName());
+                isUpdate = true;
+            }
+            if (StringUtils.isNotBlank(batchUpdateReqBO.getSpecification())) {
+                assetDO.setSpecification(batchUpdateReqBO.getSpecification());
+                isUpdate = true;
+            }
+            if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getManagedDeptId())) {
+                if (!departmentMap.containsKey(batchUpdateReqBO.getManagedDeptId())) {
+                    throw new ServiceException("管理部门不存在");
+                }
+                DepartmentDO departmentDO = departmentMap.get(batchUpdateReqBO.getManagedDeptId());
+                assetDO.setManagedDeptId(departmentDO.getId());
+                assetDO.setManagedDeptName(departmentDO.getDepartmentName());
+                isUpdate = true;
+            }
+            if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getUsingDeptId())) {
+                if (!departmentMap.containsKey(batchUpdateReqBO.getUsingDeptId())) {
+                    throw new ServiceException("使用部门不存在");
+                }
+                DepartmentDO departmentDO = departmentMap.get(batchUpdateReqBO.getUsingDeptId());
+                assetDO.setUsingDeptId(departmentDO.getId());
+                assetDO.setUsingDeptName(departmentDO.getDepartmentName());
+                isUpdate = true;
+            }
+
+            if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getManagedEmpId())) {
+                if (!employeeMap.containsKey(batchUpdateReqBO.getManagedEmpId())) {
+                    throw new ServiceException("管理人员不存在");
+                }
+                EmployeeDO employeeDO = employeeMap.get(batchUpdateReqBO.getManagedEmpId());
+                assetDO.setManagedEmpId(employeeDO.getId());
+                assetDO.setManagedEmpName(employeeDO.getEmployeeName());
+                isUpdate = true;
+            }
+            if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getUsingEmpId())) {
+                if (!employeeMap.containsKey(batchUpdateReqBO.getUsingEmpId())) {
+                    throw new ServiceException("使用人员不存在");
+                }
+                EmployeeDO employeeDO = employeeMap.get(batchUpdateReqBO.getUsingEmpId());
+                assetDO.setUsingEmpId(employeeDO.getId());
+                assetDO.setUsingEmpName(employeeDO.getEmployeeName());
+                isUpdate = true;
+            }
+            if (isUpdate) {
+                LoginUser loginUser = SecurityUtils.getLoginUser();
+                assetDO.setCollectorUserId(loginUser.getUserId());
+                assetDO.setCollectorUserName(loginUser.getUser().getNickName());
+                assetDO.setCollectorTime(LocalDateTime.now());
+                this.updateAsset(assetDO);
+            }
+        }
+        return true;
     }
 
     /**

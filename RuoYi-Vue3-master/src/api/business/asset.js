@@ -42,3 +42,12 @@ export function delAsset(id) {
     method: 'delete'
   })
 }
+
+// 批量修改资产
+export function updateAssetBatch(data) {
+  return request({
+    url: '/asset/batch',
+    method: 'put',
+    data: data
+  })
+}

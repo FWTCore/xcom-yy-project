@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.business.convert;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
+import com.ruoyi.business.model.request.AssetBatchUpdateReqBO;
+import com.ruoyi.web.controller.business.request.AssetBatchUpdateRequest;
 import com.ruoyi.web.controller.business.request.AssetUpsertRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -23,4 +25,11 @@ public interface WebAssetConvert {
      * @return
      */
     AssetDO toAssetDO(AssetUpsertRequest request);
+
+    /**
+     * AssetBatchUpdateRequest to AssetBatchUpdateReqBO
+     * @param request
+     * @return
+     */
+    AssetBatchUpdateReqBO toAssetBatchUpdateReqBO(AssetBatchUpdateRequest request);
 }
