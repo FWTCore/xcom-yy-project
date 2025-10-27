@@ -1,4 +1,4 @@
-package com.ruoyi.business.model.request;
+package com.ruoyi.business.domain.model.request;
 
 import lombok.Data;
 

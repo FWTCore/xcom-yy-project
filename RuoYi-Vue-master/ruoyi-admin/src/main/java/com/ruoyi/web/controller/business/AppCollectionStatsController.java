@@ -1,13 +1,10 @@
 package com.ruoyi.web.controller.business;
 
-import com.ruoyi.business.model.response.CollectionStatsVO;
-import com.ruoyi.business.model.response.HomeAssetStatsVO;
-import com.ruoyi.business.model.request.CollectionStatsReqBO;
+import com.ruoyi.business.domain.model.response.CollectionStatsVO;
+import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataDetail;
-import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.web.controller.business.convert.WebCollectionStatsConvert;
 import com.ruoyi.web.controller.business.request.CollectionStatsRequest;
 import io.swagger.annotations.Api;

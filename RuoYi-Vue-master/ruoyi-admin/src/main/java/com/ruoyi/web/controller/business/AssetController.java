@@ -7,8 +7,8 @@ import javax.validation.Valid;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
-import com.ruoyi.business.model.request.AssetBatchUpdateReqBO;
-import com.ruoyi.business.model.response.AssetDetailVO;
+import com.ruoyi.business.domain.model.request.AssetBatchUpdateReqBO;
+import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.web.controller.business.convert.WebAssetConvert;

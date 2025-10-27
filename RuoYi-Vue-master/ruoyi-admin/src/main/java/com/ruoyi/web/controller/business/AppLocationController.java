@@ -1,14 +1,11 @@
 package com.ruoyi.web.controller.business;
 
-import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.entity.LocationDO;
-import com.ruoyi.business.domain.model.Department;
 import com.ruoyi.business.domain.model.Location;
 import com.ruoyi.business.service.LocationService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataDetail;
-import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.web.controller.business.request.LocationUpsertRequest;
 import com.ruoyi.web.controller.business.request.SearchQueryRequest;
 import io.swagger.annotations.Api;

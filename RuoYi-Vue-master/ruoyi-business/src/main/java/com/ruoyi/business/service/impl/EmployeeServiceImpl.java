@@ -2,7 +2,7 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.model.Employee;
-import com.ruoyi.business.model.response.EmployeeDetailVO;
+import com.ruoyi.business.domain.model.response.EmployeeDetailVO;
 import com.ruoyi.business.mapper.EmployeeMapper;
 import com.ruoyi.business.service.EmployeeService;
 import com.ruoyi.common.annotation.DataScope;

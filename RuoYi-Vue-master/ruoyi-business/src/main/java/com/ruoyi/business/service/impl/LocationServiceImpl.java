@@ -2,7 +2,7 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.model.Location;
-import com.ruoyi.business.model.response.LocationDetailVO;
+import com.ruoyi.business.domain.model.response.LocationDetailVO;
 import com.ruoyi.business.mapper.LocationMapper;
 import com.ruoyi.business.service.LocationService;
 import com.ruoyi.common.annotation.DataScope;

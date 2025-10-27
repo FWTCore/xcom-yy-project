@@ -2,7 +2,7 @@ package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.model.Department;
-import com.ruoyi.business.model.response.DepartmentDetailVO;
+import com.ruoyi.business.domain.model.response.DepartmentDetailVO;
 import com.ruoyi.business.service.DepartmentService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;

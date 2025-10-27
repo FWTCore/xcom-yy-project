@@ -1,14 +1,11 @@
 package com.ruoyi.web.controller.business;
 
-import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.model.Employee;
-import com.ruoyi.business.service.DepartmentService;
 import com.ruoyi.business.service.EmployeeService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataDetail;
-import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.web.controller.business.request.EmployeeUpsertRequest;
 import com.ruoyi.web.controller.business.request.SearchQueryRequest;
 import io.swagger.annotations.Api;

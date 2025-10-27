@@ -32,7 +32,7 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
-    <resultMap type="com.ruoyi.business.model.response.OriginalAssetDetailVO" id="OriginalAssetDetailResult"
+    <resultMap type="com.ruoyi.business.domain.model.response.OriginalAssetDetailVO" id="OriginalAssetDetailResult"
                extends="OriginalAssetResult">
         <result property="deptName" column="dept_name"/>
         <result property="projectName" column="project_name"/>

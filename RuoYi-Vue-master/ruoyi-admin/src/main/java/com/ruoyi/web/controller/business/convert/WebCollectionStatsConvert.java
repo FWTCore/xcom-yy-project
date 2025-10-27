@@ -1,6 +1,6 @@
 package com.ruoyi.web.controller.business.convert;
 
-import com.ruoyi.business.model.request.CollectionStatsReqBO;
+import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
 import com.ruoyi.web.controller.business.request.CollectionStatsRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

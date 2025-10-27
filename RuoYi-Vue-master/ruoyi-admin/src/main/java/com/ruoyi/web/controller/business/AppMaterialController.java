@@ -1,7 +1,7 @@
 package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.model.Material;
-import com.ruoyi.business.model.response.MaterialDetailVO;
+import com.ruoyi.business.domain.model.response.MaterialDetailVO;
 import com.ruoyi.business.service.MaterialService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataDetail;

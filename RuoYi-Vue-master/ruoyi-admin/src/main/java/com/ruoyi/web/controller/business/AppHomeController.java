@@ -1,6 +1,6 @@
 package com.ruoyi.web.controller.business;
 
-import com.ruoyi.business.model.response.HomeAssetStatsVO;
+import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;

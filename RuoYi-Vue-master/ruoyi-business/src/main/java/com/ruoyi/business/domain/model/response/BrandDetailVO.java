@@ -1,11 +1,9 @@
-package com.ruoyi.business.model.response;
+package com.ruoyi.business.domain.model.response;
 
 import com.ruoyi.business.domain.entity.BrandDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import java.io.Serializable;
 
 /**
  * 品牌返回模型

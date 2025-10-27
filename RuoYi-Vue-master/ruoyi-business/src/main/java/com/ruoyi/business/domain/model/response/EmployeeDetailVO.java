@@ -1,12 +1,12 @@
-package com.ruoyi.business.model.response;
+package com.ruoyi.business.domain.model.response;
 
-import com.ruoyi.business.domain.entity.LocationDO;
+import com.ruoyi.business.domain.entity.EmployeeDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 存放地点 明细
+ * 员工明细
  *
  * @author xcom
  * @date 2025/10/5
@@ -15,6 +15,6 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class LocationDetailVO extends LocationDO {
+public class EmployeeDetailVO extends EmployeeDO {
     private String deptName;
 }

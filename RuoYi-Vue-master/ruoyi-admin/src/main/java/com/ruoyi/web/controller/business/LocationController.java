@@ -2,7 +2,7 @@ package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.model.Location;
-import com.ruoyi.business.model.response.LocationDetailVO;
+import com.ruoyi.business.domain.model.response.LocationDetailVO;
 import com.ruoyi.business.service.LocationService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;

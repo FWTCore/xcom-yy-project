@@ -1,7 +1,6 @@
 package com.ruoyi.business.domain.model;
 
 import com.ruoyi.business.domain.entity.MaterialDO;
-import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

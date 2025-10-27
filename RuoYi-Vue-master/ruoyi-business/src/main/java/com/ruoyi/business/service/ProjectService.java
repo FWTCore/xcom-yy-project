@@ -2,7 +2,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Project;
-import com.ruoyi.business.model.response.ProjectDetailVO;
+import com.ruoyi.business.domain.model.response.ProjectDetailVO;
 
 import java.util.List;
 

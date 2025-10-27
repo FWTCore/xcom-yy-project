@@ -1,26 +1,22 @@
-package com.ruoyi.business.model.response;
+package com.ruoyi.business.domain.model.response;
 
-import com.ruoyi.business.domain.entity.AssetDO;
+import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.config.RuoYiConfig;
-import com.ruoyi.common.utils.StringUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.annotation.Resource;
-
 /**
- * 资产 明细
+ * OriginalAssetDetailVO
  *
  * @author xcom
- * @date 2025/10/7
+ * @date 2025/10/19
  */
 
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class AssetDetailVO extends AssetDO {
+public class OriginalAssetDetailVO extends OriginalAssetDO {
 
     /**
      * 部门名称,;

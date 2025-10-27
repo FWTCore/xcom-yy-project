@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.OriginalAsset;
-import com.ruoyi.business.model.response.OriginalAssetDetailVO;
+import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 
 /**
  * 原始资产Service接口

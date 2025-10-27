@@ -2,7 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Project;
-import com.ruoyi.business.model.response.ProjectDetailVO;
+import com.ruoyi.business.domain.model.response.ProjectDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -42,7 +42,7 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
-    <resultMap type="com.ruoyi.business.model.response.AssetDetailVO" id="AssetDetailResult" extends="AssetResult">
+    <resultMap type="com.ruoyi.business.domain.model.response.AssetDetailVO" id="AssetDetailResult" extends="AssetResult">
         <result property="deptName" column="dept_name"/>
         <result property="projectName" column="project_name"/>
     </resultMap>
@@ -91,7 +91,7 @@
     </sql>
 
 
-    <select id="getHomeAssetStats" resultType="com.ruoyi.business.model.response.HomeAssetStatsVO">
+    <select id="getHomeAssetStats" resultType="com.ruoyi.business.domain.model.response.HomeAssetStatsVO">
         SELECT COUNT(1)                                                                      AS collectionCount,
                COUNT(CASE WHEN original_code IS NOT NULL AND original_code != '' THEN 1 END) AS matchCount
         FROM asset
@@ -914,7 +914,7 @@
         </foreach>
     </delete>
 
-    <select id="selectDimensionStatsForUser" resultType="com.ruoyi.business.model.response.CollectionStatsVO">
+    <select id="selectDimensionStatsForUser" resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
         select mainData.dimensionId,
         user.nick_name as dimensionName,
         mainData.dimensionCount
@@ -938,7 +938,7 @@
         order by user.user_name
     </select>
 
-    <select id="selectDimensionStatsForUsingEmp" resultType="com.ruoyi.business.model.response.CollectionStatsVO">
+    <select id="selectDimensionStatsForUsingEmp" resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
         select mainData.dimensionId,
         d.department_name as dimensionName,
         mainData.dimensionCount
@@ -962,7 +962,7 @@
         order by d.department_name
     </select>
 
-    <select id="selectDimensionStatsForLocation" resultType="com.ruoyi.business.model.response.CollectionStatsVO">
+    <select id="selectDimensionStatsForLocation" resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
         select mainData.dimensionId,
         l.location_name as dimensionName,
         mainData.dimensionCount

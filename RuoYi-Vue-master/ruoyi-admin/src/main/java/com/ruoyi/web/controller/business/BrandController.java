@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.model.Brand;
-import com.ruoyi.business.model.response.BrandDetailVO;
+import com.ruoyi.business.domain.model.response.BrandDetailVO;
 import com.ruoyi.business.service.BrandService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

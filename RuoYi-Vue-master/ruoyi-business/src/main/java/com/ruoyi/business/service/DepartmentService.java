@@ -2,7 +2,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.model.Department;
-import com.ruoyi.business.model.response.DepartmentDetailVO;
+import com.ruoyi.business.domain.model.response.DepartmentDetailVO;
 
 import java.util.List;
 

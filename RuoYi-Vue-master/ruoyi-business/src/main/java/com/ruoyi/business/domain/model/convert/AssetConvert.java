@@ -1,7 +1,7 @@
-package com.ruoyi.business.model.convert;
+package com.ruoyi.business.domain.model.convert;
 
-import com.ruoyi.business.model.response.AssetDetailVO;
-import com.ruoyi.business.model.response.OriginalAssetDetailVO;
+import com.ruoyi.business.domain.model.response.AssetDetailVO;
+import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

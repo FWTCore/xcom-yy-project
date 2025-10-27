@@ -2,7 +2,7 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Material;
-import com.ruoyi.business.model.response.MaterialDetailVO;
+import com.ruoyi.business.domain.model.response.MaterialDetailVO;
 import com.ruoyi.business.mapper.MaterialMapper;
 import com.ruoyi.business.service.MaterialService;
 import com.ruoyi.common.exception.ServiceException;

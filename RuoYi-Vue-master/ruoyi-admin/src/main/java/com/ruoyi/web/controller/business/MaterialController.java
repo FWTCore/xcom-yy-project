@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Material;
-import com.ruoyi.business.model.response.MaterialDetailVO;
+import com.ruoyi.business.domain.model.response.MaterialDetailVO;
 import com.ruoyi.business.service.MaterialService;
 import com.ruoyi.web.controller.utils.ImageUrlUtil;
 import io.swagger.annotations.Api;

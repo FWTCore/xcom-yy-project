@@ -18,7 +18,7 @@
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
 
-    <resultMap type="com.ruoyi.business.model.response.MaterialDetailVO" id="MaterialDetailResult"
+    <resultMap type="com.ruoyi.business.domain.model.response.MaterialDetailVO" id="MaterialDetailResult"
                extends="MaterialResult">
         <result property="categoryName" column="category_name"/>
         <result property="brandName" column="brand_name"/>

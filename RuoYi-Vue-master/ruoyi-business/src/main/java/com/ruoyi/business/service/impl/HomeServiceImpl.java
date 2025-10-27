@@ -1,6 +1,6 @@
 package com.ruoyi.business.service.impl;
 
-import com.ruoyi.business.model.response.HomeAssetStatsVO;
+import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.mapper.AssetMapper;
 import com.ruoyi.business.service.HomeService;
 import com.ruoyi.common.core.domain.model.LoginUser;

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.model.Employee;
-import com.ruoyi.business.model.response.EmployeeDetailVO;
+import com.ruoyi.business.domain.model.response.EmployeeDetailVO;
 import com.ruoyi.business.service.EmployeeService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

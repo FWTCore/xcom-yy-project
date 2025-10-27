@@ -2,12 +2,12 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
-import com.ruoyi.business.model.request.AssetBatchUpdateReqBO;
-import com.ruoyi.business.model.request.CollectionStatsReqBO;
-import com.ruoyi.business.model.response.AssetDetailVO;
-import com.ruoyi.business.model.response.CollectionStatsVO;
-import com.ruoyi.business.model.response.HomeAssetStatsVO;
-import com.ruoyi.business.model.request.AssetCopyReqBO;
+import com.ruoyi.business.domain.model.request.AssetBatchUpdateReqBO;
+import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
+import com.ruoyi.business.domain.model.response.AssetDetailVO;
+import com.ruoyi.business.domain.model.response.CollectionStatsVO;
+import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
+import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
 
 import java.util.List;
 

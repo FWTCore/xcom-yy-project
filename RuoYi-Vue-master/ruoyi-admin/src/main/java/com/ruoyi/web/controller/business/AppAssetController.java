@@ -2,8 +2,8 @@ package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
-import com.ruoyi.business.model.response.AssetDetailVO;
-import com.ruoyi.business.model.request.AssetCopyReqBO;
+import com.ruoyi.business.domain.model.response.AssetDetailVO;
+import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;

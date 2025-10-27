@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ruoyi.business.domain.entity.BrandDO;
 import com.ruoyi.business.domain.model.Brand;
-import com.ruoyi.business.model.response.BrandDetailVO;
+import com.ruoyi.business.domain.model.response.BrandDetailVO;
 import com.ruoyi.business.mapper.BrandMapper;
 import com.ruoyi.business.service.BrandService;
 import com.ruoyi.common.exception.ServiceException;
