@@ -1,4 +1,4 @@
-package com.ruoyi.business.convert;
+package com.ruoyi.business.model.convert;
 
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.model.Material;
