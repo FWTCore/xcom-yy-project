@@ -33,6 +33,7 @@ import com.ruoyi.common.core.domain.BaseEntityDO;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -57,7 +58,7 @@ import static java.util.stream.Collectors.toMap;
  * @author xcom
  * @date 2025/9/20
  */
-
+@Slf4j
 @Service
 public class AssetServiceImpl implements AssetService {
 
@@ -241,6 +242,7 @@ public class AssetServiceImpl implements AssetService {
         if (CollectionUtils.isEmpty(codeList)) {
             throw new ServiceException("资产复制生成编号异常");
         }
+        log.error("生成的复制编码：" + String.join(",", codeList));
         for (String code : codeList) {
             //清除id，用来新增
             pureData.setId(null);
