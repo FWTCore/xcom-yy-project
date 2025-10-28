@@ -3,9 +3,11 @@ package com.ruoyi.web.controller.business;
 import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.model.Employee;
 import com.ruoyi.business.service.EmployeeService;
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataDetail;
+import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.web.controller.business.request.EmployeeUpsertRequest;
 import com.ruoyi.web.controller.business.request.SearchQueryRequest;
 import io.swagger.annotations.Api;
@@ -49,6 +51,7 @@ public class AppEmployeeController extends BaseController {
 
     @ApiOperation("App-新增/编辑员工")
     @PostMapping(value = "/upset")
+    @Log(title = "App-新增/编辑员工", businessType = BusinessType.INSERT)
     public AjaxResult upset(@RequestBody @Validated EmployeeUpsertRequest request) {
         EmployeeDO employeeDO = new EmployeeDO();
         employeeDO.setDeptId(getProjectCompanyId());

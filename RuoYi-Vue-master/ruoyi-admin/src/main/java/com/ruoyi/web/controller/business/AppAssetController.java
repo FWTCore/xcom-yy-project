@@ -5,9 +5,11 @@ import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
 import com.ruoyi.business.service.AssetService;
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataDetail;
+import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.web.controller.business.convert.WebAssetConvert;
@@ -69,6 +71,7 @@ public class AppAssetController extends BaseController {
 
     @ApiOperation("App-新增/编辑资产")
     @PostMapping(value = "/upset")
+    @Log(title = "App-新增/编辑资产", businessType = BusinessType.UPDATE)
     public AjaxResult upset(@Validated @RequestBody AssetUpsertRequest request) {
 
         AssetDO assetDO = WebAssetConvert.INSTANCE.toAssetDO(request);
@@ -80,6 +83,7 @@ public class AppAssetController extends BaseController {
 
     @ApiOperation("App-复制资产")
     @PostMapping(value = "/copy")
+    @Log(title = "App-复制资产", businessType = BusinessType.INSERT)
     public AjaxResult copy(@RequestBody @Validated AssetCopyRequest request) {
         if (request.getCopyNum().compareTo(0) <= 0 || request.getCopyNum().compareTo(50) > 0) {
             throw new ServiceException("复制数量区间显示0-50，请不要超过范围");

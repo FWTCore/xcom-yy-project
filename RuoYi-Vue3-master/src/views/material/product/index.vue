@@ -17,7 +17,7 @@
             品牌
           </span>
         </template>
-        <el-select v-model="queryParams.brandId" placeholder="请选择" style="width: 240px" clearable>
+        <el-select v-model="queryParams.brandId" placeholder="请选择" style="width: 240px" clearable filterable>
           <el-option v-for="item in brandOptions" :key="item.id" :label="item.brandName" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
