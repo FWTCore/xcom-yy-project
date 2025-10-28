@@ -58,10 +58,10 @@ public class AppAssetController extends BaseController {
         asset.setUsingDeptId(request.getUsingDeptId());
         asset.setCollectorUserId(request.getCollectorUserId());
         if (ObjectUtils.isNotEmpty(request.getStartTime())) {
-            asset.getParams().put("beginTime", request.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
+            asset.getParams().put("beginTime", request.getStartTime());
         }
         if (ObjectUtils.isNotEmpty(request.getStartTime())) {
-            asset.getParams().put("endTime", request.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
+            asset.getParams().put("endTime", request.getStartTime());
         }
         List<AssetDetailVO> resp = assetService.selectAssetDetailList(asset);
         return getDataDetailTable(resp);

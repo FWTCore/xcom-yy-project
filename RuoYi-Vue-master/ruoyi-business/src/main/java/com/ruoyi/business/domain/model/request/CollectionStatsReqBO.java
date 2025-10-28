@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -21,18 +22,18 @@ public class CollectionStatsReqBO extends BaseEntityDO {
      * 项目id
      */
 
-    private Long          projectId;
+    private Long    projectId;
 
     /**
      * 维度类型 1；采集人；2：使用部门；3：存放地点
      */
-    private Integer       dimensionType;
+    private Integer dimensionType;
     /**
      * 采集开始时间
      */
-    private LocalDateTime startTime;
+    private String  startTime;
     /**
      * 采集开始时间
      */
-    private LocalDateTime endTime;
+    private String  endTime;
 }

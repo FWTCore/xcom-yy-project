@@ -8,6 +8,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -34,14 +35,12 @@ public class CollectionStatsRequest implements Serializable {
      * 采集开始时间
      */
     @ApiModelProperty(value = "采集开始时间")
-    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
-    private LocalDateTime     startTime;
+    private String            startTime;
 
     /**
      * 采集开始时间
      */
     @ApiModelProperty(value = "采集开始时间")
-    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
-    private LocalDateTime     endTime;
+    private String            endTime;
 
 }

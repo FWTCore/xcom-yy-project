@@ -35,7 +35,7 @@ public class AppCollectionStatsController extends BaseController {
 
     @ApiOperation("App-获取维度采集统计")
     @GetMapping(value = "/pageStats")
-    public TableDataDetail listStats(CollectionStatsRequest request) {
+    public TableDataDetail pageStats(CollectionStatsRequest request) {
         startPage();
         CollectionStatsReqBO reqBO = WebCollectionStatsConvert.INSTANCE.toCollectionStatsReqBO(request);
         reqBO.setProjectId(getProjectId());

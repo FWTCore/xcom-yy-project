@@ -37,14 +37,12 @@ public class AssetQueryRequest implements Serializable {
      * 采集开始时间
      */
     @ApiModelProperty(value = "采集开始时间")
-    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
-    private LocalDateTime     startTime;
+    private String            startTime;
 
     /**
      * 采集开始时间
      */
     @ApiModelProperty(value = "采集开始时间")
-    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
-    private LocalDateTime     endTime;
+    private String            endTime;
 
 }
