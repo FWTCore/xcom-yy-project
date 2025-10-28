@@ -107,7 +107,7 @@ public class DataScopeAspect {
             throw new ServiceException("权限设置异常", HttpStatus.UNAUTHORIZED);
         }
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        log.error("所在项目：" + JSON.toJSONString(loginUser.getParticipatedProjectIds()));
+//        log.error("所在项目：" + JSON.toJSONString(loginUser.getParticipatedProjectIds()));
 
         SysUser user = loginUser.getUser();
         StringBuilder sqlString = new StringBuilder();
@@ -130,7 +130,7 @@ public class DataScopeAspect {
             //                continue;
             //            }
 
-            log.error("角色权限类型：" + dataScope);
+//            log.error("角色权限类型：" + dataScope);
             if (DATA_SCOPE_ALL.equals(dataScope)) {
                 sqlString = new StringBuilder();
                 conditions.add(dataScope);
@@ -221,9 +221,9 @@ public class DataScopeAspect {
         // 角色都不包含传递过来的权限字符，这个时候sqlString也会为空，所以要限制一下,不查询任何数据
         if (StringUtils.isEmpty(conditions)) {
             sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
-            log.error("权限脚本：无");
+//            log.error("权限脚本：无");
         } else {
-            log.error("权限脚本：" + sqlString);
+//            log.error("权限脚本：" + sqlString);
         }
 
         if (StringUtils.isNotBlank(sqlString.toString())) {
