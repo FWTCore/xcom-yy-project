@@ -788,7 +788,7 @@ function handleDelete(row) {
 function handleExport() {
   proxy.download('/asset/export', {
     ...queryParams.value
-  }, `asset_${new Date().getTime()}.xlsx`)
+  }, `盘点资产_${new Date().getTime()}.xlsx`)
 }
 
 
