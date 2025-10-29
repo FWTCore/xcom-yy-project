@@ -4,6 +4,7 @@ import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,42 +20,54 @@ public class AssetBatchUpdateReqBO extends BaseEntityDO {
     /**
      * id列表
      */
-    private List<Long> ids;
+    private List<Long>    ids;
 
     /**
      * 分类id,;
      */
-    private Long       categoryId;
+    private Long          categoryId;
 
     /**
      * 品牌id,;
      */
-    private Long       brandId;
+    private Long          brandId;
     /**
      * 资产名称,;
      */
-    private String     assetName;
+    private String        assetName;
 
     /**
      * 规格型号,;
      */
-    private String     specification;
+    private String        specification;
+    /**
+     * 生产时间,;
+     */
+    private LocalDateTime productionTime;
+    /**
+     * 资产状态,;
+     */
+    private Integer       assetStatus;
+    /**
+     * 地点id,;
+     */
+    private Long          locationId;
     /**
      * 管理部门id,;
      */
-    private Long       managedDeptId;
+    private Long          managedDeptId;
 
     /**
      * 使用部门id,;
      */
-    private Long       usingDeptId;
+    private Long          usingDeptId;
 
     /**
      * 管理员工id,;
      */
-    private Long       managedEmpId;
+    private Long          managedEmpId;
     /**
      * 使用员工id,;
      */
-    private Long       usingEmpId;
+    private Long          usingEmpId;
 }

@@ -329,11 +329,15 @@ public class AssetServiceImpl implements AssetService {
         }
         AssetDO existAsset = assetList.get(0);
 
+        Boolean hasChangeCategory = false;
         CategoryDO categoryDO = null;
         if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getCategoryId())) {
             categoryDO = categoryService.selectCategoryById(batchUpdateReqBO.getCategoryId());
             if (ObjectUtils.isEmpty(categoryDO)) {
                 throw new ServiceException("分类不存在");
+            }
+            if (!existAsset.getCategoryId().equals(batchUpdateReqBO.getCategoryId())) {
+                hasChangeCategory = true;
             }
         }
         BrandDO brandDO = null;
@@ -344,6 +348,17 @@ public class AssetServiceImpl implements AssetService {
             }
             if (!brandDO.getCategoryId().equals(batchUpdateReqBO.getCategoryId())) {
                 throw new ServiceException("分类下无该品牌");
+            }
+        }
+
+        LocationDO locationDO = null;
+        if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getLocationId())) {
+            locationDO = locationService.selectLocationById(batchUpdateReqBO.getLocationId());
+            if (ObjectUtils.isEmpty(locationDO)) {
+                throw new ServiceException("存放地点不存在");
+            }
+            if (!locationDO.getDeptId().equals(existAsset.getDeptId())) {
+                throw new ServiceException("单位无该存放地点");
             }
         }
 
@@ -361,7 +376,7 @@ public class AssetServiceImpl implements AssetService {
                 throw new ServiceException("部门不存在");
             }
             if (departmentList.stream().noneMatch(e -> e.getDeptId().equals(existAsset.getDeptId()))) {
-                throw new ServiceException("部门存在单位不属于资产的单位");
+                throw new ServiceException("单位无该部门");
             }
             departmentMap = departmentList.stream()
                 .collect(toMap(BaseEntityDO::getId, Function.identity(), (k1, k2) -> k2));
@@ -381,7 +396,7 @@ public class AssetServiceImpl implements AssetService {
                 throw new ServiceException("人员不存在");
             }
             if (employeeList.stream().noneMatch(e -> e.getDeptId().equals(existAsset.getDeptId()))) {
-                throw new ServiceException("人员存在单位不属于资产的单位");
+                throw new ServiceException("单位无该人员");
             }
             employeeMap = employeeList.stream()
                 .collect(toMap(BaseEntityDO::getId, Function.identity(), (k1, k2) -> k2));
@@ -395,10 +410,19 @@ public class AssetServiceImpl implements AssetService {
             if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getCategoryId())) {
                 assetDO.setCategoryId(categoryDO.getId());
                 assetDO.setCategoryName(categoryDO.getCategoryName());
+                isUpdate = true;
             }
             if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getBrandId())) {
                 assetDO.setBrandId(brandDO.getId());
                 assetDO.setBrandName(brandDO.getBrandName());
+                isUpdate = true;
+            } else {
+                if (hasChangeCategory) {
+                    assetDO.setBrandId(null);
+                    assetDO.setBrandName(null);
+                    assetDO.getParams().put("updateBrand", true);
+                    isUpdate = true;
+                }
             }
             if (StringUtils.isNotBlank(batchUpdateReqBO.getAssetName())) {
                 assetDO.setAssetName(batchUpdateReqBO.getAssetName());
@@ -408,6 +432,20 @@ public class AssetServiceImpl implements AssetService {
                 assetDO.setSpecification(batchUpdateReqBO.getSpecification());
                 isUpdate = true;
             }
+            if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getProductionTime())) {
+                assetDO.setProductionTime(batchUpdateReqBO.getProductionTime());
+                isUpdate = true;
+            }
+            if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getAssetStatus())) {
+                assetDO.setAssetStatus(batchUpdateReqBO.getAssetStatus());
+                isUpdate = true;
+            }
+            if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getLocationId())) {
+                assetDO.setLocationId(locationDO.getId());
+                assetDO.setLocationName(locationDO.getLocationName());
+                isUpdate = true;
+            }
+
             if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getManagedDeptId())) {
                 if (!departmentMap.containsKey(batchUpdateReqBO.getManagedDeptId())) {
                     throw new ServiceException("管理部门不存在");

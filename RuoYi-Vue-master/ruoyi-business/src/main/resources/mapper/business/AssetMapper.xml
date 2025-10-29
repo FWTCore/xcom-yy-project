@@ -773,9 +773,15 @@
                 brand_id =
                 #{brandId},
             </if>
+            <if test="brandId == null and params.updateBrand != null and params.updateBrand">
+                brand_id =null ,
+            </if>
             <if test="brandName != null">
                 brand_name =
                 #{brandName},
+            </if>
+            <if test="brandName == null and params.updateBrand != null and params.updateBrand">
+                brand_name =null ,
             </if>
             <if test="materialId != null">
                 material_id =

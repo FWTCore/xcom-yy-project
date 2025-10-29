@@ -42,7 +42,7 @@ public interface AssetMapper {
      * @param ids 资产主键
      * @return 资产
      */
-    List<AssetDO> selectAssetByIds(List<Long> ids);
+    List<AssetDO> selectAssetByIds(@Param("ids") List<Long> ids);
 
     /**
      * 查询资产列表

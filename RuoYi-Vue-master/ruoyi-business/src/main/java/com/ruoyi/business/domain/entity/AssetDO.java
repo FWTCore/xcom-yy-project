@@ -105,7 +105,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 资产状态,;
      */
-    @Excel(name = "资产状态", readConverterExp = "0=闲置,1=在用,1=毁损")
+    @Excel(name = "资产状态", readConverterExp = "0=闲置,1=在用,2=毁损")
     private Integer       assetStatus;
 
     /**

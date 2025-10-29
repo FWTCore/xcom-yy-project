@@ -1,11 +1,14 @@
 package com.ruoyi.web.controller.business.request;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.ruoyi.business.utils.LenientLocalDateTimeDeserializer;
 import com.ruoyi.common.annotation.Excel;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -44,6 +47,19 @@ public class AssetBatchUpdateRequest implements Serializable {
      * 规格型号,;
      */
     private String            specification;
+    /**
+     * 生产时间,;
+     */
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
+    private LocalDateTime     productionTime;
+    /**
+     * 资产状态,;
+     */
+    private Integer           assetStatus;
+    /**
+     * 地点id,;
+     */
+    private Long              locationId;
     /**
      * 管理部门id,;
      */
