@@ -4,7 +4,7 @@
       <el-form-item label="归属单位" prop="deptId">
         <el-tree-select v-model="queryParams.deptId" :data="enabledDeptOptions"
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-          style="width: 240px" clearable />
+          style="width: 240px" clearable filterable/>
       </el-form-item>
       <el-form-item label="项目名称" prop="searchName">
         <el-input v-model="queryParams.searchName" placeholder="请输入项目名称" clearable @keyup.enter="handleQuery" />
@@ -92,12 +92,12 @@
             <el-form-item label="归属单位" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="enabledDeptOptions"
                 :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-                clearable check-strictly />
+                check-strictly filterable clearable/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="项目名称" prop="projectName">
-              <el-input v-model="form.projectName" placeholder="请输入项目名称" />
+              <el-input v-model="form.projectName" placeholder="请输入项目名称" clearable/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -105,16 +105,16 @@
           <el-col :span="12">
 
             <el-form-item label="开始周期" prop="startDate">
-              <el-date-picker clearable v-model="form.startDate" type="date" value-format="YYYY-MM-DD"
-                placeholder="请选择项目开始周期">
+              <el-date-picker v-model="form.startDate" type="date" value-format="YYYY-MM-DD"
+                placeholder="请选择项目开始周期" clearable>
               </el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
             <el-form-item label="结束周期" prop="endDate">
-              <el-date-picker clearable v-model="form.endDate" type="date" value-format="YYYY-MM-DD"
-                placeholder="请选择项目结束周期">
+              <el-date-picker v-model="form.endDate" type="date" value-format="YYYY-MM-DD"
+                placeholder="请选择项目结束周期" clearable>
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -122,7 +122,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="备注">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>

@@ -4,7 +4,7 @@
       <el-form-item label="归属单位" prop="deptId">
         <el-tree-select v-model="queryParams.deptId" :data="enabledDeptOptions"
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-          style="width: 240px" clearable @change="handleTreeNodeClick" />
+          style="width: 240px" clearable @change="handleTreeNodeClick" filterable />
       </el-form-item>
       <el-form-item prop="projectId">
         <template #label>
@@ -187,7 +187,7 @@
             <el-form-item label="归属单位" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="enabledDeptOptions"
                 :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-                clearable check-strictly @change="handleTreeNodeFormClick" />
+                check-strictly @change="handleTreeNodeFormClick" filterable clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -210,20 +210,20 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="临时编码" prop="temporaryCode">
-              <el-input v-model="form.temporaryCode" placeholder="请输入临时编码" :disabled="!!form.id" />
+              <el-input v-model="form.temporaryCode" placeholder="请输入临时编码" :disabled="!!form.id" clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="原始编码" prop="originalCode">
-              <el-input v-model="form.originalCode" placeholder="请输入原始编码" :disabled="!!form.id" />
+              <el-input v-model="form.originalCode" placeholder="请输入原始编码" :disabled="!!form.id" clearable />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="门类" prop="categoryId">
-              <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px" clearable
-                @change="handleNodeClickForForm">
+              <el-select v-model="form.categoryId" placeholder="请选择" style="width: 240px"
+                @change="handleNodeClickForForm" clearable>
                 <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
                   :value="item.id"></el-option>
               </el-select>
@@ -249,25 +249,26 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="资产名称" prop="assetName">
-              <el-input v-model="form.assetName" placeholder="请输入资产名称" />
+              <el-input v-model="form.assetName" placeholder="请输入资产名称" clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="规格型号" prop="specification">
-              <el-input v-model="form.specification" placeholder="请输入规格型号" />
+              <el-input v-model="form.specification" placeholder="请输入规格型号" clearable />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="生产时间" prop="productionTime">
-              <el-date-picker v-model="form.productionTime" type="date" value-format="YYYY-MM-DD" placeholder="请选择生产时间">
+              <el-date-picker v-model="form.productionTime" type="date" value-format="YYYY-MM-DD" placeholder="请选择生产时间"
+                clearable>
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="资产状态" prop="assetStatus">
-              <el-select v-model="form.assetStatus" placeholder="资产状态" value-key="value">
+              <el-select v-model="form.assetStatus" placeholder="资产状态" value-key="value" clearable>
                 <el-option v-for="dict in asset_status" :key="dict.value" :label="dict.label" :value="dict.value" />
               </el-select>
             </el-form-item>
@@ -284,7 +285,7 @@
                   地点
                 </span>
               </template>
-              <el-select v-model="form.locationId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="form.locationId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in locationFormOptions" :key="item.id" :label="item.locationName"
                   :value="item.id"></el-option>
               </el-select>
@@ -302,7 +303,7 @@
                   管理部门
                 </span>
               </template>
-              <el-select v-model="form.managedDeptId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="form.managedDeptId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
                   :value="item.id"></el-option>
               </el-select>
@@ -318,7 +319,7 @@
                   使用部门
                 </span>
               </template>
-              <el-select v-model="form.usingDeptId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="form.usingDeptId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
                   :value="item.id"></el-option>
               </el-select>
@@ -336,7 +337,7 @@
                   管理员工
                 </span>
               </template>
-              <el-select v-model="form.managedEmpId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="form.managedEmpId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
                   :value="item.id"></el-option>
               </el-select>
@@ -352,7 +353,7 @@
                   使用员工
                 </span>
               </template>
-              <el-select v-model="form.usingEmpId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="form.usingEmpId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
                   :value="item.id"></el-option>
               </el-select>
@@ -374,7 +375,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -393,20 +394,36 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="资产名称" prop="assetName">
-              <el-input v-model="batchForm.assetName" placeholder="请输入资产名称" />
+              <el-input v-model="batchForm.assetName" placeholder="请输入资产名称" clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="规格型号" prop="specification">
-              <el-input v-model="batchForm.specification" placeholder="请输入规格型号" />
+              <el-input v-model="batchForm.specification" placeholder="请输入规格型号" clearable />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="生产时间" prop="productionTime">
+              <el-date-picker v-model="batchForm.productionTime" type="date" value-format="YYYY-MM-DD"
+                placeholder="请选择生产时间" clearable>
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="资产状态" prop="assetStatus">
+              <el-select v-model="batchForm.assetStatus" placeholder="资产状态" value-key="value" clearable>
+                <el-option v-for="dict in asset_status" :key="dict.value" :label="dict.label" :value="dict.value" />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="门类" prop="categoryId">
-              <el-select v-model="batchForm.categoryId" placeholder="请选择" style="width: 240px" clearable
-                @change="handleNodeClickForForm">
+              <el-select v-model="batchForm.categoryId" placeholder="请选择" style="width: 240px"
+                @change="handleNodeClickForForm" clearable>
                 <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
                   :value="item.id"></el-option>
               </el-select>
@@ -422,8 +439,26 @@
                   品牌
                 </span>
               </template>
-              <el-select v-model="batchForm.brandId" placeholder="请选择" style="width: 240px" clearable filterable>
+              <el-select v-model="batchForm.brandId" placeholder="请选择" style="width: 240px" filterable clearable>
                 <el-option v-for="item in brandFormOptions" :key="item.id" :label="item.brandName"
+                  :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item prop="locationId">
+              <template #label>
+                <span>
+                  <el-tooltip content="需要先选择单位" placement="top">
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  地点
+                </span>
+              </template>
+              <el-select v-model="batchForm.locationId" placeholder="请选择" style="width: 240px" clearable filterable>
+                <el-option v-for="item in locationFormOptions" :key="item.id" :label="item.locationName"
                   :value="item.id"></el-option>
               </el-select>
             </el-form-item>
@@ -440,7 +475,7 @@
                   管理部门
                 </span>
               </template>
-              <el-select v-model="batchForm.managedDeptId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="batchForm.managedDeptId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
                   :value="item.id"></el-option>
               </el-select>
@@ -456,7 +491,7 @@
                   使用部门
                 </span>
               </template>
-              <el-select v-model="batchForm.usingDeptId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="batchForm.usingDeptId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in deptFormOptions" :key="item.id" :label="item.departmentName"
                   :value="item.id"></el-option>
               </el-select>
@@ -474,7 +509,7 @@
                   管理员工
                 </span>
               </template>
-              <el-select v-model="batchForm.managedEmpId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="batchForm.managedEmpId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
                   :value="item.id"></el-option>
               </el-select>
@@ -490,7 +525,7 @@
                   使用员工
                 </span>
               </template>
-              <el-select v-model="batchForm.usingEmpId" placeholder="请选择" style="width: 240px" clearable>
+              <el-select v-model="batchForm.usingEmpId" placeholder="请选择" style="width: 240px" clearable filterable>
                 <el-option v-for="item in empFormOptions" :key="item.id" :label="item.employeeName"
                   :value="item.id"></el-option>
               </el-select>
@@ -559,8 +594,12 @@ const calculateTableHeight = () => {
 }
 
 const data = reactive({
-  form: {},
-  batchForm: {},
+  form: {
+    assetStatus: '1'
+  },
+  batchForm: {
+    assetStatus: '1'
+  },
   queryParams: {
     pageNum: 1,
     pageSize: 10,
@@ -640,6 +679,7 @@ function reset() {
     materialId: null,
     assetName: null,
     specification: null,
+    assetStatus: "1",
     productionTime: null,
     locationId: null,
     locationName: null,
@@ -704,7 +744,7 @@ function handleUpdate(row) {
   reset()
   const _id = row.id || ids.value
   getAsset(_id).then(response => {
-    form.value = { ...response.data, assetStatus: String(response.data.assetStatus) }
+    form.value = { ...response.data, assetStatus: String(response.data.assetStatus || '1') }
     open.value = true
     title.value = "修改资产"
     handleTreeNodeFormClick(form.value.deptId)
@@ -910,6 +950,7 @@ function handleBatchUpdate() {
 function handleTreeNodeBatchClick(data) {
   getDepartment(data)
   getEmployee(data)
+  getLocation(data)
 }
 /** 提交按钮 */
 function submitBatchForm() {

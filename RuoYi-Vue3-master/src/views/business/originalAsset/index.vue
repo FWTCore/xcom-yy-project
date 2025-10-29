@@ -4,7 +4,7 @@
       <el-form-item label="归属单位" prop="deptId">
         <el-tree-select v-model="queryParams.deptId" :data="enabledDeptOptions"
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-          style="width: 240px" clearable @change="handleTreeNodeClick" />
+          style="width: 240px" clearable @change="handleTreeNodeClick" filterable/>
       </el-form-item>
       <el-form-item prop="projectId">
         <template #label>
@@ -145,7 +145,7 @@
             <el-form-item label="归属单位" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="enabledDeptOptions"
                 :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-                clearable check-strictly @change="handleTreeNodeFormClick" />
+                check-strictly @change="handleTreeNodeFormClick" filterable clearable/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -168,14 +168,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="原始编码" prop="originalCode">
-              <el-input v-model="form.originalCode" placeholder="请输入原始编码" :disabled="!!form.id"/>
+              <el-input v-model="form.originalCode" placeholder="请输入原始编码" :disabled="!!form.id" clearable/>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
 
             <el-form-item label="资产名称" prop="assetName">
-              <el-input v-model="form.assetName" placeholder="请输入资产名称" />
+              <el-input v-model="form.assetName" placeholder="请输入资产名称" clearable/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -190,19 +190,19 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="品牌名称" prop="brandName">
-              <el-input v-model="form.brandName" placeholder="请输入品牌名称" />
+              <el-input v-model="form.brandName" placeholder="请输入品牌名称" clearable/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="规格型号" prop="specification">
-              <el-input v-model="form.specification" placeholder="请输入规格型号" />
+              <el-input v-model="form.specification" placeholder="请输入规格型号" clearable/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="获得时间" prop="obtainTime">
-              <el-date-picker v-model="form.obtainTime" type="date" value-format="YYYY-MM-DD" placeholder="请选择获得时间">
+              <el-date-picker v-model="form.obtainTime" type="date" value-format="YYYY-MM-DD" placeholder="请选择获得时间" clearable>
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -210,7 +210,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="价值" prop="productPrice">
-              <el-input-number v-model="form.productPrice" placeholder="请输入价值" />
+              <el-input-number v-model="form.productPrice" placeholder="请输入价值" clearable/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -302,7 +302,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>

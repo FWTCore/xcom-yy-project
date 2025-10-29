@@ -4,7 +4,7 @@
       <el-form-item label="归属单位" prop="deptId">
         <el-tree-select v-model="queryParams.deptId" :data="enabledDeptOptions"
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-          style="width: 240px" clearable />
+          style="width: 240px" clearable filterable/>
       </el-form-item>
       <el-form-item label="部门名称" prop="searchName">
         <el-input v-model="queryParams.searchName" placeholder="请输入部门名称" clearable @keyup.enter="handleQuery" />
@@ -70,12 +70,12 @@
             <el-form-item label="归属单位" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="enabledDeptOptions"
                 :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-                clearable check-strictly />
+                check-strictly filterable clearable/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="部门名称" prop="departmentName">
-              <el-input v-model="form.departmentName" placeholder="请输入部门名称" />
+              <el-input v-model="form.departmentName" placeholder="请输入部门名称" clearable/>
             </el-form-item>
           </el-col>
         </el-row>
