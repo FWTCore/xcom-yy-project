@@ -1,20 +1,15 @@
 package com.ruoyi.business.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.ruoyi.business.utils.LenientLocalDateTimeDeserializer;
 import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import com.ruoyi.common.utils.DateUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.ObjectUtils;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * 资产;asset数据表的DO对象
@@ -189,6 +184,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 主图片,;
      */
+    @Excel(name = "主图片", cellType = Excel.ColumnType.IMAGE, height = 100, width = 20)
     private String        mainImageUrl;
 
     /**
