@@ -277,7 +277,7 @@ public class AssetServiceImpl implements AssetService {
                 }
             }
             matchDataList = assetDetailList.stream()
-                .filter(e -> StringUtils.isNotBlank(e.getOriginalCode()) && e.getOriginalCode().equals(code))
+                .filter(e -> StringUtils.isNotBlank(e.getOriginalSubCode()) && e.getOriginalSubCode().equals(code))
                 .collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(matchDataList)) {
                 if (matchDataList.size() != 1) {
@@ -295,10 +295,7 @@ public class AssetServiceImpl implements AssetService {
         List<OriginalAssetDetailVO> originalAssetDetailList = originalAssetService
             .selectOriginalAssetDetailList(originalAssetQuery);
         if (CollectionUtils.isEmpty(originalAssetDetailList)) {
-            AssetDetailVO resultData = new AssetDetailVO();
-            resultData.setTemporaryCode(code);
-            resultData.setOriginalCode(code);
-            return resultData;
+            throw new ServiceException("扫码编号不存在，请先导入数据");
         }
         AssetDetailVO resultData = AssetConvert.INSTANCE.toAssetDetailVO(originalAssetDetailList.get(0));
         resultData.setId(null);
@@ -621,35 +618,44 @@ public class AssetServiceImpl implements AssetService {
 
     /**
      * 生成资产code
-     * @param temporaryCode
+     * @param code
      * @param copyNum
      * @return
      */
-    private List<String> generateAssetCode(String temporaryCode, Integer copyNum) {
-        if (StringUtils.isBlank(temporaryCode)) {
-            throw new ServiceException("复制编码不存在");
+    private List<String> generateAssetCode(String code, Integer copyNum) {
+        if (StringUtils.isBlank(code)) {
+            throw new ServiceException("编码不存在");
         }
         int startIndex = 0;
-        String assetCodePrefix = temporaryCode;
-        // 判断倒数第二位是否是 -
-        if (temporaryCode.length() > 2) {
-            String assetCodeSeparator = temporaryCode.substring(temporaryCode.length() - 2, temporaryCode.length() - 1);
-            if (assetCodeSeparator.equals("-")) {
-                String startStr = temporaryCode.substring(temporaryCode.length() - 1);
-                try {
-                    startIndex = Integer.parseInt(startStr);
-                    if (startIndex > 0) {
-                        assetCodePrefix = temporaryCode.substring(0, temporaryCode.length() - 2);
-                    }
-                } catch (Exception ignored) {
-
-                }
+        String assetCodePrefix = code;
+        if (code.contains("-")) {
+            String[] data = code.split("-");
+            if (data.length != 2) {
+                throw new ServiceException("编码格式错误，包含多个-");
             }
+            assetCodePrefix = data[0];
+            startIndex = Integer.parseInt(data[1]);
         }
         List<String> resultData = new ArrayList<>();
         for (int i = 1; i <= copyNum; i++) {
             resultData.add(String.format("%s-%s", assetCodePrefix, startIndex + i));
         }
         return resultData;
+    }
+
+    /**
+     * 获取原始编码
+     * @param originalSubCode
+     * @return
+     */
+    private String getOriginalCode(String originalSubCode) {
+        if (!originalSubCode.contains("-")) {
+            return originalSubCode;
+        }
+        String[] data = originalSubCode.split("-");
+        if (data.length != 2) {
+            throw new ServiceException("编码格式错误，包含多个-");
+        }
+        return data[0];
     }
 }

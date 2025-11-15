@@ -481,7 +481,7 @@
             <if test="matchCode != null and matchCode!=''">
                 and (
                 a.temporary_code = #{matchCode}
-                or a.original_code = #{matchCode}
+                or a.original_sub_code = #{matchCode}
                 )
             </if>
             <if test="params.beginTime != null and params.beginTime != ''">
