@@ -184,7 +184,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 主图片,;
      */
-    @Excel(name = "主图片", cellType = Excel.ColumnType.IMAGE, height = 100, width = 20)
+//    @Excel(name = "主图片", cellType = Excel.ColumnType.IMAGE, height = 100, width = 20)
     private String        mainImageUrl;
 
     /**

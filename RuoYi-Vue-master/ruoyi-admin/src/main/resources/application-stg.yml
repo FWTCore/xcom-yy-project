@@ -39,7 +39,7 @@ logging:
     com.ruoyi: debug
     org.springframework: warn
   file:
-    path: ../logs
+    path: ../stg-logs
 
 # 用户配置
 user:
