@@ -24,6 +24,8 @@
         <result property="usingEmpId" column="using_emp_Id"/>
         <result property="usingEmpName" column="using_emp_name"/>
         <result property="remark" column="remark"/>
+        <result property="matchStatus" column="match_status"/>
+        <result property="matchCount" column="match_count"/>
         <result property="deleteFlag" column="delete_flag"/>
         <result property="createdById" column="created_by_id"/>
         <result property="createdByName" column="created_by_name"/>
@@ -61,6 +63,8 @@
                using_emp_Id,
                using_emp_name,
                remark,
+               match_status,
+               match_count,
                delete_flag,
                created_by_id,
                created_by_name,
@@ -208,6 +212,8 @@
         a.using_emp_Id,
         a.using_emp_name,
         a.remark,
+        a.match_status,
+        a.match_count,
         a.delete_flag,
         a.created_by_id,
         a.created_by_name,
@@ -413,6 +419,12 @@
             <if test="remark != null">
                 remark,
             </if>
+            <if test="matchStatus != null">
+                match_status,
+            </if>
+            <if test="matchCount != null">
+                match_count,
+            </if>
             <if test="deleteFlag != null">
                 delete_flag,
             </if>
@@ -498,6 +510,12 @@
             </if>
             <if test="remark != null">
                 #{remark},
+            </if>
+            <if test="matchStatus != null">
+                #{matchStatus},
+            </if>
+            <if test="matchCount != null">
+                #{matchCount},
             </if>
             <if test="deleteFlag != null">
                 #{deleteFlag},
@@ -609,6 +627,14 @@
             <if test="remark != null">
                 remark =
                 #{remark},
+            </if>
+            <if test="matchStatus != null">
+                match_status =
+                #{matchStatus},
+            </if>
+            <if test="matchCount != null">
+                match_count =
+                #{matchCount},
             </if>
             <if test="deleteFlag != null">
                 delete_flag =

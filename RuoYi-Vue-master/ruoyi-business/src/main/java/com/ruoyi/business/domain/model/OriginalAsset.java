@@ -145,4 +145,14 @@ public class OriginalAsset extends BaseEntityDO {
      * 价值,;
      */
     private BigDecimal    productPrice;
+
+    /**
+     * 匹配状态
+     */
+    private Integer       matchStatus;
+
+    /**
+     * 匹配数量
+     */
+    private Integer       matchCount;
 }

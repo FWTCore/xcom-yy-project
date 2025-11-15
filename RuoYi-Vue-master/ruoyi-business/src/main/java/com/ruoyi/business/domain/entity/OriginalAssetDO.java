@@ -141,4 +141,14 @@ public class OriginalAssetDO extends BaseEntityDO {
     @Excel(name = "价值")
     @NotNull(message = "价值不能为空")
     private BigDecimal    productPrice;
+
+    /**
+     * 匹配状态
+     */
+    private Integer       matchStatus;
+
+    /**
+     * 匹配数量
+     */
+    private Integer       matchCount;
 }

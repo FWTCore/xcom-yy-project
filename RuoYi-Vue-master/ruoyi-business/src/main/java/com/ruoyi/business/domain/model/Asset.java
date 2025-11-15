@@ -58,6 +58,10 @@ public class Asset extends BaseEntityDO {
      * 原始编码,;
      */
     private String        searchOriginalCode;
+    /**
+     * 原始子编码
+     */
+    private String        originalSubCode;
 
     /**
      * 分类id,;

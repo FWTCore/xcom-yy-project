@@ -46,6 +46,11 @@ public class AssetDO extends BaseEntityDO {
     private String        originalCode;
 
     /**
+     * 原始子编码
+     */
+    private String        originalSubCode;
+
+    /**
      * 分类id,;
      */
     private Long          categoryId;
@@ -184,7 +189,7 @@ public class AssetDO extends BaseEntityDO {
     /**
      * 主图片,;
      */
-//    @Excel(name = "主图片", cellType = Excel.ColumnType.IMAGE, height = 100, width = 20)
+    //    @Excel(name = "主图片", cellType = Excel.ColumnType.IMAGE, height = 100, width = 20)
     private String        mainImageUrl;
 
     /**
@@ -201,4 +206,16 @@ public class AssetDO extends BaseEntityDO {
      * 图片名称,;
      */
     private String        imageUrlName;
+
+    /**
+     * 匹配状态
+     */
+    @Excel(name = "匹配状态", readConverterExp = "0=未匹配,1=已匹配")
+    private Integer       matchStatus;
+
+    /**
+     * 打印状态
+     */
+    @Excel(name = "打印状态", readConverterExp = "0=无需打印,1=未打印,2=已打印")
+    private Integer       printStatus;
 }

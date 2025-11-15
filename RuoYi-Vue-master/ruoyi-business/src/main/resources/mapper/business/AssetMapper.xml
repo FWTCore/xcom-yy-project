@@ -7,6 +7,7 @@
         <result property="projectId" column="project_id"/>
         <result property="temporaryCode" column="temporary_code"/>
         <result property="originalCode" column="original_code"/>
+        <result property="originalSubCode" column="original_sub_code"/>
         <result property="categoryId" column="category_id"/>
         <result property="categoryName" column="category_name"/>
         <result property="brandId" column="brand_id"/>
@@ -34,6 +35,8 @@
         <result property="mainImageName" column="main_image_name"/>
         <result property="imageUrl" column="image_url"/>
         <result property="imageUrlName" column="image_url_name"/>
+        <result property="matchStatus" column="match_status"/>
+        <result property="printStatus" column="print_status"/>
         <result property="deleteFlag" column="delete_flag"/>
         <result property="createdById" column="created_by_id"/>
         <result property="createdByName" column="created_by_name"/>
@@ -53,6 +56,7 @@
                project_id,
                temporary_code,
                original_code,
+               original_sub_code,
                category_id,
                category_name,
                brand_id,
@@ -80,6 +84,8 @@
                main_image_name,
                image_url,
                image_url_name,
+               match_status,
+               print_status,
                delete_flag,
                created_by_id,
                created_by_name,
@@ -273,6 +279,7 @@
         a.project_id,
         a.temporary_code,
         a.original_code,
+        a.original_sub_code,
         a.category_id,
         a.category_name,
         a.brand_id,
@@ -301,6 +308,8 @@
         a.main_image_name,
         a.image_url,
         a.image_url_name,
+        a.match_status,
+        a.print_status,
         a.delete_flag,
         a.created_by_id,
         a.created_by_name,
@@ -521,6 +530,9 @@
             <if test="originalCode != null">
                 original_code,
             </if>
+            <if test="originalSubCode != null">
+                original_sub_code,
+            </if>
             <if test="categoryId != null">
                 category_id,
             </if>
@@ -602,6 +614,12 @@
             <if test="imageUrlName != null">
                 image_url_name,
             </if>
+            <if test="matchStatus != null">
+                match_status,
+            </if>
+            <if test="printStatus != null">
+                print_status,
+            </if>
             <if test="deleteFlag != null">
                 delete_flag,
             </if>
@@ -636,6 +654,9 @@
             </if>
             <if test="originalCode != null">
                 #{originalCode},
+            </if>
+            <if test="originalSubCode != null">
+                #{originalSubCode},
             </if>
             <if test="categoryId != null">
                 #{categoryId},
@@ -718,6 +739,12 @@
             <if test="imageUrlName != null">
                 #{imageUrlName},
             </if>
+            <if test="matchStatus != null">
+                #{matchStatus},
+            </if>
+            <if test="printStatus != null">
+                #{printStatus},
+            </if>
             <if test="deleteFlag != null">
                 #{deleteFlag},
             </if>
@@ -760,6 +787,10 @@
             <if test="originalCode != null">
                 original_code =
                 #{originalCode},
+            </if>
+            <if test="originalSubCode != null">
+                original_sub_code =
+                #{originalSubCode},
             </if>
             <if test="categoryId != null">
                 category_id =
@@ -874,6 +905,14 @@
             <if test="imageUrlName != null">
                 image_url_name =
                 #{imageUrlName},
+            </if>
+            <if test="matchStatus != null">
+                match_status =
+                #{matchStatus},
+            </if>
+            <if test="printStatus != null">
+                print_status =
+                #{printStatus},
             </if>
             <if test="deleteFlag != null">
                 delete_flag =
