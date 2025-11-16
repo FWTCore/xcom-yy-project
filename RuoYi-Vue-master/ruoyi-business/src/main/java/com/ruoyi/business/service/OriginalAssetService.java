@@ -85,4 +85,11 @@ public interface OriginalAssetService {
      * @return 结果
      */
     String importData(List<OriginalAsset> dataList, Boolean isUpdateSupport);
+
+    /**
+     * 更新原始编码统计信息
+     * @param originalCode
+     * @return
+     */
+    boolean updateMatchStatic(String originalCode);
 }

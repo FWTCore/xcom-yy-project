@@ -130,6 +130,12 @@
             <if test="searchOriginalCode != null  and searchOriginalCode != ''">
                 and original_code like concat('%', #{searchOriginalCode}, '%')
             </if>
+            <if test="originalSubCode != null  and originalSubCode != ''">
+                and original_sub_code = #{originalSubCode}
+            </if>
+            <if test="leftLikeOriginalSubCode != null  and leftLikeOriginalSubCode != ''">
+                and original_sub_code like concat(#{leftLikeOriginalSubCode}, '%')
+            </if>
             <if test="categoryId != null ">
                 and category_id = #{categoryId}
             </if>

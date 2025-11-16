@@ -232,6 +232,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                 OriginalAssetDO importData = new OriginalAssetDO();
                 importData.setDeptId(existSysDept.getDeptId());
                 importData.setProjectId(existProject.getId());
+                importData.setMatchCount(0);
+                importData.setMatchStatus(0);
 
                 OriginalAsset originalAssetQuery = new OriginalAsset();
                 originalAssetQuery.setProjectId(existProject.getId());
@@ -243,6 +245,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                     }
                     OriginalAssetDO originalAssetDO = originalAssetList.get(0);
                     importData.setId(originalAssetDO.getId());
+                    importData.setMatchCount(originalAssetDO.getMatchCount());
+                    importData.setMatchStatus(originalAssetDO.getMatchStatus());
                 }
                 if (ObjectUtils.isNotEmpty(importData.getId())) {
                     if (!isUpdateSupport) {
@@ -357,6 +361,12 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
         return successMsg.toString();
+    }
+
+    @Override
+    public boolean updateMatchStatic(String originalCode) {
+        originalAssetMapper.updateMatchStatic(originalCode);
+        return true;
     }
 
     /**

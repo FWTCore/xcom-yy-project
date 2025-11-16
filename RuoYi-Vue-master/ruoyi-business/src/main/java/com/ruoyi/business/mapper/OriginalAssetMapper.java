@@ -76,4 +76,11 @@ public interface OriginalAssetMapper {
      * @return 结果
      */
     int deleteOriginalAssetByIds(Long[] ids);
+
+    /**
+     * 更新原始编码统计信息
+     * @param originalCode
+     * @return
+     */
+    boolean updateMatchStatic(String originalCode);
 }
