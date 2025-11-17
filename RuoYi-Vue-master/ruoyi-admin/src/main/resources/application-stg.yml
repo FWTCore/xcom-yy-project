@@ -149,6 +149,9 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+  data:
+    mongodb:
+      uri: mongodb://admin_root:admin_123!%40#QWE@47.109.135.162:27017/yy_asset
 
 # token配置
 token:
