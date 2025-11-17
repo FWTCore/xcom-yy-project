@@ -6,17 +6,18 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * 资产报表请求模型
+ * 账实核对请求模型
  *
  * @author xcom
  * @date 2025/11/17
  */
 
-@ApiModel(value = "资产报表请求模型")
+@ApiModel(value = "账实核对请求模型")
 @Data
-public class AssetBordRequest implements Serializable {
+public class AssetCheckRequest implements Serializable {
 
     private static final long serialVersionUID = -7059884802225152123L;
 
@@ -26,9 +27,8 @@ public class AssetBordRequest implements Serializable {
     @ApiModelProperty(value = "项目id")
     @NotNull(message = "所属项目不能为空")
     private Long              projectId;
-    @ApiModelProperty(value = "指标类型:1->名称；2->部门；3->存放地点")
-    private Integer           metricsType;
-    @ApiModelProperty(value = "是否降序，默认降序")
-    private Boolean           orderFlag;
+
+    @ApiModelProperty(value = "排序字段")
+    private List<String>      sortFields;
 
 }

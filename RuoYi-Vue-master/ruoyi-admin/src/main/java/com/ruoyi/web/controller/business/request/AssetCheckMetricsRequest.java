@@ -8,15 +8,15 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 资产报表请求模型
+ * 账实核对指标请求模型
  *
  * @author xcom
  * @date 2025/11/17
  */
 
-@ApiModel(value = "资产报表请求模型")
+@ApiModel(value = "账实核对指标请求模型")
 @Data
-public class AssetBordRequest implements Serializable {
+public class AssetCheckMetricsRequest implements Serializable {
 
     private static final long serialVersionUID = -7059884802225152123L;
 
@@ -28,7 +28,5 @@ public class AssetBordRequest implements Serializable {
     private Long              projectId;
     @ApiModelProperty(value = "指标类型:1->名称；2->部门；3->存放地点")
     private Integer           metricsType;
-    @ApiModelProperty(value = "是否降序，默认降序")
-    private Boolean           orderFlag;
 
 }
