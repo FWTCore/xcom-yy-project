@@ -34,7 +34,7 @@ public class AssetBordController {
     }
 
     /**
-     * 查询实物资产报表
+     * 查询账务资产报表
      */
     @PreAuthorize("@ss.hasPermi('business:asset:list')")
     @GetMapping("/ledger/bord")
