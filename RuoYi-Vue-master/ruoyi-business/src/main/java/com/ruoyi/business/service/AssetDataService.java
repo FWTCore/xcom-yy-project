@@ -1,6 +1,10 @@
 package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.AssetDataDO;
+import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+
+import java.util.List;
 
 /**
  * AssetDataService
@@ -54,5 +58,12 @@ public interface AssetDataService {
      * @return
      */
     boolean updateUsingDeptMetrics(Long projectId, Long usingDeptId, Integer totalCount, Integer checkCount);
+
+    /**
+     * 查询资产指标
+     * @param assetBordReqBO
+     * @return
+     */
+    List<AssetMetricsVO> listPhysicalBord(AssetBordReqBO assetBordReqBO);
 
 }

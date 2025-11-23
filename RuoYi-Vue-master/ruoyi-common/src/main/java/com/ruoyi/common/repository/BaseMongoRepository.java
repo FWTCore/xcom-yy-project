@@ -1,5 +1,6 @@
 package com.ruoyi.common.repository;
 
+import com.ruoyi.common.core.domain.AggregationMongodbQuery;
 import com.ruoyi.common.core.domain.BaseMongoDO;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -71,6 +72,14 @@ public interface BaseMongoRepository<T extends BaseMongoDO> {
      * @return
      */
     List<T> listData(Consumer<Query> queryExpression);
+
+    /**
+     * 聚合查询列表数据
+     * @param query
+     * @param <R>
+     * @return
+     */
+    <R>  List<R> listAggregationData(AggregationMongodbQuery<R> query);
 
     /**
      * 物理删除数据

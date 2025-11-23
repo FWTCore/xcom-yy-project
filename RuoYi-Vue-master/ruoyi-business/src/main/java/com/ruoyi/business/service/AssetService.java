@@ -9,7 +9,7 @@ import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
-import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 
 import java.util.List;
 
@@ -136,7 +136,7 @@ public interface AssetService {
      * @param reqBO
      * @return
      */
-    AssetBordMetricsVO getPhysicalOverview(AssetBordReqBO reqBO);
+    AssetMetricsVO getPhysicalOverview(AssetBordReqBO reqBO);
 
     /**
      * 获取名称指标
@@ -144,7 +144,7 @@ public interface AssetService {
      * @param assetName
      * @return
      */
-    AssetBordMetricsVO getAssetNameMetrics(Long projectId, String assetName);
+    AssetMetricsVO getAssetNameMetrics(Long projectId, String assetName);
 
     /**
      * 获取使用部门
@@ -152,7 +152,7 @@ public interface AssetService {
      * @param usingDeptId
      * @return
      */
-    AssetBordMetricsVO getUsingDeptMetrics(Long projectId, Long usingDeptId);
+    AssetMetricsVO getUsingDeptMetrics(Long projectId, Long usingDeptId);
 
     /**
      * 获取存放地点
@@ -160,6 +160,6 @@ public interface AssetService {
      * @param locationId
      * @return
      */
-    AssetBordMetricsVO getLocationMetrics(Long projectId, Long locationId);
+    AssetMetricsVO getLocationMetrics(Long projectId, Long locationId);
 
 }

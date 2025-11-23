@@ -1040,7 +1040,7 @@
         order by l.location_name
     </select>
 
-    <select id="getPhysicalOverview" resultType="com.ruoyi.business.domain.model.response.AssetBordMetricsVO">
+    <select id="getPhysicalOverview" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select count(id)                       as totalCount,
                sum(if(match_status = 1, 1, 0)) as checkCount
         from asset
@@ -1050,7 +1050,7 @@
     </select>
 
 
-    <select id="getAssetNameMetrics" resultType="com.ruoyi.business.domain.model.response.AssetBordMetricsVO">
+    <select id="getAssetNameMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select count(id)                       as totalCount,
                sum(if(match_status = 1, 1, 0)) as checkCount
         from asset
@@ -1059,7 +1059,7 @@
           and asset_name = #{assetName}
     </select>
 
-    <select id="getUsingDeptMetrics" resultType="com.ruoyi.business.domain.model.response.AssetBordMetricsVO">
+    <select id="getUsingDeptMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select count(id)                       as totalCount,
                sum(if(match_status = 1, 1, 0)) as checkCount
         from asset
@@ -1068,7 +1068,7 @@
           and using_dept_Id = #{usingDeptId}
     </select>
 
-    <select id="getLocationMetrics" resultType="com.ruoyi.business.domain.model.response.AssetBordMetricsVO">
+    <select id="getLocationMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select count(id)                       as totalCount,
                sum(if(match_status = 1, 1, 0)) as checkCount
         from asset

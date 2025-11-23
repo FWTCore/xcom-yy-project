@@ -2,7 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.OriginalAsset;
-import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -93,7 +93,7 @@ public interface OriginalAssetMapper {
      * @param projectId
      * @return
      */
-    AssetBordMetricsVO getLedgerOverview(@Param("deptId") Long deptId, @Param("projectId") Long projectId);
+    AssetMetricsVO getLedgerOverview(@Param("deptId") Long deptId, @Param("projectId") Long projectId);
 
     /**
      * 获取名称指标
@@ -101,7 +101,7 @@ public interface OriginalAssetMapper {
      * @param assetName
      * @return
      */
-    AssetBordMetricsVO getAssetNameMetrics(@Param("projectId") Long projectId, @Param("assetName") String assetName);
+    AssetMetricsVO getAssetNameMetrics(@Param("projectId") Long projectId, @Param("assetName") String assetName);
 
     /**
      * 获取使用部门
@@ -109,7 +109,7 @@ public interface OriginalAssetMapper {
      * @param usingDeptId
      * @return
      */
-    AssetBordMetricsVO getUsingDeptMetrics(@Param("projectId") Long projectId, @Param("usingDeptId") Long usingDeptId);
+    AssetMetricsVO getUsingDeptMetrics(@Param("projectId") Long projectId, @Param("usingDeptId") Long usingDeptId);
 
     /**
      * 获取存放地点
@@ -117,6 +117,6 @@ public interface OriginalAssetMapper {
      * @param locationId
      * @return
      */
-    AssetBordMetricsVO getLocationMetrics(@Param("projectId") Long projectId, @Param("locationId") Long locationId);
+    AssetMetricsVO getLocationMetrics(@Param("projectId") Long projectId, @Param("locationId") Long locationId);
 
 }

@@ -12,10 +12,13 @@ import java.io.Serializable;
  */
 
 @Data
-public class AssetBordMetricsVO implements Serializable {
+public class AssetMetricsVO implements Serializable {
 
     private static final long serialVersionUID = -7059884802225152123L;
-
+    /**
+     * 指标名称
+     */
+    private String            metricsName;
     /**
      * 总数
      */

@@ -3,10 +3,9 @@ package com.ruoyi.business.event;
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.entity.AssetDataDO;
 import com.ruoyi.business.domain.model.convert.AssetDataConvert;
-import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.AssetDataService;
 import com.ruoyi.business.service.AssetService;
-import io.netty.util.internal.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.event.EventListener;
@@ -57,10 +56,10 @@ public class AssetDataEventListener {
 
         // 获取统计
         try {
-            AssetBordMetricsVO assetNameMetrics = assetService.getAssetNameMetrics(assetData.getProjectId(),
+            AssetMetricsVO assetNameMetrics = assetService.getAssetNameMetrics(assetData.getProjectId(),
                 assetData.getAssetName());
             if (ObjectUtils.isEmpty(assetNameMetrics)) {
-                assetNameMetrics = new AssetBordMetricsVO();
+                assetNameMetrics = new AssetMetricsVO();
                 assetNameMetrics.setTotalCount(0);
                 assetNameMetrics.setCheckCount(0);
             }
@@ -71,10 +70,10 @@ public class AssetDataEventListener {
         }
 
         try {
-            AssetBordMetricsVO locationMetrics = assetService.getLocationMetrics(assetData.getProjectId(),
+            AssetMetricsVO locationMetrics = assetService.getLocationMetrics(assetData.getProjectId(),
                 assetData.getLocationId());
             if (ObjectUtils.isEmpty(locationMetrics)) {
-                locationMetrics = new AssetBordMetricsVO();
+                locationMetrics = new AssetMetricsVO();
                 locationMetrics.setTotalCount(0);
                 locationMetrics.setCheckCount(0);
             }
@@ -84,10 +83,10 @@ public class AssetDataEventListener {
 
         }
         try {
-            AssetBordMetricsVO usingDeptMetrics = assetService.getUsingDeptMetrics(assetData.getProjectId(),
+            AssetMetricsVO usingDeptMetrics = assetService.getUsingDeptMetrics(assetData.getProjectId(),
                 assetData.getUsingDeptId());
             if (ObjectUtils.isEmpty(usingDeptMetrics)) {
-                usingDeptMetrics = new AssetBordMetricsVO();
+                usingDeptMetrics = new AssetMetricsVO();
                 usingDeptMetrics.setTotalCount(0);
                 usingDeptMetrics.setCheckCount(0);
             }

@@ -2,6 +2,7 @@ package com.ruoyi.common.repository;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import com.ruoyi.common.core.domain.AggregationMongodbQuery;
 import com.ruoyi.common.core.domain.BaseMongoDO;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -9,6 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.LimitOperation;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -101,7 +109,7 @@ public class AbstractMongoRepository<T extends BaseMongoDO> implements BaseMongo
         Query query = new Query();
         updateExpression.accept(upsert);
         queryExpression.accept(query);
-        if (ObjectUtils.isEmpty(upsert)|| upsert.getUpdateObject().isEmpty() ||ObjectUtils.isEmpty(query)
+        if (ObjectUtils.isEmpty(upsert) || upsert.getUpdateObject().isEmpty() || ObjectUtils.isEmpty(query)
             || query.getQueryObject().isEmpty()) {
             return 0L;
         }
@@ -165,6 +173,31 @@ public class AbstractMongoRepository<T extends BaseMongoDO> implements BaseMongo
             return new ArrayList<>();
         }
         return mongoTemplate.find(query, modelType);
+    }
+
+    /**
+     * 聚合查询列表数据
+     * @param query
+     * @param <R>
+     * @return
+     */
+    @Override
+    public <R> List<R> listAggregationData(AggregationMongodbQuery<R> query) {
+        // 1. 构建匹配条件（WHERE id=123 and del=0）
+        MatchOperation matchStage = Aggregation.match(query.getCriteria());
+        // 2. 构建分组来实现 DISTINCT a, b.toArray(new String[0])
+        GroupOperation groupStage = Aggregation.group(query.getQueryFields().toArray(new String[0]));
+        // 3. 构建投影，从分组结果中提取字段
+        ProjectionOperation projectStage = query.getProjectionOperation();
+        // 4. 构建排序（ORDER BY b DESC）
+        SortOperation sortStage = query.getSortOperation();
+        // 5. 构建聚合管道
+        LimitOperation limitStage = Aggregation.limit(query.getLimit());
+        Aggregation aggregation = Aggregation.newAggregation(matchStage, groupStage, projectStage, sortStage,
+            limitStage);
+        // 6. 执行查
+        AggregationResults<R> results = mongoTemplate.aggregate(aggregation, modelType, query.getRespClazz());
+        return results.getMappedResults();
     }
 
     /**

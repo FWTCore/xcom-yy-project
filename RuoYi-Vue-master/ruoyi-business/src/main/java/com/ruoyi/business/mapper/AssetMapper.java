@@ -3,7 +3,7 @@ package com.ruoyi.business.mapper;
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
-import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
@@ -120,7 +120,7 @@ public interface AssetMapper {
      * @param projectId
      * @return
      */
-    AssetBordMetricsVO getPhysicalOverview(@Param("deptId") Long deptId, @Param("projectId") Long projectId);
+    AssetMetricsVO getPhysicalOverview(@Param("deptId") Long deptId, @Param("projectId") Long projectId);
 
 
     /**
@@ -129,7 +129,7 @@ public interface AssetMapper {
      * @param assetName
      * @return
      */
-    AssetBordMetricsVO getAssetNameMetrics(@Param("projectId") Long projectId, @Param("assetName") String assetName);
+    AssetMetricsVO getAssetNameMetrics(@Param("projectId") Long projectId, @Param("assetName") String assetName);
 
     /**
      * 获取使用部门
@@ -137,7 +137,7 @@ public interface AssetMapper {
      * @param usingDeptId
      * @return
      */
-    AssetBordMetricsVO getUsingDeptMetrics(@Param("projectId") Long projectId, @Param("usingDeptId") Long usingDeptId);
+    AssetMetricsVO getUsingDeptMetrics(@Param("projectId") Long projectId, @Param("usingDeptId") Long usingDeptId);
 
     /**
      * 获取存放地点
@@ -145,7 +145,7 @@ public interface AssetMapper {
      * @param locationId
      * @return
      */
-    AssetBordMetricsVO getLocationMetrics(@Param("projectId") Long projectId, @Param("locationId") Long locationId);
+    AssetMetricsVO getLocationMetrics(@Param("projectId") Long projectId, @Param("locationId") Long locationId);
 
 
 }

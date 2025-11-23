@@ -17,7 +17,7 @@ import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.domain.model.OriginalAsset;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
-import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
 import com.ruoyi.business.mapper.AssetMapper;
 import com.ruoyi.business.domain.model.convert.AssetConvert;
@@ -503,22 +503,22 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public AssetBordMetricsVO getPhysicalOverview(AssetBordReqBO reqBO) {
+    public AssetMetricsVO getPhysicalOverview(AssetBordReqBO reqBO) {
         return assetMapper.getPhysicalOverview(reqBO.getDeptId(), reqBO.getProjectId());
     }
 
     @Override
-    public AssetBordMetricsVO getAssetNameMetrics(Long projectId, String assetName) {
+    public AssetMetricsVO getAssetNameMetrics(Long projectId, String assetName) {
         return assetMapper.getAssetNameMetrics(projectId, assetName);
     }
 
     @Override
-    public AssetBordMetricsVO getUsingDeptMetrics(Long projectId, Long usingDeptId) {
+    public AssetMetricsVO getUsingDeptMetrics(Long projectId, Long usingDeptId) {
         return assetMapper.getUsingDeptMetrics(projectId, usingDeptId);
     }
 
     @Override
-    public AssetBordMetricsVO getLocationMetrics(Long projectId, Long locationId) {
+    public AssetMetricsVO getLocationMetrics(Long projectId, Long locationId) {
         return assetMapper.getLocationMetrics(projectId, locationId);
     }
 
