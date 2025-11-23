@@ -39,6 +39,7 @@ public interface OriginalAssetMapper {
      * @return 原始资产集合
      */
     List<OriginalAssetDO> selectOriginalAssetList(OriginalAsset originalAsset);
+
     /**
      * 查询原始资产列表
      *
@@ -93,4 +94,29 @@ public interface OriginalAssetMapper {
      * @return
      */
     AssetBordMetricsVO getLedgerOverview(@Param("deptId") Long deptId, @Param("projectId") Long projectId);
+
+    /**
+     * 获取名称指标
+     * @param projectId
+     * @param assetName
+     * @return
+     */
+    AssetBordMetricsVO getAssetNameMetrics(@Param("projectId") Long projectId, @Param("assetName") String assetName);
+
+    /**
+     * 获取使用部门
+     * @param projectId
+     * @param usingDeptId
+     * @return
+     */
+    AssetBordMetricsVO getUsingDeptMetrics(@Param("projectId") Long projectId, @Param("usingDeptId") Long usingDeptId);
+
+    /**
+     * 获取存放地点
+     * @param projectId
+     * @param locationId
+     * @return
+     */
+    AssetBordMetricsVO getLocationMetrics(@Param("projectId") Long projectId, @Param("locationId") Long locationId);
+
 }

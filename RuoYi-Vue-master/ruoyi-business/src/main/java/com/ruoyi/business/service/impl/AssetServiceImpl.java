@@ -508,18 +508,18 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public AssetBordMetricsVO getAssetNameMetrics(Long projectId) {
-        return null;
+    public AssetBordMetricsVO getAssetNameMetrics(Long projectId, String assetName) {
+        return assetMapper.getAssetNameMetrics(projectId, assetName);
     }
 
     @Override
-    public AssetBordMetricsVO getUsingDeptMetrics(Long projectId) {
-        return null;
+    public AssetBordMetricsVO getUsingDeptMetrics(Long projectId, Long usingDeptId) {
+        return assetMapper.getUsingDeptMetrics(projectId, usingDeptId);
     }
 
     @Override
-    public AssetBordMetricsVO getLocationMetrics(Long projectId) {
-        return null;
+    public AssetBordMetricsVO getLocationMetrics(Long projectId, Long locationId) {
+        return assetMapper.getLocationMetrics(projectId, locationId);
     }
 
     /**

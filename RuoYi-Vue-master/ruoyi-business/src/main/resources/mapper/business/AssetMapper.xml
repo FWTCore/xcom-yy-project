@@ -1048,4 +1048,32 @@
           and dept_id = #{deptId}
           and project_id = #{projectId}
     </select>
+
+
+    <select id="getAssetNameMetrics" resultType="com.ruoyi.business.domain.model.response.AssetBordMetricsVO">
+        select count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset
+        where delete_flag = 0
+          and project_id = #{projectId}
+          and asset_name = #{assetName}
+    </select>
+
+    <select id="getUsingDeptMetrics" resultType="com.ruoyi.business.domain.model.response.AssetBordMetricsVO">
+        select count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset
+        where delete_flag = 0
+          and project_id = #{projectId}
+          and using_dept_Id = #{usingDeptId}
+    </select>
+
+    <select id="getLocationMetrics" resultType="com.ruoyi.business.domain.model.response.AssetBordMetricsVO">
+        select count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset
+        where delete_flag = 0
+          and project_id = #{projectId}
+          and location_id = #{locationId}
+    </select>
 </mapper>

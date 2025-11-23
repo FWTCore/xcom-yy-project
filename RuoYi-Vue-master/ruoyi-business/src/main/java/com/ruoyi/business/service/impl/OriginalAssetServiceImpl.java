@@ -376,6 +376,21 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
         return originalAssetMapper.getLedgerOverview(reqBO.getDeptId(), reqBO.getProjectId());
     }
 
+    @Override
+    public AssetBordMetricsVO getAssetNameMetrics(Long projectId, String assetName) {
+        return originalAssetMapper.getAssetNameMetrics(projectId, assetName);
+    }
+
+    @Override
+    public AssetBordMetricsVO getUsingDeptMetrics(Long projectId, Long usingDeptId) {
+        return originalAssetMapper.getUsingDeptMetrics(projectId, usingDeptId);
+    }
+
+    @Override
+    public AssetBordMetricsVO getLocationMetrics(Long projectId, Long locationId) {
+        return originalAssetMapper.getLocationMetrics(projectId,locationId);
+    }
+
     /**
      * 验证数据
      *

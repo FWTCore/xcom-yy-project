@@ -141,22 +141,25 @@ public interface AssetService {
     /**
      * 获取名称指标
      * @param projectId
+     * @param assetName
      * @return
      */
-    AssetBordMetricsVO getAssetNameMetrics(Long projectId);
+    AssetBordMetricsVO getAssetNameMetrics(Long projectId, String assetName);
 
     /**
      * 获取使用部门
      * @param projectId
+     * @param usingDeptId
      * @return
      */
-    AssetBordMetricsVO getUsingDeptMetrics(Long projectId);
+    AssetBordMetricsVO getUsingDeptMetrics(Long projectId, Long usingDeptId);
 
     /**
      * 获取存放地点
      * @param projectId
+     * @param locationId
      * @return
      */
-    AssetBordMetricsVO getLocationMetrics(Long projectId);
+    AssetBordMetricsVO getLocationMetrics(Long projectId, Long locationId);
 
 }
