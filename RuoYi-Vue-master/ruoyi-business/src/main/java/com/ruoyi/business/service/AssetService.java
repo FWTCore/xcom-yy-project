@@ -9,7 +9,7 @@ import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
-import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
+import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
 
 import java.util.List;
 
@@ -136,6 +136,27 @@ public interface AssetService {
      * @param reqBO
      * @return
      */
-    AssetBordOverviewVO getPhysicalOverview(AssetBordReqBO reqBO);
+    AssetBordMetricsVO getPhysicalOverview(AssetBordReqBO reqBO);
+
+    /**
+     * 获取名称指标
+     * @param projectId
+     * @return
+     */
+    AssetBordMetricsVO getAssetNameMetrics(Long projectId);
+
+    /**
+     * 获取使用部门
+     * @param projectId
+     * @return
+     */
+    AssetBordMetricsVO getUsingDeptMetrics(Long projectId);
+
+    /**
+     * 获取存放地点
+     * @param projectId
+     * @return
+     */
+    AssetBordMetricsVO getLocationMetrics(Long projectId);
 
 }

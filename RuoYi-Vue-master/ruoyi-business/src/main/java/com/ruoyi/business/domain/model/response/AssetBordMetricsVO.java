@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 
 @Data
-public class AssetBordOverviewVO implements Serializable {
+public class AssetBordMetricsVO implements Serializable {
 
     private static final long serialVersionUID = -7059884802225152123L;
 

@@ -21,6 +21,12 @@ import java.time.LocalDateTime;
 public class AssetDataDO extends BaseMongoDO {
 
     /**
+     * 资产id,;
+     */
+    @Field("asset_id")
+    private Long          assetId;
+
+    /**
      * 系统公司id,;
      */
     @Field("dept_id")
@@ -90,6 +96,11 @@ public class AssetDataDO extends BaseMongoDO {
      */
     @Field("asset_name_count")
     private Integer       assetNameCount;
+    /**
+     * 资产名称
+     */
+    @Field("asset_name_check_count")
+    private Integer       assetNameCheckCount;
 
     /**
      * 规格型号,;
@@ -125,6 +136,11 @@ public class AssetDataDO extends BaseMongoDO {
      */
     @Field("location_count")
     private Integer       locationCount;
+    /**
+     * 地点名称
+     */
+    @Field("location_check_count")
+    private Integer       locationCheckCount;
 
     /**
      * 管理部门id,;
@@ -154,6 +170,11 @@ public class AssetDataDO extends BaseMongoDO {
      */
     @Field("using_dept_count")
     private Integer       usingDeptCount;
+    /**
+     * 使用部门统计
+     */
+    @Field("using_dept_check_count")
+    private Integer       usingDeptCheckCount;
 
     /**
      * 管理员工id,;

@@ -17,7 +17,7 @@ import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.domain.model.OriginalAsset;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
-import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
+import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
 import com.ruoyi.business.mapper.AssetMapper;
 import com.ruoyi.business.domain.model.convert.AssetConvert;
@@ -503,8 +503,23 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public AssetBordOverviewVO getPhysicalOverview(AssetBordReqBO reqBO) {
+    public AssetBordMetricsVO getPhysicalOverview(AssetBordReqBO reqBO) {
         return assetMapper.getPhysicalOverview(reqBO.getDeptId(), reqBO.getProjectId());
+    }
+
+    @Override
+    public AssetBordMetricsVO getAssetNameMetrics(Long projectId) {
+        return null;
+    }
+
+    @Override
+    public AssetBordMetricsVO getUsingDeptMetrics(Long projectId) {
+        return null;
+    }
+
+    @Override
+    public AssetBordMetricsVO getLocationMetrics(Long projectId) {
+        return null;
     }
 
     /**

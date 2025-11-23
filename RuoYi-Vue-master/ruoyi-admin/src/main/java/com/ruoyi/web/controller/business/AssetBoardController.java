@@ -1,7 +1,7 @@
 package com.ruoyi.web.controller.business;
 
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
-import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
+import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.common.core.controller.BaseController;
@@ -44,7 +44,7 @@ public class AssetBoardController extends BaseController {
     @GetMapping("/physical/overview")
     public AjaxResult physicalOverview(@Valid @NotNull(message = "参数不能为空") AssetBordRequest request) {
         AssetBordReqBO assetBordReqBO = AssetBoardConvert.INSTANCE.toAssetBordReqBO(request);
-        AssetBordOverviewVO respData = assetService.getPhysicalOverview(assetBordReqBO);
+        AssetBordMetricsVO respData = assetService.getPhysicalOverview(assetBordReqBO);
         return success(respData);
     }
 
@@ -65,7 +65,7 @@ public class AssetBoardController extends BaseController {
     @GetMapping("/ledger/overview")
     public AjaxResult ledgerOverview(AssetBordRequest request) {
         AssetBordReqBO assetBordReqBO = AssetBoardConvert.INSTANCE.toAssetBordReqBO(request);
-        AssetBordOverviewVO respData = originalAssetService.getLedgerOverview(assetBordReqBO);
+        AssetBordMetricsVO respData = originalAssetService.getLedgerOverview(assetBordReqBO);
         return success(respData);
     }
 

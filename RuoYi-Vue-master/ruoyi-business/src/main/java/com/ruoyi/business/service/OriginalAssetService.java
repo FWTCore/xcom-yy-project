@@ -5,7 +5,7 @@ import java.util.List;
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.OriginalAsset;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
-import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
+import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 
 /**
@@ -100,5 +100,5 @@ public interface OriginalAssetService {
      * @param reqBO
      * @return
      */
-    AssetBordOverviewVO getLedgerOverview(AssetBordReqBO reqBO);
+    AssetBordMetricsVO getLedgerOverview(AssetBordReqBO reqBO);
 }

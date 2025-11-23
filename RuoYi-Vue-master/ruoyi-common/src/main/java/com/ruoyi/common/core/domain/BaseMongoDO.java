@@ -4,6 +4,7 @@ import com.ruoyi.common.utils.TableBaseFieldUtil;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.bson.types.ObjectId;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class BaseMongoDO implements Serializable {
     private static final long serialVersionUID = -7059884802225152123L;
 
     @MongoId
-    private String            id;
+    private ObjectId          id;
 
     /**
      * 逻辑删除

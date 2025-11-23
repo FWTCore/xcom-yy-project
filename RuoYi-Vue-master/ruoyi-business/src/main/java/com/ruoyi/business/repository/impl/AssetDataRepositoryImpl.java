@@ -1,6 +1,9 @@
 package com.ruoyi.business.repository.impl;
 
+import com.ruoyi.business.domain.entity.AssetDataDO;
 import com.ruoyi.business.repository.AssetDataRepository;
+import com.ruoyi.common.repository.AbstractMongoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,5 +14,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class AssetDataRepositoryImpl implements AssetDataRepository {
+@Slf4j
+public class AssetDataRepositoryImpl extends AbstractMongoRepository<AssetDataDO> implements AssetDataRepository {
 }

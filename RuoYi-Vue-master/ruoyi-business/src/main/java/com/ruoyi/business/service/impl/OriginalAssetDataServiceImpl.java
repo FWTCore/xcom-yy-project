@@ -20,4 +20,7 @@ public class OriginalAssetDataServiceImpl implements OriginalAssetDataService {
     private OriginalAssetDataRepository originalAssetDataRepository;
 
 
+
+
+
 }

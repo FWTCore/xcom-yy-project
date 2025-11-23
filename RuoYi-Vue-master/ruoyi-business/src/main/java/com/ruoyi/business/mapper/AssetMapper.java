@@ -3,7 +3,7 @@ package com.ruoyi.business.mapper;
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
-import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
+import com.ruoyi.business.domain.model.response.AssetBordMetricsVO;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
@@ -120,6 +120,6 @@ public interface AssetMapper {
      * @param projectId
      * @return
      */
-    AssetBordOverviewVO getPhysicalOverview(@Param("deptId") Long deptId, @Param("projectId") Long projectId);
+    AssetBordMetricsVO getPhysicalOverview(@Param("deptId") Long deptId, @Param("projectId") Long projectId);
 
 }

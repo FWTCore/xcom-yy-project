@@ -697,7 +697,7 @@
           AND oas.delete_flag = 0;
     </update>
 
-    <select id="getLedgerOverview" resultType="com.ruoyi.business.domain.model.response.AssetBordOverviewVO">
+    <select id="getLedgerOverview" resultType="com.ruoyi.business.domain.model.response.AssetBordMetricsVO">
         select count(id)                       as totalCount,
                sum(if(match_status = 1, 1, 0)) as checkCount
         from original_asset
