@@ -21,6 +21,13 @@ public class AssetCheckRequest implements Serializable {
 
     private static final long serialVersionUID = -7059884802225152123L;
 
+    @ApiModelProperty(value = "pageNum")
+    @NotNull(message = "pageNum不能为空")
+    private Integer           pageNum;
+    @ApiModelProperty(value = "pageSize")
+    @NotNull(message = "pageSize不能为空")
+    private Integer           pageSize;
+
     @ApiModelProperty(value = "所属单位id")
     @NotNull(message = "所属单位不能为空")
     private Long              deptId;

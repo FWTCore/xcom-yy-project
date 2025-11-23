@@ -1,0 +1,25 @@
+package com.ruoyi.web.controller.business.convert;
+
+import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
+import com.ruoyi.web.controller.business.request.AssetCheckMetricsRequest;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+/**
+ * AssetCheckConvert
+ *
+ * @author xcom
+ * @date 2025/11/23
+ */
+
+@Mapper
+public interface AssetCheckConvert {
+    AssetCheckConvert INSTANCE = Mappers.getMapper(AssetCheckConvert.class);
+
+    /**
+     * AssetCheckMetricsRequest to AssetCheckMetricsReqBO
+     * @param request
+     * @return
+     */
+    AssetCheckMetricsReqBO toAssetCheckMetricsReqBO(AssetCheckMetricsRequest request);
+}
