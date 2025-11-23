@@ -1,11 +1,16 @@
 package com.ruoyi.business.service.impl;
 
+import com.ruoyi.business.domain.entity.DepartmentDO;
+import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDataDO;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.repository.OriginalAssetDataRepository;
+import com.ruoyi.business.service.DepartmentService;
+import com.ruoyi.business.service.LocationService;
 import com.ruoyi.business.service.OriginalAssetDataService;
 import com.ruoyi.common.core.domain.AggregationMongodbQuery;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +24,11 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
  * 原始资产数据mongodb service
@@ -32,6 +42,12 @@ public class OriginalAssetDataServiceImpl implements OriginalAssetDataService {
 
     @Resource
     private OriginalAssetDataRepository originalAssetDataRepository;
+
+    @Resource
+    private DepartmentService           departmentService;
+
+    @Resource
+    private LocationService             locationService;
 
     @Override
     public OriginalAssetDataDO getOriginalAssetDataByOriginalAssetId(Long originalAssetId) {
@@ -155,12 +171,12 @@ public class OriginalAssetDataServiceImpl implements OriginalAssetDataService {
         query.setCriteria(criteria);
 
         List<String> fields = new ArrayList<>();
-        fields.add("using_dept_name");
+        fields.add("using_dept_id");
         fields.add("using_dept_count");
         fields.add("using_dept_check_count");
         query.setQueryFields(fields);
 
-        ProjectionOperation projectStage = Aggregation.project().and("_id.using_dept_name").as("metricsName")
+        ProjectionOperation projectStage = Aggregation.project().and("_id.using_dept_id").as("metricsId")
             .and("_id.using_dept_count").as("totalCount").and("_id.using_dept_check_count").as("checkCount")
             .andExclude("_id");
         query.setProjectionOperation(projectStage);
@@ -172,7 +188,25 @@ public class OriginalAssetDataServiceImpl implements OriginalAssetDataService {
             sortStage = Aggregation.sort(Sort.by(Sort.Direction.DESC, "using_dept_check_count"));
         }
         query.setSortOperation(sortStage);
-        return originalAssetDataRepository.listAggregationData(query);
+        List<AssetMetricsVO> resultData = originalAssetDataRepository.listAggregationData(query);
+        if (CollectionUtils.isNotEmpty(resultData)) {
+            List<Long> usingDeptIds = resultData.stream().map(AssetMetricsVO::getMetricsId)
+                .filter(ObjectUtils::isNotEmpty).distinct().collect(Collectors.toList());
+            List<DepartmentDO> departmentDOList = departmentService.selectDepartmentByIds(usingDeptIds);
+            if (CollectionUtils.isNotEmpty(departmentDOList)) {
+                Map<Long, DepartmentDO> departmentMap = departmentDOList.stream()
+                    .collect(toMap(DepartmentDO::getId, Function.identity(), (k1, k2) -> k2));
+                for (AssetMetricsVO resultDatum : resultData) {
+                    if (!departmentMap.containsKey(resultDatum.getMetricsId())) {
+                        continue;
+                    }
+                    DepartmentDO departmentDO = departmentMap.get(resultDatum.getMetricsId());
+                    resultDatum.setMetricsName(departmentDO.getDepartmentName());
+                }
+            }
+        }
+
+        return resultData;
     }
 
     /**
@@ -187,12 +221,12 @@ public class OriginalAssetDataServiceImpl implements OriginalAssetDataService {
         query.setCriteria(criteria);
 
         List<String> fields = new ArrayList<>();
-        fields.add("location_name");
+        fields.add("location_id");
         fields.add("location_count");
         fields.add("location_check_count");
         query.setQueryFields(fields);
 
-        ProjectionOperation projectStage = Aggregation.project().and("_id.location_name").as("metricsName")
+        ProjectionOperation projectStage = Aggregation.project().and("_id.location_id").as("metricsId")
             .and("_id.location_count").as("totalCount").and("_id.location_check_count").as("checkCount")
             .andExclude("_id");
         query.setProjectionOperation(projectStage);
@@ -204,7 +238,24 @@ public class OriginalAssetDataServiceImpl implements OriginalAssetDataService {
             sortStage = Aggregation.sort(Sort.by(Sort.Direction.DESC, "location_check_count"));
         }
         query.setSortOperation(sortStage);
-        return originalAssetDataRepository.listAggregationData(query);
+        List<AssetMetricsVO> resultData = originalAssetDataRepository.listAggregationData(query);
+        if (CollectionUtils.isNotEmpty(resultData)) {
+            List<Long> locationIds = resultData.stream().map(AssetMetricsVO::getMetricsId)
+                .filter(ObjectUtils::isNotEmpty).distinct().collect(Collectors.toList());
+            List<LocationDO> locationDOS = locationService.selectLocationByIds(locationIds);
+            if (CollectionUtils.isNotEmpty(locationDOS)) {
+                Map<Long, LocationDO> locationMap = locationDOS.stream()
+                    .collect(toMap(LocationDO::getId, Function.identity(), (k1, k2) -> k2));
+                for (AssetMetricsVO resultDatum : resultData) {
+                    if (!locationMap.containsKey(resultDatum.getMetricsId())) {
+                        continue;
+                    }
+                    LocationDO locationDO = locationMap.get(resultDatum.getMetricsId());
+                    resultDatum.setMetricsName(locationDO.getLocationName());
+                }
+            }
+        }
+        return resultData;
     }
 
 }

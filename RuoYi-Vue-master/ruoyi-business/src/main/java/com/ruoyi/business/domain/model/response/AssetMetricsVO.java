@@ -18,6 +18,10 @@ public class AssetMetricsVO implements Serializable {
     /**
      * 指标名称
      */
+    private Long              metricsId;
+    /**
+     * 指标名称
+     */
     private String            metricsName;
     /**
      * 总数
