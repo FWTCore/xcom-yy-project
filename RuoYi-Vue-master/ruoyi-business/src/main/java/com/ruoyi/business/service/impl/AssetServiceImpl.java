@@ -10,12 +10,14 @@ import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.request.AssetBatchUpdateReqBO;
+import com.ruoyi.business.domain.model.request.AssetBordReqBO;
 import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.domain.model.OriginalAsset;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
+import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
 import com.ruoyi.business.mapper.AssetMapper;
 import com.ruoyi.business.domain.model.convert.AssetConvert;
@@ -498,6 +500,11 @@ public class AssetServiceImpl implements AssetService {
             }
         }
         return true;
+    }
+
+    @Override
+    public AssetBordOverviewVO getPhysicalOverview(AssetBordReqBO reqBO) {
+        return assetMapper.getPhysicalOverview(reqBO.getDeptId(), reqBO.getProjectId());
     }
 
     /**

@@ -45,7 +45,8 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
-    <resultMap type="com.ruoyi.business.domain.model.response.AssetDetailVO" id="AssetDetailResult" extends="AssetResult">
+    <resultMap type="com.ruoyi.business.domain.model.response.AssetDetailVO" id="AssetDetailResult"
+               extends="AssetResult">
         <result property="deptName" column="dept_name"/>
         <result property="projectName" column="project_name"/>
     </resultMap>
@@ -989,7 +990,8 @@
         order by user.user_name
     </select>
 
-    <select id="selectDimensionStatsForUsingEmp" resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
+    <select id="selectDimensionStatsForUsingEmp"
+            resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
         select mainData.dimensionId,
         d.department_name as dimensionName,
         mainData.dimensionCount
@@ -1013,7 +1015,8 @@
         order by d.department_name
     </select>
 
-    <select id="selectDimensionStatsForLocation" resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
+    <select id="selectDimensionStatsForLocation"
+            resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
         select mainData.dimensionId,
         l.location_name as dimensionName,
         mainData.dimensionCount
@@ -1035,5 +1038,14 @@
         ) as mainData
         inner join location as l on mainData.dimensionId = l.id
         order by l.location_name
+    </select>
+
+    <select id="getPhysicalOverview" resultType="com.ruoyi.business.domain.model.response.AssetBordOverviewVO">
+        select count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset
+        where delete_flag = 0
+          and dept_id = #{deptId}
+          and project_id = #{projectId}
     </select>
 </mapper>

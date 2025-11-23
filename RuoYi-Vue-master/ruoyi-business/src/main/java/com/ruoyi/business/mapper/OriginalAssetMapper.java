@@ -2,8 +2,10 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.OriginalAsset;
+import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -83,4 +85,12 @@ public interface OriginalAssetMapper {
      * @return
      */
     boolean updateMatchStatic(String originalCode);
+
+    /**
+     * 统计数据橄榄
+     * @param deptId
+     * @param projectId
+     * @return
+     */
+    AssetBordOverviewVO getLedgerOverview(@Param("deptId") Long deptId, @Param("projectId") Long projectId);
 }

@@ -3,11 +3,13 @@ package com.ruoyi.business.service;
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.request.AssetBatchUpdateReqBO;
+import com.ruoyi.business.domain.model.request.AssetBordReqBO;
 import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
+import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
 
 import java.util.List;
 
@@ -128,5 +130,12 @@ public interface AssetService {
      * @return
      */
     Boolean batchUpdate(AssetBatchUpdateReqBO batchUpdateReqBO);
+
+    /**
+     * 实物资产报表 概览
+     * @param reqBO
+     * @return
+     */
+    AssetBordOverviewVO getPhysicalOverview(AssetBordReqBO reqBO);
 
 }

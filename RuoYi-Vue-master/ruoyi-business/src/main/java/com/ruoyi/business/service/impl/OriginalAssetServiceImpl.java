@@ -16,6 +16,8 @@ import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Category;
 import com.ruoyi.business.domain.model.OriginalAsset;
+import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import com.ruoyi.business.domain.model.Project;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
@@ -367,6 +369,11 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
     public boolean updateMatchStatic(String originalCode) {
         originalAssetMapper.updateMatchStatic(originalCode);
         return true;
+    }
+
+    @Override
+    public AssetBordOverviewVO getLedgerOverview(AssetBordReqBO reqBO) {
+        return originalAssetMapper.getLedgerOverview(reqBO.getDeptId(), reqBO.getProjectId());
     }
 
     /**

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.OriginalAsset;
+import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.response.AssetBordOverviewVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 
 /**
@@ -92,4 +94,11 @@ public interface OriginalAssetService {
      * @return
      */
     boolean updateMatchStatic(String originalCode);
+
+    /**
+     * 账务资产报表 概览
+     * @param reqBO
+     * @return
+     */
+    AssetBordOverviewVO getLedgerOverview(AssetBordReqBO reqBO);
 }
