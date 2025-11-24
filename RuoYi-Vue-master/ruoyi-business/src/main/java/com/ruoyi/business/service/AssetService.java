@@ -4,6 +4,7 @@ import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.request.AssetBatchUpdateReqBO;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.response.CollectionStatsVO;
@@ -161,5 +162,68 @@ public interface AssetService {
      * @return
      */
     AssetMetricsVO getLocationMetrics(Long projectId, Long locationId);
+
+    /**
+     * 分页获取分类指标
+     * @param reqBO
+     * @return
+     */
+    List<AssetMetricsVO> listCategoryMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 分页获取品牌指标
+     * @param reqBO
+     * @return
+     */
+    List<AssetMetricsVO> listBrandMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 分页获取名称指标
+     * @param reqBO
+     * @return
+     */
+    List<AssetMetricsVO> listAssetNameMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 分页获取型号指标
+     * @param reqBO
+     * @return
+     */
+    List<AssetMetricsVO> listSpecificationMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 分页获取地点指标
+     * @param reqBO
+     * @return
+     */
+    List<AssetMetricsVO> listLocationMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 分页获取管理部门指标
+     * @param reqBO
+     * @return
+     */
+    List<AssetMetricsVO> listManagedDeptMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 分页获取使用部门指标
+     * @param reqBO
+     * @return
+     */
+    List<AssetMetricsVO> listUsingDeptMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 分页获取管理人指标
+     * @param reqBO
+     * @return
+     */
+    List<AssetMetricsVO> listManagedEmpMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 分页获取使用人指标
+     * @param reqBO
+     * @return
+     */
+    List<AssetMetricsVO> listUsingEmpMetrics(AssetCheckMetricsReqBO reqBO);
 
 }

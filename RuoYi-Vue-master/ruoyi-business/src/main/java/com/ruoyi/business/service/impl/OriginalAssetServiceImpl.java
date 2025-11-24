@@ -17,6 +17,7 @@ import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.model.Category;
 import com.ruoyi.business.domain.model.OriginalAsset;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import com.ruoyi.business.domain.model.Project;
@@ -388,7 +389,67 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
 
     @Override
     public AssetMetricsVO getLocationMetrics(Long projectId, Long locationId) {
-        return originalAssetMapper.getLocationMetrics(projectId,locationId);
+        return originalAssetMapper.getLocationMetrics(projectId, locationId);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listCategoryMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listCategoryMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listBrandMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listBrandMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listAssetNameMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listAssetNameMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listSpecificationMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listSpecificationMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listObtainTimeMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listObtainTimeMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listLocationMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listLocationMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listManagedDeptMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listManagedDeptMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listUsingDeptMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listUsingDeptMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listManagedEmpMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listManagedEmpMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listUsingEmpMetrics(AssetCheckMetricsReqBO reqBO) {
+        return originalAssetMapper.listUsingEmpMetrics(reqBO);
     }
 
     /**
