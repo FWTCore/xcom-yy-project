@@ -1101,7 +1101,7 @@
         ${params.dataScope}
         group by a.category_id
         ) as data
-        order by data.checkCount desc
+        order by data.metricsName desc
     </select>
 
     <select id="listBrandMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
@@ -1127,7 +1127,7 @@
         ${params.dataScope}
         group by a.brand_id
         ) as data
-        order by data.checkCount desc
+        order by data.metricsName desc
     </select>
 
     <select id="listAssetNameMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
@@ -1177,7 +1177,7 @@
         ${params.dataScope}
         group by specification
         ) as data
-        order by data.checkCount desc
+        order by data.metricsName desc
     </select>
 
     <select id="listLocationMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
@@ -1280,7 +1280,7 @@
         ${params.dataScope}
         group by a.managed_emp_Id
         ) as data
-        order by data.checkCount desc
+        order by data.metricsName desc
     </select>
 
     <select id="listUsingEmpMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
@@ -1306,6 +1306,6 @@
         ${params.dataScope}
         group by a.using_emp_Id
         ) as data
-        order by data.checkCount desc
+        order by data.metricsName desc
     </select>
 </mapper>
