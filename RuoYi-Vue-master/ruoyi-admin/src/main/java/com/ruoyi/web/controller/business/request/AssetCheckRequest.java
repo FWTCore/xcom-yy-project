@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.business.request;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 账实核对请求模型
@@ -19,23 +21,23 @@ import java.util.List;
 @Data
 public class AssetCheckRequest implements Serializable {
 
-    private static final long serialVersionUID = -7059884802225152123L;
+    private static final long   serialVersionUID = -7059884802225152123L;
 
     @ApiModelProperty(value = "pageNum")
     @NotNull(message = "pageNum不能为空")
-    private Integer           pageNum;
+    private Integer             pageNum;
     @ApiModelProperty(value = "pageSize")
     @NotNull(message = "pageSize不能为空")
-    private Integer           pageSize;
+    private Integer             pageSize;
 
     @ApiModelProperty(value = "所属单位id")
     @NotNull(message = "所属单位不能为空")
-    private Long              deptId;
+    private Long                deptId;
     @ApiModelProperty(value = "项目id")
     @NotNull(message = "所属项目不能为空")
-    private Long              projectId;
+    private Long                projectId;
 
     @ApiModelProperty(value = "排序字段")
-    private List<String>      sortFields;
+    private List<String>        sortFields;
 
 }

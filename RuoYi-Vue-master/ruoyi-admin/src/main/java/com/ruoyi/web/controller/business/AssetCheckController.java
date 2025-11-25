@@ -1,5 +1,7 @@
 package com.ruoyi.web.controller.business;
 
+import com.ruoyi.business.domain.model.AssetData;
+import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.AssetCheckService;
@@ -55,8 +57,9 @@ public class AssetCheckController extends BaseController {
     @GetMapping("/physical/list")
     public TableDataInfo listPhysical(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
         startPage();
-
-        return getDataTable(null);
+        AssetCheckBO assetCheckBO = AssetCheckConvert.INSTANCE.toAssetCheckBO(request);
+        List<AssetData> respData = assetCheckService.listPhysical(assetCheckBO);
+        return getDataTable(respData);
     }
 
     /**

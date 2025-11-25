@@ -1,5 +1,7 @@
 package com.ruoyi.business.service.impl;
 
+import com.ruoyi.business.domain.model.AssetData;
+import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.AssetCheckService;
@@ -69,6 +71,11 @@ public class AssetCheckServiceImpl implements AssetCheckService {
             default:
                 throw new ServiceException("查询指标类型错误");
         }
+    }
+
+    @Override
+    public List<AssetData> listPhysical(AssetCheckBO assetCheckBO) {
+        return null;
     }
 
     @Override

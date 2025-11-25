@@ -1,5 +1,7 @@
 package com.ruoyi.business.service;
 
+import com.ruoyi.business.domain.model.AssetData;
+import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 
@@ -22,9 +24,17 @@ public interface AssetCheckService {
     List<AssetMetricsVO> listPhysicalMetrics(AssetCheckMetricsReqBO reqBO);
 
     /**
+     * 获取实物资产列表
+     * @param assetCheckBO
+     * @return
+     */
+    List<AssetData> listPhysical(AssetCheckBO assetCheckBO);
+
+    /**
      * 查询账务资产指标
      * @param reqBO
      * @return
      */
     List<AssetMetricsVO> listLedgerMetrics(AssetCheckMetricsReqBO reqBO);
+
 }

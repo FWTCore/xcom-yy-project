@@ -1,7 +1,9 @@
 package com.ruoyi.web.controller.business.convert;
 
+import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.web.controller.business.request.AssetCheckMetricsRequest;
+import com.ruoyi.web.controller.business.request.AssetCheckRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -22,4 +24,11 @@ public interface AssetCheckConvert {
      * @return
      */
     AssetCheckMetricsReqBO toAssetCheckMetricsReqBO(AssetCheckMetricsRequest request);
+
+    /**
+     * AssetCheckRequest to AssetCheckBO
+     * @param request
+     * @return
+     */
+    AssetCheckBO toAssetCheckBO(AssetCheckRequest request);
 }
