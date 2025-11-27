@@ -3,6 +3,8 @@ package com.ruoyi.business.domain.model.convert;
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDataDO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -21,5 +23,6 @@ public interface OriginalAssetDataConvert {
      * @param originalAssetDO
      * @return
      */
+    @Mappings({ @Mapping(target = "id", ignore = true), @Mapping(target = "originalAssetId", source = "id"), })
     OriginalAssetDataDO toOriginalAssetDataDO(OriginalAssetDO originalAssetDO);
 }

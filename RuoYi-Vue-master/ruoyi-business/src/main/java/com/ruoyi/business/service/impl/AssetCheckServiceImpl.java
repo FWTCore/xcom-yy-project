@@ -9,6 +9,7 @@ import com.ruoyi.business.service.AssetDataService;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.business.service.OriginalAssetDataService;
 import com.ruoyi.business.service.OriginalAssetService;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
@@ -74,8 +75,8 @@ public class AssetCheckServiceImpl implements AssetCheckService {
     }
 
     @Override
-    public List<AssetData> listPhysical(AssetCheckBO assetCheckBO) {
-        return null;
+    public TableDataInfo listPhysical(AssetCheckBO assetCheckBO) {
+        return assetDataService.listPhysical(assetCheckBO);
     }
 
     @Override
@@ -114,5 +115,10 @@ public class AssetCheckServiceImpl implements AssetCheckService {
             default:
                 throw new ServiceException("查询指标类型错误");
         }
+    }
+
+    @Override
+    public TableDataInfo listLedger(AssetCheckBO assetCheckBO) {
+        return originalAssetDataService.listLedger(assetCheckBO);
     }
 }

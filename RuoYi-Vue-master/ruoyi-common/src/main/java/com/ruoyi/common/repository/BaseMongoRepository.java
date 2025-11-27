@@ -79,7 +79,7 @@ public interface BaseMongoRepository<T extends BaseMongoDO> {
      * @param <R>
      * @return
      */
-    <R>  List<R> listAggregationData(AggregationMongodbQuery<R> query);
+    <R> List<R> listAggregationData(AggregationMongodbQuery<R> query);
 
     /**
      * 物理删除数据
@@ -88,5 +88,12 @@ public interface BaseMongoRepository<T extends BaseMongoDO> {
      * @return
      */
     Long removeByCondition(Consumer<Query> deleteQueryExpression);
+
+    /**
+     * 查询数量
+     * @param countExpression
+     * @return
+     */
+    long count(Consumer<Query> countExpression);
 
 }

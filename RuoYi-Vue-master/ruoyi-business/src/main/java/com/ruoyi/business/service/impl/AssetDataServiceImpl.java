@@ -1,15 +1,20 @@
 package com.ruoyi.business.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import com.ruoyi.business.domain.entity.AssetDataDO;
 import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.entity.LocationDO;
+import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.repository.AssetDataRepository;
 import com.ruoyi.business.service.AssetDataService;
 import com.ruoyi.business.service.DepartmentService;
 import com.ruoyi.business.service.LocationService;
+import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.AggregationMongodbQuery;
+import com.ruoyi.common.core.page.TableDataInfo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -124,6 +129,94 @@ public class AssetDataServiceImpl implements AssetDataService {
         } else {
             return listLocationMetrics(assetBordReqBO);
         }
+    }
+
+    @Override
+    public TableDataInfo listPhysical(AssetCheckBO assetCheckBO) {
+        Criteria criteria = Criteria.where("delete_flag").is(false);
+        criteria.and("dept_id").is(assetCheckBO.getDeptId());
+        criteria.and("project_id").is(assetCheckBO.getProjectId());
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getCategoryIds())) {
+            criteria.and("category_id").in(assetCheckBO.getCategoryIds());
+        }
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getBrandNames())) {
+            criteria.and("brand_name").in(assetCheckBO.getBrandNames());
+        }
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getAssetNames())) {
+            criteria.and("asset_name").in(assetCheckBO.getAssetNames());
+        }
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getSpecifications())) {
+            criteria.and("specification").in(assetCheckBO.getSpecifications());
+        }
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getLocationIds())) {
+            criteria.and("location_id").in(assetCheckBO.getLocationIds());
+        }
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getManagedDeptIds())) {
+            criteria.and("managed_dept_id").in(assetCheckBO.getManagedDeptIds());
+        }
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getUsingDeptIds())) {
+            criteria.and("managed_dept_name").in(assetCheckBO.getUsingDeptIds());
+        }
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getManagedEmpIds())) {
+            criteria.and("managed_emp_id").in(assetCheckBO.getManagedEmpIds());
+        }
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getUsingEmpIds())) {
+            criteria.and("using_emp_id").in(assetCheckBO.getUsingEmpIds());
+        }
+
+        long count = assetDataRepository.count(query -> {
+            query.addCriteria(criteria);
+        });
+        // 创建多个排序规则
+        List<Sort.Order> orders = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getSortFields())) {
+            assetCheckBO.getSortFields().sort(Integer::compareTo);
+            for (Integer sortField : assetCheckBO.getSortFields()) {
+                switch (sortField) {
+                    case 0:
+                        orders.add(Sort.Order.desc("category_name"));
+                        break;
+                    case 1:
+                        orders.add(Sort.Order.desc("asset_name_count"));
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        orders.add(Sort.Order.desc("using_dept_count"));
+                        break;
+                    case 4:
+                        orders.add(Sort.Order.desc("location_count"));
+                        break;
+                    case 5:
+                        orders.add(Sort.Order.desc("using_emp_name"));
+                        break;
+                    case 6:
+                        orders.add(Sort.Order.desc("brand_name"));
+                        break;
+                    case 7:
+                        orders.add(Sort.Order.desc("specification"));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        List<AssetDataDO> assetDataDOS = assetDataRepository.listData(query -> {
+            query.addCriteria(criteria);
+            // 设置排序
+            if (CollectionUtils.isNotEmpty(orders)) {
+                query.with(Sort.by(orders));
+            }
+            // 设置分页
+            query.skip((long) (assetCheckBO.getPageNum() - 1) * assetCheckBO.getPageSize())
+                .limit(assetCheckBO.getPageSize());
+        });
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setCode(HttpStatus.SUCCESS);
+        rspData.setMsg("查询成功");
+        rspData.setRows(assetDataDOS);
+        rspData.setTotal(count);
+        return rspData;
     }
 
     /**

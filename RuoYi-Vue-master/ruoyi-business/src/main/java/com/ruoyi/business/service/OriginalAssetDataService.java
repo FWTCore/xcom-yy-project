@@ -3,7 +3,9 @@ package com.ruoyi.business.service;
 import com.ruoyi.business.domain.entity.AssetDataDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDataDO;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.common.core.page.TableDataInfo;
 
 import java.util.List;
 
@@ -66,4 +68,11 @@ public interface OriginalAssetDataService {
      * @return
      */
     List<AssetMetricsVO> listLedgerBord(AssetBordReqBO assetBordReqBO);
+
+    /**
+     * 获取账务资产列表
+     * @param assetCheckBO
+     * @return
+     */
+    TableDataInfo listLedger(AssetCheckBO assetCheckBO);
 }

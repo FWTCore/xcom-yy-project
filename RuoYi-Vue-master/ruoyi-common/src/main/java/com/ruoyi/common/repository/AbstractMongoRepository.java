@@ -216,6 +216,18 @@ public class AbstractMongoRepository<T extends BaseMongoDO> implements BaseMongo
     }
 
     /**
+     * 查询数量
+     * @param countExpression
+     * @return
+     */
+    @Override
+    public long count(Consumer<Query> countExpression) {
+        Query query = new Query();
+        countExpression.accept(query);
+        return mongoTemplate.count(query, modelType);
+    }
+
+    /**
      * 设置过滤软删除条件
      *
      * @param query

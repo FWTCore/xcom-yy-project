@@ -1,8 +1,11 @@
 package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.AssetDataDO;
+import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.common.core.page.TableDataInfo;
 
 import java.util.List;
 
@@ -65,5 +68,13 @@ public interface AssetDataService {
      * @return
      */
     List<AssetMetricsVO> listPhysicalBord(AssetBordReqBO assetBordReqBO);
+
+
+    /**
+     * 获取实物资产列表
+     * @param assetCheckBO
+     * @return
+     */
+    TableDataInfo listPhysical(AssetCheckBO assetCheckBO);
 
 }

@@ -56,10 +56,9 @@ public class AssetCheckController extends BaseController {
     @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/physical/list")
     public TableDataInfo listPhysical(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
-        startPage();
         AssetCheckBO assetCheckBO = AssetCheckConvert.INSTANCE.toAssetCheckBO(request);
-        List<AssetData> respData = assetCheckService.listPhysical(assetCheckBO);
-        return getDataTable(respData);
+        TableDataInfo respData = assetCheckService.listPhysical(assetCheckBO);
+        return respData;
     }
 
     /**
@@ -80,9 +79,9 @@ public class AssetCheckController extends BaseController {
     @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/ledger/list")
     public TableDataInfo listLedger(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
-        startPage();
-
-        return getDataTable(null);
+        AssetCheckBO assetCheckBO = AssetCheckConvert.INSTANCE.toAssetCheckBO(request);
+        TableDataInfo respData = assetCheckService.listLedger(assetCheckBO);
+        return respData;
     }
 
 }

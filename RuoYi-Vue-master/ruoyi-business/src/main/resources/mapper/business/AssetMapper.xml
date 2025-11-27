@@ -1111,7 +1111,7 @@
         totalCount,
         checkCount
         from (
-        select a.brand_id as metricsId,
+        select a.brand_name as metricsId,
         b.brand_name as metricsName,
         count(a.id) as totalCount,
         sum(if(a.match_status = 1, 1, 0)) as checkCount
@@ -1125,7 +1125,7 @@
         </if>
         <!-- 数据范围过滤 -->
         ${params.dataScope}
-        group by a.brand_id
+        group by a.brand_name
         ) as data
         order by data.metricsName desc
     </select>

@@ -4,6 +4,7 @@ import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.common.core.page.TableDataInfo;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface AssetCheckService {
      * @param assetCheckBO
      * @return
      */
-    List<AssetData> listPhysical(AssetCheckBO assetCheckBO);
+    TableDataInfo listPhysical(AssetCheckBO assetCheckBO);
 
     /**
      * 查询账务资产指标
@@ -36,5 +37,12 @@ public interface AssetCheckService {
      * @return
      */
     List<AssetMetricsVO> listLedgerMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 获取实物资产列表
+     * @param assetCheckBO
+     * @return
+     */
+    TableDataInfo listLedger(AssetCheckBO assetCheckBO);
 
 }

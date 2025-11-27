@@ -842,8 +842,8 @@
         totalCount,
         checkCount
         from (
-        select DATE_FORMAT(obtain_time, '%Y-%m-%d') as metricsId,
-        DATE_FORMAT(obtain_time, '%Y-%m-%d') as metricsName,
+        select obtain_time_day as metricsId,
+        obtain_time_day as metricsName,
         count(id) as totalCount,
         sum(if(match_status = 1, 1, 0)) as checkCount
         from original_asset as a
@@ -853,7 +853,7 @@
 
         <!-- 数据范围过滤 -->
         ${params.dataScope}
-        group by DATE_FORMAT(obtain_time, '%Y-%m-%d')
+        group by obtain_time_day
         ) as data
         order by data.metricsName desc
     </select>
