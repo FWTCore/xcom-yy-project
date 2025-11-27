@@ -22,6 +22,7 @@ import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import com.ruoyi.business.domain.model.Project;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
+import com.ruoyi.business.event.OriginalAssetDataEvent;
 import com.ruoyi.business.mapper.OriginalAssetMapper;
 import com.ruoyi.business.service.CategoryService;
 import com.ruoyi.business.service.DepartmentService;
@@ -32,11 +33,13 @@ import com.ruoyi.business.service.ProjectService;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.service.ISysDeptService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,19 +56,21 @@ import static java.util.stream.Collectors.toMap;
 @Service
 public class OriginalAssetServiceImpl implements OriginalAssetService {
     @Resource
-    private OriginalAssetMapper originalAssetMapper;
+    private OriginalAssetMapper       originalAssetMapper;
     @Resource
-    private CategoryService     categoryService;
+    private CategoryService           categoryService;
     @Resource
-    private LocationService     locationService;
+    private LocationService           locationService;
     @Resource
-    private DepartmentService   departmentService;
+    private DepartmentService         departmentService;
     @Resource
-    private EmployeeService     employeeService;
+    private EmployeeService           employeeService;
     @Resource
-    private ProjectService      projectService;
+    private ProjectService            projectService;
     @Resource
-    private ISysDeptService     iSysDeptService;
+    private ISysDeptService           iSysDeptService;
+    @Resource
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * 查询原始资产
@@ -117,7 +122,11 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
     public int insertOriginalAsset(OriginalAssetDO originalAsset) {
         validAndSetField(originalAsset);
         originalAsset.setBaseFieldValue();
-        return originalAssetMapper.insertOriginalAsset(originalAsset);
+        originalAsset.setObtainTimeDay(DateUtils.convertTimeInteger(originalAsset.getObtainTime()));
+        int respData = originalAssetMapper.insertOriginalAsset(originalAsset);
+        this.publishEvent(originalAsset.getId());
+
+        return respData;
     }
 
     /**
@@ -130,7 +139,10 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
     public int updateOriginalAsset(OriginalAssetDO originalAsset) {
         validAndSetField(originalAsset);
         originalAsset.setUpdatedFieldValue();
-        return originalAssetMapper.updateOriginalAsset(originalAsset);
+        originalAsset.setObtainTimeDay(DateUtils.convertTimeInteger(originalAsset.getObtainTime()));
+        int respData = originalAssetMapper.updateOriginalAsset(originalAsset);
+        this.publishEvent(originalAsset.getId());
+        return respData;
     }
 
     /**
@@ -141,7 +153,11 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
      */
     @Override
     public int deleteOriginalAssetByIds(Long[] ids) {
-        return originalAssetMapper.deleteOriginalAssetByIds(ids);
+        int respData = originalAssetMapper.deleteOriginalAssetByIds(ids);
+        for (Long id : ids) {
+            this.publishEvent(id);
+        }
+        return respData;
     }
 
     /**
@@ -152,7 +168,9 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
      */
     @Override
     public int deleteOriginalAssetById(Long id) {
-        return originalAssetMapper.deleteOriginalAssetById(id);
+        int respData = originalAssetMapper.deleteOriginalAssetById(id);
+        this.publishEvent(id);
+        return respData;
     }
 
     @Override
@@ -281,6 +299,7 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                 importData.setAssetName(data.getAssetName());
                 importData.setSpecification(data.getSpecification());
                 importData.setObtainTime(data.getObtainTime());
+                importData.setObtainTimeDay(DateUtils.convertTimeInteger(importData.getObtainTime()));
                 importData.setProductPrice(data.getProductPrice());
 
                 if (StringUtils.isNotEmpty(data.getLocationName())) {
@@ -342,11 +361,13 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                 if (ObjectUtils.isNotEmpty(importData.getId())) {
                     importData.setUpdatedFieldValue();
                     originalAssetMapper.updateOriginalAsset(importData);
+                    this.publishEvent(importData.getId());
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、原始编号 " + data.getOriginalCode() + " 更新成功");
                 } else {
                     importData.setBaseFieldValue();
                     originalAssetMapper.insertOriginalAsset(importData);
+                    this.publishEvent(importData.getId());
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、原始编号 " + data.getOriginalCode() + " 导入成功");
                 }
@@ -553,5 +574,17 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
             }
         }
 
+    }
+
+    /**
+     * 发布事件
+     * @param id
+     */
+    private void publishEvent(Long id) {
+        try {
+            applicationEventPublisher.publishEvent(new OriginalAssetDataEvent(this, id));
+        } catch (Exception exception) {
+            log.error("");
+        }
     }
 }

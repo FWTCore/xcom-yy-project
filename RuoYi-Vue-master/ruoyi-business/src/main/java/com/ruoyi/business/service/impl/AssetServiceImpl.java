@@ -20,6 +20,7 @@ import com.ruoyi.business.domain.model.OriginalAsset;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
+import com.ruoyi.business.event.AssetDataEvent;
 import com.ruoyi.business.mapper.AssetMapper;
 import com.ruoyi.business.domain.model.convert.AssetConvert;
 import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
@@ -42,6 +43,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -67,23 +69,25 @@ import static java.util.stream.Collectors.toMap;
 public class AssetServiceImpl implements AssetService {
 
     @Resource
-    private AssetMapper          assetMapper;
+    private AssetMapper               assetMapper;
     @Resource
-    private CategoryService      categoryService;
+    private CategoryService           categoryService;
     @Resource
-    private BrandService         brandService;
+    private BrandService              brandService;
     @Resource
-    private MaterialService      materialService;
+    private MaterialService           materialService;
     @Resource
-    private LocationService      locationService;
+    private LocationService           locationService;
     @Resource
-    private DepartmentService    departmentService;
+    private DepartmentService         departmentService;
     @Resource
-    private EmployeeService      employeeService;
+    private EmployeeService           employeeService;
     @Resource
-    private ProjectService       projectService;
+    private ProjectService            projectService;
     @Resource
-    private OriginalAssetService originalAssetService;
+    private OriginalAssetService      originalAssetService;
+    @Resource
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public HomeAssetStatsVO getHomeAssetStats(Long projectId) {
@@ -139,7 +143,9 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public int insertAsset(AssetDO asset) {
         asset.setBaseFieldValue();
-        return assetMapper.insertAsset(asset);
+        int respData = assetMapper.insertAsset(asset);
+        this.publishEvent(asset.getId());
+        return respData;
     }
 
     /**
@@ -151,7 +157,9 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public int updateAsset(AssetDO asset) {
         asset.setUpdatedFieldValue();
-        return assetMapper.updateAsset(asset);
+        int respData = assetMapper.updateAsset(asset);
+        this.publishEvent(asset.getId());
+        return respData;
     }
 
     @Override
@@ -198,7 +206,11 @@ public class AssetServiceImpl implements AssetService {
      */
     @Override
     public int deleteAssetByIds(Long[] ids) {
-        return assetMapper.deleteAssetByIds(ids);
+        int respData = assetMapper.deleteAssetByIds(ids);
+        for (Long id : ids) {
+            this.publishEvent(id);
+        }
+        return respData;
     }
 
     /**
@@ -209,7 +221,9 @@ public class AssetServiceImpl implements AssetService {
      */
     @Override
     public int deleteAssetById(Long id) {
-        return assetMapper.deleteAssetById(id);
+        int respData = assetMapper.deleteAssetById(id);
+        this.publishEvent(id);
+        return respData;
     }
 
     @Override
@@ -846,6 +860,18 @@ public class AssetServiceImpl implements AssetService {
         if (!Objects.equals(data.getUsingEmpId(), originalAssetDO.getUsingEmpId())) {
             data.setPrintStatus(1);
             return;
+        }
+    }
+
+    /**
+     * 发布事件
+     * @param id
+     */
+    private void publishEvent(Long id) {
+        try {
+            applicationEventPublisher.publishEvent(new AssetDataEvent(this, id));
+        } catch (Exception exception) {
+            log.error("");
         }
     }
 }

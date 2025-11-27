@@ -72,12 +72,12 @@ public class OriginalAssetDataDO extends BaseMongoDO {
      * 资产名称统计
      */
     @Field("asset_name_count")
-    private Integer        assetNameCount;
+    private Integer       assetNameCount;
     /**
      * 资产名称核对统计
      */
     @Field("asset_name_check_count")
-    private Integer        assetNameCheckCount;
+    private Integer       assetNameCheckCount;
 
     /**
      * 规格型号,;
@@ -175,6 +175,11 @@ public class OriginalAssetDataDO extends BaseMongoDO {
      */
     @Field("obtain_time")
     private LocalDateTime obtainTime;
+    /**
+     * 获得时间,;
+     */
+    @Field("obtain_time_day")
+    private Integer       obtainTimeDay;
     /**
      * 价值,;
      */
