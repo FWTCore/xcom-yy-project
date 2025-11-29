@@ -6,6 +6,7 @@ import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.business.domain.model.request.AssetCheckRelationalReqBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public interface AssetCheckService {
      * @param assetCheckBO
      * @return
      */
-    List<AssetDataDetailVO> listLedgerForMysql(AssetCheckBO assetCheckBO);
+    List<OriginalAssetDataDetailVO> listLedgerForMysql(AssetCheckBO assetCheckBO);
 
     /**
      * 资产关联

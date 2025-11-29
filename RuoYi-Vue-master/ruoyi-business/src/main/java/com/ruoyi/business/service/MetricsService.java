@@ -6,6 +6,7 @@ import com.ruoyi.business.domain.model.request.AssetBordReqBO;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 import java.util.List;
@@ -99,5 +100,5 @@ public interface MetricsService {
      * @param assetCheckBO
      * @return
      */
-    List<AssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO);
+    List<OriginalAssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO);
 }

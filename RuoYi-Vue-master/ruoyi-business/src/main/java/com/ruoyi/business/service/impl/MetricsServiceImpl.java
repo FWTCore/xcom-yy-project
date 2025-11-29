@@ -6,6 +6,7 @@ import com.ruoyi.business.domain.model.request.AssetBordReqBO;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO;
 import com.ruoyi.business.mapper.MetricsMapper;
 import com.ruoyi.business.service.MetricsService;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -119,7 +120,7 @@ public class MetricsServiceImpl implements MetricsService {
     }
 
     @Override
-    public List<AssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO) {
+    public List<OriginalAssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO) {
         return metricsMapper.listLedger(assetCheckBO);
     }
 }

@@ -8,6 +8,7 @@ import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.business.domain.model.request.AssetCheckRelationalReqBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO;
 import com.ruoyi.business.service.AssetCheckService;
 import com.ruoyi.business.service.AssetDataService;
 import com.ruoyi.business.service.AssetService;
@@ -141,7 +142,7 @@ public class AssetCheckServiceImpl implements AssetCheckService {
     }
 
     @Override
-    public List<AssetDataDetailVO> listLedgerForMysql(AssetCheckBO assetCheckBO) {
+    public List<OriginalAssetDataDetailVO> listLedgerForMysql(AssetCheckBO assetCheckBO) {
         if (CollectionUtils.isNotEmpty(assetCheckBO.getSortFields())) {
             assetCheckBO.getSortFields().sort(Integer::compareTo);
         }

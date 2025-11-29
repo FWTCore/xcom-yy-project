@@ -24,7 +24,7 @@
     <resultMap type="com.ruoyi.business.domain.model.response.AssetDataDetailVO" id="AssetDataDetailResult"
                extends="com.ruoyi.business.mapper.AssetMapper.AssetResult">
     </resultMap>
-    <resultMap type="com.ruoyi.business.domain.model.response.AssetDataDetailVO" id="OriginalAssetDataDetailResult"
+    <resultMap type="com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO" id="OriginalAssetDataDetailResult"
                extends="com.ruoyi.business.mapper.OriginalAssetMapper.OriginalAssetResult">
     </resultMap>
 

@@ -6,6 +6,7 @@ import com.ruoyi.business.domain.model.request.AssetBordReqBO;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO;
 
 import java.util.List;
 
@@ -78,6 +79,7 @@ public interface MetricsMapper {
      * @return
      */
     List<AssetMetricsVO> listPhysicalBordMetrics(AssetBordReqBO assetBordReqBO);
+
     /**
      * 获取实物名称指标
      * @param assetBordReqBO
@@ -91,11 +93,12 @@ public interface MetricsMapper {
      * @return
      */
     List<AssetDataDetailVO> listPhysical(AssetCheckBO assetCheckBO);
+
     /**
      * 获取实物资产列表
      * @param assetCheckBO
      * @return
      */
-    List<AssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO);
+    List<OriginalAssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO);
 
 }

@@ -21,11 +21,6 @@ import java.time.LocalDateTime;
 public class OriginalAssetDataDetailVO extends BaseEntityDO {
 
     /**
-     * 原始资产id,;
-     */
-    private Long          originalAssetId;
-
-    /**
      * 系统公司id,;
      */
     private Long          deptId;
@@ -60,15 +55,6 @@ public class OriginalAssetDataDetailVO extends BaseEntityDO {
     private String        assetName;
 
     /**
-     * 资产名称统计
-     */
-    private Integer       assetNameCount;
-    /**
-     * 资产名称核对统计
-     */
-    private Integer       assetNameCheckCount;
-
-    /**
      * 规格型号,;
      */
     private String        specification;
@@ -82,14 +68,6 @@ public class OriginalAssetDataDetailVO extends BaseEntityDO {
      * 地点名称,;
      */
     private String        locationName;
-    /**
-     * 地点统计
-     */
-    private Integer       locationCount;
-    /**
-     * 地点统计
-     */
-    private Integer       locationCheckCount;
 
     /**
      * 管理部门id,;
@@ -110,14 +88,6 @@ public class OriginalAssetDataDetailVO extends BaseEntityDO {
      * 使用部门名称,;
      */
     private String        usingDeptName;
-    /**
-     * 使用部门统计
-     */
-    private Integer       usingDeptCount;
-    /**
-     * 使用部门统计
-     */
-    private Integer       usingDeptCheckCount;
 
     /**
      * 管理员工id,;
@@ -147,10 +117,12 @@ public class OriginalAssetDataDetailVO extends BaseEntityDO {
      * 获得时间,;
      */
     private LocalDateTime obtainTime;
+
     /**
      * 获得时间,;
      */
     private Integer       obtainTimeDay;
+
     /**
      * 价值,;
      */

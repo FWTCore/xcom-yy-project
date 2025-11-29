@@ -7,6 +7,7 @@ import com.ruoyi.business.domain.model.request.AssetCheckRelationalReqBO;
 import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO;
 import com.ruoyi.business.service.AssetCheckService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -54,7 +55,7 @@ public class AssetCheckController extends BaseController {
     /**
      * 指标列表
      */
-//    @PreAuthorize("@ss.hasPermi('check:verification:list')")
+    //    @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/physical/metrics/list")
     public TableDataInfo listPhysicalMetrics(@Valid @NotNull(message = "参数不能为空") AssetCheckMetricsRequest request) {
         startPage();
@@ -66,7 +67,7 @@ public class AssetCheckController extends BaseController {
     /**
      * 查询实物资产列表
      */
-//    @PreAuthorize("@ss.hasPermi('check:verification:list')")
+    //    @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/physical/list")
     public TableDataInfo listPhysical(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
         startPage();
@@ -78,7 +79,7 @@ public class AssetCheckController extends BaseController {
     /**
      * 指标列表
      */
-//    @PreAuthorize("@ss.hasPermi('check:verification:list')")
+    //    @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/ledger/metrics/list")
     public TableDataInfo listLedgerMetrics(@Valid @NotNull(message = "参数不能为空") AssetCheckMetricsRequest request) {
         startPage();
@@ -90,12 +91,12 @@ public class AssetCheckController extends BaseController {
     /**
      * 查询账务资产列表
      */
-//    @PreAuthorize("@ss.hasPermi('check:verification:list')")
+    //    @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/ledger/list")
     public TableDataInfo listLedger(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
         startPage();
         AssetCheckBO assetCheckBO = AssetCheckConvert.INSTANCE.toAssetCheckBO(request);
-        List<AssetDataDetailVO> respData = assetCheckService.listLedgerForMysql(assetCheckBO);
+        List<OriginalAssetDataDetailVO> respData = assetCheckService.listLedgerForMysql(assetCheckBO);
         return getDataTable(respData);
     }
 
