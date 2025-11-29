@@ -135,6 +135,12 @@ public class OriginalAssetDO extends BaseEntityDO {
     @NotNull(message = "获得时间不能为空")
     @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime obtainTime;
+
+    /**
+     * 获得时间,;
+     */
+    private Integer       obtainTimeDay;
+
     /**
      * 价值,;
      */
@@ -151,4 +157,5 @@ public class OriginalAssetDO extends BaseEntityDO {
      * 匹配数量
      */
     private Integer       matchCount;
+
 }

@@ -193,4 +193,16 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM_SS);
         return localDateTime.format(formatter);
     }
+
+    /**
+     * LocalDateTime to Integer
+     * @param localDateTime
+     * @return
+     */
+    public static Integer convertTimeInteger(LocalDateTime localDateTime) {
+        if (ObjectUtils.isEmpty(localDateTime)) {
+            return null;
+        }
+        return localDateTime.getYear() * 10000 + localDateTime.getMonthValue() * 100 + localDateTime.getDayOfMonth();
+    }
 }

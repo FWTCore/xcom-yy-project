@@ -37,6 +37,7 @@ public interface ProjectService {
      * @return 项目集合
      */
     List<ProjectDO> selectProjectList(Project project);
+
     /**
      * 查询项目列表
      *
@@ -76,4 +77,11 @@ public interface ProjectService {
      * @return 结果
      */
     int deleteProjectById(Long id);
+
+    /**
+     * 变更项目状态
+     * @param projectId
+     * @return
+     */
+    void changeProjectStatus(Long projectId);
 }

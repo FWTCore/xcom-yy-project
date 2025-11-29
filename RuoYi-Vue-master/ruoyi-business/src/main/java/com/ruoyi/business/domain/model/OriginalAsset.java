@@ -141,6 +141,11 @@ public class OriginalAsset extends BaseEntityDO {
      */
     @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime obtainTime;
+
+    /**
+     * 获得时间,;
+     */
+    private Integer       obtainTimeDay;
     /**
      * 价值,;
      */

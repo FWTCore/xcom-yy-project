@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.MetricsMapper">
+    <resultMap type="com.ruoyi.business.domain.entity.MetricsDO" id="MetricsResult">
+        <result property="id" column="id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="projectId" column="project_id"/>
+        <result property="bizId" column="biz_id"/>
+        <result property="bizKey" column="biz_key"/>
+        <result property="metricsName" column="metrics_name"/>
+        <result property="metricsType" column="metrics_type"/>
+        <result property="bizType" column="biz_type"/>
+        <result property="totalCount" column="total_count"/>
+        <result property="checkCount" column="check_count"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <resultMap type="com.ruoyi.business.domain.model.response.AssetDataDetailVO" id="AssetDataDetailResult"
+               extends="com.ruoyi.business.mapper.AssetMapper.AssetResult">
+    </resultMap>
+    <resultMap type="com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO"
+               id="OriginalAssetDataDetailResult"
+               extends="com.ruoyi.business.mapper.OriginalAssetMapper.OriginalAssetResult">
+    </resultMap>
+
+    <sql id="selectMetricsVO">
+        select id,
+               dept_id,
+               project_id,
+               biz_id,
+               biz_key,
+               metrics_name,
+               metrics_type,
+               biz_type,
+               total_count,
+               check_count,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from metrics
+    </sql>
+
+    <select id="selectMetricsList" parameterType="com.ruoyi.business.domain.model.Metrics" resultMap="MetricsResult">
+        <include refid="selectMetricsVO"/>
+        <where>
+            and delete_flag=0
+            <if test="deptId != null ">
+                and dept_id = #{deptId}
+            </if>
+            <if test="projectId != null ">
+                and project_id = #{projectId}
+            </if>
+            <if test="bizId != null ">
+                and biz_id = #{bizId}
+            </if>
+            <if test="bizKey != null  and bizKey != ''">
+                and biz_key = #{bizKey}
+            </if>
+            <if test="metricsName != null  and metricsName != ''">
+                and metrics_name like concat('%', #{metricsName}, '%')
+            </if>
+            <if test="metricsType != null ">
+                and metrics_type = #{metricsType}
+            </if>
+            <if test="bizType != null ">
+                and biz_type = #{bizType}
+            </if>
+            <if test="totalCount != null ">
+                and total_count = #{totalCount}
+            </if>
+            <if test="checkCount != null ">
+                and check_count = #{checkCount}
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMetricsById" parameterType="Long"
+            resultMap="MetricsResult">
+        <include refid="selectMetricsVO"/>
+        where id = #{id}
+        and delete_flag=0
+    </select>
+    <select id="selectMetricsByIds"
+            resultMap="MetricsResult">
+        <include refid="selectMetricsVO"/>
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        and delete_flag=0
+    </select>
+
+    <insert id="insertMetrics" parameterType="com.ruoyi.business.domain.entity.MetricsDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into metrics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                dept_id,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="bizId != null">
+                biz_id,
+            </if>
+            <if test="bizKey != null">
+                biz_key,
+            </if>
+            <if test="metricsName != null">
+                metrics_name,
+            </if>
+            <if test="metricsType != null">
+                metrics_type,
+            </if>
+            <if test="bizType != null">
+                biz_type,
+            </if>
+            <if test="totalCount != null">
+                total_count,
+            </if>
+            <if test="checkCount != null">
+                check_count,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdById != null">
+                created_by_id,
+            </if>
+            <if test="createdByName != null">
+                created_by_name,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="updatedById != null">
+                updated_by_id,
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name,
+            </if>
+            <if test="updatedTime != null">
+                updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                #{deptId},
+            </if>
+            <if test="projectId != null">
+                #{projectId},
+            </if>
+            <if test="bizId != null">
+                #{bizId},
+            </if>
+            <if test="bizKey != null">
+                #{bizKey},
+            </if>
+            <if test="metricsName != null">
+                #{metricsName},
+            </if>
+            <if test="metricsType != null">
+                #{metricsType},
+            </if>
+            <if test="bizType != null">
+                #{bizType},
+            </if>
+            <if test="totalCount != null">
+                #{totalCount},
+            </if>
+            <if test="checkCount != null">
+                #{checkCount},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMetrics" parameterType="com.ruoyi.business.domain.entity.MetricsDO">
+        update metrics
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null">
+                dept_id =
+                #{deptId},
+            </if>
+            <if test="projectId != null">
+                project_id =
+                #{projectId},
+            </if>
+            <if test="bizId != null">
+                biz_id =
+                #{bizId},
+            </if>
+            <if test="bizKey != null">
+                biz_key =
+                #{bizKey},
+            </if>
+            <if test="metricsName != null">
+                metrics_name =
+                #{metricsName},
+            </if>
+            <if test="metricsType != null">
+                metrics_type =
+                #{metricsType},
+            </if>
+            <if test="bizType != null">
+                biz_type =
+                #{bizType},
+            </if>
+            <if test="totalCount != null">
+                total_count =
+                #{totalCount},
+            </if>
+            <if test="checkCount != null">
+                check_count =
+                #{checkCount},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag =
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                created_by_id =
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                created_by_name =
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                created_time =
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id =
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name =
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                updated_time =
+                #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMetricsById" parameterType="Long">
+        delete
+        from metrics
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteMetricsByIds" parameterType="String">
+        delete from metrics where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="listPhysicalBordMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select case when #{metricsType} = 1 then biz_key else biz_id end as metricsId,
+        metrics_name as metricsName,
+        total_count as totalCount,
+        check_count as checkCount
+        from metrics
+        where delete_flag = 0
+        and dept_id = #{deptId}
+        and project_id = #{projectId}
+        and biz_type = 1
+        and metrics_type = #{metricsType}
+        <choose>
+            <when test="orderFlag != null and !orderFlag">
+                order by total_count asc
+            </when>
+            <otherwise>
+                order by total_count desc
+            </otherwise>
+        </choose>
+        limit 10
+    </select>
+
+    <select id="listLedgerBordMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select case when #{metricsType} = 1 then biz_key else biz_id end as metricsId,
+        metrics_name as metricsName,
+        total_count as totalCount,
+        check_count as checkCount
+        from metrics
+        where delete_flag = 0
+        and dept_id = #{deptId}
+        and project_id = #{projectId}
+        and biz_type = 2
+        and metrics_type = #{metricsType}
+        <choose>
+            <when test="orderFlag != null and !orderFlag">
+                order by total_count asc
+            </when>
+            <otherwise>
+                order by total_count desc
+            </otherwise>
+        </choose>
+        limit 10
+    </select>
+
+    <select id="listPhysical" resultMap="AssetDataDetailResult">
+        select a.id,
+        a.dept_id,
+        a.project_id,
+        a.temporary_code,
+        a.original_code,
+        a.original_sub_code,
+        a.category_id,
+        a.category_name,
+        a.brand_id,
+        a.brand_name,
+        a.material_id,
+        a.asset_name,
+        a.specification,
+        a.asset_status,
+        a.production_time,
+        a.location_id,
+        ifnull((select location_name from location as ls where a.location_id = ls.id), a.location_name) as
+        location_name,
+        a.managed_dept_Id,
+        a.managed_dept_name,
+        a.using_dept_Id,
+        a.using_dept_name,
+        a.managed_emp_Id,
+        a.managed_emp_name,
+        a.using_emp_Id,
+        a.using_emp_name,
+        a.collector_user_id,
+        a.collector_user_name,
+        a.collector_time,
+        a.remark,
+        a.main_image_url,
+        a.main_image_name,
+        a.image_url,
+        a.image_url_name,
+        a.match_status,
+        a.print_status,
+        a.delete_flag,
+        a.created_by_id,
+        a.created_by_name,
+        a.created_time,
+        a.updated_by_id,
+        a.updated_by_name,
+        a.updated_time
+        from asset as a
+        inner join metrics ma on ma.delete_flag = 0 and ma.biz_type = 1 and a.dept_id = ma.dept_id and
+        a.project_id = ma.project_id and ma.metrics_type = 1 and
+        a.asset_name = ma.biz_key
+        inner join metrics md on md.delete_flag = 0 and md.biz_type = 1 and a.dept_id = md.dept_id and
+        a.project_id = md.project_id and md.metrics_type = 2 and
+        a.using_dept_Id = md.biz_id
+        inner join metrics ml on ml.delete_flag = 0 and ml.biz_type = 1 and a.dept_id = ml.dept_id and
+        a.project_id = ml.project_id and ml.metrics_type = 3 and
+        a.location_id = ml.biz_id
+        where a.delete_flag = 0
+        and a.dept_id = #{deptId}
+        and a.project_id = #{projectId}
+        and a.match_status = 0
+        <if test="categoryIds != null and categoryIds.size() > 0">
+            AND a.category_id in
+            <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+                #{categoryId}
+            </foreach>
+        </if>
+        <if test="brandNames != null and brandNames.size() > 0">
+            AND a.brand_name in
+            <foreach collection="brandNames" item="brandName" open="(" separator="," close=")">
+                #{brandName}
+            </foreach>
+        </if>
+        <if test="assetNames != null and assetNames.size() > 0">
+            AND a.asset_name in
+            <foreach collection="assetNames" item="assetName" open="(" separator="," close=")">
+                #{assetName}
+            </foreach>
+        </if>
+        <if test="specifications != null and specifications.size() > 0">
+            AND a.specification in
+            <foreach collection="specifications" item="specification" open="(" separator="," close=")">
+                #{specification}
+            </foreach>
+        </if>
+        <if test="locationIds != null and locationIds.size() > 0">
+            AND a.location_id in
+            <foreach collection="locationIds" item="locationId" open="(" separator="," close=")">
+                #{locationId}
+            </foreach>
+        </if>
+        <if test="managedDeptIds != null and managedDeptIds.size() > 0">
+            AND a.managed_dept_Id in
+            <foreach collection="managedDeptIds" item="managedDeptId" open="(" separator="," close=")">
+                #{managedDeptId}
+            </foreach>
+        </if>
+        <if test="usingDeptIds != null and usingDeptIds.size() > 0">
+            AND a.using_dept_Id in
+            <foreach collection="usingDeptIds" item="usingDeptId" open="(" separator="," close=")">
+                #{usingDeptId}
+            </foreach>
+        </if>
+        <if test="managedEmpIds != null and managedEmpIds.size() > 0">
+            AND a.managed_emp_Id in
+            <foreach collection="managedEmpIds" item="managedEmpId" open="(" separator="," close=")">
+                #{managedEmpId}
+            </foreach>
+        </if>
+        <if test="usingEmpIds != null and usingEmpIds.size() > 0">
+            AND a.using_emp_Id in
+            <foreach collection="usingEmpIds" item="usingEmpId" open="(" separator="," close=")">
+                #{usingEmpId}
+            </foreach>
+        </if>
+
+        <if test="sortFields != null and sortFields.size() > 0">
+            order by
+            <foreach collection="sortFields" item="sortField" separator=",">
+                <choose>
+                    <when test="sortField = 0 ">
+                        a.category_name
+                    </when>
+                    <when test="sortField = 1 ">
+                        ma.total_count desc
+                    </when>
+                    <when test="sortField = 3 ">
+                        md.total_count desc
+                    </when>
+                    <when test="sortField = 4 ">
+                        ml.total_count desc
+                    </when>
+                    <when test="sortField = 5 ">
+                        a.using_emp_Id
+                    </when>
+                    <when test="sortField = 6 ">
+                        a.brand_name
+                    </when>
+                    <when test="sortField = 7 ">
+                        a.specification
+                    </when>
+                    <otherwise>
+                        a.id
+                    </otherwise>
+                </choose>
+            </foreach>
+        </if>
+    </select>
+
+    <select id="listLedger" resultMap="OriginalAssetDataDetailResult">
+        select a.id,
+        a.dept_id,
+        a.project_id,
+        a.original_code,
+        a.category_id,
+        a.category_name,
+        a.brand_name,
+        a.asset_name,
+        a.specification,
+        a.obtain_time,
+        a.product_price,
+        a.location_id,
+        ifnull((select location_name from location as ls where a.location_id = ls.id), a.location_name) as
+        location_name,
+        a.managed_dept_Id,
+        a.managed_dept_name,
+        a.using_dept_Id,
+        a.using_dept_name,
+        a.managed_emp_Id,
+        a.managed_emp_name,
+        a.using_emp_Id,
+        a.using_emp_name,
+        a.remark,
+        a.match_status,
+        a.match_count,
+        a.delete_flag,
+        a.created_by_id,
+        a.created_by_name,
+        a.created_time,
+        a.updated_by_id,
+        a.updated_by_name,
+        a.updated_time
+        from original_asset as a
+        inner join metrics ma on ma.delete_flag = 0 and ma.biz_type = 2 and a.dept_id = ma.dept_id and
+        a.project_id = ma.project_id and ma.metrics_type = 1 and
+        a.asset_name = ma.biz_key
+        inner join metrics md on md.delete_flag = 0 and md.biz_type = 2 and a.dept_id = md.dept_id and
+        a.project_id = md.project_id and md.metrics_type = 2 and
+        a.using_dept_Id = md.biz_id
+        inner join metrics ml on ml.delete_flag = 0 and ml.biz_type = 2 and a.dept_id = ml.dept_id and
+        a.project_id = ml.project_id and ml.metrics_type = 3 and
+        a.location_id = ml.biz_id
+        where a.delete_flag = 0
+        and a.dept_id = #{deptId}
+        and a.project_id = #{projectId}
+        and a.match_status = 0
+        <if test="categoryIds != null and categoryIds.size() > 0">
+            AND a.category_id in
+            <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+                #{categoryId}
+            </foreach>
+        </if>
+        <if test="brandNames != null and brandNames.size() > 0">
+            AND a.brand_name in
+            <foreach collection="brandNames" item="brandName" open="(" separator="," close=")">
+                #{brandName}
+            </foreach>
+        </if>
+        <if test="assetNames != null and assetNames.size() > 0">
+            AND a.asset_name in
+            <foreach collection="assetNames" item="assetName" open="(" separator="," close=")">
+                #{assetName}
+            </foreach>
+        </if>
+        <if test="specifications != null and specifications.size() > 0">
+            AND a.specification in
+            <foreach collection="specifications" item="specification" open="(" separator="," close=")">
+                #{specification}
+            </foreach>
+        </if>
+        <if test="locationIds != null and locationIds.size() > 0">
+            AND a.location_id in
+            <foreach collection="locationIds" item="locationId" open="(" separator="," close=")">
+                #{locationId}
+            </foreach>
+        </if>
+        <if test="managedDeptIds != null and managedDeptIds.size() > 0">
+            AND a.managed_dept_Id in
+            <foreach collection="managedDeptIds" item="managedDeptId" open="(" separator="," close=")">
+                #{managedDeptId}
+            </foreach>
+        </if>
+        <if test="usingDeptIds != null and usingDeptIds.size() > 0">
+            AND a.using_dept_Id in
+            <foreach collection="usingDeptIds" item="usingDeptId" open="(" separator="," close=")">
+                #{usingDeptId}
+            </foreach>
+        </if>
+        <if test="managedEmpIds != null and managedEmpIds.size() > 0">
+            AND a.managed_emp_Id in
+            <foreach collection="managedEmpIds" item="managedEmpId" open="(" separator="," close=")">
+                #{managedEmpId}
+            </foreach>
+        </if>
+        <if test="usingEmpIds != null and usingEmpIds.size() > 0">
+            AND a.using_emp_Id in
+            <foreach collection="usingEmpIds" item="usingEmpId" open="(" separator="," close=")">
+                #{usingEmpId}
+            </foreach>
+        </if>
+        <if test="sortFields != null and sortFields.size() > 0">
+            order by
+            <foreach collection="sortFields" item="sortField" separator=",">
+                <choose>
+                    <when test="sortField = 0 ">
+                        a.category_name
+                    </when>
+                    <when test="sortField = 1 ">
+                        ma.total_count desc
+                    </when>
+                    <when test="sortField = 2 ">
+                        a.obtain_time_day desc
+                    </when>
+                    <when test="sortField = 3 ">
+                        md.total_count desc
+                    </when>
+                    <when test="sortField = 4 ">
+                        ml.total_count desc
+                    </when>
+                    <when test="sortField = 5 ">
+                        a.using_emp_Id
+                    </when>
+                    <when test="sortField = 6 ">
+                        a.brand_name
+                    </when>
+                    <when test="sortField = 7 ">
+                        a.specification
+                    </when>
+                    <otherwise>
+                        a.id
+                    </otherwise>
+                </choose>
+            </foreach>
+        </if>
+    </select>
+
+    <update id="upsetPhysicalMetrics">
+        delete
+        from metrics
+        where project_id = #{projectId}
+          and biz_type = 1;
+
+        insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
+                            check_count, delete_flag, created_by_id, created_by_name, created_time, updated_by_id,
+                            updated_by_name, updated_time)
+        select a.dept_id,
+               a.project_id,
+               0,
+               a.asset_name,
+               a.asset_name,
+               1                               as metrics_type,
+               1                               as biz_type,
+               count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount,
+               0,
+               0,
+               'system',
+               now(),
+               0,
+               'system',
+               now()
+        from asset as a
+        where a.delete_flag = 0
+          and project_id = #{projectId}
+        group by asset_name;
+
+        insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
+                            check_count, delete_flag, created_by_id, created_by_name, created_time, updated_by_id,
+                            updated_by_name, updated_time)
+        select a.dept_id,
+               a.project_id,
+               using_dept_Id,
+               using_dept_Id,
+               a.using_dept_name,
+               2                               as metrics_type,
+               1                               as biz_type,
+               count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount,
+               0,
+               0,
+               'system',
+               now(),
+               0,
+               'system',
+               now()
+        from asset as a
+        where a.delete_flag = 0
+          and project_id = #{projectId}
+        group by using_dept_Id;
+
+
+        insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
+                            check_count, delete_flag, created_by_id, created_by_name, created_time, updated_by_id,
+                            updated_by_name, updated_time)
+        select a.dept_id,
+               a.project_id,
+               location_id,
+               location_id,
+               a.location_name,
+               3                               as metrics_type,
+               1                               as biz_type,
+               count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount,
+               0,
+               0,
+               'system',
+               now(),
+               0,
+               'system',
+               now()
+        from asset as a
+        where a.delete_flag = 0
+          and project_id = #{projectId}
+        group by location_id;
+    </update>
+
+    <update id="upsetLedgerMetrics">
+        delete
+        from metrics
+        where project_id = #{projectId}
+          and biz_type = 2;
+
+        insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
+                            check_count, delete_flag, created_by_id, created_by_name, created_time, updated_by_id,
+                            updated_by_name, updated_time)
+        select a.dept_id,
+               a.project_id,
+               0,
+               a.asset_name,
+               a.asset_name,
+               1                               as metrics_type,
+               2                               as biz_type,
+               count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount,
+               0,
+               0,
+               'system',
+               now(),
+               0,
+               'system',
+               now()
+        from original_asset as a
+        where a.delete_flag = 0
+          and project_id = #{projectId}
+        group by asset_name;
+
+        insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
+                            check_count, delete_flag, created_by_id, created_by_name, created_time, updated_by_id,
+                            updated_by_name, updated_time)
+        select a.dept_id,
+               a.project_id,
+               using_dept_Id,
+               using_dept_Id,
+               a.using_dept_name,
+               2                               as metrics_type,
+               2                               as biz_type,
+               count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount,
+               0,
+               0,
+               'system',
+               now(),
+               0,
+               'system',
+               now()
+        from original_asset as a
+        where a.delete_flag = 0
+          and project_id = #{projectId}
+        group by using_dept_Id;
+
+
+        insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
+                            check_count, delete_flag, created_by_id, created_by_name, created_time, updated_by_id,
+                            updated_by_name, updated_time)
+        select a.dept_id,
+               a.project_id,
+               location_id,
+               location_id,
+               a.location_name,
+               3                               as metrics_type,
+               2                               as biz_type,
+               count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount,
+               0,
+               0,
+               'system',
+               now(),
+               0,
+               'system',
+               now()
+        from original_asset as a
+        where a.delete_flag = 0
+          and project_id = #{projectId}
+        group by location_id;
+    </update>
+</mapper>

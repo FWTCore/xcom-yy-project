@@ -45,7 +45,8 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
-    <resultMap type="com.ruoyi.business.domain.model.response.AssetDetailVO" id="AssetDetailResult" extends="AssetResult">
+    <resultMap type="com.ruoyi.business.domain.model.response.AssetDetailVO" id="AssetDetailResult"
+               extends="AssetResult">
         <result property="deptName" column="dept_name"/>
         <result property="projectName" column="project_name"/>
     </resultMap>
@@ -129,6 +130,12 @@
             </if>
             <if test="searchOriginalCode != null  and searchOriginalCode != ''">
                 and original_code like concat('%', #{searchOriginalCode}, '%')
+            </if>
+            <if test="originalSubCode != null  and originalSubCode != ''">
+                and original_sub_code = #{originalSubCode}
+            </if>
+            <if test="leftLikeOriginalSubCode != null  and leftLikeOriginalSubCode != ''">
+                and original_sub_code like concat(#{leftLikeOriginalSubCode}, '%')
             </if>
             <if test="categoryId != null ">
                 and category_id = #{categoryId}
@@ -983,7 +990,8 @@
         order by user.user_name
     </select>
 
-    <select id="selectDimensionStatsForUsingEmp" resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
+    <select id="selectDimensionStatsForUsingEmp"
+            resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
         select mainData.dimensionId,
         d.department_name as dimensionName,
         mainData.dimensionCount
@@ -1007,7 +1015,8 @@
         order by d.department_name
     </select>
 
-    <select id="selectDimensionStatsForLocation" resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
+    <select id="selectDimensionStatsForLocation"
+            resultType="com.ruoyi.business.domain.model.response.CollectionStatsVO">
         select mainData.dimensionId,
         l.location_name as dimensionName,
         mainData.dimensionCount
@@ -1030,4 +1039,274 @@
         inner join location as l on mainData.dimensionId = l.id
         order by l.location_name
     </select>
+
+    <select id="getPhysicalOverview" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        where delete_flag = 0
+          and dept_id = #{deptId}
+          and project_id = #{projectId}
+    </select>
+
+
+    <select id="getAssetNameMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        where delete_flag = 0
+          and project_id = #{projectId}
+          and asset_name = #{assetName}
+    </select>
+
+    <select id="getUsingDeptMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        where delete_flag = 0
+          and project_id = #{projectId}
+          and using_dept_Id = #{usingDeptId}
+    </select>
+
+    <select id="getLocationMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select count(id)                       as totalCount,
+               sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        where delete_flag = 0
+          and project_id = #{projectId}
+          and location_id = #{locationId}
+    </select>
+
+
+    <select id="listCategoryMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select
+        metricsId,
+        metricsName,
+        totalCount,
+        checkCount
+        from (
+        select a.category_id as metricsId,
+        c.category_name as metricsName,
+        count(a.id) as totalCount,
+        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        inner join category c on a.category_id = c.id
+        where a.delete_flag = 0
+        and a.dept_id = #{reqBO.deptId}
+        and a.project_id = #{reqBO.projectId}
+        <if test="reqBO.searchName!=null and reqBO.searchName!=''">
+            and c.category_name like concat('%', #{reqBO.searchName}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${reqBO.params.dataScope}
+        group by a.category_id
+        ) as data
+        order by data.metricsName desc
+    </select>
+
+    <select id="listBrandMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select
+        metricsId,
+        metricsName,
+        totalCount,
+        checkCount
+        from (
+        select a.brand_name as metricsId,
+        b.brand_name as metricsName,
+        count(a.id) as totalCount,
+        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        inner join brand as b on a.brand_id = b.id
+        where a.delete_flag = 0
+        and a.dept_id = #{reqBO.deptId}
+        and a.project_id = #{reqBO.projectId}
+        <if test="reqBO.searchName!=null and reqBO.searchName!=''">
+            and b.brand_name like concat('%', #{reqBO.searchName}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${reqBO.params.dataScope}
+        group by a.brand_name
+        ) as data
+        order by data.metricsName desc
+    </select>
+
+    <select id="listAssetNameMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select
+        metricsId,
+        metricsName,
+        totalCount,
+        checkCount
+        from (
+        select asset_name as metricsId,
+        asset_name as metricsName,
+        count(id) as totalCount,
+        sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        where delete_flag = 0
+        and dept_id = #{reqBO.deptId}
+        and project_id = #{reqBO.projectId}
+        <if test="reqBO.searchName!=null and reqBO.searchName!=''">
+            and asset_name like concat('%', #{reqBO.searchName}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${reqBO.params.dataScope}
+        group by asset_name
+        ) as data
+        order by data.checkCount desc
+    </select>
+
+    <select id="listSpecificationMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select
+        metricsId,
+        metricsName,
+        totalCount,
+        checkCount
+        from (
+        select specification as metricsId,
+        specification as metricsName,
+        count(id) as totalCount,
+        sum(if(match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        where delete_flag = 0
+        and dept_id = #{reqBO.deptId}
+        and project_id = #{reqBO.projectId}
+        <if test="reqBO.searchName!=null and reqBO.searchName!=''">
+            and specification like concat('%', #{reqBO.searchName}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${reqBO.params.dataScope}
+        group by specification
+        ) as data
+        order by data.metricsName desc
+    </select>
+
+    <select id="listLocationMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select
+        metricsId,
+        metricsName,
+        totalCount,
+        checkCount
+        from (
+        select a.location_id as metricsId,
+        l.location_name as metricsName,
+        count(a.id) as totalCount,
+        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        inner join location as l on a.location_id = l.id
+        where a.delete_flag = 0
+        and a.dept_id = #{reqBO.deptId}
+        and a.project_id = #{reqBO.projectId}
+        <if test="reqBO.searchName!=null and reqBO.searchName!=''">
+            and l.location_name like concat('%', #{reqBO.searchName}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${reqBO.params.dataScope}
+        group by a.location_id
+        ) as data
+        order by data.checkCount desc
+    </select>
+
+    <select id="listManagedDeptMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select
+        metricsId,
+        metricsName,
+        totalCount,
+        checkCount
+        from (
+        select a.managed_dept_Id as metricsId,
+        d.department_name as metricsName,
+        count(a.id) as totalCount,
+        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        inner join department as d on a.managed_dept_Id=d.id
+        where a.delete_flag = 0
+        and a.dept_id = #{reqBO.deptId}
+        and a.project_id = #{reqBO.projectId}
+        <if test="reqBO.searchName!=null and reqBO.searchName!=''">
+            and d.department_name like concat('%', #{reqBO.searchName}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${reqBO.params.dataScope}
+        group by a.managed_dept_Id
+        ) as data
+        order by data.checkCount desc
+    </select>
+    <select id="listUsingDeptMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select
+        metricsId,
+        metricsName,
+        totalCount,
+        checkCount
+        from (
+        select a.using_dept_Id as metricsId,
+        d.department_name as metricsName,
+        count(a.id) as totalCount,
+        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        inner join department as d on a.using_dept_Id=d.id
+        where a.delete_flag = 0
+        and a.dept_id = #{reqBO.deptId}
+        and a.project_id = #{reqBO.projectId}
+        <if test="reqBO.searchName!=null and reqBO.searchName!=''">
+            and d.department_name like concat('%', #{reqBO.searchName}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${reqBO.params.dataScope}
+        group by a.using_dept_Id
+        ) as data
+        order by data.checkCount desc
+    </select>
+
+    <select id="listManagedEmpMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select
+        metricsId,
+        metricsName,
+        totalCount,
+        checkCount
+        from (
+        select a.managed_emp_Id as metricsId,
+        e.employee_name as metricsName,
+        count(a.id) as totalCount,
+        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        inner join employee as e on a.managed_emp_Id = e.id
+        where a.delete_flag = 0
+        and a.dept_id = #{reqBO.deptId}
+        and a.project_id = #{reqBO.projectId}
+        <if test="reqBO.searchName!=null and reqBO.searchName!=''">
+            and e.employee_name like concat('%', #{reqBO.searchName}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${reqBO.params.dataScope}
+        group by a.managed_emp_Id
+        ) as data
+        order by data.metricsName desc
+    </select>
+
+    <select id="listUsingEmpMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select
+        metricsId,
+        metricsName,
+        totalCount,
+        checkCount
+        from (
+        select a.using_emp_Id as metricsId,
+        e.employee_name as metricsName,
+        count(a.id) as totalCount,
+        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        from asset as a
+        inner join employee as e on a.using_emp_Id = e.id
+        where a.delete_flag = 0
+        and a.dept_id = #{reqBO.deptId}
+        and a.project_id = #{reqBO.projectId}
+        <if test="reqBO.searchName!=null and reqBO.searchName!=''">
+            and e.employee_name like concat('%', #{reqBO.searchName}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${reqBO.params.dataScope}
+        group by a.using_emp_Id
+        ) as data
+        order by data.metricsName desc
+    </select>
+
 </mapper>

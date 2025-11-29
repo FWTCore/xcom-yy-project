@@ -133,4 +133,9 @@ public class ProjectServiceImpl implements ProjectService {
     public int deleteProjectById(Long id) {
         return projectMapper.deleteProjectById(id);
     }
+
+    @Override
+    public void changeProjectStatus(Long projectId) {
+        projectMapper.changeProjectStatus(projectId);
+    }
 }

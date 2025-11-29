@@ -17,7 +17,8 @@
         <result property="updatedByName" column="updated_by_name"/>
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
-    <resultMap type="com.ruoyi.business.domain.model.response.ProjectDetailVO" id="ProjectDetailResult" extends="ProjectResult">
+    <resultMap type="com.ruoyi.business.domain.model.response.ProjectDetailVO" id="ProjectDetailResult"
+               extends="ProjectResult">
         <result property="deptName" column="dept_name"/>
     </resultMap>
 
@@ -88,7 +89,8 @@
         order by p.updated_time desc,p.id desc
     </select>
 
-    <select id="selectProjectDetailList" parameterType="com.ruoyi.business.domain.model.Project" resultMap="ProjectDetailResult">
+    <select id="selectProjectDetailList" parameterType="com.ruoyi.business.domain.model.Project"
+            resultMap="ProjectDetailResult">
         select p.id,
         p.dept_id,
         p.project_name,
@@ -170,7 +172,7 @@
         from project as p
                  inner join sys_dept sd on p.dept_id = sd.dept_id and sd.del_flag = '0'
         where p.id = #{id}
-        and p.delete_flag=0
+          and p.delete_flag = 0
     </select>
     <select id="selectProjectByIds"
             resultMap="ProjectResult">
@@ -340,4 +342,23 @@
             #{id}
         </foreach>
     </delete>
+
+    <update id="changeProjectStatus">
+        update project
+        set project_status=1
+        where start_date >= now()
+        and end_date <![CDATA[ < ]]> now()
+        <if test="projectId!=null">
+            and id=#{projectId}
+        </if>
+        ;
+
+        update project
+        set project_status=2
+        where end_date > now()
+        <if test="projectId!=null">
+            and id=#{projectId}
+        </if>
+        ;
+    </update>
 </mapper>

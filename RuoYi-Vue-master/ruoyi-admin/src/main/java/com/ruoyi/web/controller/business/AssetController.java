@@ -4,21 +4,28 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.request.AssetBatchUpdateReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckRelationalReqBO;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
+import com.ruoyi.business.service.AssetCheckService;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.web.controller.business.convert.AssetCheckConvert;
 import com.ruoyi.web.controller.business.convert.WebAssetConvert;
 import com.ruoyi.web.controller.business.request.AssetBatchUpdateRequest;
+import com.ruoyi.web.controller.business.request.AssetCheckRelationalRequest;
 import com.ruoyi.web.controller.utils.ImageUrlUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -136,4 +143,14 @@ public class AssetController extends BaseController {
         AssetBatchUpdateReqBO batchUpdateReqBO = WebAssetConvert.INSTANCE.toAssetBatchUpdateReqBO(batchUpdateRequest);
         return toAjax(assetService.batchUpdate(batchUpdateReqBO));
     }
+
+    @ApiOperation("解除关联")
+    @PreAuthorize("@ss.hasPermi('business:asset:remove')")
+    @PostMapping(value = "/disassociate")
+    @Log(title = "解除关联", businessType = BusinessType.UPDATE)
+    @PutMapping("/{ids}")
+    public AjaxResult disassociate(@PathVariable Long[] ids) {
+        return toAjax(assetService.disassociate(ids));
+    }
+
 }

@@ -7,15 +7,20 @@ import com.ruoyi.business.domain.entity.DepartmentDO;
 import com.ruoyi.business.domain.entity.EmployeeDO;
 import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.entity.MaterialDO;
+import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.request.AssetBatchUpdateReqBO;
+import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
 import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
 import com.ruoyi.business.domain.model.OriginalAsset;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
+import com.ruoyi.business.event.AssetDataEvent;
 import com.ruoyi.business.mapper.AssetMapper;
 import com.ruoyi.business.domain.model.convert.AssetConvert;
 import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
@@ -28,6 +33,7 @@ import com.ruoyi.business.service.LocationService;
 import com.ruoyi.business.service.MaterialService;
 import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.business.service.ProjectService;
+import com.ruoyi.business.utils.AssetCodeUtil;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import com.ruoyi.common.core.domain.model.LoginUser;
@@ -38,11 +44,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,23 +71,25 @@ import static java.util.stream.Collectors.toMap;
 public class AssetServiceImpl implements AssetService {
 
     @Resource
-    private AssetMapper          assetMapper;
+    private AssetMapper               assetMapper;
     @Resource
-    private CategoryService      categoryService;
+    private CategoryService           categoryService;
     @Resource
-    private BrandService         brandService;
+    private BrandService              brandService;
     @Resource
-    private MaterialService      materialService;
+    private MaterialService           materialService;
     @Resource
-    private LocationService      locationService;
+    private LocationService           locationService;
     @Resource
-    private DepartmentService    departmentService;
+    private DepartmentService         departmentService;
     @Resource
-    private EmployeeService      employeeService;
+    private EmployeeService           employeeService;
     @Resource
-    private ProjectService       projectService;
+    private ProjectService            projectService;
     @Resource
-    private OriginalAssetService originalAssetService;
+    private OriginalAssetService      originalAssetService;
+    @Resource
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public HomeAssetStatsVO getHomeAssetStats(Long projectId) {
@@ -135,7 +145,9 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public int insertAsset(AssetDO asset) {
         asset.setBaseFieldValue();
-        return assetMapper.insertAsset(asset);
+        int respData = assetMapper.insertAsset(asset);
+        this.publishEvent(asset.getId());
+        return respData;
     }
 
     /**
@@ -147,7 +159,9 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public int updateAsset(AssetDO asset) {
         asset.setUpdatedFieldValue();
-        return assetMapper.updateAsset(asset);
+        int respData = assetMapper.updateAsset(asset);
+        this.publishEvent(asset.getId());
+        return respData;
     }
 
     @Override
@@ -155,7 +169,7 @@ public class AssetServiceImpl implements AssetService {
         if (Objects.isNull(asset.getProjectId()) || Objects.isNull(asset.getDeptId())) {
             throw new ServiceException("项目和单位数据异常");
         }
-        if (StringUtils.isBlank(asset.getTemporaryCode()) && StringUtils.isBlank(asset.getOriginalCode())) {
+        if (StringUtils.isBlank(asset.getTemporaryCode()) && StringUtils.isBlank(asset.getOriginalSubCode())) {
             throw new ServiceException("临时编码和原始编码不能同时为空");
         }
         ProjectDetailVO projectDetailVO = projectService.selectProjectById(asset.getProjectId());
@@ -172,7 +186,15 @@ public class AssetServiceImpl implements AssetService {
         asset.setCollectorUserName(loginUser.getUser().getNickName());
         asset.setCollectorTime(LocalDateTime.now());
         if (ObjectUtils.isEmpty(asset.getId())) {
-            return this.insertAsset(asset);
+            int respData = this.insertAsset(asset);
+            try {
+                if (StringUtils.isNotBlank(asset.getOriginalCode())) {
+                    originalAssetService.updateMatchStatic(asset.getOriginalCode());
+                }
+            } catch (Exception exception) {
+
+            }
+            return respData;
         } else {
             return this.updateAsset(asset);
         }
@@ -186,7 +208,11 @@ public class AssetServiceImpl implements AssetService {
      */
     @Override
     public int deleteAssetByIds(Long[] ids) {
-        return assetMapper.deleteAssetByIds(ids);
+        int respData = assetMapper.deleteAssetByIds(ids);
+        for (Long id : ids) {
+            this.publishEvent(id);
+        }
+        return respData;
     }
 
     /**
@@ -197,7 +223,9 @@ public class AssetServiceImpl implements AssetService {
      */
     @Override
     public int deleteAssetById(Long id) {
-        return assetMapper.deleteAssetById(id);
+        int respData = assetMapper.deleteAssetById(id);
+        this.publishEvent(id);
+        return respData;
     }
 
     @Override
@@ -238,7 +266,7 @@ public class AssetServiceImpl implements AssetService {
         });
 
         String maxTemporaryCode = assetList.get(0).getTemporaryCode();
-        List<String> codeList = generateAssetCode(maxTemporaryCode, copyReqBO.getCopyNum());
+        List<String> codeList = AssetCodeUtil.generateAssetCode(maxTemporaryCode, copyReqBO.getCopyNum());
         if (CollectionUtils.isEmpty(codeList)) {
             throw new ServiceException("资产复制生成编号异常");
         }
@@ -326,7 +354,7 @@ public class AssetServiceImpl implements AssetService {
         }
         AssetDO existAsset = assetList.get(0);
 
-        Boolean hasChangeCategory = false;
+        boolean hasChangeCategory = false;
         CategoryDO categoryDO = null;
         if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getCategoryId())) {
             categoryDO = categoryService.selectCategoryById(batchUpdateReqBO.getCategoryId());
@@ -491,11 +519,113 @@ public class AssetServiceImpl implements AssetService {
         return true;
     }
 
+    @Override
+    public AssetMetricsVO getPhysicalOverview(AssetBordReqBO reqBO) {
+        return assetMapper.getPhysicalOverview(reqBO.getDeptId(), reqBO.getProjectId());
+    }
+
+    @Override
+    public AssetMetricsVO getAssetNameMetrics(Long projectId, String assetName) {
+        return assetMapper.getAssetNameMetrics(projectId, assetName);
+    }
+
+    @Override
+    public AssetMetricsVO getUsingDeptMetrics(Long projectId, Long usingDeptId) {
+        return assetMapper.getUsingDeptMetrics(projectId, usingDeptId);
+    }
+
+    @Override
+    public AssetMetricsVO getLocationMetrics(Long projectId, Long locationId) {
+        return assetMapper.getLocationMetrics(projectId, locationId);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listCategoryMetrics(AssetCheckMetricsReqBO reqBO) {
+        return assetMapper.listCategoryMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listBrandMetrics(AssetCheckMetricsReqBO reqBO) {
+        return assetMapper.listBrandMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listAssetNameMetrics(AssetCheckMetricsReqBO reqBO) {
+        return assetMapper.listAssetNameMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listSpecificationMetrics(AssetCheckMetricsReqBO reqBO) {
+        return assetMapper.listSpecificationMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listLocationMetrics(AssetCheckMetricsReqBO reqBO) {
+        return assetMapper.listLocationMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listManagedDeptMetrics(AssetCheckMetricsReqBO reqBO) {
+        return assetMapper.listManagedDeptMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listUsingDeptMetrics(AssetCheckMetricsReqBO reqBO) {
+        return assetMapper.listUsingDeptMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listManagedEmpMetrics(AssetCheckMetricsReqBO reqBO) {
+        return assetMapper.listManagedEmpMetrics(reqBO);
+    }
+
+    @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
+    public List<AssetMetricsVO> listUsingEmpMetrics(AssetCheckMetricsReqBO reqBO) {
+        return assetMapper.listUsingEmpMetrics(reqBO);
+    }
+
+    @Override
+    public int disassociate(Long[] ids) {
+        List<AssetDO> assetDOS = this.selectAssetByIds(Arrays.asList(ids));
+        List<String> originalCodes = new ArrayList<>();
+        for (AssetDO assetDO : assetDOS) {
+            if (StringUtils.isBlank(assetDO.getOriginalSubCode()) && StringUtils.isBlank(assetDO.getOriginalCode())) {
+                continue;
+            }
+            if (StringUtils.isNotBlank(assetDO.getOriginalCode())) {
+                originalCodes.add(assetDO.getOriginalCode());
+            }
+            assetDO.setOriginalSubCode(null);
+            assetDO.setOriginalCode(null);
+            this.updateAsset(assetDO);
+        }
+        for (String originalCode : originalCodes) {
+            try {
+                originalAssetService.updateMatchStatic(originalCode);
+            } catch (Exception exception) {
+
+            }
+        }
+        return 1;
+    }
+
     /**
      * 检查并设置值
      * @param data
      */
     private void validAndSetField(AssetDO data) {
+        if (StringUtils.isNotBlank(data.getOriginalSubCode())) {
+            data.setOriginalCode(getOriginalCode(data.getOriginalSubCode()));
+        }
         Asset searchAsset = new Asset();
         searchAsset.setDeptId(data.getDeptId());
         searchAsset.setProjectId(data.getProjectId());
@@ -506,14 +636,52 @@ public class AssetServiceImpl implements AssetService {
         }
         List<AssetDO> assetList = this.selectAssetList(searchAsset);
         if (CollectionUtils.isNotEmpty(assetList)) {
-            if (assetList.size() > 1) {
-                throw new ServiceException("临时/原始编码存在多个，请核对数据");
+            if (StringUtils.isNotBlank(data.getTemporaryCode())) {
+                if (assetList.size() > 1) {
+                    throw new ServiceException("临时/原始编码存在多个，请核对数据");
+                }
+                AssetDO existAsset = assetList.get(0);
+                //存在的情况，不能编辑编码
+                if (StringUtils.equals(data.getTemporaryCode(), existAsset.getTemporaryCode())) {
+                    throw new ServiceException("编辑资产，不能修改临时编码");
+                }
+                if (StringUtils.isNotBlank(data.getOriginalSubCode())
+                    && StringUtils.equals(data.getOriginalSubCode(), existAsset.getOriginalSubCode())) {
+                    throw new ServiceException("编辑资产，不能修改原始编码");
+                }
+                data.setId(existAsset.getId());
+                data.setPrintStatus(existAsset.getPrintStatus());
+            } else {
+                List<AssetDO> originalAssetList = assetList.stream()
+                    .filter(e -> e.getOriginalSubCode().equals(data.getOriginalSubCode())).collect(Collectors.toList());
+                if (CollectionUtils.isEmpty(originalAssetList)) {
+                    assetList.sort((o1, o2) -> {
+                        String[] parts1 = o1.getOriginalSubCode().split("-");
+                        String[] parts2 = o2.getOriginalSubCode().split("-");
+                        if (parts2.length != parts1.length) {
+                            return Integer.compare(parts2.length, parts1.length);
+                        }
+                        return parts2[parts2.length - 1].compareTo(parts1[parts1.length - 1]);
+                    });
+                    String maxTemporaryCode = assetList.get(0).getOriginalSubCode();
+                    List<String> codeList = AssetCodeUtil.generateAssetCode(maxTemporaryCode, 1);
+                    if (CollectionUtils.isEmpty(codeList)) {
+                        throw new ServiceException("原始子编码生成异常");
+                    }
+                    data.setOriginalSubCode(codeList.get(0));
+                    data.setId(null);
+                } else if (originalAssetList.size() != 1) {
+                    throw new ServiceException("临时/原始编码存在多个，请核对数据");
+                } else {
+                    AssetDO existAsset = originalAssetList.get(0);
+                    data.setId(existAsset.getId());
+                    data.setPrintStatus(existAsset.getPrintStatus());
+                }
             }
-            AssetDO existAsset = assetList.get(0);
-            data.setId(existAsset.getId());
         } else {
             data.setId(null);
         }
+
         CategoryDO categoryDO = categoryService.selectCategoryById(data.getCategoryId());
         if (ObjectUtils.isEmpty(categoryDO)) {
             throw new ServiceException("门类不存在");
@@ -614,33 +782,7 @@ public class AssetServiceImpl implements AssetService {
         } else {
             throw new ServiceException("管理员工和使用员工必须填写1个");
         }
-    }
-
-    /**
-     * 生成资产code
-     * @param code
-     * @param copyNum
-     * @return
-     */
-    private List<String> generateAssetCode(String code, Integer copyNum) {
-        if (StringUtils.isBlank(code)) {
-            throw new ServiceException("编码不存在");
-        }
-        int startIndex = 0;
-        String assetCodePrefix = code;
-        if (code.contains("-")) {
-            String[] data = code.split("-");
-            if (data.length != 2) {
-                throw new ServiceException("编码格式错误，包含多个-");
-            }
-            assetCodePrefix = data[0];
-            startIndex = Integer.parseInt(data[1]);
-        }
-        List<String> resultData = new ArrayList<>();
-        for (int i = 1; i <= copyNum; i++) {
-            resultData.add(String.format("%s-%s", assetCodePrefix, startIndex + i));
-        }
-        return resultData;
+        compareChange(data);
     }
 
     /**
@@ -657,5 +799,79 @@ public class AssetServiceImpl implements AssetService {
             throw new ServiceException("编码格式错误，包含多个-");
         }
         return data[0];
+    }
+
+    /**
+     * 对比是否变化
+     * @param data
+     */
+    private void compareChange(AssetDO data) {
+        if (StringUtils.isBlank(data.getOriginalSubCode())) {
+            data.setMatchStatus(0);
+            data.setPrintStatus(0);
+            return;
+        }
+        data.setMatchStatus(1);
+
+        OriginalAsset originalAsset = new OriginalAsset();
+        originalAsset.setDeptId(data.getDeptId());
+        originalAsset.setProjectId(data.getProjectId());
+        originalAsset.setOriginalCode(data.getOriginalCode());
+        List<OriginalAssetDO> originalAssetDOS = originalAssetService.selectOriginalAssetList(originalAsset);
+        if (CollectionUtils.isEmpty(originalAssetDOS)) {
+            throw new ServiceException("原始编码不存在，请导入数据后再试");
+        }
+        if (originalAssetDOS.size() != 1) {
+            throw new ServiceException("原始编码重复，请导入数据后再试");
+        }
+        OriginalAssetDO originalAssetDO = originalAssetDOS.get(0);
+        if (!Objects.equals(data.getLocationId(), originalAssetDO.getLocationId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getCategoryId(), originalAssetDO.getCategoryId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!StringUtils.equals(data.getBrandName(), originalAssetDO.getBrandName())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!StringUtils.equals(data.getAssetName(), originalAssetDO.getAssetName())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!StringUtils.equals(data.getSpecification(), originalAssetDO.getSpecification())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getManagedDeptId(), originalAssetDO.getManagedDeptId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getUsingDeptId(), originalAssetDO.getUsingDeptId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getManagedEmpId(), originalAssetDO.getManagedEmpId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getUsingEmpId(), originalAssetDO.getUsingEmpId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+    }
+
+    /**
+     * 发布事件
+     * @param id
+     */
+    private void publishEvent(Long id) {
+        try {
+            applicationEventPublisher.publishEvent(new AssetDataEvent(this, id));
+        } catch (Exception exception) {
+            log.error("");
+        }
     }
 }
