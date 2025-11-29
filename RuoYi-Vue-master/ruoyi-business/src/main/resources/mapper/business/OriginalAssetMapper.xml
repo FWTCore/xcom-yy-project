@@ -754,7 +754,7 @@
             and c.category_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by a.category_id
         ) as data
         order by data.metricsName desc
@@ -779,7 +779,7 @@
             and a.brand_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by a.brand_name
         ) as data
         order by data.metricsName desc
@@ -804,7 +804,7 @@
             and asset_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by asset_name
         ) as data
         order by data.checkCount desc
@@ -829,7 +829,7 @@
             and specification like concat('%', #{reqBO.searchName}, '%')
         </if>
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by specification
         ) as data
         order by data.metricsName desc
@@ -852,7 +852,7 @@
         and project_id = #{reqBO.projectId}
 
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by obtain_time_day
         ) as data
         order by data.metricsName desc
@@ -878,7 +878,7 @@
             and l.location_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by a.location_id
         ) as data
         order by data.checkCount desc
@@ -904,7 +904,7 @@
             and d.department_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by a.managed_dept_Id
         ) as data
         order by data.metricsName desc
@@ -929,7 +929,7 @@
             and d.department_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by a.using_dept_Id
         ) as data
         order by data.checkCount desc
@@ -955,7 +955,7 @@
             and e.employee_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by a.managed_emp_Id
         ) as data
         order by data.metricsName desc
@@ -981,7 +981,7 @@
             and e.employee_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        ${reqBO.params.dataScope}
         group by a.using_emp_Id
         ) as data
         order by data.metricsName desc

@@ -1,11 +1,15 @@
 package com.ruoyi.web.controller.business.request;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ruoyi.common.core.domain.BaseEntityDO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 账实核对指标请求模型
@@ -16,9 +20,9 @@ import java.io.Serializable;
 
 @ApiModel(value = "账实核对指标请求模型")
 @Data
-public class AssetCheckMetricsRequest implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class AssetCheckMetricsRequest extends BaseEntityDO {
 
-    private static final long serialVersionUID = -7059884802225152123L;
 
     @ApiModelProperty(value = "pageNum")
     @NotNull(message = "pageNum不能为空")

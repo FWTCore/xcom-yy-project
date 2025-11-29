@@ -1,6 +1,8 @@
 package com.ruoyi.business.domain.model.request;
 
+import com.ruoyi.common.core.domain.BaseEntityDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -11,27 +13,26 @@ import java.io.Serializable;
  * @date 2025/11/23
  */
 @Data
-public class AssetCheckMetricsReqBO implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class AssetCheckMetricsReqBO extends BaseEntityDO {
 
-    private static final long serialVersionUID = -7059884802225152123L;
-
-    private Integer           pageNum;
-    private Integer           pageSize;
+    private Integer pageNum;
+    private Integer pageSize;
     /**
      * 所属单位id
      */
-    private Long              deptId;
+    private Long    deptId;
     /**
      * 项目id
      */
-    private Long              projectId;
+    private Long    projectId;
     /**
      * 指标类型
      * 0->门类,1->品牌；2->名称；3-> 型号；4-> 取得时间,5->存放地点,6->管理部门,7->使用部门,8->管理人,9->使用人
      */
-    private Integer           metricsType;
+    private Integer metricsType;
     /**
      * 模糊搜索
      */
-    private String            searchName;
+    private String  searchName;
 }

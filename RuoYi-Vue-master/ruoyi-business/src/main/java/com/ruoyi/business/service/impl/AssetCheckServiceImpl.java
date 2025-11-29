@@ -1,5 +1,7 @@
 package com.ruoyi.business.service.impl;
 
+import com.ruoyi.business.domain.entity.AssetDO;
+import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
@@ -15,10 +17,12 @@ import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * AssetCheckService
@@ -44,7 +48,6 @@ public class AssetCheckServiceImpl implements AssetCheckService {
 
     @Override
     public List<AssetMetricsVO> listPhysicalMetrics(AssetCheckMetricsReqBO reqBO) {
-
         switch (reqBO.getMetricsType()) {
             case 0:
                 // 门类
@@ -147,11 +150,17 @@ public class AssetCheckServiceImpl implements AssetCheckService {
 
     @Override
     public Boolean relational(AssetCheckRelationalReqBO reqBO) {
-
-
-
-
-
+        List<AssetDO> assetDOList = assetService.selectAssetByIds(reqBO.getPhysicalIds());
+        if (CollectionUtils.isEmpty(assetDOList) || assetDOList.size() != reqBO.getPhysicalIds().size()) {
+            throw new ServiceException("实物资产有不存在的数据，请刷新页面后再试！");
+        }
+        if (assetDOList.stream().anyMatch(e -> Objects.equals(e.getMatchStatus(), 1))) {
+            throw new ServiceException("实物资产存在已匹配的数据，请刷新页面后再试！");
+        }
+        OriginalAssetDO originalAssetDO = originalAssetService.selectOriginalAssetById(reqBO.getLedgerId());
+        if (ObjectUtils.isEmpty(originalAssetDO)) {
+            throw new ServiceException("账务资产不存在，请刷核对后再试！");
+        }
 
         return null;
     }

@@ -54,7 +54,7 @@ public class AssetCheckController extends BaseController {
     /**
      * 指标列表
      */
-    @PreAuthorize("@ss.hasPermi('check:verification:list')")
+//    @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/physical/metrics/list")
     public TableDataInfo listPhysicalMetrics(@Valid @NotNull(message = "参数不能为空") AssetCheckMetricsRequest request) {
         startPage();
@@ -66,7 +66,7 @@ public class AssetCheckController extends BaseController {
     /**
      * 查询实物资产列表
      */
-    @PreAuthorize("@ss.hasPermi('check:verification:list')")
+//    @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/physical/list")
     public TableDataInfo listPhysical(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
         startPage();
@@ -78,7 +78,7 @@ public class AssetCheckController extends BaseController {
     /**
      * 指标列表
      */
-    @PreAuthorize("@ss.hasPermi('check:verification:list')")
+//    @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/ledger/metrics/list")
     public TableDataInfo listLedgerMetrics(@Valid @NotNull(message = "参数不能为空") AssetCheckMetricsRequest request) {
         startPage();
@@ -90,7 +90,7 @@ public class AssetCheckController extends BaseController {
     /**
      * 查询账务资产列表
      */
-    @PreAuthorize("@ss.hasPermi('check:verification:list')")
+//    @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/ledger/list")
     public TableDataInfo listLedger(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
         startPage();

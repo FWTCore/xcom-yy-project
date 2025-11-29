@@ -410,6 +410,7 @@
         where a.delete_flag = 0
         and a.dept_id = #{deptId}
         and a.project_id = #{projectId}
+        and a.match_status = 0
         <if test="categoryIds != null and categoryIds.length > 0">
             AND a.category_id in
             <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
@@ -544,6 +545,7 @@
         where a.delete_flag = 0
         and a.dept_id = #{deptId}
         and a.project_id = #{projectId}
+        and a.match_status = 0
         <if test="categoryIds != null and categoryIds.length > 0">
             AND a.category_id in
             <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
