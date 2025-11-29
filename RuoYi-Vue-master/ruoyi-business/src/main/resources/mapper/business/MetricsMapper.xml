@@ -412,62 +412,62 @@
         and a.dept_id = #{deptId}
         and a.project_id = #{projectId}
         and a.match_status = 0
-        <if test="categoryIds != null and categoryIds.length > 0">
+        <if test="categoryIds != null and categoryIds.size() > 0">
             AND a.category_id in
             <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
                 #{categoryId}
             </foreach>
         </if>
-        <if test="brandNames != null and brandNames.length > 0">
+        <if test="brandNames != null and brandNames.size() > 0">
             AND a.brand_name in
             <foreach collection="brandNames" item="brandName" open="(" separator="," close=")">
                 #{brandName}
             </foreach>
         </if>
-        <if test="assetNames != null and assetNames.length > 0">
+        <if test="assetNames != null and assetNames.size() > 0">
             AND a.asset_name in
             <foreach collection="assetNames" item="assetName" open="(" separator="," close=")">
                 #{assetName}
             </foreach>
         </if>
-        <if test="specifications != null and specifications.length > 0">
+        <if test="specifications != null and specifications.size() > 0">
             AND a.specification in
             <foreach collection="specifications" item="specification" open="(" separator="," close=")">
                 #{specification}
             </foreach>
         </if>
-        <if test="locationIds != null and locationIds.length > 0">
+        <if test="locationIds != null and locationIds.size() > 0">
             AND a.location_id in
             <foreach collection="locationIds" item="locationId" open="(" separator="," close=")">
                 #{locationId}
             </foreach>
         </if>
-        <if test="managedDeptIds != null and managedDeptIds.length > 0">
+        <if test="managedDeptIds != null and managedDeptIds.size() > 0">
             AND a.managed_dept_Id in
             <foreach collection="managedDeptIds" item="managedDeptId" open="(" separator="," close=")">
                 #{managedDeptId}
             </foreach>
         </if>
-        <if test="usingDeptIds != null and usingDeptIds.length > 0">
+        <if test="usingDeptIds != null and usingDeptIds.size() > 0">
             AND a.using_dept_Id in
             <foreach collection="usingDeptIds" item="usingDeptId" open="(" separator="," close=")">
                 #{usingDeptId}
             </foreach>
         </if>
-        <if test="managedEmpIds != null and managedEmpIds.length > 0">
+        <if test="managedEmpIds != null and managedEmpIds.size() > 0">
             AND a.managed_emp_Id in
             <foreach collection="managedEmpIds" item="managedEmpId" open="(" separator="," close=")">
                 #{managedEmpId}
             </foreach>
         </if>
-        <if test="usingEmpIds != null and usingEmpIds.length > 0">
+        <if test="usingEmpIds != null and usingEmpIds.size() > 0">
             AND a.using_emp_Id in
             <foreach collection="usingEmpIds" item="usingEmpId" open="(" separator="," close=")">
                 #{usingEmpId}
             </foreach>
         </if>
 
-        <if test="sortFields != null and sortFields.length > 0">
+        <if test="sortFields != null and sortFields.size() > 0">
             order by
             <foreach collection="sortFields" item="sortField" separator=",">
                 <choose>
@@ -547,61 +547,61 @@
         and a.dept_id = #{deptId}
         and a.project_id = #{projectId}
         and a.match_status = 0
-        <if test="categoryIds != null and categoryIds.length > 0">
+        <if test="categoryIds != null and categoryIds.size() > 0">
             AND a.category_id in
             <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
                 #{categoryId}
             </foreach>
         </if>
-        <if test="brandNames != null and brandNames.length > 0">
+        <if test="brandNames != null and brandNames.size() > 0">
             AND a.brand_name in
             <foreach collection="brandNames" item="brandName" open="(" separator="," close=")">
                 #{brandName}
             </foreach>
         </if>
-        <if test="assetNames != null and assetNames.length > 0">
+        <if test="assetNames != null and assetNames.size() > 0">
             AND a.asset_name in
             <foreach collection="assetNames" item="assetName" open="(" separator="," close=")">
                 #{assetName}
             </foreach>
         </if>
-        <if test="specifications != null and specifications.length > 0">
+        <if test="specifications != null and specifications.size() > 0">
             AND a.specification in
             <foreach collection="specifications" item="specification" open="(" separator="," close=")">
                 #{specification}
             </foreach>
         </if>
-        <if test="locationIds != null and locationIds.length > 0">
+        <if test="locationIds != null and locationIds.size() > 0">
             AND a.location_id in
             <foreach collection="locationIds" item="locationId" open="(" separator="," close=")">
                 #{locationId}
             </foreach>
         </if>
-        <if test="managedDeptIds != null and managedDeptIds.length > 0">
+        <if test="managedDeptIds != null and managedDeptIds.size() > 0">
             AND a.managed_dept_Id in
             <foreach collection="managedDeptIds" item="managedDeptId" open="(" separator="," close=")">
                 #{managedDeptId}
             </foreach>
         </if>
-        <if test="usingDeptIds != null and usingDeptIds.length > 0">
+        <if test="usingDeptIds != null and usingDeptIds.size() > 0">
             AND a.using_dept_Id in
             <foreach collection="usingDeptIds" item="usingDeptId" open="(" separator="," close=")">
                 #{usingDeptId}
             </foreach>
         </if>
-        <if test="managedEmpIds != null and managedEmpIds.length > 0">
+        <if test="managedEmpIds != null and managedEmpIds.size() > 0">
             AND a.managed_emp_Id in
             <foreach collection="managedEmpIds" item="managedEmpId" open="(" separator="," close=")">
                 #{managedEmpId}
             </foreach>
         </if>
-        <if test="usingEmpIds != null and usingEmpIds.length > 0">
+        <if test="usingEmpIds != null and usingEmpIds.size() > 0">
             AND a.using_emp_Id in
             <foreach collection="usingEmpIds" item="usingEmpId" open="(" separator="," close=")">
                 #{usingEmpId}
             </foreach>
         </if>
-        <if test="sortFields != null and sortFields.length > 0">
+        <if test="sortFields != null and sortFields.size() > 0">
             order by
             <foreach collection="sortFields" item="sortField" separator=",">
                 <choose>
