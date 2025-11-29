@@ -168,7 +168,7 @@ public class AssetCheckServiceImpl implements AssetCheckService {
         if (ObjectUtils.isEmpty(originalAssetDO)) {
             throw new ServiceException("账务资产不存在，请刷核对后再试！");
         }
-        if (assetDOList.get(0).getProjectId().equals(originalAssetDO.getProjectId())) {
+        if (!assetDOList.get(0).getProjectId().equals(originalAssetDO.getProjectId())) {
             throw new ServiceException("实物、账务资产必须属于同一资产，请刷核对后再试！");
         }
         Asset searchAsset = new Asset();
