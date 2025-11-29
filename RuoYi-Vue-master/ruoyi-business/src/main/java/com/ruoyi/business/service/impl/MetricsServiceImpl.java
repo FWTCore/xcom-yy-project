@@ -9,7 +9,6 @@ import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO;
 import com.ruoyi.business.mapper.MetricsMapper;
 import com.ruoyi.business.service.MetricsService;
-import com.ruoyi.common.core.page.TableDataInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -123,4 +122,15 @@ public class MetricsServiceImpl implements MetricsService {
     public List<OriginalAssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO) {
         return metricsMapper.listLedger(assetCheckBO);
     }
+
+    @Override
+    public boolean upsetPhysicalMetrics(Long projectId) {
+        return metricsMapper.upsetPhysicalMetrics(projectId);
+    }
+
+    @Override
+    public boolean upsetLedgerMetrics(Long projectId) {
+        return metricsMapper.upsetLedgerMetrics(projectId);
+    }
+
 }

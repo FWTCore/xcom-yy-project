@@ -7,7 +7,6 @@ import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO;
-import com.ruoyi.common.core.page.TableDataInfo;
 
 import java.util.List;
 
@@ -75,13 +74,13 @@ public interface MetricsService {
      */
     int deleteMetricsById(Long id);
 
-
     /**
      * 查询资产指标
      * @param assetBordReqBO
      * @return
      */
     List<AssetMetricsVO> listPhysicalBordMetrics(AssetBordReqBO assetBordReqBO);
+
     /**
      * 查询资产指标
      * @param assetBordReqBO
@@ -95,10 +94,24 @@ public interface MetricsService {
      * @return
      */
     List<AssetDataDetailVO> listPhysical(AssetCheckBO assetCheckBO);
+
     /**
      * 获取实物资产列表
      * @param assetCheckBO
      * @return
      */
     List<OriginalAssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO);
+
+    /**
+     * 更新实物资产名称统计
+     * @param projectId
+     * @return
+     */
+    boolean upsetPhysicalMetrics(Long projectId);
+    /**
+     * 更新实物资产名称统计
+     * @param projectId
+     * @return
+     */
+    boolean upsetLedgerMetrics(Long projectId);
 }

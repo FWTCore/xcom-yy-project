@@ -2,6 +2,7 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.AssetDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
+import com.ruoyi.business.domain.model.Asset;
 import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
@@ -15,13 +16,16 @@ import com.ruoyi.business.service.AssetService;
 import com.ruoyi.business.service.MetricsService;
 import com.ruoyi.business.service.OriginalAssetDataService;
 import com.ruoyi.business.service.OriginalAssetService;
+import com.ruoyi.business.utils.AssetCodeUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,7 +47,6 @@ public class AssetCheckServiceImpl implements AssetCheckService {
     private OriginalAssetService     originalAssetService;
     @Resource
     private OriginalAssetDataService originalAssetDataService;
-
     @Resource
     private MetricsService           metricsService;
 
@@ -158,11 +161,96 @@ public class AssetCheckServiceImpl implements AssetCheckService {
         if (assetDOList.stream().anyMatch(e -> Objects.equals(e.getMatchStatus(), 1))) {
             throw new ServiceException("实物资产存在已匹配的数据，请刷新页面后再试！");
         }
+        if (assetDOList.stream().map(AssetDO::getProjectId).distinct().count() != 1L) {
+            throw new ServiceException("实物资产必须属于同一资产，请刷核对后再试！");
+        }
         OriginalAssetDO originalAssetDO = originalAssetService.selectOriginalAssetById(reqBO.getLedgerId());
         if (ObjectUtils.isEmpty(originalAssetDO)) {
             throw new ServiceException("账务资产不存在，请刷核对后再试！");
         }
+        if (assetDOList.get(0).getProjectId().equals(originalAssetDO.getProjectId())) {
+            throw new ServiceException("实物、账务资产必须属于同一资产，请刷核对后再试！");
+        }
+        Asset searchAsset = new Asset();
+        searchAsset.setDeptId(originalAssetDO.getDeptId());
+        searchAsset.setProjectId(originalAssetDO.getProjectId());
+        searchAsset.setOriginalCode(originalAssetDO.getOriginalCode());
+        List<AssetDO> assetList = assetService.selectAssetList(searchAsset);
+        List<String> originalSubCode = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(assetList)) {
+            assetList.sort((o1, o2) -> {
+                String[] parts1 = o1.getOriginalSubCode().split("-");
+                String[] parts2 = o2.getOriginalSubCode().split("-");
+                if (parts2.length != parts1.length) {
+                    return Integer.compare(parts2.length, parts1.length);
+                }
+                return parts2[parts2.length - 1].compareTo(parts1[parts1.length - 1]);
+            });
+            String maxTemporaryCode = assetList.get(0).getOriginalSubCode();
+            originalSubCode = AssetCodeUtil.generateAssetCode(maxTemporaryCode, assetDOList.size());
+        } else {
+            originalSubCode.add(originalAssetDO.getOriginalCode());
+            originalSubCode
+                .addAll(AssetCodeUtil.generateAssetCode(originalAssetDO.getOriginalCode(), assetDOList.size() - 1));
+        }
+        int index = 0;
+        for (AssetDO assetDO : assetDOList) {
+            try {
+                assetDO.setOriginalCode(originalAssetDO.getOriginalCode());
+                assetDO.setOriginalSubCode(originalSubCode.get(index));
+                compareChange(assetDO, originalAssetDO);
+                assetService.updateAsset(assetDO);
+            } catch (Exception exception) {
 
-        return null;
+            }
+            index++;
+        }
+        originalAssetService.updateMatchStatic(originalAssetDO.getOriginalCode());
+        return true;
     }
+
+    /**
+     * 比较是否变化
+     * @param data
+     * @param originalAssetDO
+     */
+    private void compareChange(AssetDO data, OriginalAssetDO originalAssetDO) {
+        if (!Objects.equals(data.getLocationId(), originalAssetDO.getLocationId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getCategoryId(), originalAssetDO.getCategoryId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!StringUtils.equals(data.getBrandName(), originalAssetDO.getBrandName())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!StringUtils.equals(data.getAssetName(), originalAssetDO.getAssetName())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!StringUtils.equals(data.getSpecification(), originalAssetDO.getSpecification())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getManagedDeptId(), originalAssetDO.getManagedDeptId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getUsingDeptId(), originalAssetDO.getUsingDeptId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getManagedEmpId(), originalAssetDO.getManagedEmpId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+        if (!Objects.equals(data.getUsingEmpId(), originalAssetDO.getUsingEmpId())) {
+            data.setPrintStatus(1);
+            return;
+        }
+    }
+
 }

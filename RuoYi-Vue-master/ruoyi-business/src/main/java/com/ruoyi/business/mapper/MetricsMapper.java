@@ -101,4 +101,18 @@ public interface MetricsMapper {
      */
     List<OriginalAssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO);
 
+
+    /**
+     * 更新实物资产名称统计
+     * @param projectId
+     * @return
+     */
+    boolean upsetPhysicalMetrics(Long projectId);
+    /**
+     * 更新实物资产名称统计
+     * @param projectId
+     * @return
+     */
+    boolean upsetLedgerMetrics(Long projectId);
+
 }

@@ -4,6 +4,7 @@ import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDataDO;
 import com.ruoyi.business.domain.model.convert.OriginalAssetDataConvert;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.business.service.MetricsService;
 import com.ruoyi.business.service.OriginalAssetDataService;
 import com.ruoyi.business.service.OriginalAssetService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,14 +31,16 @@ public class OriginalAssetDataEventListener {
 
     @Resource
     private OriginalAssetService     originalAssetService;
+    @Resource
+    private MetricsService           metricsService;
 
     /**
      * 异步执行
      *
      * @param event
      */
-    @Async
-    @EventListener
+    //    @Async
+    //    @EventListener
     public void handle(OriginalAssetDataEvent event) {
         if (ObjectUtils.isEmpty(event) || ObjectUtils.isEmpty(event.getOriginalAssetId())) {
             return;
@@ -58,8 +61,8 @@ public class OriginalAssetDataEventListener {
         // 获取统计
         try {
 
-            AssetMetricsVO assetNameMetrics = originalAssetService
-                .getAssetNameMetrics(originalAssetData.getProjectId(), originalAssetData.getAssetName());
+            AssetMetricsVO assetNameMetrics = originalAssetService.getAssetNameMetrics(originalAssetData.getProjectId(),
+                originalAssetData.getAssetName());
             if (ObjectUtils.isEmpty(assetNameMetrics)) {
                 assetNameMetrics = new AssetMetricsVO();
                 assetNameMetrics.setTotalCount(0);
@@ -72,8 +75,8 @@ public class OriginalAssetDataEventListener {
         }
 
         try {
-            AssetMetricsVO locationMetrics = originalAssetService
-                .getLocationMetrics(originalAssetData.getProjectId(), originalAssetData.getLocationId());
+            AssetMetricsVO locationMetrics = originalAssetService.getLocationMetrics(originalAssetData.getProjectId(),
+                originalAssetData.getLocationId());
             if (ObjectUtils.isEmpty(locationMetrics)) {
                 locationMetrics = new AssetMetricsVO();
                 locationMetrics.setTotalCount(0);
@@ -86,8 +89,8 @@ public class OriginalAssetDataEventListener {
 
         }
         try {
-            AssetMetricsVO usingDeptMetrics = originalAssetService
-                .getUsingDeptMetrics(originalAssetData.getProjectId(), originalAssetData.getUsingDeptId());
+            AssetMetricsVO usingDeptMetrics = originalAssetService.getUsingDeptMetrics(originalAssetData.getProjectId(),
+                originalAssetData.getUsingDeptId());
             if (ObjectUtils.isEmpty(usingDeptMetrics)) {
                 usingDeptMetrics = new AssetMetricsVO();
                 usingDeptMetrics.setTotalCount(0);
@@ -96,6 +99,39 @@ public class OriginalAssetDataEventListener {
             originalAssetDataService.updateUsingDeptMetrics(originalAssetData.getProjectId(),
                 originalAssetData.getUsingDeptId(), usingDeptMetrics.getTotalCount(), usingDeptMetrics.getCheckCount());
 
+        } catch (Exception exception) {
+
+        }
+
+    }
+
+    /**
+     * 异步执行
+     *
+     * @param event
+     */
+    @Async
+    @EventListener
+    public void handleMysql(OriginalAssetDataEvent event) {
+        if (ObjectUtils.isEmpty(event) || ObjectUtils.isEmpty(event.getOriginalAssetId())) {
+            return;
+        }
+        OriginalAssetDO originalAssetDO = originalAssetService.selectOriginalAssetById(event.getOriginalAssetId());
+        if (ObjectUtils.isEmpty(originalAssetDO)) {
+            return;
+        }
+        OriginalAssetDataDO originalAssetData = originalAssetDataService
+            .getOriginalAssetDataByOriginalAssetId(event.getOriginalAssetId());
+        if (ObjectUtils.isEmpty(originalAssetData)) {
+            originalAssetData = new OriginalAssetDataDO();
+        }
+        originalAssetData = OriginalAssetDataConvert.INSTANCE.toOriginalAssetDataDO(originalAssetDO);
+        // 先保存，后面更新数量
+        originalAssetDataService.addOriginalAssetData(originalAssetData);
+
+        // 获取统计
+        try {
+            metricsService.upsetLedgerMetrics(originalAssetDO.getProjectId());
         } catch (Exception exception) {
 
         }

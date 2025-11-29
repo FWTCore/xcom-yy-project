@@ -33,6 +33,7 @@ import com.ruoyi.business.service.LocationService;
 import com.ruoyi.business.service.MaterialService;
 import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.business.service.ProjectService;
+import com.ruoyi.business.utils.AssetCodeUtil;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.core.domain.BaseEntityDO;
 import com.ruoyi.common.core.domain.model.LoginUser;
@@ -264,7 +265,7 @@ public class AssetServiceImpl implements AssetService {
         });
 
         String maxTemporaryCode = assetList.get(0).getTemporaryCode();
-        List<String> codeList = generateAssetCode(maxTemporaryCode, copyReqBO.getCopyNum());
+        List<String> codeList = AssetCodeUtil.generateAssetCode(maxTemporaryCode, copyReqBO.getCopyNum());
         if (CollectionUtils.isEmpty(codeList)) {
             throw new ServiceException("资产复制生成编号异常");
         }
@@ -352,7 +353,7 @@ public class AssetServiceImpl implements AssetService {
         }
         AssetDO existAsset = assetList.get(0);
 
-        Boolean hasChangeCategory = false;
+        boolean hasChangeCategory = false;
         CategoryDO categoryDO = null;
         if (ObjectUtils.isNotEmpty(batchUpdateReqBO.getCategoryId())) {
             categoryDO = categoryService.selectCategoryById(batchUpdateReqBO.getCategoryId());
@@ -637,7 +638,7 @@ public class AssetServiceImpl implements AssetService {
                         return parts2[parts2.length - 1].compareTo(parts1[parts1.length - 1]);
                     });
                     String maxTemporaryCode = assetList.get(0).getOriginalSubCode();
-                    List<String> codeList = generateAssetCode(maxTemporaryCode, 1);
+                    List<String> codeList = AssetCodeUtil.generateAssetCode(maxTemporaryCode, 1);
                     if (CollectionUtils.isEmpty(codeList)) {
                         throw new ServiceException("原始子编码生成异常");
                     }
@@ -756,33 +757,6 @@ public class AssetServiceImpl implements AssetService {
             throw new ServiceException("管理员工和使用员工必须填写1个");
         }
         compareChange(data);
-    }
-
-    /**
-     * 生成资产code
-     * @param code
-     * @param copyNum
-     * @return
-     */
-    private List<String> generateAssetCode(String code, Integer copyNum) {
-        if (StringUtils.isBlank(code)) {
-            throw new ServiceException("编码不存在");
-        }
-        int startIndex = 0;
-        String assetCodePrefix = code;
-        if (code.contains("-")) {
-            String[] data = code.split("-");
-            if (data.length != 2) {
-                throw new ServiceException("编码格式错误，包含多个-");
-            }
-            assetCodePrefix = data[0];
-            startIndex = Integer.parseInt(data[1]);
-        }
-        List<String> resultData = new ArrayList<>();
-        for (int i = 1; i <= copyNum; i++) {
-            resultData.add(String.format("%s-%s", assetCodePrefix, startIndex + i));
-        }
-        return resultData;
     }
 
     /**

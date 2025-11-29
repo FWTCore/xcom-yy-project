@@ -6,6 +6,7 @@ import com.ruoyi.business.domain.model.convert.AssetDataConvert;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.AssetDataService;
 import com.ruoyi.business.service.AssetService;
+import com.ruoyi.business.service.MetricsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.event.EventListener;
@@ -30,14 +31,16 @@ public class AssetDataEventListener {
 
     @Resource
     private AssetService     assetService;
+    @Resource
+    private MetricsService   metricsService;
 
     /**
      * 异步执行
      *
      * @param event
-     */
-    @Async
-    @EventListener
+    //     */
+    //    @Async
+    //    @EventListener
     public void handle(AssetDataEvent event) {
         if (ObjectUtils.isEmpty(event) || ObjectUtils.isEmpty(event.getAssetId())) {
             return;
@@ -92,6 +95,29 @@ public class AssetDataEventListener {
             }
             assetDataService.updateUsingDeptMetrics(assetData.getProjectId(), assetData.getLocationId(),
                 usingDeptMetrics.getTotalCount(), usingDeptMetrics.getCheckCount());
+        } catch (Exception exception) {
+
+        }
+    }
+
+    /**
+     * 异步执行
+     *
+     * @param event
+     */
+    @Async
+    @EventListener
+    public void handleMysql(AssetDataEvent event) {
+        if (ObjectUtils.isEmpty(event) || ObjectUtils.isEmpty(event.getAssetId())) {
+            return;
+        }
+        AssetDO assetDO = assetService.selectAssetById(event.getAssetId());
+        if (ObjectUtils.isEmpty(assetDO)) {
+            return;
+        }
+        // 获取统计
+        try {
+            metricsService.upsetPhysicalMetrics(assetDO.getProjectId());
         } catch (Exception exception) {
 
         }
