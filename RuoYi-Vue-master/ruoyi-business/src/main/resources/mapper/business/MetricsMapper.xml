@@ -302,6 +302,27 @@
         </foreach>
     </delete>
 
+    <select id="listPhysicalBordMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
+        select case when #{metricsType} = 1 then biz_key else biz_id end as metricsId,
+        biz_name as metricsName,
+        total_count as totalCount,
+        check_count as checkCount
+        from metrics
+        where delete_flag = 0
+        and dept_id = #{deptId}
+        and project_id = #{projectId}
+        and biz_type = 1
+        and metrics_type = #{metricsType}
+        <choose>
+            <when test="orderFlag != null and !orderFlag">
+                order by totalCount asc
+            </when>
+            <otherwise>
+                order by totalCount desc
+            </otherwise>
+        </choose>
+    </select>
+
     <select id="listLedgerBordMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select case when #{metricsType} = 1 then biz_key else biz_id end as metricsId,
         biz_name as metricsName,
@@ -323,24 +344,4 @@
         </choose>
     </select>
 
-    <select id="listPhysicalBordMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
-        select case when #{metricsType} = 1 then biz_key else biz_id end as metricsId,
-        biz_name as metricsName,
-        total_count as totalCount,
-        check_count as checkCount
-        from metrics
-        where delete_flag = 0
-        and dept_id = #{deptId}
-        and project_id = #{projectId}
-        and biz_type = 1
-        and metrics_type = #{metricsType}
-        <choose>
-            <when test="orderFlag != null and !orderFlag">
-                order by totalCount asc
-            </when>
-            <otherwise>
-                order by totalCount desc
-            </otherwise>
-        </choose>
-    </select>
 </mapper>

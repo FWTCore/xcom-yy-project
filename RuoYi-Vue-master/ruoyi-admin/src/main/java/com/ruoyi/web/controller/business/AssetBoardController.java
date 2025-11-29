@@ -102,7 +102,7 @@ public class AssetBoardController extends BaseController {
             request.setOrderFlag(true);
         }
         AssetBordReqBO assetBordReqBO = AssetBoardConvert.INSTANCE.toAssetBordReqBO(request);
-        List<AssetMetricsVO> respData = metricsService.listPhysicalBordMetrics(assetBordReqBO);
+        List<AssetMetricsVO> respData = metricsService.listLedgerBordMetrics(assetBordReqBO);
 //        List<AssetMetricsVO> respData = originalAssetDataService.listLedgerBord(assetBordReqBO);
         return success(respData);
     }
