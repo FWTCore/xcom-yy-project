@@ -323,10 +323,10 @@
         and metrics_type = #{metricsType}
         <choose>
             <when test="orderFlag != null and !orderFlag">
-                order by totalCount asc
+                order by total_count asc
             </when>
             <otherwise>
-                order by totalCount desc
+                order by total_count desc
             </otherwise>
         </choose>
         limit 10
@@ -345,10 +345,10 @@
         and metrics_type = #{metricsType}
         <choose>
             <when test="orderFlag != null and !orderFlag">
-                order by totalCount asc
+                order by total_count asc
             </when>
             <otherwise>
-                order by totalCount desc
+                order by total_count desc
             </otherwise>
         </choose>
         limit 10
@@ -475,13 +475,13 @@
                         a.category_name
                     </when>
                     <when test="sortField = 1 ">
-                        ma.totalCount desc
+                        ma.total_count desc
                     </when>
                     <when test="sortField = 3 ">
-                        md.totalCount desc
+                        md.total_count desc
                     </when>
                     <when test="sortField = 4 ">
-                        ml.totalCount desc
+                        ml.total_count desc
                     </when>
                     <when test="sortField = 5 ">
                         a.using_emp_Id
@@ -609,16 +609,16 @@
                         a.category_name
                     </when>
                     <when test="sortField = 1 ">
-                        ma.totalCount desc
+                        ma.total_count desc
                     </when>
                     <when test="sortField = 2 ">
                         a.obtain_time_day desc
                     </when>
                     <when test="sortField = 3 ">
-                        md.totalCount desc
+                        md.total_count desc
                     </when>
                     <when test="sortField = 4 ">
-                        ml.totalCount desc
+                        ml.total_count desc
                     </when>
                     <when test="sortField = 5 ">
                         a.using_emp_Id
