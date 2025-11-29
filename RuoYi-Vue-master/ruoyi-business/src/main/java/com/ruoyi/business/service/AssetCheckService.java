@@ -3,6 +3,7 @@ package com.ruoyi.business.service;
 import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckRelationalReqBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -52,11 +53,19 @@ public interface AssetCheckService {
      * @return
      */
     TableDataInfo listLedger(AssetCheckBO assetCheckBO);
+
     /**
      * 获取实物资产列表
      * @param assetCheckBO
      * @return
      */
     List<AssetDataDetailVO> listLedgerForMysql(AssetCheckBO assetCheckBO);
+
+    /**
+     * 资产关联
+     * @param reqBO
+     * @return
+     */
+    Boolean relational(AssetCheckRelationalReqBO reqBO);
 
 }

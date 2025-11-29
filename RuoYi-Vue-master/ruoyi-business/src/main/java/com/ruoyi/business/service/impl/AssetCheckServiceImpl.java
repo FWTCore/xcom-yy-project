@@ -3,6 +3,7 @@ package com.ruoyi.business.service.impl;
 import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckRelationalReqBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.AssetCheckService;
@@ -142,5 +143,16 @@ public class AssetCheckServiceImpl implements AssetCheckService {
             assetCheckBO.getSortFields().sort(Integer::compareTo);
         }
         return metricsService.listLedger(assetCheckBO);
+    }
+
+    @Override
+    public Boolean relational(AssetCheckRelationalReqBO reqBO) {
+
+
+
+
+
+
+        return null;
     }
 }

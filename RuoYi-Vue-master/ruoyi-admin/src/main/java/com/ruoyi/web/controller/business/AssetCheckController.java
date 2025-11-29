@@ -3,18 +3,30 @@ package com.ruoyi.web.controller.business;
 import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckRelationalReqBO;
+import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.AssetCheckService;
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.web.controller.business.convert.AssetCheckConvert;
 import com.ruoyi.web.controller.business.request.AssetCheckMetricsRequest;
+import com.ruoyi.web.controller.business.request.AssetCheckRelationalRequest;
 import com.ruoyi.web.controller.business.request.AssetCheckRequest;
+import com.ruoyi.web.controller.business.request.AssetCopyRequest;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -83,10 +95,16 @@ public class AssetCheckController extends BaseController {
     public TableDataInfo listLedger(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
         startPage();
         AssetCheckBO assetCheckBO = AssetCheckConvert.INSTANCE.toAssetCheckBO(request);
-        List<AssetDataDetailVO> respData = assetCheckService.listPhysicalForMysql(assetCheckBO);
+        List<AssetDataDetailVO> respData = assetCheckService.listLedgerForMysql(assetCheckBO);
         return getDataTable(respData);
     }
 
-
+    @ApiOperation("资产关联")
+    @PostMapping(value = "/relational")
+    @Log(title = "资产关联", businessType = BusinessType.UPDATE)
+    public AjaxResult relational(@RequestBody @Validated @NotNull AssetCheckRelationalRequest request) {
+        AssetCheckRelationalReqBO reqBO = AssetCheckConvert.INSTANCE.toAssetCheckRelationalReqBO(request);
+        return success(assetCheckService.relational(reqBO));
+    }
 
 }
