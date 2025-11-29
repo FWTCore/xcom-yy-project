@@ -4,6 +4,7 @@ import com.ruoyi.business.domain.model.request.AssetBordReqBO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.AssetDataService;
 import com.ruoyi.business.service.AssetService;
+import com.ruoyi.business.service.MetricsService;
 import com.ruoyi.business.service.OriginalAssetDataService;
 import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.common.core.controller.BaseController;
@@ -45,6 +46,8 @@ public class AssetBoardController extends BaseController {
     private AssetDataService         assetDataService;
     @Resource
     private OriginalAssetDataService originalAssetDataService;
+    @Resource
+    private MetricsService           metricsService;
 
     /**
      * 实物资产报表 概览
@@ -70,7 +73,8 @@ public class AssetBoardController extends BaseController {
             request.setOrderFlag(true);
         }
         AssetBordReqBO assetBordReqBO = AssetBoardConvert.INSTANCE.toAssetBordReqBO(request);
-        List<AssetMetricsVO> respData = assetDataService.listPhysicalBord(assetBordReqBO);
+        List<AssetMetricsVO> respData = metricsService.listPhysicalBordMetrics(assetBordReqBO);
+        //        List<AssetMetricsVO> respData = assetDataService.listPhysicalBord(assetBordReqBO);
         return success(respData);
     }
 
@@ -98,7 +102,8 @@ public class AssetBoardController extends BaseController {
             request.setOrderFlag(true);
         }
         AssetBordReqBO assetBordReqBO = AssetBoardConvert.INSTANCE.toAssetBordReqBO(request);
-        List<AssetMetricsVO> respData = originalAssetDataService.listLedgerBord(assetBordReqBO);
+        List<AssetMetricsVO> respData = metricsService.listPhysicalBordMetrics(assetBordReqBO);
+//        List<AssetMetricsVO> respData = originalAssetDataService.listLedgerBord(assetBordReqBO);
         return success(respData);
     }
 

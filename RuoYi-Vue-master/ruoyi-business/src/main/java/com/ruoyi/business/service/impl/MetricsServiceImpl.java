@@ -2,6 +2,8 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.MetricsDO;
 import com.ruoyi.business.domain.model.Metrics;
+import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.mapper.MetricsMapper;
 import com.ruoyi.business.service.MetricsService;
 import org.springframework.stereotype.Service;
@@ -96,5 +98,15 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public int deleteMetricsById(Long id) {
         return metricsMapper.deleteMetricsById(id);
+    }
+
+    @Override
+    public List<AssetMetricsVO> listPhysicalBordMetrics(AssetBordReqBO assetBordReqBO) {
+        return metricsMapper.listPhysicalBordMetrics(assetBordReqBO);
+    }
+
+    @Override
+    public List<AssetMetricsVO> listLedgerBordMetrics(AssetBordReqBO assetBordReqBO) {
+        return metricsMapper.listLedgerBordMetrics(assetBordReqBO);
     }
 }

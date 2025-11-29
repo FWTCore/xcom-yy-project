@@ -17,11 +17,23 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class MetricsDO extends BaseEntityDO {
 
+    /** 系统公司id */
+    private Long   deptId;
+
+    /** 项目id */
+    private Long   projectId;
+
     /** 业务id 数字 */
     private Long   bizId;
 
     /** 业务key 字符串 */
     private String bizKey;
+
+    /** 业务名称 */
+    private String metricsName;
+
+    /** 业务类型 */
+    private Long   metricsType;
 
     /** 业务类型 */
     private Long   bizType;

@@ -2,6 +2,8 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.MetricsDO;
 import com.ruoyi.business.domain.model.Metrics;
+import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 
 import java.util.List;
 
@@ -67,4 +69,18 @@ public interface MetricsMapper {
      * @return 结果
      */
     int deleteMetricsByIds(Long[] ids);
+
+    /**
+     * 获取实物名称指标
+     * @param assetBordReqBO
+     * @return
+     */
+    List<AssetMetricsVO> listPhysicalBordMetrics(AssetBordReqBO assetBordReqBO);
+    /**
+     * 获取实物名称指标
+     * @param assetBordReqBO
+     * @return
+     */
+    List<AssetMetricsVO> listLedgerBordMetrics(AssetBordReqBO assetBordReqBO);
+
 }

@@ -2,6 +2,8 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.MetricsDO;
 import com.ruoyi.business.domain.model.Metrics;
+import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 
 import java.util.List;
 
@@ -68,4 +70,18 @@ public interface MetricsService {
      * @return 结果
      */
     int deleteMetricsById(Long id);
+
+
+    /**
+     * 查询资产指标
+     * @param assetBordReqBO
+     * @return
+     */
+    List<AssetMetricsVO> listPhysicalBordMetrics(AssetBordReqBO assetBordReqBO);
+    /**
+     * 查询资产指标
+     * @param assetBordReqBO
+     * @return
+     */
+    List<AssetMetricsVO> listLedgerBordMetrics(AssetBordReqBO assetBordReqBO);
 }
