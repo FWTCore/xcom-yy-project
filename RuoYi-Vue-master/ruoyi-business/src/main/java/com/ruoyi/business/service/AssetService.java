@@ -226,4 +226,12 @@ public interface AssetService {
      */
     List<AssetMetricsVO> listUsingEmpMetrics(AssetCheckMetricsReqBO reqBO);
 
+    /**
+     * 批量解除资产关联
+     *
+     * @param ids 需要删除的资产主键集合
+     * @return 结果
+     */
+    int disassociate(Long[] ids);
+
 }

@@ -50,6 +50,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -590,6 +591,31 @@ public class AssetServiceImpl implements AssetService {
     @DataScope(deptAlias = "a", projectAlias = "a")
     public List<AssetMetricsVO> listUsingEmpMetrics(AssetCheckMetricsReqBO reqBO) {
         return assetMapper.listUsingEmpMetrics(reqBO);
+    }
+
+    @Override
+    public int disassociate(Long[] ids) {
+        List<AssetDO> assetDOS = this.selectAssetByIds(Arrays.asList(ids));
+        List<String> originalCodes = new ArrayList<>();
+        for (AssetDO assetDO : assetDOS) {
+            if (StringUtils.isBlank(assetDO.getOriginalSubCode()) && StringUtils.isBlank(assetDO.getOriginalCode())) {
+                continue;
+            }
+            if (StringUtils.isNotBlank(assetDO.getOriginalCode())) {
+                originalCodes.add(assetDO.getOriginalCode());
+            }
+            assetDO.setOriginalSubCode(null);
+            assetDO.setOriginalCode(null);
+            this.updateAsset(assetDO);
+        }
+        for (String originalCode : originalCodes) {
+            try {
+                originalAssetService.updateMatchStatic(originalCode);
+            } catch (Exception exception) {
+
+            }
+        }
+        return 1;
     }
 
     /**
