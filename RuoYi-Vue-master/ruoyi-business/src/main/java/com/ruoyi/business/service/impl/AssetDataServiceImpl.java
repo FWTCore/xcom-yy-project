@@ -284,7 +284,7 @@ public class AssetDataServiceImpl implements AssetDataService {
         query.setSortOperation(sortStage);
         List<AssetMetricsVO> resultData = assetDataRepository.listAggregationData(query);
         if (CollectionUtils.isNotEmpty(resultData)) {
-            List<Long> usingDeptIds = resultData.stream().map(AssetMetricsVO::getMetricsId)
+            List<Long> usingDeptIds = resultData.stream().map(e -> Long.parseLong(e.getMetricsId()))
                 .filter(ObjectUtils::isNotEmpty).distinct().collect(Collectors.toList());
             List<DepartmentDO> departmentDOList = departmentService.selectDepartmentByIds(usingDeptIds);
             if (CollectionUtils.isNotEmpty(departmentDOList)) {
@@ -335,7 +335,7 @@ public class AssetDataServiceImpl implements AssetDataService {
         query.setSortOperation(sortStage);
         List<AssetMetricsVO> resultData = assetDataRepository.listAggregationData(query);
         if (CollectionUtils.isNotEmpty(resultData)) {
-            List<Long> locationIds = resultData.stream().map(AssetMetricsVO::getMetricsId)
+            List<Long> locationIds = resultData.stream().map(e -> Long.parseLong(e.getMetricsId()))
                 .filter(ObjectUtils::isNotEmpty).distinct().collect(Collectors.toList());
             List<LocationDO> locationDOS = locationService.selectLocationByIds(locationIds);
             if (CollectionUtils.isNotEmpty(locationDOS)) {

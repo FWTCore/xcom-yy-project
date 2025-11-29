@@ -3,10 +3,12 @@ package com.ruoyi.business.service.impl;
 import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
+import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.AssetCheckService;
 import com.ruoyi.business.service.AssetDataService;
 import com.ruoyi.business.service.AssetService;
+import com.ruoyi.business.service.MetricsService;
 import com.ruoyi.business.service.OriginalAssetDataService;
 import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -34,6 +36,9 @@ public class AssetCheckServiceImpl implements AssetCheckService {
     private OriginalAssetService     originalAssetService;
     @Resource
     private OriginalAssetDataService originalAssetDataService;
+
+    @Resource
+    private MetricsService           metricsService;
 
     @Override
     public List<AssetMetricsVO> listPhysicalMetrics(AssetCheckMetricsReqBO reqBO) {
@@ -80,6 +85,11 @@ public class AssetCheckServiceImpl implements AssetCheckService {
     }
 
     @Override
+    public List<AssetDataDetailVO> listPhysicalForMysql(AssetCheckBO assetCheckBO) {
+        return metricsService.listPhysical(assetCheckBO);
+    }
+
+    @Override
     public List<AssetMetricsVO> listLedgerMetrics(AssetCheckMetricsReqBO reqBO) {
         switch (reqBO.getMetricsType()) {
             case 0:
@@ -120,5 +130,10 @@ public class AssetCheckServiceImpl implements AssetCheckService {
     @Override
     public TableDataInfo listLedger(AssetCheckBO assetCheckBO) {
         return originalAssetDataService.listLedger(assetCheckBO);
+    }
+
+    @Override
+    public List<AssetDataDetailVO> listLedgerForMysql(AssetCheckBO assetCheckBO) {
+        return metricsService.listLedger(assetCheckBO);
     }
 }

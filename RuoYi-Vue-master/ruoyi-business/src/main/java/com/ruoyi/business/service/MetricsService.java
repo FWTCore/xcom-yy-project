@@ -3,7 +3,10 @@ package com.ruoyi.business.service;
 import com.ruoyi.business.domain.entity.MetricsDO;
 import com.ruoyi.business.domain.model.Metrics;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckBO;
+import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
+import com.ruoyi.common.core.page.TableDataInfo;
 
 import java.util.List;
 
@@ -84,4 +87,17 @@ public interface MetricsService {
      * @return
      */
     List<AssetMetricsVO> listLedgerBordMetrics(AssetBordReqBO assetBordReqBO);
+
+    /**
+     * 获取实物资产列表
+     * @param assetCheckBO
+     * @return
+     */
+    List<AssetDataDetailVO> listPhysical(AssetCheckBO assetCheckBO);
+    /**
+     * 获取实物资产列表
+     * @param assetCheckBO
+     * @return
+     */
+    List<AssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO);
 }

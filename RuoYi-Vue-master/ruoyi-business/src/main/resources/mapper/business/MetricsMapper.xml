@@ -21,6 +21,13 @@
         <result property="updatedTime" column="updated_time"/>
     </resultMap>
 
+    <resultMap type="com.ruoyi.business.domain.model.response.AssetDataDetailVO" id="AssetDataDetailResult"
+               extends="com.ruoyi.business.mapper.AssetMapper.AssetResult">
+    </resultMap>
+    <resultMap type="com.ruoyi.business.domain.model.response.AssetDataDetailVO" id="OriginalAssetDataDetailResult"
+               extends="com.ruoyi.business.mapper.OriginalAssetMapper.OriginalAssetResult">
+    </resultMap>
+
     <sql id="selectMetricsVO">
         select id,
                dept_id,
@@ -344,4 +351,222 @@
         </choose>
     </select>
 
+    <select id="listPhysical" resultMap="AssetDataDetailResult">
+        select a.id,
+        a.dept_id,
+        a.project_id,
+        a.temporary_code,
+        a.original_code,
+        a.original_sub_code,
+        a.category_id,
+        a.category_name,
+        a.brand_id,
+        a.brand_name,
+        a.material_id,
+        a.asset_name,
+        a.specification,
+        a.asset_status,
+        a.production_time,
+        a.location_id,
+        ifnull((select location_name from location as ls where a.location_id = ls.id), a.location_name) as
+        location_name,
+        a.managed_dept_Id,
+        a.managed_dept_name,
+        a.using_dept_Id,
+        a.using_dept_name,
+        a.managed_emp_Id,
+        a.managed_emp_name,
+        a.using_emp_Id,
+        a.using_emp_name,
+        a.collector_user_id,
+        a.collector_user_name,
+        a.collector_time,
+        a.remark,
+        a.main_image_url,
+        a.main_image_name,
+        a.image_url,
+        a.image_url_name,
+        a.match_status,
+        a.print_status,
+        a.delete_flag,
+        a.created_by_id,
+        a.created_by_name,
+        a.created_time,
+        a.updated_by_id,
+        a.updated_by_name,
+        a.updated_time
+        from asset as a
+        inner join metrics ma on ma.delete_flag = 0 and ma.biz_type = 1 and a.dept_id = ma.dept_id and
+        a.project_id = ma.project_id and ma.metrics_type = 1 and
+        a.asset_name = ma.biz_key
+        inner join metrics md on md.delete_flag = 0 and md.biz_type = 1 and a.dept_id = md.dept_id and
+        a.project_id = md.project_id and md.metrics_type = 2 and
+        a.using_dept_Id = md.biz_id
+        inner join metrics ml on ml.delete_flag = 0 and ml.biz_type = 1 and a.dept_id = ml.dept_id and
+        a.project_id = ml.project_id and ml.metrics_type = 3 and
+        a.using_dept_Id = ml.biz_id
+        where a.delete_flag = 0
+        and a.dept_id = #{deptId}
+        and a.project_id = #{projectId}
+        <if test="categoryIds != null and categoryIds.length > 0">
+            AND a.category_id in
+            <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+                #{categoryId}
+            </foreach>
+        </if>
+        <if test="brandNames != null and brandNames.length > 0">
+            AND a.brand_name in
+            <foreach collection="brandNames" item="brandName" open="(" separator="," close=")">
+                #{brandName}
+            </foreach>
+        </if>
+        <if test="assetNames != null and assetNames.length > 0">
+            AND a.asset_name in
+            <foreach collection="assetNames" item="assetName" open="(" separator="," close=")">
+                #{assetName}
+            </foreach>
+        </if>
+        <if test="specifications != null and specifications.length > 0">
+            AND a.specification in
+            <foreach collection="specifications" item="specification" open="(" separator="," close=")">
+                #{specification}
+            </foreach>
+        </if>
+        <if test="locationIds != null and locationIds.length > 0">
+            AND a.location_id in
+            <foreach collection="locationIds" item="locationId" open="(" separator="," close=")">
+                #{locationId}
+            </foreach>
+        </if>
+        <if test="managedDeptIds != null and managedDeptIds.length > 0">
+            AND a.managed_dept_Id in
+            <foreach collection="managedDeptIds" item="managedDeptId" open="(" separator="," close=")">
+                #{managedDeptId}
+            </foreach>
+        </if>
+        <if test="usingDeptIds != null and usingDeptIds.length > 0">
+            AND a.using_dept_Id in
+            <foreach collection="usingDeptIds" item="usingDeptId" open="(" separator="," close=")">
+                #{usingDeptId}
+            </foreach>
+        </if>
+        <if test="managedEmpIds != null and managedEmpIds.length > 0">
+            AND a.managed_emp_Id in
+            <foreach collection="managedEmpIds" item="managedEmpId" open="(" separator="," close=")">
+                #{managedEmpId}
+            </foreach>
+        </if>
+        <if test="usingEmpIds != null and usingEmpIds.length > 0">
+            AND a.using_emp_Id in
+            <foreach collection="usingEmpIds" item="usingEmpId" open="(" separator="," close=")">
+                #{usingEmpId}
+            </foreach>
+        </if>
+        <if test="sortFields != null and sortFields.length > 0">
+        </if>
+    </select>
+
+    <select id="listLedger" resultMap="OriginalAssetDataDetailResult">
+        select a.id,
+        a.dept_id,
+        a.project_id,
+        a.original_code,
+        a.category_id,
+        a.category_name,
+        a.brand_name,
+        a.asset_name,
+        a.specification,
+        a.obtain_time,
+        a.product_price,
+        a.location_id,
+        ifnull((select location_name from location as ls where a.location_id = ls.id), a.location_name) as
+        location_name,
+        a.managed_dept_Id,
+        a.managed_dept_name,
+        a.using_dept_Id,
+        a.using_dept_name,
+        a.managed_emp_Id,
+        a.managed_emp_name,
+        a.using_emp_Id,
+        a.using_emp_name,
+        a.remark,
+        a.match_status,
+        a.match_count,
+        a.delete_flag,
+        a.created_by_id,
+        a.created_by_name,
+        a.created_time,
+        a.updated_by_id,
+        a.updated_by_name,
+        a.updated_time
+        from original_asset as a
+        inner join metrics ma on ma.delete_flag = 0 and ma.biz_type = 2 and a.dept_id = ma.dept_id and
+        a.project_id = ma.project_id and ma.metrics_type = 1 and
+        a.asset_name = ma.biz_key
+        inner join metrics md on md.delete_flag = 0 and md.biz_type = 2 and a.dept_id = md.dept_id and
+        a.project_id = md.project_id and md.metrics_type = 2 and
+        a.using_dept_Id = md.biz_id
+        inner join metrics ml on ml.delete_flag = 0 and ml.biz_type = 2 and a.dept_id = ml.dept_id and
+        a.project_id = ml.project_id and ml.metrics_type = 3 and
+        a.using_dept_Id = ml.biz_id
+        where a.delete_flag = 0
+        and a.dept_id = #{deptId}
+        and a.project_id = #{projectId}
+        <if test="categoryIds != null and categoryIds.length > 0">
+            AND a.category_id in
+            <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+                #{categoryId}
+            </foreach>
+        </if>
+        <if test="brandNames != null and brandNames.length > 0">
+            AND a.brand_name in
+            <foreach collection="brandNames" item="brandName" open="(" separator="," close=")">
+                #{brandName}
+            </foreach>
+        </if>
+        <if test="assetNames != null and assetNames.length > 0">
+            AND a.asset_name in
+            <foreach collection="assetNames" item="assetName" open="(" separator="," close=")">
+                #{assetName}
+            </foreach>
+        </if>
+        <if test="specifications != null and specifications.length > 0">
+            AND a.specification in
+            <foreach collection="specifications" item="specification" open="(" separator="," close=")">
+                #{specification}
+            </foreach>
+        </if>
+        <if test="locationIds != null and locationIds.length > 0">
+            AND a.location_id in
+            <foreach collection="locationIds" item="locationId" open="(" separator="," close=")">
+                #{locationId}
+            </foreach>
+        </if>
+        <if test="managedDeptIds != null and managedDeptIds.length > 0">
+            AND a.managed_dept_Id in
+            <foreach collection="managedDeptIds" item="managedDeptId" open="(" separator="," close=")">
+                #{managedDeptId}
+            </foreach>
+        </if>
+        <if test="usingDeptIds != null and usingDeptIds.length > 0">
+            AND a.using_dept_Id in
+            <foreach collection="usingDeptIds" item="usingDeptId" open="(" separator="," close=")">
+                #{usingDeptId}
+            </foreach>
+        </if>
+        <if test="managedEmpIds != null and managedEmpIds.length > 0">
+            AND a.managed_emp_Id in
+            <foreach collection="managedEmpIds" item="managedEmpId" open="(" separator="," close=")">
+                #{managedEmpId}
+            </foreach>
+        </if>
+        <if test="usingEmpIds != null and usingEmpIds.length > 0">
+            AND a.using_emp_Id in
+            <foreach collection="usingEmpIds" item="usingEmpId" open="(" separator="," close=")">
+                #{usingEmpId}
+            </foreach>
+        </if>
+        <if test="sortFields != null and sortFields.length > 0">
+        </if>
+    </select>
 </mapper>

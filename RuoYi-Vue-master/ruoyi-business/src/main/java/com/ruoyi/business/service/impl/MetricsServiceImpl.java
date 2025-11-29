@@ -3,9 +3,12 @@ package com.ruoyi.business.service.impl;
 import com.ruoyi.business.domain.entity.MetricsDO;
 import com.ruoyi.business.domain.model.Metrics;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
+import com.ruoyi.business.domain.model.request.AssetCheckBO;
+import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.mapper.MetricsMapper;
 import com.ruoyi.business.service.MetricsService;
+import com.ruoyi.common.core.page.TableDataInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -108,5 +111,15 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public List<AssetMetricsVO> listLedgerBordMetrics(AssetBordReqBO assetBordReqBO) {
         return metricsMapper.listLedgerBordMetrics(assetBordReqBO);
+    }
+
+    @Override
+    public List<AssetDataDetailVO> listPhysical(AssetCheckBO assetCheckBO) {
+        return metricsMapper.listPhysical(assetCheckBO);
+    }
+
+    @Override
+    public List<AssetDataDetailVO> listLedger(AssetCheckBO assetCheckBO) {
+        return metricsMapper.listLedger(assetCheckBO);
     }
 }

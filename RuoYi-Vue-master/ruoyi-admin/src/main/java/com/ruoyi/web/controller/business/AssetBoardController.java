@@ -42,10 +42,10 @@ public class AssetBoardController extends BaseController {
     private AssetService             assetService;
     @Resource
     private OriginalAssetService     originalAssetService;
-    @Resource
-    private AssetDataService         assetDataService;
-    @Resource
-    private OriginalAssetDataService originalAssetDataService;
+//    @Resource
+//    private AssetDataService         assetDataService;
+//    @Resource
+//    private OriginalAssetDataService originalAssetDataService;
     @Resource
     private MetricsService           metricsService;
 

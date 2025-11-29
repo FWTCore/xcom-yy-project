@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.business;
 import com.ruoyi.business.domain.model.AssetData;
 import com.ruoyi.business.domain.model.request.AssetCheckBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
+import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.AssetCheckService;
 import com.ruoyi.common.core.controller.BaseController;
@@ -56,9 +57,10 @@ public class AssetCheckController extends BaseController {
     @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/physical/list")
     public TableDataInfo listPhysical(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
+        startPage();
         AssetCheckBO assetCheckBO = AssetCheckConvert.INSTANCE.toAssetCheckBO(request);
-        TableDataInfo respData = assetCheckService.listPhysical(assetCheckBO);
-        return respData;
+        List<AssetDataDetailVO> respData = assetCheckService.listPhysicalForMysql(assetCheckBO);
+        return getDataTable(respData);
     }
 
     /**
@@ -79,9 +81,10 @@ public class AssetCheckController extends BaseController {
     @PreAuthorize("@ss.hasPermi('check:verification:list')")
     @GetMapping("/ledger/list")
     public TableDataInfo listLedger(@Valid @NotNull(message = "参数不能为空") AssetCheckRequest request) {
+        startPage();
         AssetCheckBO assetCheckBO = AssetCheckConvert.INSTANCE.toAssetCheckBO(request);
-        TableDataInfo respData = assetCheckService.listLedger(assetCheckBO);
-        return respData;
+        List<AssetDataDetailVO> respData = assetCheckService.listPhysicalForMysql(assetCheckBO);
+        return getDataTable(respData);
     }
 
 }
