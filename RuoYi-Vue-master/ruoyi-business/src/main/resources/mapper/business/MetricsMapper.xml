@@ -311,7 +311,7 @@
 
     <select id="listPhysicalBordMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select case when #{metricsType} = 1 then biz_key else biz_id end as metricsId,
-        biz_name as metricsName,
+        metrics_name as metricsName,
         total_count as totalCount,
         check_count as checkCount
         from metrics
@@ -328,11 +328,12 @@
                 order by totalCount desc
             </otherwise>
         </choose>
+        limit 10
     </select>
 
     <select id="listLedgerBordMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select case when #{metricsType} = 1 then biz_key else biz_id end as metricsId,
-        biz_name as metricsName,
+        metrics_name as metricsName,
         total_count as totalCount,
         check_count as checkCount
         from metrics
@@ -349,6 +350,7 @@
                 order by totalCount desc
             </otherwise>
         </choose>
+        limit 10
     </select>
 
     <select id="listPhysical" resultMap="AssetDataDetailResult">
@@ -567,6 +569,7 @@
             </foreach>
         </if>
         <if test="sortFields != null and sortFields.length > 0">
+            order by
         </if>
     </select>
 </mapper>

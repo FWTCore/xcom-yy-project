@@ -13,6 +13,7 @@ import com.ruoyi.business.service.OriginalAssetDataService;
 import com.ruoyi.business.service.OriginalAssetService;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.exception.ServiceException;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -86,6 +87,9 @@ public class AssetCheckServiceImpl implements AssetCheckService {
 
     @Override
     public List<AssetDataDetailVO> listPhysicalForMysql(AssetCheckBO assetCheckBO) {
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getSortFields())) {
+            assetCheckBO.getSortFields().sort(Integer::compareTo);
+        }
         return metricsService.listPhysical(assetCheckBO);
     }
 
@@ -134,6 +138,9 @@ public class AssetCheckServiceImpl implements AssetCheckService {
 
     @Override
     public List<AssetDataDetailVO> listLedgerForMysql(AssetCheckBO assetCheckBO) {
+        if (CollectionUtils.isNotEmpty(assetCheckBO.getSortFields())) {
+            assetCheckBO.getSortFields().sort(Integer::compareTo);
+        }
         return metricsService.listLedger(assetCheckBO);
     }
 }

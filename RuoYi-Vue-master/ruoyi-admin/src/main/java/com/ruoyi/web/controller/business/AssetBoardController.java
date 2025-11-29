@@ -39,15 +39,15 @@ import java.util.List;
 public class AssetBoardController extends BaseController {
 
     @Resource
-    private AssetService             assetService;
+    private AssetService         assetService;
     @Resource
-    private OriginalAssetService     originalAssetService;
-//    @Resource
-//    private AssetDataService         assetDataService;
-//    @Resource
-//    private OriginalAssetDataService originalAssetDataService;
+    private OriginalAssetService originalAssetService;
+    //    @Resource
+    //    private AssetDataService         assetDataService;
+    //    @Resource
+    //    private OriginalAssetDataService originalAssetDataService;
     @Resource
-    private MetricsService           metricsService;
+    private MetricsService       metricsService;
 
     /**
      * 实物资产报表 概览
@@ -63,7 +63,7 @@ public class AssetBoardController extends BaseController {
     /**
      * 查询实物资产报表
      */
-    @PreAuthorize("@ss.hasPermi('board:physical:list')")
+// @PreAuthorize("@ss.hasPermi('board:physical:list')")
     @GetMapping("/physical/metrics")
     public AjaxResult physicalBord(@Valid @NotNull(message = "参数不能为空") AssetBordRequest request) {
         if (ObjectUtils.isEmpty(request.getMetricsType())) {
@@ -74,7 +74,7 @@ public class AssetBoardController extends BaseController {
         }
         AssetBordReqBO assetBordReqBO = AssetBoardConvert.INSTANCE.toAssetBordReqBO(request);
         List<AssetMetricsVO> respData = metricsService.listPhysicalBordMetrics(assetBordReqBO);
-        //        List<AssetMetricsVO> respData = assetDataService.listPhysicalBord(assetBordReqBO);
+        //List<AssetMetricsVO> respData = assetDataService.listPhysicalBord(assetBordReqBO);
         return success(respData);
     }
 
@@ -103,7 +103,7 @@ public class AssetBoardController extends BaseController {
         }
         AssetBordReqBO assetBordReqBO = AssetBoardConvert.INSTANCE.toAssetBordReqBO(request);
         List<AssetMetricsVO> respData = metricsService.listLedgerBordMetrics(assetBordReqBO);
-//        List<AssetMetricsVO> respData = originalAssetDataService.listLedgerBord(assetBordReqBO);
+        //        List<AssetMetricsVO> respData = originalAssetDataService.listLedgerBord(assetBordReqBO);
         return success(respData);
     }
 
