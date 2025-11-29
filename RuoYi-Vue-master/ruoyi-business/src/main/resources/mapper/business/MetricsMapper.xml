@@ -406,7 +406,7 @@
         a.using_dept_Id = md.biz_id
         inner join metrics ml on ml.delete_flag = 0 and ml.biz_type = 1 and a.dept_id = ml.dept_id and
         a.project_id = ml.project_id and ml.metrics_type = 3 and
-        a.using_dept_Id = ml.biz_id
+        a.location_id = ml.biz_id
         where a.delete_flag = 0
         and a.dept_id = #{deptId}
         and a.project_id = #{projectId}
@@ -541,7 +541,7 @@
         a.using_dept_Id = md.biz_id
         inner join metrics ml on ml.delete_flag = 0 and ml.biz_type = 2 and a.dept_id = ml.dept_id and
         a.project_id = ml.project_id and ml.metrics_type = 3 and
-        a.using_dept_Id = ml.biz_id
+        a.location_id = ml.biz_id
         where a.delete_flag = 0
         and a.dept_id = #{deptId}
         and a.project_id = #{projectId}
