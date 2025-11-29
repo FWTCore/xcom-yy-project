@@ -464,7 +464,37 @@
                 #{usingEmpId}
             </foreach>
         </if>
+
         <if test="sortFields != null and sortFields.length > 0">
+            order by
+            <foreach collection="sortFields" item="sortField" separator=",">
+                <choose>
+                    <when test="sortField = 0 ">
+                        a.category_name
+                    </when>
+                    <when test="sortField = 1 ">
+                        ma.totalCount desc
+                    </when>
+                    <when test="sortField = 3 ">
+                        md.totalCount desc
+                    </when>
+                    <when test="sortField = 4 ">
+                        ml.totalCount desc
+                    </when>
+                    <when test="sortField = 5 ">
+                        a.using_emp_Id
+                    </when>
+                    <when test="sortField = 6 ">
+                        a.brand_name
+                    </when>
+                    <when test="sortField = 7 ">
+                        a.specification
+                    </when>
+                    <otherwise>
+                        a.id
+                    </otherwise>
+                </choose>
+            </foreach>
         </if>
     </select>
 
@@ -570,6 +600,37 @@
         </if>
         <if test="sortFields != null and sortFields.length > 0">
             order by
+            <foreach collection="sortFields" item="sortField" separator=",">
+                <choose>
+                    <when test="sortField = 0 ">
+                        a.category_name
+                    </when>
+                    <when test="sortField = 1 ">
+                        ma.totalCount desc
+                    </when>
+                    <when test="sortField = 2 ">
+                        a.obtain_time_day desc
+                    </when>
+                    <when test="sortField = 3 ">
+                        md.totalCount desc
+                    </when>
+                    <when test="sortField = 4 ">
+                        ml.totalCount desc
+                    </when>
+                    <when test="sortField = 5 ">
+                        a.using_emp_Id
+                    </when>
+                    <when test="sortField = 6 ">
+                        a.brand_name
+                    </when>
+                    <when test="sortField = 7 ">
+                        a.specification
+                    </when>
+                    <otherwise>
+                        a.id
+                    </otherwise>
+                </choose>
+            </foreach>
         </if>
     </select>
 </mapper>
