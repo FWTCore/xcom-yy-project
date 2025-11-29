@@ -198,6 +198,7 @@ public class AssetCheckServiceImpl implements AssetCheckService {
             try {
                 assetDO.setOriginalCode(originalAssetDO.getOriginalCode());
                 assetDO.setOriginalSubCode(originalSubCode.get(index));
+                assetDO.setMatchStatus(1);
                 compareChange(assetDO, originalAssetDO);
                 assetService.updateAsset(assetDO);
             } catch (Exception exception) {
