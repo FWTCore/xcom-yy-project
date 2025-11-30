@@ -178,7 +178,7 @@ public class AssetServiceImpl implements AssetService {
             throw new ServiceException("项目和单位数据异常");
         }
         if (StringUtils.isBlank(asset.getTemporaryCode()) && StringUtils.isBlank(asset.getOriginalSubCode())) {
-            throw new ServiceException("临时编码和原始编码不能同时为空");
+            throw new ServiceException("临时编码和原始子编码不能同时为空");
         }
         ProjectDetailVO projectDetailVO = projectService.selectProjectById(asset.getProjectId());
         if (ObjectUtils.isEmpty(projectDetailVO)) {

@@ -135,6 +135,7 @@
       <el-table-column label="项目" align="center" prop="projectName" />
       <el-table-column label="临时编码" align="center" prop="temporaryCode" />
       <el-table-column label="原始编码" align="center" prop="originalCode" />
+      <el-table-column label="原始子编码" align="center" prop="originalSubCode" />
       <el-table-column label="门类名称" align="center" prop="categoryName" />
       <el-table-column label="品牌名称" align="center" prop="brandName" />
       <el-table-column label="资产名称" align="center" prop="assetName" />
@@ -230,8 +231,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="原始编码" prop="originalCode">
-              <el-input v-model="form.originalCode" placeholder="请输入原始编码" :disabled="!!form.id" clearable />
+            <el-form-item label="原始子编码" prop="originalSubCode">
+              <el-input v-model="form.originalSubCode" placeholder="请输入原始子编码" :disabled="!!form.id" clearable />
             </el-form-item>
           </el-col>
         </el-row>
@@ -692,6 +693,7 @@ function reset() {
     projectId: null,
     temporaryCode: null,
     originalCode: null,
+    originalSubCode: null,
     categoryId: null,
     categoryName: null,
     brandId: null,
@@ -1004,6 +1006,7 @@ function resetBatch() {
     projectId: null,
     temporaryCode: null,
     originalCode: null,
+    originalSubCode: null,
     categoryId: null,
     categoryName: null,
     brandId: null,
