@@ -188,7 +188,7 @@ const initData = () => {
       orderCols[item.orderPos - 1] = {
         key: item.orderPos - 1,
         label: item.label,
-        value: item.orderPos,
+        value: item.orderPos - 1,
         visible: false,
         prop: item.prop,
       };
