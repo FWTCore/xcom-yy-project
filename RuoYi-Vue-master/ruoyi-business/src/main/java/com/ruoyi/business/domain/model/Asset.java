@@ -247,4 +247,8 @@ public class Asset extends BaseEntityDO {
      * 模糊搜索
      */
     private String        searchName;
+    /**
+     * 打印状态
+     */
+    private Integer       printStatus;
 }

@@ -151,11 +151,13 @@ public class OriginalAssetDO extends BaseEntityDO {
     /**
      * 匹配状态
      */
+    @Excel(name = "匹配状态", readConverterExp = "0=未匹配,1=已匹配")
     private Integer       matchStatus;
 
     /**
      * 匹配数量
      */
+    @Excel(name = "匹配数量")
     private Integer       matchCount;
 
 }

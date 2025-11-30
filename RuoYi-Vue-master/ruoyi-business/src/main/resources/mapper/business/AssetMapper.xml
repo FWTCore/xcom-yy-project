@@ -451,6 +451,9 @@
             <if test="imageUrlName != null  and imageUrlName != ''">
                 and a.image_url_name like concat('%', #{imageUrlName}, '%')
             </if>
+            <if test="printStatus != null  and printStatus != ''">
+                and a.print_status = #{printStatus}
+            </if>
             <if test="deleteFlag != null ">
                 and a.delete_flag = #{deleteFlag}
             </if>

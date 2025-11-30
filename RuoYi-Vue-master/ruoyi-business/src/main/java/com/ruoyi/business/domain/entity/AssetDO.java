@@ -181,6 +181,18 @@ public class AssetDO extends BaseEntityDO {
     private LocalDateTime collectorTime;
 
     /**
+     * 匹配状态
+     */
+    @Excel(name = "匹配状态", readConverterExp = "0=未匹配,1=已匹配")
+    private Integer       matchStatus;
+
+    /**
+     * 打印状态
+     */
+    @Excel(name = "打印状态", readConverterExp = "0=无需打印,1=未打印,2=已打印")
+    private Integer       printStatus;
+
+    /**
      * 备注,;
      */
     @Excel(name = "备注")
@@ -207,15 +219,4 @@ public class AssetDO extends BaseEntityDO {
      */
     private String        imageUrlName;
 
-    /**
-     * 匹配状态
-     */
-    @Excel(name = "匹配状态", readConverterExp = "0=未匹配,1=已匹配")
-    private Integer       matchStatus;
-
-    /**
-     * 打印状态
-     */
-    @Excel(name = "打印状态", readConverterExp = "0=无需打印,1=未打印,2=已打印")
-    private Integer       printStatus;
 }
