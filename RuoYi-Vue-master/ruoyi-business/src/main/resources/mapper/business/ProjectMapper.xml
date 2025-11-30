@@ -366,7 +366,7 @@
         from project
         where delete_flag = 0
         and id > #{lastId}
-        limit #{size}
         order by id
+        limit #{size}
     </select>
 </mapper>
