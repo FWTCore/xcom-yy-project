@@ -163,6 +163,12 @@ function filterDisabledDept(deptList) {
 
 function handleTreeNodeClick(data) {
   getProject(data);
+  queryParams.value.projectId = null;
+}
+
+function resetProject() {
+  projectOptions.value = []; // 清空选项
+  queryParams.value.projectId = null; // 重置
 }
 function getProject(deptId) {
   if (
@@ -171,13 +177,12 @@ function getProject(deptId) {
     deptId === "" ||
     Number.isNaN(deptId)
   ) {
-    projectOptions.value = []; // 清空选项
-    queryParams.projectId = null; // 重置
+    resetProject(); // 重置
     return;
   }
   listAllProject(deptId).then((response) => {
     projectOptions.value = response.data;
-    queryParams.projectId = null;
+    queryParams.value.projectId = null;
   });
 }
 
