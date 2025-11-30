@@ -120,15 +120,6 @@ public class OriginalAssetDataEventListener {
         if (ObjectUtils.isEmpty(originalAssetDO)) {
             return;
         }
-        OriginalAssetDataDO originalAssetData = originalAssetDataService
-            .getOriginalAssetDataByOriginalAssetId(event.getOriginalAssetId());
-        if (ObjectUtils.isEmpty(originalAssetData)) {
-            originalAssetData = new OriginalAssetDataDO();
-        }
-        originalAssetData = OriginalAssetDataConvert.INSTANCE.toOriginalAssetDataDO(originalAssetDO);
-        // 先保存，后面更新数量
-        originalAssetDataService.addOriginalAssetData(originalAssetData);
-
         // 获取统计
         try {
             metricsService.upsetLedgerMetrics(originalAssetDO.getProjectId());
