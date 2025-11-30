@@ -38,7 +38,6 @@ public class OriginalAssetMatchTask {
                 for (Long originalAssetId : originalAssetIds) {
                     eventPublisher.publishOriginalAssetDataEvent(originalAssetId, null, null);
                     try {
-                        // 暂停 3 秒（3000 毫秒）
                         Thread.sleep(100);
                     } catch (InterruptedException ignored) {
                     }

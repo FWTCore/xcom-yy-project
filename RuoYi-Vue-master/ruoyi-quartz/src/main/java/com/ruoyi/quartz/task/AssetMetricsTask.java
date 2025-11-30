@@ -41,7 +41,6 @@ public class AssetMetricsTask {
                     eventPublisher.publishProjectAssetDataEvent(projectId, 1);
                     eventPublisher.publishProjectAssetDataEvent(projectId, 2);
                     try {
-                        // 暂停 1 秒（1000 毫秒）
                         Thread.sleep(100);
                     } catch (InterruptedException ignored) {
                     }
