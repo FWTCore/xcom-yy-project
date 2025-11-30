@@ -9,23 +9,21 @@ import com.ruoyi.business.domain.entity.LocationDO;
 import com.ruoyi.business.domain.entity.MaterialDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.model.Asset;
+import com.ruoyi.business.domain.model.OriginalAsset;
+import com.ruoyi.business.domain.model.convert.AssetConvert;
 import com.ruoyi.business.domain.model.request.AssetBatchUpdateReqBO;
 import com.ruoyi.business.domain.model.request.AssetBordReqBO;
 import com.ruoyi.business.domain.model.request.AssetCheckMetricsReqBO;
+import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
 import com.ruoyi.business.domain.model.request.CollectionStatsReqBO;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
+import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.CollectionStatsVO;
 import com.ruoyi.business.domain.model.response.HomeAssetStatsVO;
-import com.ruoyi.business.domain.model.OriginalAsset;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
-import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
-import com.ruoyi.business.event.AssetDataEvent;
 import com.ruoyi.business.event.EventPublisher;
-import com.ruoyi.business.event.OriginalAssetDataEvent;
 import com.ruoyi.business.mapper.AssetMapper;
-import com.ruoyi.business.domain.model.convert.AssetConvert;
-import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
 import com.ruoyi.business.service.AssetService;
 import com.ruoyi.business.service.BrandService;
 import com.ruoyi.business.service.CategoryService;
@@ -149,6 +147,10 @@ public class AssetServiceImpl implements AssetService {
         asset.setBaseFieldValue();
         int respData = assetMapper.insertAsset(asset);
         this.publishEvent(asset.getProjectId());
+        if (StringUtils.isNotBlank(asset.getOriginalCode())) {
+            eventPublisher.publishOriginalAssetDataEvent(null, asset.getProjectId(),
+                Collections.singletonList(asset.getOriginalCode()));
+        }
         return respData;
     }
 
@@ -163,6 +165,10 @@ public class AssetServiceImpl implements AssetService {
         asset.setUpdatedFieldValue();
         int respData = assetMapper.updateAsset(asset);
         this.publishEvent(asset.getProjectId());
+        if (StringUtils.isNotBlank(asset.getOriginalCode())) {
+            eventPublisher.publishOriginalAssetDataEvent(null, asset.getProjectId(),
+                Collections.singletonList(asset.getOriginalCode()));
+        }
         return respData;
     }
 
@@ -188,16 +194,7 @@ public class AssetServiceImpl implements AssetService {
         asset.setCollectorUserName(loginUser.getUser().getNickName());
         asset.setCollectorTime(LocalDateTime.now());
         if (ObjectUtils.isEmpty(asset.getId())) {
-            int respData = this.insertAsset(asset);
-            try {
-                if (StringUtils.isNotBlank(asset.getOriginalCode())) {
-                    eventPublisher.publishOriginalAssetDataEvent(null, asset.getProjectId(),
-                        new ArrayList<>(Collections.singletonList(asset.getOriginalCode())));
-                }
-            } catch (Exception exception) {
-
-            }
-            return respData;
+            return this.insertAsset(asset);
         } else {
             return this.updateAsset(asset);
         }
@@ -217,6 +214,11 @@ public class AssetServiceImpl implements AssetService {
         }
         int respData = assetMapper.deleteAssetByIds(ids);
         this.publishEvent(assetDOList.get(0).getProjectId());
+        List<String> originalCodes = assetDOList.stream().map(AssetDO::getOriginalCode).filter(StringUtils::isNotBlank)
+            .distinct().collect(Collectors.toList());
+        if (CollectionUtils.isNotEmpty(originalCodes)) {
+            eventPublisher.publishOriginalAssetDataEvent(null, assetDOList.get(0).getProjectId(), originalCodes);
+        }
         return respData;
     }
 
@@ -234,6 +236,10 @@ public class AssetServiceImpl implements AssetService {
         }
         int respData = assetMapper.deleteAssetById(id);
         this.publishEvent(assetDO.getProjectId());
+        if (StringUtils.isNotBlank(assetDO.getOriginalCode())) {
+            eventPublisher.publishOriginalAssetDataEvent(null, assetDO.getProjectId(),
+                Collections.singletonList(assetDO.getOriginalCode()));
+        }
         return respData;
     }
 
@@ -623,14 +629,12 @@ public class AssetServiceImpl implements AssetService {
             assetDO.setOriginalCode(null);
             this.updateAsset(assetDO);
         }
-        if (CollectionUtils.isNotEmpty(originalCodes)) {
-            eventPublisher.publishOriginalAssetDataEvent(null, assetDOS.get(0).getProjectId(), originalCodes);
-        }
         return 1;
     }
 
     /**
      * 检查并设置值
+     *
      * @param data
      */
     private void validAndSetField(AssetDO data) {
@@ -798,6 +802,7 @@ public class AssetServiceImpl implements AssetService {
 
     /**
      * 获取原始编码
+     *
      * @param originalSubCode
      * @return
      */
@@ -814,6 +819,7 @@ public class AssetServiceImpl implements AssetService {
 
     /**
      * 对比是否变化
+     *
      * @param data
      */
     private void compareChange(AssetDO data) {
@@ -876,6 +882,7 @@ public class AssetServiceImpl implements AssetService {
 
     /**
      * 发布事件
+     *
      * @param projectId
      */
     private void publishEvent(Long projectId) {

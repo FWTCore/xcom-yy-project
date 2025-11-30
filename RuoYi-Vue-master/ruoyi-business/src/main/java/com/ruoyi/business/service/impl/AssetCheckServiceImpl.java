@@ -209,7 +209,6 @@ public class AssetCheckServiceImpl implements AssetCheckService {
             }
             index++;
         }
-        eventPublisher.publishOriginalAssetDataEvent(originalAssetDO.getId(), null, null);
         return true;
     }
 

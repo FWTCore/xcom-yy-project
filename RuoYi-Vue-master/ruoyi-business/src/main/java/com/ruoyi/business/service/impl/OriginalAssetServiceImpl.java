@@ -1,6 +1,7 @@
 package com.ruoyi.business.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -124,8 +125,7 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
         originalAsset.setBaseFieldValue();
         originalAsset.setObtainTimeDay(DateUtils.convertTimeInteger(originalAsset.getObtainTime()));
         int respData = originalAssetMapper.insertOriginalAsset(originalAsset);
-        this.publishEvent(originalAsset.getId());
-
+        this.publishEvent(originalAsset.getProjectId());
         return respData;
     }
 
@@ -141,7 +141,7 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
         originalAsset.setUpdatedFieldValue();
         originalAsset.setObtainTimeDay(DateUtils.convertTimeInteger(originalAsset.getObtainTime()));
         int respData = originalAssetMapper.updateOriginalAsset(originalAsset);
-        this.publishEvent(originalAsset.getId());
+        this.publishEvent(originalAsset.getProjectId());
         return respData;
     }
 
@@ -153,10 +153,12 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
      */
     @Override
     public int deleteOriginalAssetByIds(Long[] ids) {
-        int respData = originalAssetMapper.deleteOriginalAssetByIds(ids);
-        for (Long id : ids) {
-            this.publishEvent(id);
+        List<OriginalAssetDO> originalAssetDOList = this.selectOriginalAssetByIds(Arrays.asList(ids));
+        if (CollectionUtils.isEmpty(originalAssetDOList)) {
+            return 0;
         }
+        int respData = originalAssetMapper.deleteOriginalAssetByIds(ids);
+        this.publishEvent(originalAssetDOList.get(0).getProjectId());
         return respData;
     }
 
@@ -168,8 +170,12 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
      */
     @Override
     public int deleteOriginalAssetById(Long id) {
+        OriginalAssetDO originalAssetDO = this.selectOriginalAssetById(id);
+        if (ObjectUtils.isEmpty(originalAssetDO)) {
+            return 0;
+        }
         int respData = originalAssetMapper.deleteOriginalAssetById(id);
-        this.publishEvent(id);
+        this.publishEvent(originalAssetDO.getProjectId());
         return respData;
     }
 
@@ -361,13 +367,11 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
                 if (ObjectUtils.isNotEmpty(importData.getId())) {
                     importData.setUpdatedFieldValue();
                     originalAssetMapper.updateOriginalAsset(importData);
-                    this.publishEvent(importData.getId());
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、原始编号 " + data.getOriginalCode() + " 更新成功");
                 } else {
                     importData.setBaseFieldValue();
                     originalAssetMapper.insertOriginalAsset(importData);
-                    this.publishEvent(importData.getId());
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、原始编号 " + data.getOriginalCode() + " 导入成功");
                 }
@@ -384,6 +388,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
         } else {
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
+
+        this.publishEvent(existProject.getId());
         return successMsg.toString();
     }
 
@@ -578,11 +584,11 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
 
     /**
      * 发布事件
-     * @param id
+     * @param projectId
      */
-    private void publishEvent(Long id) {
+    private void publishEvent(Long projectId) {
         try {
-            eventPublisher.publishOriginalAssetDataEvent(id, null, null);
+            eventPublisher.publishProjectAssetDataEvent(projectId, 2);
         } catch (Exception exception) {
             log.error("");
         }
