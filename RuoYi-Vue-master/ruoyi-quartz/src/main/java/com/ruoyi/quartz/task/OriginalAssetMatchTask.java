@@ -9,20 +9,20 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * OriginalAssetMetricsTask
+ * OriginalAssetMatchTask
  *
  * @author xcom
  * @date 2025/11/23
  */
 
-@Component("originalAssetMetricsTask")
-public class OriginalAssetMetricsTask {
+@Component("OriginalAssetMatchTask")
+public class OriginalAssetMatchTask {
     @Resource
     private OriginalAssetService originalAssetService;
     @Resource
     private EventPublisher       eventPublisher;
 
-    public void updateMetrics() {
+    public void updateMatch() {
         List<Long> originalAssetIds = originalAssetService.listAllIds();
         if (CollectionUtils.isNotEmpty(originalAssetIds)) {
             for (Long originalAssetId : originalAssetIds) {
