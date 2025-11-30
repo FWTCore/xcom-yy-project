@@ -704,7 +704,7 @@
         UPDATE original_asset AS oas
             INNER JOIN (
             SELECT original_code,
-            COUNT (1) AS cnt
+            COUNT(1) AS cnt
             FROM asset
             WHERE delete_flag = 0
             and original_code = #{originalCode}
