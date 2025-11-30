@@ -671,8 +671,8 @@ public class AssetServiceImpl implements AssetService {
                     .filter(e -> e.getOriginalSubCode().equals(data.getOriginalSubCode())).collect(Collectors.toList());
                 if (CollectionUtils.isEmpty(originalAssetList)) {
                     assetList.sort((o1, o2) -> {
-                        String[] parts1 = o1.getOriginalSubCode().split("-");
-                        String[] parts2 = o2.getOriginalSubCode().split("-");
+                        String[] parts1 = o1.getOriginalSubCode().split("#");
+                        String[] parts2 = o2.getOriginalSubCode().split("#");
                         if (parts2.length != parts1.length) {
                             return Integer.compare(parts2.length, parts1.length);
                         }
@@ -807,10 +807,10 @@ public class AssetServiceImpl implements AssetService {
      * @return
      */
     private String getOriginalCode(String originalSubCode) {
-        if (!originalSubCode.contains("-")) {
+        if (!originalSubCode.contains("#")) {
             return originalSubCode;
         }
-        String[] data = originalSubCode.split("-");
+        String[] data = originalSubCode.split("#");
         if (data.length != 2) {
             throw new ServiceException("编码格式错误，包含多个-");
         }

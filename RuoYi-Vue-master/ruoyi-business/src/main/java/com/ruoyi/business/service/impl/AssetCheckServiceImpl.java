@@ -182,8 +182,8 @@ public class AssetCheckServiceImpl implements AssetCheckService {
         List<String> originalSubCode = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(assetList)) {
             assetList.sort((o1, o2) -> {
-                String[] parts1 = o1.getOriginalSubCode().split("-");
-                String[] parts2 = o2.getOriginalSubCode().split("-");
+                String[] parts1 = o1.getOriginalSubCode().split("#");
+                String[] parts2 = o2.getOriginalSubCode().split("#");
                 if (parts2.length != parts1.length) {
                     return Integer.compare(parts2.length, parts1.length);
                 }
