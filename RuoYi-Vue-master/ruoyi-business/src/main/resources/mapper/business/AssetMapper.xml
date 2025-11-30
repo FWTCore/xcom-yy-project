@@ -900,22 +900,10 @@
                 remark =
                 #{remark},
             </if>
-            <if test="mainImageUrl != null">
-                main_image_url =
-                #{mainImageUrl},
-            </if>
-            <if test="mainImageName != null">
-                main_image_name =
-                #{mainImageName},
-            </if>
-            <if test="imageUrl != null">
-                image_url =
-                #{imageUrl},
-            </if>
-            <if test="imageUrlName != null">
-                image_url_name =
-                #{imageUrlName},
-            </if>
+            main_image_url = #{mainImageUrl},
+            main_image_name = #{mainImageName},
+            image_url =#{imageUrl},
+            image_url_name =#{imageUrlName},
             <if test="matchStatus != null">
                 match_status =
                 #{matchStatus},
