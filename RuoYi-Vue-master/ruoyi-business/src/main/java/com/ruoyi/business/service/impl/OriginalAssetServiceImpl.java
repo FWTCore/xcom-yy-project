@@ -124,6 +124,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
         validAndSetField(originalAsset);
         originalAsset.setBaseFieldValue();
         originalAsset.setObtainTimeDay(DateUtils.convertTimeInteger(originalAsset.getObtainTime()));
+        originalAsset.setMatchStatus(0);
+        originalAsset.setMatchCount(0);
         int respData = originalAssetMapper.insertOriginalAsset(originalAsset);
         this.publishEvent(originalAsset.getProjectId());
         return respData;
