@@ -145,7 +145,7 @@ public class AssetController extends BaseController {
     }
 
     @ApiOperation("解除关联")
-    @PreAuthorize("@ss.hasPermi('business:asset:remove')")
+    @PreAuthorize("@ss.hasPermi('business:asset:disassociate')")
     @PostMapping(value = "/disassociate")
     @Log(title = "解除关联", businessType = BusinessType.UPDATE)
     @PutMapping("/{ids}")

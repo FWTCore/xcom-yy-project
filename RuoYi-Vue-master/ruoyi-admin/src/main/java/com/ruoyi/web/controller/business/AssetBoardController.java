@@ -63,7 +63,7 @@ public class AssetBoardController extends BaseController {
     /**
      * 查询实物资产报表
      */
-// @PreAuthorize("@ss.hasPermi('board:physical:list')")
+    @PreAuthorize("@ss.hasPermi('board:physical:list')")
     @GetMapping("/physical/metrics")
     public AjaxResult physicalBord(@Valid @NotNull(message = "参数不能为空") AssetBordRequest request) {
         if (ObjectUtils.isEmpty(request.getMetricsType())) {
