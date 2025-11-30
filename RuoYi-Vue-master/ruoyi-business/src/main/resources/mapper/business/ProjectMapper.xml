@@ -343,7 +343,7 @@
         </foreach>
     </delete>
 
-    <update id="changeProjectStatus">
+    <update id="changeProjectStatusForProgress">
         update project
         set project_status=1
         where start_date >= now()
@@ -351,14 +351,13 @@
         <if test="projectId!=null">
             and id=#{projectId}
         </if>
-        ;
-
+    </update>
+    <update id="changeProjectStatusForCompleted">
         update project
         set project_status=2
         where end_date > now()
         <if test="projectId!=null">
             and id=#{projectId}
         </if>
-        ;
     </update>
 </mapper>

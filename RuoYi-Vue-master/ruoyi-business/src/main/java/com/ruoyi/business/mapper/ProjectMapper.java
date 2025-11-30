@@ -85,5 +85,12 @@ public interface ProjectMapper {
      * @param projectId
      * @return
      */
-    int changeProjectStatus(@Param("projectId") Long projectId);
+    int changeProjectStatusForProgress(@Param("projectId") Long projectId);
+
+    /**
+     * 更改项目状态
+     * @param projectId
+     * @return
+     */
+    int changeProjectStatusForCompleted(@Param("projectId") Long projectId);
 }
