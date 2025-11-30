@@ -2,6 +2,7 @@ package com.ruoyi.quartz.task;
 
 import com.ruoyi.business.event.EventPublisher;
 import com.ruoyi.business.service.ProjectService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @author xcom
  * @date 2025/11/23
  */
-
+@Slf4j
 @Component("assetMetricsTask")
 public class AssetMetricsTask {
 
@@ -25,6 +26,7 @@ public class AssetMetricsTask {
     private ProjectService projectService;
 
     public void syncMetrics() {
+        log.info("assetMetricsTask.syncMetrics===开始");
         List<Long> projectIds = projectService.listAllIds();
         if (CollectionUtils.isNotEmpty(projectIds)) {
             for (Long projectId : projectIds) {
@@ -37,6 +39,7 @@ public class AssetMetricsTask {
                 }
             }
         }
+        log.info("assetMetricsTask.syncMetrics===结束");
     }
 
 }

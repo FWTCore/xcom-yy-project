@@ -1,5 +1,6 @@
 package com.ruoyi.business.event;
 
+import com.alibaba.fastjson2.JSON;
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDataDO;
 import com.ruoyi.business.domain.model.convert.OriginalAssetDataConvert;
@@ -43,6 +44,7 @@ public class ProjectAssetDataEventListener {
         }
         // 手动设置安全上下文
         SecurityContextHolder.setContext(event.getSecurityContext());
+        log.info("ProjectAssetDataEventListener 处理数据：" + JSON.toJSONString(event));
         ProjectDetailVO projectDetailVO = projectService.selectProjectById(event.getProjectId());
         if (ObjectUtils.isEmpty(projectDetailVO)) {
             return;

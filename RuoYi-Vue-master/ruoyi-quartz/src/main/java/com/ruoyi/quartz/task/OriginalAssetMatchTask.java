@@ -2,6 +2,7 @@ package com.ruoyi.quartz.task;
 
 import com.ruoyi.business.event.EventPublisher;
 import com.ruoyi.business.service.OriginalAssetService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @author xcom
  * @date 2025/11/23
  */
-
+@Slf4j
 @Component("originalAssetMatchTask")
 public class OriginalAssetMatchTask {
     @Resource
@@ -23,6 +24,7 @@ public class OriginalAssetMatchTask {
     private EventPublisher       eventPublisher;
 
     public void updateMatch() {
+        log.info("执行originalAssetMatchTask.updateMatch===开始");
         List<Long> originalAssetIds = originalAssetService.listAllIds();
         if (CollectionUtils.isNotEmpty(originalAssetIds)) {
             for (Long originalAssetId : originalAssetIds) {
@@ -34,6 +36,7 @@ public class OriginalAssetMatchTask {
                 }
             }
         }
+        log.info("执行originalAssetMatchTask.updateMatch===结束");
     }
 
 }

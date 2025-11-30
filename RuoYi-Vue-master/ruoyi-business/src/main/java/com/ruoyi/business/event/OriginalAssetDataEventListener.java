@@ -1,5 +1,6 @@
 package com.ruoyi.business.event;
 
+import com.alibaba.fastjson2.JSON;
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDataDO;
 import com.ruoyi.business.domain.model.OriginalAsset;
@@ -122,6 +123,7 @@ public class OriginalAssetDataEventListener {
         }
         // 手动设置安全上下文
         SecurityContextHolder.setContext(event.getSecurityContext());
+        log.info("OriginalAssetDataEventListener 处理数据："+ JSON.toJSONString(event));
         if (ObjectUtils.isNotEmpty(event.getOriginalAssetId())) {
             OriginalAssetDO originalAssetDO = originalAssetService.selectOriginalAssetById(event.getOriginalAssetId());
             if (ObjectUtils.isEmpty(originalAssetDO)) {
