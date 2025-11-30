@@ -4,7 +4,7 @@
       <el-form-item label="归属单位" prop="deptId">
         <el-tree-select v-model="queryParams.deptId" :data="enabledDeptOptions"
           :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-          style="width: 240px" clearable @change="handleTreeNodeClick" filterable/>
+          style="width: 240px" clearable @change="handleTreeNodeClick" filterable />
       </el-form-item>
       <el-form-item prop="projectId">
         <template #label>
@@ -119,6 +119,13 @@
       <el-table-column label="管理员工名称" align="center" prop="managedEmpName" />
       <el-table-column label="使用员工名称" align="center" prop="usingEmpName" />
       <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="匹配状态" align="center" prop="matchStatus">
+        <template #default="scope">
+          <span v-if="scope.row.matchStatus === 1" class="status-tag status-yes">是</span>
+          <span v-else class="status-tag status-no">否</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="匹配数量" align="center" prop="matchCount" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
@@ -145,7 +152,7 @@
             <el-form-item label="归属单位" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="enabledDeptOptions"
                 :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属单位"
-                check-strictly @change="handleTreeNodeFormClick" filterable clearable/>
+                check-strictly @change="handleTreeNodeFormClick" filterable clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -168,14 +175,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="原始编码" prop="originalCode">
-              <el-input v-model="form.originalCode" placeholder="请输入原始编码" :disabled="!!form.id" clearable/>
+              <el-input v-model="form.originalCode" placeholder="请输入原始编码" :disabled="!!form.id" clearable />
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
 
             <el-form-item label="资产名称" prop="assetName">
-              <el-input v-model="form.assetName" placeholder="请输入资产名称" clearable/>
+              <el-input v-model="form.assetName" placeholder="请输入资产名称" clearable />
             </el-form-item>
           </el-col>
         </el-row>
@@ -190,19 +197,20 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="品牌名称" prop="brandName">
-              <el-input v-model="form.brandName" placeholder="请输入品牌名称" clearable/>
+              <el-input v-model="form.brandName" placeholder="请输入品牌名称" clearable />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="规格型号" prop="specification">
-              <el-input v-model="form.specification" placeholder="请输入规格型号" clearable/>
+              <el-input v-model="form.specification" placeholder="请输入规格型号" clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="获得时间" prop="obtainTime">
-              <el-date-picker v-model="form.obtainTime" type="date" value-format="YYYY-MM-DD" placeholder="请选择获得时间" clearable>
+              <el-date-picker v-model="form.obtainTime" type="date" value-format="YYYY-MM-DD" placeholder="请选择获得时间"
+                clearable>
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -210,7 +218,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="价值" prop="productPrice">
-              <el-input-number v-model="form.productPrice" placeholder="请输入价值" clearable/>
+              <el-input-number v-model="form.productPrice" placeholder="请输入价值" clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">

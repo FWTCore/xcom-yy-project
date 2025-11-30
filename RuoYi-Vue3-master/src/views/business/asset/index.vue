@@ -89,6 +89,11 @@
         <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" range-separator="-"
           start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
+      <el-form-item label="打印状态" prop="printStatus">
+        <el-select v-model="queryParams.printStatus" placeholder="打印状态" clearable style="width: 240px">
+          <el-option v-for="dict in asset_print_status" :key="dict.value" :label="dict.label" :value="dict.value" />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -153,6 +158,17 @@
       <el-table-column label="采集时间" align="center" prop="collectorTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.collectorTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="匹配状态" align="center" prop="matchStatus">
+        <template #default="scope">
+          <span v-if="scope.row.matchStatus === 1" class="status-tag status-yes">是</span>
+          <span v-else class="status-tag status-no">否</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="打印状态" align="center" prop="printStatus">
+        <template #default="scope">
+          <dict-tag :options="asset_print_status" :value="scope.row.printStatus" />
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
@@ -559,6 +575,7 @@ import uploadImage from "@/views/common/uploadImage.vue"
 
 const { proxy } = getCurrentInstance()
 const { asset_status } = proxy.useDict("asset_status")
+const { asset_print_status } = proxy.useDict("asset_print_status")
 
 const assetList = ref([])
 const open = ref(false)
@@ -595,10 +612,12 @@ const calculateTableHeight = () => {
 
 const data = reactive({
   form: {
-    assetStatus: '1'
+    assetStatus: '1',
+    printStatus: '0'
   },
   batchForm: {
-    assetStatus: '1'
+    assetStatus: '1',
+    printStatus: '0'
   },
   queryParams: {
     pageNum: 1,
@@ -617,7 +636,8 @@ const data = reactive({
     searchManagedEmpName: null,
     searchUsingEmpName: null,
     searchCollectorUserName: null,
-    assetStatus: null
+    assetStatus: null,
+    printStatus: null
   },
   rules: {
     deptId: [{ required: true, message: "单位不能为空", trigger: "blur" }],
@@ -680,6 +700,7 @@ function reset() {
     assetName: null,
     specification: null,
     assetStatus: "1",
+    printStatus: "0",
     productionTime: null,
     locationId: null,
     locationName: null,
