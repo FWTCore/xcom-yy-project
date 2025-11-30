@@ -55,6 +55,7 @@
             physicalSelected.length === 0 || ledgerSelected.length === 0
           "
           plain
+          v-hasPermi="['check:verification:relational']"
           @click="handleRelation"
           >关联</el-button
         >
@@ -66,6 +67,7 @@
         type="physical"
         :tableHeight="tableHeight"
         :filter="filter"
+        :sortFiels="physicalSortFields"
         title="实物资产列表"
         enableGlobalOrder
         :handleGlobalOrderChange="handleGlobalOrderChange"
@@ -74,12 +76,14 @@
         :loadDataHandler="getPhysicalList"
         :handleOrderChange="handlePhysicalOrderChange"
         @selection-change="handlePhysicalSelectionChange"
+        @order-change="handlePhysicalOrderChange"
       />
       <PhysicalTable
         type="ledger"
         :tableHeight="tableHeight"
         :filter="filter"
         title="财务资产列表"
+        :sortFields="ledgerSortFields"
         :enableGlobalOrder="false"
         :globalOrder="globalOrder"
         :globalFields="globalFields"
@@ -326,6 +330,9 @@ const ledgerFields = ref([
 ]);
 const physicalSelected = ref([]);
 const ledgerSelected = ref([]);
+const ledgerSortFields = ref([]);
+const physicalSortFields = ref([]);
+
 const handleLedgerSelectionChange = (selection) => {
   ledgerSelected.value = selection.map((item) => item.id);
 };
@@ -355,11 +362,16 @@ const handleRelation = () => {
 };
 
 const handlePhysicalOrderChange = (order) => {
-  filter.value = {
-    ...filter.value,
-    sortFields: order,
-  };
+  // filter.value = {
+  //   ...filter.value,
+  //   sortFields: order,
+  // };
+  physicalSortFields.value = order;
   globalFields.value = order;
+  if (globalOrder.value) {
+    ledgerSortFields.value = order;
+  }
+  // globalFields.value = order;
 };
 
 // 响应式高度计算
@@ -432,6 +444,7 @@ function getProject(deptId) {
 
 const handleGlobalOrderChange = (value) => {
   globalOrder.value = value;
+  handlePhysicalOrderChange(globalFields.value);
 };
 
 onMounted(() => {

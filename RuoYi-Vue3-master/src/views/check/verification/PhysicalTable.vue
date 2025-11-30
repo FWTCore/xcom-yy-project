@@ -230,17 +230,17 @@ const loadData = async (refresh = false) => {
 const handleOrderChange = (data) => {
   // 从data对象中提取所有值为true的属性名，放入sortFields数组
   const sortFields = Object.keys(data).filter((key) => data[key] === true);
-
   // 这里可以使用sortFields进行后续操作
+  physicalQueryParams.value.sortFields = sortFields;
+  loadData(true);
   if (props.globalOrder && props.handleOrderChange) {
     props.handleOrderChange(sortFields);
     return;
   }
-  physicalQueryParams.value.sortFields = sortFields;
-  loadData(true);
+  emit("order-change", sortFields);
 };
 
-const emit = defineEmits(["selection-change"]);
+const emit = defineEmits(["selection-change", "order-change"]);
 
 const physicalSelected = ref([]);
 
@@ -266,6 +266,10 @@ const props = defineProps({
   columns: {
     type: Object,
     default: () => {},
+  },
+  sortFields: {
+    type: Array,
+    default: () => [],
   },
   filter: {
     type: Object,
@@ -293,7 +297,7 @@ const props = defineProps({
   },
   handleOrderChange: {
     type: Function,
-    default: () => {},
+    default: null,
   },
   loadDataHandler: {
     type: Function,
@@ -313,19 +317,38 @@ const props = defineProps({
   },
 });
 
+// watch(
+//   () => props.globalFields,
+//   (newVal, oldVal) => {
+//     if (props.globalOrder) {
+//       console.log("globalFiels ", props.globalFields);
+//       Object.keys(orderColumns.value).forEach((key) => {
+//         if (newVal.includes(key)) {
+//           orderColumns.value[key].visible = true;
+//         } else {
+//           orderColumns.value[key].visible = false;
+//         }
+//       });
+//     }
+//   }
+// );
+
 watch(
-  () => props.globalFields,
+  () => props.sortFields,
   (newVal, oldVal) => {
-    if (props.globalOrder) {
-      debugger;
-      Object.keys(orderColumns.value).forEach((key) => {
-        if (newVal.includes(key)) {
-          orderColumns.value[key].visible = true;
-        } else {
-          orderColumns.value[key].visible = false;
-        }
-      });
-    }
+    physicalQueryParams.value = {
+      ...physicalQueryParams.value,
+      sortFields: newVal,
+    };
+
+    Object.keys(orderColumns.value).forEach((key) => {
+      if (newVal.includes(key)) {
+        orderColumns.value[key].visible = true;
+      } else {
+        orderColumns.value[key].visible = false;
+      }
+    });
+    loadData();
   }
 );
 
