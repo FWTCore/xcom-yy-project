@@ -12,6 +12,7 @@
         <result property="assetName" column="asset_name"/>
         <result property="specification" column="specification"/>
         <result property="obtainTime" column="obtain_time"/>
+        <result property="obtainTimeDay" column="obtain_time_day"/>
         <result property="productPrice" column="product_price"/>
         <result property="locationId" column="location_id"/>
         <result property="locationName" column="location_name"/>
@@ -51,6 +52,7 @@
                asset_name,
                specification,
                obtain_time,
+               obtain_time_day,
                product_price,
                location_id,
                location_name,
@@ -88,6 +90,12 @@
             </if>
             <if test="originalCode != null  and originalCode != ''">
                 and original_code = #{originalCode}
+            </if>
+            <if test="originalCodes != null  and originalCodes.size() > 0">
+                and original_code in
+                <foreach collection="originalCodes" item="originalCode" open="(" separator="," close=")">
+                    #{originalCode}
+                </foreach>
             </if>
             <if test="searchOriginalCode != null  and searchOriginalCode != ''">
                 and a.original_code like concat('%', #{searchOriginalCode}, '%')
@@ -200,6 +208,7 @@
         a.asset_name,
         a.specification,
         a.obtain_time,
+        a.obtain_time_day,
         a.product_price,
         a.location_id,
         a.location_name,
@@ -383,6 +392,9 @@
             <if test="obtainTime != null">
                 obtain_time,
             </if>
+            <if test="obtainTimeDay != null">
+                obtain_time_day,
+            </if>
             <if test="productPrice != null">
                 product_price,
             </if>
@@ -474,6 +486,9 @@
             </if>
             <if test="obtainTime != null">
                 #{obtainTime},
+            </if>
+            <if test="obtainTimeDay != null">
+                #{obtainTimeDay},
             </if>
             <if test="productPrice != null">
                 #{productPrice},
@@ -579,6 +594,10 @@
             <if test="obtainTime != null">
                 obtain_time =
                 #{obtainTime},
+            </if>
+            <if test="obtainTimeDay != null">
+                obtain_time_day =
+                #{obtainTimeDay},
             </if>
             <if test="productPrice != null">
                 product_price =
