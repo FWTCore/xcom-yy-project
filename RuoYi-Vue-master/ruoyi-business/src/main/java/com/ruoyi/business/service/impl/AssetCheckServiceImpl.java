@@ -10,6 +10,7 @@ import com.ruoyi.business.domain.model.request.AssetCheckRelationalReqBO;
 import com.ruoyi.business.domain.model.response.AssetDataDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDataDetailVO;
+import com.ruoyi.business.event.EventPublisher;
 import com.ruoyi.business.service.AssetCheckService;
 import com.ruoyi.business.service.AssetDataService;
 import com.ruoyi.business.service.AssetService;
@@ -49,6 +50,8 @@ public class AssetCheckServiceImpl implements AssetCheckService {
     private OriginalAssetDataService originalAssetDataService;
     @Resource
     private MetricsService           metricsService;
+    @Resource
+    private EventPublisher           eventPublisher;
 
     @Override
     public List<AssetMetricsVO> listPhysicalMetrics(AssetCheckMetricsReqBO reqBO) {
@@ -206,7 +209,7 @@ public class AssetCheckServiceImpl implements AssetCheckService {
             }
             index++;
         }
-        originalAssetService.updateMatchStatic(originalAssetDO.getOriginalCode());
+        eventPublisher.publishOriginalAssetDataEvent(originalAssetDO.getId(), null, null);
         return true;
     }
 

@@ -2,18 +2,21 @@ package com.ruoyi.business.event;
 
 import com.ruoyi.business.domain.entity.OriginalAssetDO;
 import com.ruoyi.business.domain.entity.OriginalAssetDataDO;
+import com.ruoyi.business.domain.model.OriginalAsset;
 import com.ruoyi.business.domain.model.convert.OriginalAssetDataConvert;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.service.MetricsService;
 import com.ruoyi.business.service.OriginalAssetDataService;
 import com.ruoyi.business.service.OriginalAssetService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 原始资产事件监听
@@ -113,18 +116,28 @@ public class OriginalAssetDataEventListener {
     @Async
     @EventListener
     public void handleMysql(OriginalAssetDataEvent event) {
-        if (ObjectUtils.isEmpty(event) || ObjectUtils.isEmpty(event.getOriginalAssetId())) {
+        if (ObjectUtils.isEmpty(event)) {
             return;
         }
-        OriginalAssetDO originalAssetDO = originalAssetService.selectOriginalAssetById(event.getOriginalAssetId());
-        if (ObjectUtils.isEmpty(originalAssetDO)) {
-            return;
+        if (ObjectUtils.isNotEmpty(event.getOriginalAssetId())) {
+            OriginalAssetDO originalAssetDO = originalAssetService.selectOriginalAssetById(event.getOriginalAssetId());
+            if (ObjectUtils.isEmpty(originalAssetDO)) {
+                return;
+            }
+            originalAssetService.updateMatchStatic(originalAssetDO.getProjectId(), originalAssetDO.getOriginalCode());
         }
-        // 获取统计
-        try {
-            metricsService.upsetLedgerMetrics(originalAssetDO.getProjectId());
-        } catch (Exception exception) {
-
+        if (ObjectUtils.isNotEmpty(event.getProjectId()) && CollectionUtils.isNotEmpty(event.getOriginalCodes())) {
+            OriginalAsset originalAsset = new OriginalAsset();
+            originalAsset.setProjectId(event.getProjectId());
+            originalAsset.setOriginalCodes(event.getOriginalCodes());
+            List<OriginalAssetDO> originalAssetDOList = originalAssetService.selectOriginalAssetList(originalAsset);
+            if (CollectionUtils.isEmpty(originalAssetDOList)) {
+                return;
+            }
+            for (OriginalAssetDO originalAssetDO : originalAssetDOList) {
+                originalAssetService.updateMatchStatic(originalAssetDO.getProjectId(),
+                    originalAssetDO.getOriginalCode());
+            }
         }
 
     }

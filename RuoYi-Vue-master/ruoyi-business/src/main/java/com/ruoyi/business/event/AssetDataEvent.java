@@ -1,7 +1,7 @@
 package com.ruoyi.business.event;
 
 import lombok.Getter;
-import org.springframework.context.ApplicationEvent;
+import org.springframework.security.core.context.SecurityContext;
 
 /**
  * AssetDataEvent
@@ -11,15 +11,15 @@ import org.springframework.context.ApplicationEvent;
  */
 
 @Getter
-public class AssetDataEvent extends ApplicationEvent {
+public class AssetDataEvent extends BaseEvent {
 
     /**
      * 资产id AssetDataEventListener
      */
     private final Long assetId;
 
-    public AssetDataEvent(Object source, Long assetId) {
-        super(source);
+    public AssetDataEvent(Object source, Long assetId, SecurityContext securityContext) {
+        super(source, securityContext);
         this.assetId = assetId;
     }
 }

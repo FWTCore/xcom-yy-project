@@ -21,6 +21,8 @@ import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
 import com.ruoyi.business.event.AssetDataEvent;
+import com.ruoyi.business.event.EventPublisher;
+import com.ruoyi.business.event.OriginalAssetDataEvent;
 import com.ruoyi.business.mapper.AssetMapper;
 import com.ruoyi.business.domain.model.convert.AssetConvert;
 import com.ruoyi.business.domain.model.request.AssetCopyReqBO;
@@ -44,13 +46,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,25 +73,25 @@ import static java.util.stream.Collectors.toMap;
 public class AssetServiceImpl implements AssetService {
 
     @Resource
-    private AssetMapper               assetMapper;
+    private AssetMapper          assetMapper;
     @Resource
-    private CategoryService           categoryService;
+    private CategoryService      categoryService;
     @Resource
-    private BrandService              brandService;
+    private BrandService         brandService;
     @Resource
-    private MaterialService           materialService;
+    private MaterialService      materialService;
     @Resource
-    private LocationService           locationService;
+    private LocationService      locationService;
     @Resource
-    private DepartmentService         departmentService;
+    private DepartmentService    departmentService;
     @Resource
-    private EmployeeService           employeeService;
+    private EmployeeService      employeeService;
     @Resource
-    private ProjectService            projectService;
+    private ProjectService       projectService;
     @Resource
-    private OriginalAssetService      originalAssetService;
+    private OriginalAssetService originalAssetService;
     @Resource
-    private ApplicationEventPublisher applicationEventPublisher;
+    private EventPublisher       eventPublisher;
 
     @Override
     public HomeAssetStatsVO getHomeAssetStats(Long projectId) {
@@ -146,7 +148,7 @@ public class AssetServiceImpl implements AssetService {
     public int insertAsset(AssetDO asset) {
         asset.setBaseFieldValue();
         int respData = assetMapper.insertAsset(asset);
-        this.publishEvent(asset.getId());
+        this.publishEvent(asset.getProjectId());
         return respData;
     }
 
@@ -160,7 +162,7 @@ public class AssetServiceImpl implements AssetService {
     public int updateAsset(AssetDO asset) {
         asset.setUpdatedFieldValue();
         int respData = assetMapper.updateAsset(asset);
-        this.publishEvent(asset.getId());
+        this.publishEvent(asset.getProjectId());
         return respData;
     }
 
@@ -189,7 +191,8 @@ public class AssetServiceImpl implements AssetService {
             int respData = this.insertAsset(asset);
             try {
                 if (StringUtils.isNotBlank(asset.getOriginalCode())) {
-                    originalAssetService.updateMatchStatic(asset.getOriginalCode());
+                    eventPublisher.publishOriginalAssetDataEvent(null, asset.getProjectId(),
+                        new ArrayList<>(Collections.singletonList(asset.getOriginalCode())));
                 }
             } catch (Exception exception) {
 
@@ -208,10 +211,12 @@ public class AssetServiceImpl implements AssetService {
      */
     @Override
     public int deleteAssetByIds(Long[] ids) {
-        int respData = assetMapper.deleteAssetByIds(ids);
-        for (Long id : ids) {
-            this.publishEvent(id);
+        List<AssetDO> assetDOList = this.selectAssetByIds(Arrays.asList(ids));
+        if (CollectionUtils.isEmpty(assetDOList)) {
+            return 0;
         }
+        int respData = assetMapper.deleteAssetByIds(ids);
+        this.publishEvent(assetDOList.get(0).getProjectId());
         return respData;
     }
 
@@ -223,8 +228,12 @@ public class AssetServiceImpl implements AssetService {
      */
     @Override
     public int deleteAssetById(Long id) {
+        AssetDO assetDO = this.selectAssetById(id);
+        if (ObjectUtils.isEmpty(assetDO)) {
+            return 0;
+        }
         int respData = assetMapper.deleteAssetById(id);
-        this.publishEvent(id);
+        this.publishEvent(assetDO.getProjectId());
         return respData;
     }
 
@@ -596,6 +605,12 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public int disassociate(Long[] ids) {
         List<AssetDO> assetDOS = this.selectAssetByIds(Arrays.asList(ids));
+        if (CollectionUtils.isEmpty(assetDOS)) {
+            throw new ServiceException("解除的不存在");
+        }
+        if (assetDOS.stream().map(AssetDO::getProjectId).distinct().count() != 1) {
+            throw new ServiceException("只能批量解除同一个项目的资产");
+        }
         List<String> originalCodes = new ArrayList<>();
         for (AssetDO assetDO : assetDOS) {
             if (StringUtils.isBlank(assetDO.getOriginalSubCode()) && StringUtils.isBlank(assetDO.getOriginalCode())) {
@@ -608,12 +623,8 @@ public class AssetServiceImpl implements AssetService {
             assetDO.setOriginalCode(null);
             this.updateAsset(assetDO);
         }
-        for (String originalCode : originalCodes) {
-            try {
-                originalAssetService.updateMatchStatic(originalCode);
-            } catch (Exception exception) {
-
-            }
+        if (CollectionUtils.isNotEmpty(originalCodes)) {
+            eventPublisher.publishOriginalAssetDataEvent(null, assetDOS.get(0).getProjectId(), originalCodes);
         }
         return 1;
     }
@@ -865,11 +876,11 @@ public class AssetServiceImpl implements AssetService {
 
     /**
      * 发布事件
-     * @param id
+     * @param projectId
      */
-    private void publishEvent(Long id) {
+    private void publishEvent(Long projectId) {
         try {
-            applicationEventPublisher.publishEvent(new AssetDataEvent(this, id));
+            eventPublisher.publishProjectAssetDataEvent(projectId, 1);
         } catch (Exception exception) {
             log.error("");
         }

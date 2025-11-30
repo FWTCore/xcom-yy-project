@@ -36,7 +36,7 @@ public class ProjectAssetDataEventListener {
      */
     @Async
     @EventListener
-    public void handleMysql(ProjectAssetDataEvent event) {
+    public void handle(ProjectAssetDataEvent event) {
         if (ObjectUtils.isEmpty(event) || ObjectUtils.isEmpty(event.getProjectId())) {
             return;
         }
@@ -44,11 +44,11 @@ public class ProjectAssetDataEventListener {
         if (ObjectUtils.isEmpty(projectDetailVO)) {
             return;
         }
-        // 获取统计
-        try {
+        if (ObjectUtils.isEmpty(event.getBizType()) || event.getBizType().equals(1)) {
+            metricsService.upsetPhysicalMetrics(event.getProjectId());
+        }
+        if (ObjectUtils.isEmpty(event.getBizType()) || event.getBizType().equals(2)) {
             metricsService.upsetLedgerMetrics(event.getProjectId());
-        } catch (Exception exception) {
-
         }
     }
 

@@ -91,10 +91,11 @@ public interface OriginalAssetService {
 
     /**
      * 更新原始编码统计信息
+     * @param projectId
      * @param originalCode
      * @return
      */
-    boolean updateMatchStatic(String originalCode);
+    boolean updateMatchStatic(Long projectId, String originalCode);
 
     /**
      * 账务资产报表 概览
@@ -127,8 +128,6 @@ public interface OriginalAssetService {
      */
     AssetMetricsVO getLocationMetrics(Long projectId, Long locationId);
 
-
-
     /**
      * 分页获取分类指标
      * @param reqBO
@@ -156,6 +155,7 @@ public interface OriginalAssetService {
      * @return
      */
     List<AssetMetricsVO> listSpecificationMetrics(AssetCheckMetricsReqBO reqBO);
+
     /**
      * 分页获取取得时间指标
      * @param reqBO

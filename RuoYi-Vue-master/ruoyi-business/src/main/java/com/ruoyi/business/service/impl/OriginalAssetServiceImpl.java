@@ -22,6 +22,7 @@ import com.ruoyi.business.domain.model.response.AssetMetricsVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import com.ruoyi.business.domain.model.Project;
 import com.ruoyi.business.domain.model.response.ProjectDetailVO;
+import com.ruoyi.business.event.EventPublisher;
 import com.ruoyi.business.event.OriginalAssetDataEvent;
 import com.ruoyi.business.mapper.OriginalAssetMapper;
 import com.ruoyi.business.service.CategoryService;
@@ -39,7 +40,6 @@ import com.ruoyi.system.service.ISysDeptService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -56,21 +56,21 @@ import static java.util.stream.Collectors.toMap;
 @Service
 public class OriginalAssetServiceImpl implements OriginalAssetService {
     @Resource
-    private OriginalAssetMapper       originalAssetMapper;
+    private OriginalAssetMapper originalAssetMapper;
     @Resource
-    private CategoryService           categoryService;
+    private CategoryService     categoryService;
     @Resource
-    private LocationService           locationService;
+    private LocationService     locationService;
     @Resource
-    private DepartmentService         departmentService;
+    private DepartmentService   departmentService;
     @Resource
-    private EmployeeService           employeeService;
+    private EmployeeService     employeeService;
     @Resource
-    private ProjectService            projectService;
+    private ProjectService      projectService;
     @Resource
-    private ISysDeptService           iSysDeptService;
+    private ISysDeptService     iSysDeptService;
     @Resource
-    private ApplicationEventPublisher applicationEventPublisher;
+    private EventPublisher      eventPublisher;
 
     /**
      * 查询原始资产
@@ -388,8 +388,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
     }
 
     @Override
-    public boolean updateMatchStatic(String originalCode) {
-        originalAssetMapper.updateMatchStatic(originalCode);
+    public boolean updateMatchStatic(Long projectId, String originalCode) {
+        originalAssetMapper.updateMatchStatic(projectId, originalCode);
         return true;
     }
 
@@ -582,7 +582,7 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
      */
     private void publishEvent(Long id) {
         try {
-            applicationEventPublisher.publishEvent(new OriginalAssetDataEvent(this, id));
+            eventPublisher.publishOriginalAssetDataEvent(id, null, null);
         } catch (Exception exception) {
             log.error("");
         }

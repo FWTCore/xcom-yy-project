@@ -1,7 +1,7 @@
 package com.ruoyi.business.event;
 
 import lombok.Getter;
-import org.springframework.context.ApplicationEvent;
+import org.springframework.security.core.context.SecurityContext;
 
 /**
  * ProjectAssetDataEvent
@@ -11,15 +11,17 @@ import org.springframework.context.ApplicationEvent;
  */
 
 @Getter
-public class ProjectAssetDataEvent extends ApplicationEvent {
+public class ProjectAssetDataEvent extends BaseEvent {
 
     /**
      * 项目id  OriginalAssetDataEventListener
      */
-    private final Long projectId;
+    private final Long    projectId;
+    private final Integer bizType;
 
-    public ProjectAssetDataEvent(Object source, Long projectId) {
-        super(source);
+    public ProjectAssetDataEvent(Object source, Long projectId, Integer bizType, SecurityContext securityContext) {
+        super(source, securityContext);
         this.projectId = projectId;
+        this.bizType = bizType;
     }
 }

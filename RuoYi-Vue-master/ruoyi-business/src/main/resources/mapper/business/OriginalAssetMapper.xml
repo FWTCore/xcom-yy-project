@@ -685,16 +685,18 @@
         UPDATE original_asset AS oas
             INNER JOIN (
             SELECT original_code,
-            COUNT(1) AS cnt
+            COUNT (1) AS cnt
             FROM asset
             WHERE delete_flag = 0
             and original_code = #{originalCode}
+            and project_id=#{projectId}
             GROUP BY original_code
             ) AS ast
         ON oas.original_code = ast.original_code
             SET oas.match_count = ast.cnt,
                 oas.match_status = IF(ast.cnt > 1, 1, 0)
         WHERE oas.original_code = #{originalCode}
+          and oas.project_id=#{projectId}
           AND oas.delete_flag = 0;
     </update>
 

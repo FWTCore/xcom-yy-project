@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 原始资产对象 original_asset
@@ -43,6 +44,10 @@ public class OriginalAsset extends BaseEntityDO {
      * 原始编码,;
      */
     private String        originalCode;
+    /**
+     * 原始编码,;
+     */
+    private List<String>  originalCodes;
 
     /**
      * 原始编码,;
