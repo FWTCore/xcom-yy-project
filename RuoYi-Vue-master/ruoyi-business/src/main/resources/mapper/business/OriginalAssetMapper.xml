@@ -1008,4 +1008,10 @@
         ) as data
         order by data.metricsName desc
     </select>
+
+    <select id="listAllIds" resultType="java.lang.Long">
+        select distinct id
+        from original_asset
+        where delete_flag = 0
+    </select>
 </mapper>

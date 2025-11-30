@@ -95,6 +95,14 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
         return originalAssetMapper.selectOriginalAssetByIds(ids);
     }
 
+    @Override
+    public List<OriginalAssetDO> selectOriginalAssetList(Long projectId, List<String> originalCodes) {
+        OriginalAsset originalAsset = new OriginalAsset();
+        originalAsset.setProjectId(projectId);
+        originalAsset.setOriginalCodes(originalCodes);
+        return originalAssetMapper.selectOriginalAssetList(originalAsset);
+    }
+
     /**
      * 查询原始资产列表
      *
@@ -479,6 +487,11 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
     @DataScope(deptAlias = "a", projectAlias = "a")
     public List<AssetMetricsVO> listUsingEmpMetrics(AssetCheckMetricsReqBO reqBO) {
         return originalAssetMapper.listUsingEmpMetrics(reqBO);
+    }
+
+    @Override
+    public List<Long> listAllIds() {
+        return originalAssetMapper.listAllIds();
     }
 
     /**

@@ -84,4 +84,10 @@ public interface ProjectService {
      * @return
      */
     void changeProjectStatus(Long projectId);
+
+    /**
+     * 获取所有项目id
+     * @return
+     */
+    List<Long> listAllIds();
 }

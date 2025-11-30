@@ -190,4 +190,10 @@ public interface OriginalAssetMapper {
      * @return
      */
     List<AssetMetricsVO> listUsingEmpMetrics(@Param("reqBO") AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 获取所有id
+     * @return
+     */
+    List<Long> listAllIds();
 }

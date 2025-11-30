@@ -139,4 +139,9 @@ public class ProjectServiceImpl implements ProjectService {
         projectMapper.changeProjectStatusForProgress(projectId);
         projectMapper.changeProjectStatusForCompleted(projectId);
     }
+
+    @Override
+    public List<Long> listAllIds() {
+        return projectMapper.listAllIds();
+    }
 }

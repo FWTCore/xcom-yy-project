@@ -35,6 +35,15 @@ public interface OriginalAssetService {
     /**
      * 查询原始资产列表
      *
+     * @param projectId
+     * @param originalCodes 
+     * @return 原始资产集合
+     */
+    List<OriginalAssetDO> selectOriginalAssetList(Long projectId, List<String> originalCodes);
+
+    /**
+     * 查询原始资产列表
+     *
      * @param originalAsset 原始资产
      * @return 原始资产集合
      */
@@ -197,4 +206,10 @@ public interface OriginalAssetService {
      * @return
      */
     List<AssetMetricsVO> listUsingEmpMetrics(AssetCheckMetricsReqBO reqBO);
+
+    /**
+     * 获取所有id
+     * @return
+     */
+    List<Long> listAllIds();
 }

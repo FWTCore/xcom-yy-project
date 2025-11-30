@@ -130,10 +130,8 @@ public class OriginalAssetDataEventListener {
             originalAssetService.updateMatchStatic(originalAssetDO.getProjectId(), originalAssetDO.getOriginalCode());
         }
         if (ObjectUtils.isNotEmpty(event.getProjectId()) && CollectionUtils.isNotEmpty(event.getOriginalCodes())) {
-            OriginalAsset originalAsset = new OriginalAsset();
-            originalAsset.setProjectId(event.getProjectId());
-            originalAsset.setOriginalCodes(event.getOriginalCodes());
-            List<OriginalAssetDO> originalAssetDOList = originalAssetService.selectOriginalAssetList(originalAsset);
+            List<OriginalAssetDO> originalAssetDOList = originalAssetService
+                .selectOriginalAssetList(event.getProjectId(), event.getOriginalCodes());
             if (CollectionUtils.isEmpty(originalAssetDOList)) {
                 return;
             }

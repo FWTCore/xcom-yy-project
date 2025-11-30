@@ -93,4 +93,10 @@ public interface ProjectMapper {
      * @return
      */
     int changeProjectStatusForCompleted(@Param("projectId") Long projectId);
+
+    /**
+     * 获取所有id
+     * @return
+     */
+    List<Long> listAllIds();
 }
