@@ -13,6 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -119,6 +120,8 @@ public class OriginalAssetDataEventListener {
         if (ObjectUtils.isEmpty(event)) {
             return;
         }
+        // 手动设置安全上下文
+        SecurityContextHolder.setContext(event.getSecurityContext());
         if (ObjectUtils.isNotEmpty(event.getOriginalAssetId())) {
             OriginalAssetDO originalAssetDO = originalAssetService.selectOriginalAssetById(event.getOriginalAssetId());
             if (ObjectUtils.isEmpty(originalAssetDO)) {

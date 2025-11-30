@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -40,6 +41,8 @@ public class ProjectAssetDataEventListener {
         if (ObjectUtils.isEmpty(event) || ObjectUtils.isEmpty(event.getProjectId())) {
             return;
         }
+        // 手动设置安全上下文
+        SecurityContextHolder.setContext(event.getSecurityContext());
         ProjectDetailVO projectDetailVO = projectService.selectProjectById(event.getProjectId());
         if (ObjectUtils.isEmpty(projectDetailVO)) {
             return;
