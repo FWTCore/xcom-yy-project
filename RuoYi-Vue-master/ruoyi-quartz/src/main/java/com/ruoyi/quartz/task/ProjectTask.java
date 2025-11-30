@@ -18,8 +18,8 @@ public class ProjectTask {
     @Resource
     private ProjectService projectService;
 
-    public void changeProjectStatus(Long id) {
-        projectService.changeProjectStatus(id);
+    public void changeProjectStatus() {
+        projectService.changeProjectStatus(null);
     }
 
 }
