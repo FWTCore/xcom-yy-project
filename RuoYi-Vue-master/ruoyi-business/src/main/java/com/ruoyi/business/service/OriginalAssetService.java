@@ -209,7 +209,9 @@ public interface OriginalAssetService {
 
     /**
      * 获取所有id
+     * @param lastId
+     * @param size
      * @return
      */
-    List<Long> listAllIds();
+    List<Long> listAllIds(Long lastId, Integer size);
 }

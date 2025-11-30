@@ -87,7 +87,9 @@ public interface ProjectService {
 
     /**
      * 获取所有项目id
+     * @param lastId
+     * @param size
      * @return
      */
-    List<Long> listAllIds();
+    List<Long> listAllIds(Long lastId, Integer size);
 }

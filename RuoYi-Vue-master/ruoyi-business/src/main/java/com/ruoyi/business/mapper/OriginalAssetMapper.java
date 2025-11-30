@@ -193,7 +193,9 @@ public interface OriginalAssetMapper {
 
     /**
      * 获取所有id
+     * @param lastId
+     * @param size
      * @return
      */
-    List<Long> listAllIds();
+    List<Long> listAllIds(@Param("lastId") Long lastId, @Param("size") Integer size);
 }

@@ -141,7 +141,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Long> listAllIds() {
-        return projectMapper.listAllIds();
+    public List<Long> listAllIds(Long lastId, Integer size) {
+        return projectMapper.listAllIds(lastId, size);
     }
 }

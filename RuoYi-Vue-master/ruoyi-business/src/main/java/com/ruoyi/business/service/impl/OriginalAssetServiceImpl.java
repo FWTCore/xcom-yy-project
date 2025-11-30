@@ -490,8 +490,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
     }
 
     @Override
-    public List<Long> listAllIds() {
-        return originalAssetMapper.listAllIds();
+    public List<Long> listAllIds(Long lastId, Integer size) {
+        return originalAssetMapper.listAllIds(lastId, size);
     }
 
     /**
