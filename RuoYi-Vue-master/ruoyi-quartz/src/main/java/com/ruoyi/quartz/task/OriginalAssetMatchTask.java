@@ -15,7 +15,7 @@ import java.util.List;
  * @date 2025/11/23
  */
 
-@Component("OriginalAssetMatchTask")
+@Component("originalAssetMatchTask")
 public class OriginalAssetMatchTask {
     @Resource
     private OriginalAssetService originalAssetService;
