@@ -421,12 +421,12 @@ function getProject(deptId) {
     Number.isNaN(deptId)
   ) {
     projectOptions.value = []; // 清空选项
-    queryParams.projectId = null; // 重置
+    queryParams.value.projectId = null; // 重置
     return;
   }
   listAllProject(deptId).then((response) => {
     projectOptions.value = response.data;
-    queryParams.projectId = null;
+    queryParams.value.projectId = null;
   });
 }
 
