@@ -671,8 +671,8 @@ public class AssetServiceImpl implements AssetService {
                     .filter(e -> e.getOriginalSubCode().equals(data.getOriginalSubCode())).collect(Collectors.toList());
                 if (CollectionUtils.isEmpty(originalAssetList)) {
                     assetList.sort((o1, o2) -> {
-                        String[] parts1 = o1.getOriginalSubCode().split("-");
-                        String[] parts2 = o2.getOriginalSubCode().split("-");
+                        String[] parts1 = o1.getOriginalSubCode().split("#");
+                        String[] parts2 = o2.getOriginalSubCode().split("#");
                         if (parts2.length != parts1.length) {
                             return Integer.compare(parts2.length, parts1.length);
                         }
