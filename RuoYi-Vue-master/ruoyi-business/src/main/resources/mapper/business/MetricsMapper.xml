@@ -471,25 +471,25 @@
             order by
             <foreach collection="sortFields" item="sortField" separator=",">
                 <choose>
-                    <when test="sortField = 0 ">
+                    <when test="sortField == 0 ">
                         a.category_name
                     </when>
-                    <when test="sortField = 1 ">
+                    <when test="sortField == 1 ">
                         ma.total_count desc
                     </when>
-                    <when test="sortField = 3 ">
+                    <when test="sortField == 3 ">
                         md.total_count desc
                     </when>
-                    <when test="sortField = 4 ">
+                    <when test="sortField == 4 ">
                         ml.total_count desc
                     </when>
-                    <when test="sortField = 5 ">
+                    <when test="sortField == 5 ">
                         a.using_emp_Id
                     </when>
-                    <when test="sortField = 6 ">
+                    <when test="sortField == 6 ">
                         a.brand_name
                     </when>
-                    <when test="sortField = 7 ">
+                    <when test="sortField == 7 ">
                         a.specification
                     </when>
                     <otherwise>
@@ -605,28 +605,28 @@
             order by
             <foreach collection="sortFields" item="sortField" separator=",">
                 <choose>
-                    <when test="sortField = 0 ">
+                    <when test="sortField == 0 ">
                         a.category_name
                     </when>
-                    <when test="sortField = 1 ">
+                    <when test="sortField == 1 ">
                         ma.total_count desc
                     </when>
-                    <when test="sortField = 2 ">
+                    <when test="sortField == 2 ">
                         a.obtain_time_day desc
                     </when>
-                    <when test="sortField = 3 ">
+                    <when test="sortField == 3 ">
                         md.total_count desc
                     </when>
-                    <when test="sortField = 4 ">
+                    <when test="sortField == 4 ">
                         ml.total_count desc
                     </when>
-                    <when test="sortField = 5 ">
+                    <when test="sortField == 5 ">
                         a.using_emp_Id
                     </when>
-                    <when test="sortField = 6 ">
+                    <when test="sortField == 6 ">
                         a.brand_name
                     </when>
-                    <when test="sortField = 7 ">
+                    <when test="sortField == 7 ">
                         a.specification
                     </when>
                     <otherwise>
