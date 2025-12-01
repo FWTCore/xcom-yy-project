@@ -664,16 +664,18 @@
                now()
         from asset as a
         where a.delete_flag = 0
-          and project_id = #{projectId}
-        group by asset_name;
+          and a.project_id = #{projectId}
+        group by a.dept_id,
+                 a.project_id,
+                 a.asset_name;
 
         insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
                             check_count, delete_flag, created_by_id, created_by_name, created_time, updated_by_id,
                             updated_by_name, updated_time)
         select a.dept_id,
                a.project_id,
-               using_dept_Id,
-               using_dept_Id,
+               a.using_dept_Id,
+               a.using_dept_Id,
                a.using_dept_name,
                2                               as metrics_type,
                1                               as biz_type,
@@ -688,8 +690,10 @@
                now()
         from asset as a
         where a.delete_flag = 0
-          and project_id = #{projectId}
-        group by using_dept_Id;
+          and a.project_id = #{projectId}
+        group by  a.dept_id,
+                  a.project_id,
+                  a.using_dept_Id;
 
 
         insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
@@ -697,8 +701,8 @@
                             updated_by_name, updated_time)
         select a.dept_id,
                a.project_id,
-               location_id,
-               location_id,
+               a.location_id,
+               a.location_id,
                a.location_name,
                3                               as metrics_type,
                1                               as biz_type,
@@ -713,8 +717,10 @@
                now()
         from asset as a
         where a.delete_flag = 0
-          and project_id = #{projectId}
-        group by location_id;
+          and a.project_id = #{projectId}
+        group by a.dept_id,
+                 a.project_id,
+                 a.location_id;
     </update>
 
     <update id="upsetLedgerMetrics">
@@ -744,16 +750,18 @@
                now()
         from original_asset as a
         where a.delete_flag = 0
-          and project_id = #{projectId}
-        group by asset_name;
+          and a.project_id = #{projectId}
+        group by a.dept_id,
+                 a.project_id,
+                 a.asset_name;
 
         insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
                             check_count, delete_flag, created_by_id, created_by_name, created_time, updated_by_id,
                             updated_by_name, updated_time)
         select a.dept_id,
                a.project_id,
-               using_dept_Id,
-               using_dept_Id,
+               a.using_dept_Id,
+               a.using_dept_Id,
                a.using_dept_name,
                2                               as metrics_type,
                2                               as biz_type,
@@ -768,8 +776,10 @@
                now()
         from original_asset as a
         where a.delete_flag = 0
-          and project_id = #{projectId}
-        group by using_dept_Id;
+          and a.project_id = #{projectId}
+        group by a.dept_id,
+                 a.project_id,
+                 a.using_dept_Id;
 
 
         insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
@@ -777,8 +787,8 @@
                             updated_by_name, updated_time)
         select a.dept_id,
                a.project_id,
-               location_id,
-               location_id,
+               a.location_id,
+               a.location_id,
                a.location_name,
                3                               as metrics_type,
                2                               as biz_type,
@@ -793,7 +803,9 @@
                now()
         from original_asset as a
         where a.delete_flag = 0
-          and project_id = #{projectId}
-        group by location_id;
+          and a.project_id = #{projectId}
+        group by  a.dept_id,
+                  a.project_id,
+                  a.location_id;
     </update>
 </mapper>
