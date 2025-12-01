@@ -94,7 +94,7 @@
   </div>
 </template>
 
-<script setup name="Project">
+<script setup name="Ledger">
 import { listAllProject } from "@/api/business/project";
 import StaticTitle from "@/components/StaticTitle/index.vue";
 import StaticItem from "@/components/StaticItem/index.vue";
@@ -207,6 +207,7 @@ watch(
 );
 
 onMounted(() => {
+  console.log("in leadger on mounted");
   getDeptTree();
   getOverview();
   calculateTableHeight();
