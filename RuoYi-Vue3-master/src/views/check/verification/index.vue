@@ -82,7 +82,7 @@
         type="ledger"
         :tableHeight="tableHeight"
         :filter="filter"
-        title="财务资产列表"
+        title="久其资产列表"
         :sortFields="ledgerSortFields"
         :enableGlobalOrder="false"
         :globalOrder="globalOrder"
@@ -96,7 +96,7 @@
   </div>
 </template>
 
-<script setup name="Project">
+<script setup name="Check">
 import { listAllProject } from "@/api/business/project";
 import PhysicalTable from "@/views/check/verification/PhysicalTable.vue";
 import StaticTitle from "@/components/StaticTitle/index.vue";
@@ -215,6 +215,10 @@ const physicalFields = ref([
       name: "usingEmpIds",
     },
   },
+  {
+    label: "备注",
+    prop: "remark",
+  },
 ]);
 const ledgerFields = ref([
   {
@@ -326,6 +330,10 @@ const ledgerFields = ref([
       value: "",
       name: "usingEmpIds",
     },
+  },
+  {
+    label: "备注",
+    prop: "remark",
   },
 ]);
 const physicalSelected = ref([]);
@@ -448,6 +456,7 @@ const handleGlobalOrderChange = (value) => {
 };
 
 onMounted(() => {
+  console.log("_--------------");
   getDeptTree();
   calculateTableHeight();
   window.addEventListener("resize", calculateTableHeight);

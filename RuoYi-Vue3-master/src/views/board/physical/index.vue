@@ -94,7 +94,7 @@
   </div>
 </template>
 
-<script setup name="Project">
+<script setup name="Physical">
 import { listAllProject } from "@/api/business/project";
 import StaticTitle from "@/components/StaticTitle/index.vue";
 import StaticItem from "@/components/StaticItem/index.vue";
