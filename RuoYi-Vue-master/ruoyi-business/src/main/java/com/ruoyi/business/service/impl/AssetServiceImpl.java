@@ -632,6 +632,11 @@ public class AssetServiceImpl implements AssetService {
         return 1;
     }
 
+    @Override
+    public int getMatchStatic(Long projectId, String originalCode) {
+        return assetMapper.getMatchStatic(projectId, originalCode);
+    }
+
     /**
      * 检查并设置值
      *

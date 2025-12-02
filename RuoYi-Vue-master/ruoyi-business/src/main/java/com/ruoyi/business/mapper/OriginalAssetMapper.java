@@ -85,9 +85,11 @@ public interface OriginalAssetMapper {
      * 更新原始编码统计信息
      * @param projectId
      * @param originalCode
+     * @param matchStatic
      * @return
      */
-    boolean updateMatchStatic(@Param("projectId") Long projectId, @Param("originalCode") String originalCode);
+    boolean updateMatchStatic(@Param("projectId") Long projectId, @Param("originalCode") String originalCode,
+                              @Param("matchCount") int matchStatic);
 
     /**
      * 统计数据橄榄

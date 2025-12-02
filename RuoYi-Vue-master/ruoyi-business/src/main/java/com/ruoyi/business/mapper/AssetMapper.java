@@ -210,4 +210,13 @@ public interface AssetMapper {
      */
     List<AssetMetricsVO> listUsingEmpMetrics(@Param("reqBO") AssetCheckMetricsReqBO reqBO);
 
+    /**
+     * 统计原始编码数据
+     *
+     * @param projectId
+     * @param originalCode
+     * @return
+     */
+    int getMatchStatic(@Param("projectId") Long projectId, @Param("originalCode") String originalCode);
+
 }
