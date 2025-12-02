@@ -190,11 +190,11 @@ public class AssetCheckServiceImpl implements AssetCheckService {
                 return parts2[parts2.length - 1].compareTo(parts1[parts1.length - 1]);
             });
             String maxTemporaryCode = assetList.get(0).getOriginalSubCode();
-            originalSubCode = AssetCodeUtil.generateAssetCode(maxTemporaryCode, assetDOList.size());
+            originalSubCode = AssetCodeUtil.generateAssetCode(maxTemporaryCode, assetDOList.size(), "#");
         } else {
             originalSubCode.add(originalAssetDO.getOriginalCode());
-            originalSubCode
-                .addAll(AssetCodeUtil.generateAssetCode(originalAssetDO.getOriginalCode(), assetDOList.size() - 1));
+            originalSubCode.addAll(
+                AssetCodeUtil.generateAssetCode(originalAssetDO.getOriginalCode(), assetDOList.size() - 1, "#"));
         }
         int index = 0;
         for (AssetDO assetDO : assetDOList) {
