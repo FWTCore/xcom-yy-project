@@ -399,13 +399,13 @@
         a.updated_by_name,
         a.updated_time
         from asset as a
-        inner join metrics ma on ma.delete_flag = 0 and ma.biz_type = 1 and a.dept_id = ma.dept_id and
+        left join metrics ma on ma.delete_flag = 0 and ma.biz_type = 1 and a.dept_id = ma.dept_id and
         a.project_id = ma.project_id and ma.metrics_type = 1 and
         a.asset_name = ma.biz_key
-        inner join metrics md on md.delete_flag = 0 and md.biz_type = 1 and a.dept_id = md.dept_id and
+        left join metrics md on md.delete_flag = 0 and md.biz_type = 1 and a.dept_id = md.dept_id and
         a.project_id = md.project_id and md.metrics_type = 2 and
         a.using_dept_Id = md.biz_id
-        inner join metrics ml on ml.delete_flag = 0 and ml.biz_type = 1 and a.dept_id = ml.dept_id and
+        left join metrics ml on ml.delete_flag = 0 and ml.biz_type = 1 and a.dept_id = ml.dept_id and
         a.project_id = ml.project_id and ml.metrics_type = 3 and
         a.location_id = ml.biz_id
         where a.delete_flag = 0
@@ -534,13 +534,13 @@
         a.updated_by_name,
         a.updated_time
         from original_asset as a
-        inner join metrics ma on ma.delete_flag = 0 and ma.biz_type = 2 and a.dept_id = ma.dept_id and
+        left join metrics ma on ma.delete_flag = 0 and ma.biz_type = 2 and a.dept_id = ma.dept_id and
         a.project_id = ma.project_id and ma.metrics_type = 1 and
         a.asset_name = ma.biz_key
-        inner join metrics md on md.delete_flag = 0 and md.biz_type = 2 and a.dept_id = md.dept_id and
+        left join metrics md on md.delete_flag = 0 and md.biz_type = 2 and a.dept_id = md.dept_id and
         a.project_id = md.project_id and md.metrics_type = 2 and
         a.using_dept_Id = md.biz_id
-        inner join metrics ml on ml.delete_flag = 0 and ml.biz_type = 2 and a.dept_id = ml.dept_id and
+        left join metrics ml on ml.delete_flag = 0 and ml.biz_type = 2 and a.dept_id = ml.dept_id and
         a.project_id = ml.project_id and ml.metrics_type = 3 and
         a.location_id = ml.biz_id
         where a.delete_flag = 0
