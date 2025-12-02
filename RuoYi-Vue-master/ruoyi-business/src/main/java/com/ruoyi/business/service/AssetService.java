@@ -234,4 +234,12 @@ public interface AssetService {
      */
     int disassociate(Long[] ids);
 
+    /**
+     * 统计原始编码数据
+     * @param projectId
+     * @param originalCode
+     * @return
+     */
+    int getMatchStatic(Long projectId, String originalCode);
+
 }

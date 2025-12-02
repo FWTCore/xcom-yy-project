@@ -26,6 +26,7 @@ import com.ruoyi.business.domain.model.response.ProjectDetailVO;
 import com.ruoyi.business.event.EventPublisher;
 import com.ruoyi.business.event.OriginalAssetDataEvent;
 import com.ruoyi.business.mapper.OriginalAssetMapper;
+import com.ruoyi.business.service.AssetService;
 import com.ruoyi.business.service.CategoryService;
 import com.ruoyi.business.service.DepartmentService;
 import com.ruoyi.business.service.EmployeeService;
@@ -72,6 +73,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
     private ISysDeptService     iSysDeptService;
     @Resource
     private EventPublisher      eventPublisher;
+    @Resource
+    private AssetService        assetService;
 
     /**
      * 查询原始资产
@@ -405,7 +408,8 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
 
     @Override
     public boolean updateMatchStatic(Long projectId, String originalCode) {
-        originalAssetMapper.updateMatchStatic(projectId, originalCode);
+        int matchStatic = assetService.getMatchStatic(projectId, originalCode);
+        originalAssetMapper.updateMatchStatic(projectId, originalCode, matchStatic);
         return true;
     }
 
@@ -599,6 +603,7 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
 
     /**
      * 发布事件
+     *
      * @param projectId
      */
     private void publishEvent(Long projectId) {
