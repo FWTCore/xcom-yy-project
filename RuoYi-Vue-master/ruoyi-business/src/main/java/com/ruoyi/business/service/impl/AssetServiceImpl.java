@@ -281,7 +281,7 @@ public class AssetServiceImpl implements AssetService {
         });
 
         String maxTemporaryCode = assetList.get(0).getTemporaryCode();
-        List<String> codeList = AssetCodeUtil.generateAssetCode(maxTemporaryCode, copyReqBO.getCopyNum());
+        List<String> codeList = AssetCodeUtil.generateAssetCode(maxTemporaryCode, copyReqBO.getCopyNum(), "-");
         if (CollectionUtils.isEmpty(codeList)) {
             throw new ServiceException("资产复制生成编号异常");
         }
@@ -684,7 +684,7 @@ public class AssetServiceImpl implements AssetService {
                         return parts2[parts2.length - 1].compareTo(parts1[parts1.length - 1]);
                     });
                     String maxTemporaryCode = assetList.get(0).getOriginalSubCode();
-                    List<String> codeList = AssetCodeUtil.generateAssetCode(maxTemporaryCode, 1);
+                    List<String> codeList = AssetCodeUtil.generateAssetCode(maxTemporaryCode, 1, "-");
                     if (CollectionUtils.isEmpty(codeList)) {
                         throw new ServiceException("原始子编码生成异常");
                     }
