@@ -51,3 +51,11 @@ export function updateAssetBatch(data) {
     data: data
   })
 }
+
+export function disassociateAsset(ids) {
+  return request({
+    url: '/asset/disassociate/ids',
+    method: 'put',
+    data: ids
+  })
+}
