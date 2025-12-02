@@ -146,7 +146,7 @@ public class AssetController extends BaseController {
 
     @ApiOperation("解除关联")
     @PreAuthorize("@ss.hasPermi('business:asset:disassociate')")
-    @PostMapping("/disassociate/{ids}")
+    @PutMapping("/disassociate/{ids}")
     @Log(title = "解除关联", businessType = BusinessType.UPDATE)
     public AjaxResult disassociate(@PathVariable Long[] ids) {
         return toAjax(assetService.disassociate(ids));
