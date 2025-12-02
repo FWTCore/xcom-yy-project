@@ -13,7 +13,7 @@
               <el-switch
                 :default-value="props.globalOrder"
                 v-model="globalOrder"
-                @change="props.handleGlobalOrderChange"
+                @change="handleGlobalOrderChange"
                 size="small"
               />
             </span>
@@ -87,6 +87,7 @@
           <el-table-column
             :label="field.label"
             align="center"
+            :width="field.width || '80'"
             :key="field.prop"
             :prop="field.prop"
             v-if="physicalColumns[field.prop]?.visible"
@@ -105,6 +106,9 @@
                   @reset="() => loadData(true)"
                 />
               </div>
+            </template>
+            <template #default="scope" v-if="field.prop === 'obtainTime'">
+              <span>{{ parseTime(scope.row.obtainTime, "{y}-{m}-{d}") }}</span>
             </template>
           </el-table-column>
         </template>
@@ -150,6 +154,12 @@ const physicalQueryParams = ref({
   usingEmpIds: [],
 });
 
+const handleGlobalOrderChange = (value) => {
+  props.handleGlobalOrderChange(value);
+  if (value) {
+    loadData();
+  }
+};
 const calculateIndex = (index) => {
   return (
     (physicalQueryParams.value.pageNum - 1) *
@@ -336,6 +346,7 @@ const props = defineProps({
 watch(
   () => props.sortFields,
   (newVal, oldVal) => {
+    console.log("sortFields ", newVal);
     physicalQueryParams.value = {
       ...physicalQueryParams.value,
       sortFields: newVal,

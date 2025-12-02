@@ -147,6 +147,7 @@ const physicalFields = ref([
     prop: "assetName",
     orderable: true,
     orderPos: 2,
+    width: 110,
     filter: {
       metricsType: 2,
       value: "",
@@ -158,6 +159,7 @@ const physicalFields = ref([
     prop: "specification",
     orderable: true,
     orderPos: 8,
+    width: 160,
     filter: {
       metricsType: 3,
       value: "",
@@ -218,6 +220,7 @@ const physicalFields = ref([
   {
     label: "备注",
     prop: "remark",
+    width: 160,
   },
 ]);
 const ledgerFields = ref([
@@ -252,6 +255,7 @@ const ledgerFields = ref([
     prop: "assetName",
     orderable: true,
     orderPos: 2,
+    width: 110,
     filter: {
       metricsType: 2,
       value: "",
@@ -263,6 +267,7 @@ const ledgerFields = ref([
     prop: "specification",
     orderable: true,
     orderPos: 8,
+    width: 160,
     filter: {
       metricsType: 3,
       value: "",
@@ -334,6 +339,7 @@ const ledgerFields = ref([
   {
     label: "备注",
     prop: "remark",
+    width: 160,
   },
 ]);
 const physicalSelected = ref([]);
@@ -456,7 +462,6 @@ const handleGlobalOrderChange = (value) => {
 };
 
 onMounted(() => {
-  console.log("_--------------");
   getDeptTree();
   calculateTableHeight();
   window.addEventListener("resize", calculateTableHeight);
