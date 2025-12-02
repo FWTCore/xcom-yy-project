@@ -166,6 +166,7 @@ public class AssetServiceImpl implements AssetService {
         int respData = assetMapper.updateAsset(asset);
         this.publishEvent(asset.getProjectId());
         if (StringUtils.isNotBlank(asset.getOriginalCode())) {
+            log.error("发送关联：" + asset.getOriginalCode());
             eventPublisher.publishOriginalAssetDataEvent(null, asset.getProjectId(),
                 Collections.singletonList(asset.getOriginalCode()));
         }
@@ -627,6 +628,8 @@ public class AssetServiceImpl implements AssetService {
             }
             assetDO.setOriginalSubCode(null);
             assetDO.setOriginalCode(null);
+            assetDO.getParams().put("originalCode", true);
+            assetDO.getParams().put("originalSubCode", true);
             this.updateAsset(assetDO);
         }
         return 1;

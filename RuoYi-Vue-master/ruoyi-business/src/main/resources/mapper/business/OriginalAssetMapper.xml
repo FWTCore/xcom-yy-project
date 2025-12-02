@@ -703,7 +703,7 @@
     <update id="updateMatchStatic">
         UPDATE original_asset AS oas
         SET oas.match_count  = #{matchCount},
-            oas.match_status = IF(#{matchCount} > 1, 1, 0)
+            oas.match_status = IF(#{matchCount} > 0, 1, 0)
         WHERE oas.original_code = #{originalCode}
           and oas.project_id = #{projectId}
           AND oas.delete_flag = 0;

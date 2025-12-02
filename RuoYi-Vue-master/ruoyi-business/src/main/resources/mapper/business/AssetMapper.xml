@@ -798,9 +798,15 @@
                 original_code =
                 #{originalCode},
             </if>
+            <if test="params.originalCode != null and params.originalCode">
+                original_code = null,
+            </if>
             <if test="originalSubCode != null">
                 original_sub_code =
                 #{originalSubCode},
+            </if>
+            <if test="params.originalSubCode != null and params.originalSubCode">
+                original_sub_code = null,
             </if>
             <if test="categoryId != null">
                 category_id =
@@ -1305,7 +1311,7 @@
         FROM asset
         WHERE delete_flag = 0
           and original_code = #{originalCode}
-          and project_id=#{projectId}
+          and project_id = #{projectId}
         GROUP BY original_code
     </select>
 </mapper>
