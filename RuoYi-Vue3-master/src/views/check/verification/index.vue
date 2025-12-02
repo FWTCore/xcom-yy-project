@@ -286,6 +286,10 @@ const ledgerFields = ref([
     },
   },
   {
+    label: "价值",
+    prop: "productPrice",
+  },
+  {
     label: "存放地点",
     prop: "locationName",
     orderable: true,
@@ -383,7 +387,7 @@ const handlePhysicalOrderChange = (order) => {
   physicalSortFields.value = order;
   globalFields.value = order;
   if (globalOrder.value) {
-    ledgerSortFields.value = order;
+    ledgerSortFields.value = [...order];
   }
   // globalFields.value = order;
 };
