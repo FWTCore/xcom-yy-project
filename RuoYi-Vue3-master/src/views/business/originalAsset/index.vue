@@ -377,7 +377,7 @@ const { proxy } = getCurrentInstance()
 
 const originalAssetList = ref([])
 const open = ref(false)
-const loading = ref(true)
+const loading = ref(false)
 const showSearch = ref(true)
 const ids = ref([])
 const single = ref(true)
@@ -737,7 +737,7 @@ function submitFileForm() {
 onMounted(() => {
   getDeptTree()
   getCategory()
-  getList()
+  // getList()
   calculateTableHeight()
   window.addEventListener('resize', calculateTableHeight)
 })

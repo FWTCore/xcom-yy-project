@@ -1047,7 +1047,7 @@ const { asset_print_status } = proxy.useDict("asset_print_status");
 
 const assetList = ref([]);
 const open = ref(false);
-const loading = ref(true);
+const loading = ref(false);
 const showSearch = ref(true);
 const ids = ref([]);
 const single = ref(true);
