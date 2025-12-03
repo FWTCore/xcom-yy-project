@@ -454,7 +454,7 @@
             <if test="printStatus != null  and printStatus != ''">
                 and a.print_status = #{printStatus}
             </if>
-            <if test="matchStatus != null  and matchStatus != ''">
+            <if test="matchStatus != null">
                 and a.match_status = #{matchStatus}
             </if>
             <if test="deleteFlag != null ">

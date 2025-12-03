@@ -318,7 +318,7 @@
             <if test="searchUsingEmpName != null  and searchUsingEmpName != ''">
                 and a.using_emp_name like concat('%', #{searchUsingEmpName}, '%')
             </if>
-            <if test="matchStatus != null  and matchStatus != ''">
+            <if test="matchStatus != null">
                 and a.match_status = #{matchStatus}
             </if>
             <if test="deleteFlag != null ">
