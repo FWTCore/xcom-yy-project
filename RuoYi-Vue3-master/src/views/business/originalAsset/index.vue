@@ -62,6 +62,17 @@
         <el-input v-model="queryParams.searchUsingEmpName" placeholder="请输入使用员工名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
+      <el-form-item label="是否匹配" prop="matchStatus">
+        <el-select
+          v-model="queryParams.matchStatus"
+          placeholder="是否匹配"
+          clearable
+          style="width: 240px"
+        >
+          <el-option label="否" :value="0" />
+          <el-option label="是" :value="1" />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -142,7 +153,7 @@
     </el-table>
 
     <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize" @pagination="getList" />
+      v-model:limit="queryParams.pageSize" @pagination="getList" :pageSizes="[10, 20, 30, 50, 500]"/>
 
     <!-- 添加或修改原始资产对话框 -->
     <el-dialog :title="title" v-model="open" width="800px" append-to-body>
@@ -411,7 +422,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 500,
     deptId: null,
     projectId: null,
     searchOriginalCode: null,
@@ -423,7 +434,8 @@ const data = reactive({
     searchManagedDeptName: null,
     searchUsingDeptName: null,
     searchManagedEmpName: null,
-    searchUsingEmpName: null
+    searchUsingEmpName: null,
+    matchStatus: null,
   },
   rules: {
     deptId: [{ required: true, message: "单位不能为空", trigger: "blur" }],

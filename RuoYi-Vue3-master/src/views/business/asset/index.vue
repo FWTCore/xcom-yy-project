@@ -213,6 +213,17 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="是否匹配" prop="matchStatus">
+        <el-select
+          v-model="queryParams.matchStatus"
+          placeholder="是否匹配"
+          clearable
+          style="width: 240px"
+        >
+          <el-option label="否" :value="0" />
+          <el-option label="是" :value="1" />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery"
           >搜索</el-button
@@ -417,6 +428,7 @@
       v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize"
       @pagination="getList"
+      :pageSizes="[10, 20, 30, 50, 500]"
     />
 
     <!-- 添加或修改资产对话框 -->
@@ -1077,7 +1089,7 @@ const data = reactive({
   },
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 500,
     deptId: null,
     projectId: null,
     searchTemporaryCode: null,
@@ -1094,6 +1106,7 @@ const data = reactive({
     searchCollectorUserName: null,
     assetStatus: null,
     printStatus: null,
+    matchStatus: null,
   },
   rules: {
     deptId: [{ required: true, message: "单位不能为空", trigger: "blur" }],
@@ -1569,7 +1582,7 @@ function resetBatch() {
 onMounted(() => {
   getDeptTree();
   getCategory();
-  getList();
+  // getList();
   calculateTableHeight();
   window.addEventListener("resize", calculateTableHeight);
 });
