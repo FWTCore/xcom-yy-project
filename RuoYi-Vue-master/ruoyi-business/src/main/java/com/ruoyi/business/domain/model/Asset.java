@@ -251,4 +251,8 @@ public class Asset extends BaseEntityDO {
      * 打印状态
      */
     private Integer       printStatus;
+    /**
+     * 打印状态
+     */
+    private Integer       matchStatus;
 }
