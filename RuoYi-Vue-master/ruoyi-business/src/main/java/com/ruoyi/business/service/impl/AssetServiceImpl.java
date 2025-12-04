@@ -291,6 +291,8 @@ public class AssetServiceImpl implements AssetService {
             //清除id，用来新增
             pureData.setId(null);
             pureData.setTemporaryCode(code);
+            pureData.setOriginalCode(null);
+            pureData.setOriginalSubCode(null);
             pureData.setBaseFieldValue();
             LoginUser loginUser = SecurityUtils.getLoginUser();
             pureData.setCollectorUserId(loginUser.getUserId());
