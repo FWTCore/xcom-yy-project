@@ -618,18 +618,13 @@ public class AssetServiceImpl implements AssetService {
         if (assetDOS.stream().map(AssetDO::getProjectId).distinct().count() != 1) {
             throw new ServiceException("只能批量解除同一个项目的资产");
         }
-        List<String> originalCodes = new ArrayList<>();
         for (AssetDO assetDO : assetDOS) {
-            if (StringUtils.isBlank(assetDO.getOriginalSubCode()) && StringUtils.isBlank(assetDO.getOriginalCode())) {
-                continue;
-            }
-            if (StringUtils.isNotBlank(assetDO.getOriginalCode())) {
-                originalCodes.add(assetDO.getOriginalCode());
-            }
             assetDO.setOriginalSubCode(null);
             assetDO.setOriginalCode(null);
             assetDO.getParams().put("originalCode", true);
             assetDO.getParams().put("originalSubCode", true);
+            assetDO.setMatchStatus(0);
+            assetDO.setPrintStatus(0);
             this.updateAsset(assetDO);
         }
         return 1;
