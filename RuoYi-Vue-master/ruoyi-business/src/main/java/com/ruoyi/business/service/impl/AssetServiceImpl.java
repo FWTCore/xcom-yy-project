@@ -619,6 +619,9 @@ public class AssetServiceImpl implements AssetService {
             throw new ServiceException("只能批量解除同一个项目的资产");
         }
         for (AssetDO assetDO : assetDOS) {
+            if (StringUtils.isBlank(assetDO.getTemporaryCode())) {
+                continue;
+            }
             assetDO.setOriginalSubCode(null);
             assetDO.setOriginalCode(null);
             assetDO.getParams().put("originalCode", true);
