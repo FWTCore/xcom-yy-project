@@ -696,11 +696,25 @@ public class AssetServiceImpl implements AssetService {
                     throw new ServiceException("原始子编码已存在多个，请核对数据");
                 } else {
                     AssetDO existAsset = matchAssetList.get(0);
-                    if (!StringUtils.equals(data.getTemporaryCode(), existAsset.getTemporaryCode())) {
-                        throw new ServiceException("编辑资产，不能修改临时编码");
+                    if (StringUtils.equals(data.getOriginalCode(), data.getOriginalSubCode())) {
+                        assetList.sort((o1, o2) -> {
+                            String[] parts1 = o1.getOriginalSubCode().split("#");
+                            String[] parts2 = o2.getOriginalSubCode().split("#");
+                            if (parts2.length != parts1.length) {
+                                return Integer.compare(parts2.length, parts1.length);
+                            }
+                            return parts2[parts2.length - 1].compareTo(parts1[parts1.length - 1]);
+                        });
+                        String maxTemporaryCode = assetList.get(0).getOriginalSubCode();
+                        List<String> originalSubCodes = AssetCodeUtil.generateAssetCode(maxTemporaryCode, 1, "#");
+                        data.setOriginalSubCode(originalSubCodes.get(0));
+                    } else {
+                        if (!StringUtils.equals(data.getTemporaryCode(), existAsset.getTemporaryCode())) {
+                            throw new ServiceException("编辑资产，不能修改临时编码");
+                        }
+                        data.setId(existAsset.getId());
+                        data.setTemporaryCode(existAsset.getTemporaryCode());
                     }
-                    data.setId(existAsset.getId());
-                    data.setTemporaryCode(existAsset.getTemporaryCode());
                 }
             } else {
                 data.setId(null);
