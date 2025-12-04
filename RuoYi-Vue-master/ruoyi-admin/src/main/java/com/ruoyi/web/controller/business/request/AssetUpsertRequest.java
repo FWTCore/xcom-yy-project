@@ -41,8 +41,8 @@ public class AssetUpsertRequest implements Serializable {
     /**
      * 原始编码,;
      */
-    @ApiModelProperty(value = "原始编码")
-    private String            originalCode;
+    @ApiModelProperty(value = "原始子编码")
+    private String            originalSubCode;
 
     /**
      * 分类id,;
