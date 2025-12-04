@@ -641,63 +641,53 @@ public class AssetServiceImpl implements AssetService {
      * @param data
      */
     private void validAndSetField(AssetDO data) {
-        if (StringUtils.isNotBlank(data.getOriginalSubCode())) {
-            data.setOriginalCode(getOriginalCode(data.getOriginalSubCode()));
-        }
-        Asset searchAsset = new Asset();
-        searchAsset.setDeptId(data.getDeptId());
-        searchAsset.setProjectId(data.getProjectId());
         if (StringUtils.isNotBlank(data.getTemporaryCode())) {
+            Asset searchAsset = new Asset();
+            searchAsset.setDeptId(data.getDeptId());
+            searchAsset.setProjectId(data.getProjectId());
             searchAsset.setTemporaryCode(data.getTemporaryCode());
-        } else {
-            searchAsset.setOriginalCode(data.getOriginalCode());
-        }
-        List<AssetDO> assetList = this.selectAssetList(searchAsset);
-        if (CollectionUtils.isNotEmpty(assetList)) {
-            if (StringUtils.isNotBlank(data.getTemporaryCode())) {
-                if (assetList.size() > 1) {
-                    throw new ServiceException("临时/原始编码存在多个，请核对数据");
+            List<AssetDO> assetList = this.selectAssetList(searchAsset);
+            if (CollectionUtils.isNotEmpty(assetList)) {
+                if (assetList.size() != 1) {
+                    throw new ServiceException("临时编码已存在多个，请核对数据");
                 }
                 AssetDO existAsset = assetList.get(0);
                 //存在的情况，不能编辑编码
-                if (!StringUtils.equals(data.getTemporaryCode(), existAsset.getTemporaryCode())) {
-                    throw new ServiceException("编辑资产，不能修改临时编码");
+                if (!StringUtils.equals(data.getOriginalCode(), existAsset.getOriginalCode())) {
+                    throw new ServiceException("编辑资产，不能修改原始子编码");
                 }
-                if (StringUtils.isNotBlank(data.getOriginalSubCode())
-                    && !StringUtils.equals(data.getOriginalSubCode(), existAsset.getOriginalSubCode())) {
-                    throw new ServiceException("编辑资产，不能修改原始编码");
+                if (!StringUtils.equals(data.getOriginalSubCode(), existAsset.getOriginalSubCode())) {
+                    throw new ServiceException("编辑资产，不能修改原始子编码");
                 }
                 data.setId(existAsset.getId());
                 data.setPrintStatus(existAsset.getPrintStatus());
+                data.setOriginalCode(existAsset.getOriginalCode());
+                data.setOriginalSubCode(existAsset.getOriginalSubCode());
             } else {
-                List<AssetDO> originalAssetList = assetList.stream()
-                    .filter(e -> e.getOriginalSubCode().equals(data.getOriginalSubCode())).collect(Collectors.toList());
-                if (CollectionUtils.isEmpty(originalAssetList)) {
-                    assetList.sort((o1, o2) -> {
-                        String[] parts1 = o1.getOriginalSubCode().split("#");
-                        String[] parts2 = o2.getOriginalSubCode().split("#");
-                        if (parts2.length != parts1.length) {
-                            return Integer.compare(parts2.length, parts1.length);
-                        }
-                        return parts2[parts2.length - 1].compareTo(parts1[parts1.length - 1]);
-                    });
-                    String maxTemporaryCode = assetList.get(0).getOriginalSubCode();
-                    List<String> codeList = AssetCodeUtil.generateAssetCode(maxTemporaryCode, 1, "-");
-                    if (CollectionUtils.isEmpty(codeList)) {
-                        throw new ServiceException("原始子编码生成异常");
-                    }
-                    data.setOriginalSubCode(codeList.get(0));
-                    data.setId(null);
-                } else if (originalAssetList.size() != 1) {
-                    throw new ServiceException("临时/原始编码存在多个，请核对数据");
-                } else {
-                    AssetDO existAsset = originalAssetList.get(0);
-                    data.setId(existAsset.getId());
-                    data.setPrintStatus(existAsset.getPrintStatus());
-                }
+                data.setId(null);
             }
-        } else {
-            data.setId(null);
+        }
+        if (ObjectUtils.isEmpty(data.getId()) && StringUtils.isNotBlank(data.getOriginalSubCode())) {
+            data.setOriginalCode(getOriginalCode(data.getOriginalSubCode()));
+            Asset searchAsset = new Asset();
+            searchAsset.setDeptId(data.getDeptId());
+            searchAsset.setProjectId(data.getProjectId());
+            searchAsset.setOriginalSubCode(data.getOriginalSubCode());
+            List<AssetDO> assetList = this.selectAssetList(searchAsset);
+            if (CollectionUtils.isNotEmpty(assetList)) {
+                if (assetList.size() != 1) {
+                    throw new ServiceException("原始子编码已存在多个，请核对数据");
+                }
+                AssetDO existAsset = assetList.get(0);
+                if (!StringUtils.equals(data.getTemporaryCode(), existAsset.getTemporaryCode())) {
+                    throw new ServiceException("编辑资产，不能修改临时编码");
+                }
+                data.setId(existAsset.getId());
+                data.setPrintStatus(existAsset.getPrintStatus());
+                data.setTemporaryCode(existAsset.getTemporaryCode());
+            } else {
+                data.setId(null);
+            }
         }
 
         CategoryDO categoryDO = categoryService.selectCategoryById(data.getCategoryId());
