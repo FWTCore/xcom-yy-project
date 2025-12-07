@@ -402,7 +402,7 @@
         inner join (
         select distinct
         temp.id,
-        ifnull(ma.total_count,0)  as name_total_count,
+        ifnull(ma.total_count,0) as name_total_count,
         ifnull(md.total_count,0) as dept_total_count,
         ifnull(ml.total_count,0) as location_total_count
         from asset as temp
@@ -547,7 +547,7 @@
         inner join(
         select distinct
         temp.id,
-        ifnull(ma.total_count,0)  as name_total_count,
+        ifnull(ma.total_count,0) as name_total_count,
         ifnull(md.total_count,0) as dept_total_count,
         ifnull(ml.total_count,0) as location_total_count
         from original_asset temp
@@ -620,8 +620,8 @@
                 #{usingEmpId}
             </foreach>
         </if>
+        order by
         <if test="sortFields != null and sortFields.size() > 0">
-            order by
             <foreach collection="sortFields" item="sortField" separator=",">
                 <choose>
                     <when test="sortField == 0 ">
@@ -629,9 +629,6 @@
                     </when>
                     <when test="sortField == 1 ">
                         da.name_total_count desc
-                    </when>
-                    <when test="sortField == 2 ">
-                        a.obtain_time_day desc
                     </when>
                     <when test="sortField == 3 ">
                         da.dept_total_count desc
@@ -649,10 +646,13 @@
                         a.specification
                     </when>
                     <otherwise>
-                        a.id
+                        a.obtain_time_day desc
                     </otherwise>
                 </choose>
             </foreach>
+        </if>
+        <if test="sortFields == null or sortFields.size() == 0">
+            a.obtain_time_day desc
         </if>
     </select>
 
@@ -710,9 +710,9 @@
         from asset as a
         where a.delete_flag = 0
           and a.project_id = #{projectId}
-        group by  a.dept_id,
-                  a.project_id,
-                  a.using_dept_Id;
+        group by a.dept_id,
+                 a.project_id,
+                 a.using_dept_Id;
 
 
         insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
@@ -823,8 +823,8 @@
         from original_asset as a
         where a.delete_flag = 0
           and a.project_id = #{projectId}
-        group by  a.dept_id,
-                  a.project_id,
-                  a.location_id;
+        group by a.dept_id,
+                 a.project_id,
+                 a.location_id;
     </update>
 </mapper>
