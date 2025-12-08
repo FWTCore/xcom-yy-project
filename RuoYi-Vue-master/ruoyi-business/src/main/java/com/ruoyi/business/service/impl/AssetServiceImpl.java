@@ -300,6 +300,7 @@ public class AssetServiceImpl implements AssetService {
             pureData.setCollectorTime(LocalDateTime.now());
             this.insertAsset(pureData);
         }
+        eventPublisher.publishOriginalAssetDataEvent(null, pureData.getProjectId(), null);
         return true;
     }
 
@@ -632,6 +633,7 @@ public class AssetServiceImpl implements AssetService {
             assetDO.setPrintStatus(0);
             this.updateAsset(assetDO);
         }
+        eventPublisher.publishOriginalAssetDataEvent(null, assetDOS.get(0).getProjectId(), null);
         return 1;
     }
 

@@ -123,7 +123,7 @@ public class OriginalAssetDataEventListener {
         }
         // 手动设置安全上下文
         SecurityContextHolder.setContext(event.getSecurityContext());
-        log.info("OriginalAssetDataEventListener 处理数据："+ JSON.toJSONString(event));
+        log.info("OriginalAssetDataEventListener 处理数据：" + JSON.toJSONString(event));
         if (ObjectUtils.isNotEmpty(event.getOriginalAssetId())) {
             OriginalAssetDO originalAssetDO = originalAssetService.selectOriginalAssetById(event.getOriginalAssetId());
             if (ObjectUtils.isEmpty(originalAssetDO)) {
@@ -134,6 +134,16 @@ public class OriginalAssetDataEventListener {
         if (ObjectUtils.isNotEmpty(event.getProjectId()) && CollectionUtils.isNotEmpty(event.getOriginalCodes())) {
             List<OriginalAssetDO> originalAssetDOList = originalAssetService
                 .selectOriginalAssetList(event.getProjectId(), event.getOriginalCodes());
+            if (CollectionUtils.isEmpty(originalAssetDOList)) {
+                return;
+            }
+            for (OriginalAssetDO originalAssetDO : originalAssetDOList) {
+                originalAssetService.updateMatchStatic(originalAssetDO.getProjectId(),
+                    originalAssetDO.getOriginalCode());
+            }
+        } else if (ObjectUtils.isNotEmpty(event.getProjectId())) {
+            List<OriginalAssetDO> originalAssetDOList = originalAssetService
+                .selectMatchOriginalAssetList(event.getProjectId());
             if (CollectionUtils.isEmpty(originalAssetDOList)) {
                 return;
             }

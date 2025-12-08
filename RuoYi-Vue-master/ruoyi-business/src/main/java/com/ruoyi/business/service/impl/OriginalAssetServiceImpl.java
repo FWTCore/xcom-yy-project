@@ -106,6 +106,14 @@ public class OriginalAssetServiceImpl implements OriginalAssetService {
         return originalAssetMapper.selectOriginalAssetList(originalAsset);
     }
 
+    @Override
+    public List<OriginalAssetDO> selectMatchOriginalAssetList(Long projectId) {
+        OriginalAsset originalAsset = new OriginalAsset();
+        originalAsset.setProjectId(projectId);
+        originalAsset.setMatchStatus(1);
+        return originalAssetMapper.selectOriginalAssetList(originalAsset);
+    }
+
     /**
      * 查询原始资产列表
      *
