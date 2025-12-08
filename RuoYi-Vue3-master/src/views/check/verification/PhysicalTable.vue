@@ -7,7 +7,14 @@
             <Collection
               style="width: 1em; height: 1em; vertical-align: middle"
             />
-            <span style="vertical-align: middle">{{ props.title }}</span>
+            <span style="vertical-align: middle"
+              >{{ props.title
+              }}<b
+                class="select-count"
+                v-if="!props.singleSelect && selectCount > 0"
+                >({{ selectCount }})</b
+              ></span
+            >
             <span class="global-order" v-if="props.enableGlobalOrder">
               <span>全局排序</span>
               <el-switch
@@ -58,10 +65,12 @@
             ></el-button> -->
       </template>
       <el-table
+        ref="tableRef"
         v-loading="physicalLoading"
         :data="physicalList"
         :height="tableHeight"
         @selection-change="handlePhysicalSelectionChange"
+        @row-click="handleRowClick"
       >
         <el-table-column
           v-if="!props.singleSelect"
@@ -153,6 +162,8 @@ const physicalQueryParams = ref({
   managedEmpIds: [],
   usingEmpIds: [],
 });
+
+const tableRef = ref();
 
 const handleGlobalOrderChange = (value) => {
   props.handleGlobalOrderChange(value);
@@ -254,13 +265,28 @@ const emit = defineEmits(["selection-change", "order-change"]);
 
 const physicalSelected = ref([]);
 
+const selectCount = ref(0);
+
 const handleRadioSelectionChange = (id) => {
   emit("selection-change", [radioId.value]);
+};
+
+const handleRowClick = (row, column, event) => {
+  if (props.type === "physical") {
+    // 多选
+    tableRef.value.toggleRowSelection(row);
+    // handlePhysicalSelectionChange(tableRef.value.selection);
+  } else {
+    //   // 单选
+    radioId.value = row;
+    emit("selection-change", [radioId.value]);
+  }
 };
 const handlePhysicalSelectionChange = (selection) => {
   // 根据单选/多选属性处理选择逻辑
   // 多选模式：保留所有选中项
   // 向父级组件通知当前选中的元素
+  selectCount.value = selection.length;
   emit("selection-change", selection);
 };
 
@@ -394,6 +420,26 @@ onMounted(() => {
   initData();
   loadData();
 });
+
+// 清空选择的方法
+const clear = () => {
+  if (props.singleSelect) {
+    // 单选模式清空
+    radioId.value = null;
+    emit("selection-change", []);
+  } else {
+    // 多选模式清空
+    if (tableRef.value) {
+      tableRef.value.clearSelection();
+    }
+    emit("selection-change", []);
+  }
+};
+
+// 向外暴露方法
+defineExpose({
+  clear,
+});
 </script>
 <style>
 .statistic-container {
@@ -422,5 +468,11 @@ onMounted(() => {
 
 .global-order .el-switch {
   margin-left: 5px;
+}
+
+.select-count {
+  color: red;
+  margin-left: 5px;
+  font-weight: normal;
 }
 </style>
