@@ -293,6 +293,8 @@ public class AssetServiceImpl implements AssetService {
             pureData.setTemporaryCode(code);
             pureData.setOriginalCode(null);
             pureData.setOriginalSubCode(null);
+            pureData.setMatchStatus(0);
+            pureData.setPrintStatus(0);
             pureData.setBaseFieldValue();
             LoginUser loginUser = SecurityUtils.getLoginUser();
             pureData.setCollectorUserId(loginUser.getUserId());
