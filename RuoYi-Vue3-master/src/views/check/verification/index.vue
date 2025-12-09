@@ -64,6 +64,7 @@
     <StaticTitle title="账实核对" />
     <el-row class="statistic-container">
       <PhysicalTable
+        ref="physicalTableRef"
         type="physical"
         :tableHeight="tableHeight"
         :filter="filter"
@@ -79,6 +80,7 @@
         @order-change="handlePhysicalOrderChange"
       />
       <PhysicalTable
+        ref="ledgerTableRef"
         type="ledger"
         :tableHeight="tableHeight"
         :filter="filter"
@@ -105,6 +107,9 @@ import { getPhysicalList } from "@/api/statistic/physical";
 import { ledgerList } from "@/api/statistic/ledger";
 import { relation } from "@/api/statistic/metrics";
 import { ElMessage } from "element-plus";
+
+const physicalTableRef = ref();
+const ledgerTableRef = ref();
 
 const { proxy } = getCurrentInstance();
 const projectOptions = ref([]);
@@ -367,16 +372,29 @@ const handleRelation = () => {
     ElMessage.error("请选择台账");
     return;
   }
-  relation(physicalSelected.value, ledgerSelected.value[0]).then((response) => {
-    if (response.code === 200) {
-      ElMessage.success("关联成功");
-      filter.value = { ...filter.value };
-      physicalSelected.value = [];
-      ledgerSelected.value = [];
-    } else {
-      ElMessage.error(response.msg);
-    }
-  });
+  proxy.$modal
+    .confirm("是否确认关联资产数据项？")
+    .then(function () {
+      return relation(physicalSelected.value, ledgerSelected.value[0]);
+    })
+    .then(() => {
+      if (response.code === 200) {
+        ElMessage.success("关联成功");
+        filter.value = { ...filter.value };
+        // physicalSelected.value = [];
+        // ledgerSelected.value = [];
+        physicalTableRef.value.clear();
+        ledgerTableRef.value.clear();
+      } else {
+        ElMessage.error(response.msg);
+      }
+    })
+    .catch(() => {
+      // physicalSelected.value = [];
+      // ledgerSelected.value = [];
+      physicalTableRef.value.clear();
+      ledgerTableRef.value.clear();
+    });
 };
 
 const handlePhysicalOrderChange = (order) => {
@@ -465,13 +483,27 @@ const handleGlobalOrderChange = (value) => {
   handlePhysicalOrderChange(globalFields.value);
 };
 
+const handleKeyDown = (event) => {
+  if (event.code === "Space") {
+    if (
+      physicalSelected.value.length === 0 ||
+      ledgerSelected.value.length === 0
+    ) {
+      return;
+    }
+    handleRelation();
+  }
+};
+
 onMounted(() => {
   getDeptTree();
   calculateTableHeight();
   window.addEventListener("resize", calculateTableHeight);
+  window.addEventListener("keydown", handleKeyDown);
 });
 onUnmounted(() => {
   window.removeEventListener("resize", calculateTableHeight);
+  window.removeEventListener("keydown", handleKeyDown);
 });
 </script>
 <style>
