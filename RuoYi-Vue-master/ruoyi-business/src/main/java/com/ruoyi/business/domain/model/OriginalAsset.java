@@ -158,6 +158,7 @@ public class OriginalAsset extends BaseEntityDO {
 
     /**
      * 匹配状态
+     * 0=未匹配,1=已匹配
      */
     private Integer       matchStatus;
 

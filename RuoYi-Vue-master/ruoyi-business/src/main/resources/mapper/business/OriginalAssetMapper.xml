@@ -169,6 +169,9 @@
             <if test="searchUsingEmpName != null  and searchUsingEmpName != ''">
                 and a.using_emp_name like concat('%', #{searchUsingEmpName}, '%')
             </if>
+            <if test="matchStatus != null ">
+                and match_status = #{matchStatus}
+            </if>
             <if test="deleteFlag != null ">
                 and delete_flag = #{deleteFlag}
             </if>
@@ -317,6 +320,9 @@
             </if>
             <if test="searchUsingEmpName != null  and searchUsingEmpName != ''">
                 and a.using_emp_name like concat('%', #{searchUsingEmpName}, '%')
+            </if>
+            <if test="matchStatus != null">
+                and a.match_status = #{matchStatus}
             </if>
             <if test="deleteFlag != null ">
                 and a.delete_flag = #{deleteFlag}
@@ -703,7 +709,7 @@
     <update id="updateMatchStatic">
         UPDATE original_asset AS oas
         SET oas.match_count  = #{matchCount},
-            oas.match_status = IF(#{matchCount} > 1, 1, 0)
+            oas.match_status = IF(#{matchCount} > 0, 1, 0)
         WHERE oas.original_code = #{originalCode}
           and oas.project_id = #{projectId}
           AND oas.delete_flag = 0;

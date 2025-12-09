@@ -31,7 +31,7 @@ public interface OriginalAssetMapper {
      * @param ids 原始资产主键
      * @return 原始资产
      */
-    List<OriginalAssetDO> selectOriginalAssetByIds(List<Long> ids);
+    List<OriginalAssetDO> selectOriginalAssetByIds(@Param("ids") List<Long> ids);
 
     /**
      * 查询原始资产列表

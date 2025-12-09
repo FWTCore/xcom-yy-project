@@ -50,4 +50,10 @@ public class OriginalAssetMatchTask {
         log.info("执行originalAssetMatchTask.updateMatch===结束");
     }
 
+    public void updateOriginalMatch(Long id) {
+        log.info("执行originalAssetMatchTask.updateOriginalMatch===开始，参数：" + id);
+        eventPublisher.publishOriginalAssetDataEvent(id, null, null);
+        log.info("执行originalAssetMatchTask.updateOriginalMatch===结束");
+    }
+
 }

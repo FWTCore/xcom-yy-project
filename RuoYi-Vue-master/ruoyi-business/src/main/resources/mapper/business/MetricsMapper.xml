@@ -399,19 +399,28 @@
         a.updated_by_name,
         a.updated_time
         from asset as a
-        left join metrics ma on ma.delete_flag = 0 and ma.biz_type = 1 and a.dept_id = ma.dept_id and
-        a.project_id = ma.project_id and ma.metrics_type = 1 and
-        a.asset_name = ma.biz_key
-        left join metrics md on md.delete_flag = 0 and md.biz_type = 1 and a.dept_id = md.dept_id and
-        a.project_id = md.project_id and md.metrics_type = 2 and
-        a.using_dept_Id = md.biz_id
-        left join metrics ml on ml.delete_flag = 0 and ml.biz_type = 1 and a.dept_id = ml.dept_id and
-        a.project_id = ml.project_id and ml.metrics_type = 3 and
-        a.location_id = ml.biz_id
+        inner join (
+        select distinct
+        temp.id,
+        ifnull(ma.total_count,0) as name_total_count,
+        ifnull(md.total_count,0) as dept_total_count,
+        ifnull(ml.total_count,0) as location_total_count
+        from asset as temp
+        left join metrics ma on ma.delete_flag = 0 and ma.biz_type = 1 and temp.dept_id = ma.dept_id and
+        temp.project_id = ma.project_id and ma.metrics_type = 1 and
+        temp.asset_name = ma.biz_key
+        left join metrics md on md.delete_flag = 0 and md.biz_type = 1 and temp.dept_id = md.dept_id and
+        temp.project_id = md.project_id and md.metrics_type = 2 and
+        temp.using_dept_Id = md.biz_id
+        left join metrics ml on ml.delete_flag = 0 and ml.biz_type = 1 and temp.dept_id = ml.dept_id and
+        temp.project_id = ml.project_id and ml.metrics_type = 3 and
+        temp.location_id = ml.biz_id
+        where temp.delete_flag = 0
+        and temp.dept_id = #{deptId}
+        and temp.project_id = #{projectId}
+        and temp.match_status = 0
+        ) as da on a.id=da.id
         where a.delete_flag = 0
-        and a.dept_id = #{deptId}
-        and a.project_id = #{projectId}
-        and a.match_status = 0
         <if test="categoryIds != null and categoryIds.size() > 0">
             AND a.category_id in
             <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
@@ -475,13 +484,13 @@
                         a.category_name
                     </when>
                     <when test="sortField == 1 ">
-                        ma.total_count desc
+                        da.name_total_count desc
                     </when>
                     <when test="sortField == 3 ">
-                        md.total_count desc
+                        da.dept_total_count desc
                     </when>
                     <when test="sortField == 4 ">
-                        ml.total_count desc
+                        da.location_total_count desc
                     </when>
                     <when test="sortField == 5 ">
                         a.using_emp_Id
@@ -501,7 +510,8 @@
     </select>
 
     <select id="listLedger" resultMap="OriginalAssetDataDetailResult">
-        select a.id,
+        select
+        a.id,
         a.dept_id,
         a.project_id,
         a.original_code,
@@ -534,19 +544,28 @@
         a.updated_by_name,
         a.updated_time
         from original_asset as a
-        left join metrics ma on ma.delete_flag = 0 and ma.biz_type = 2 and a.dept_id = ma.dept_id and
-        a.project_id = ma.project_id and ma.metrics_type = 1 and
-        a.asset_name = ma.biz_key
-        left join metrics md on md.delete_flag = 0 and md.biz_type = 2 and a.dept_id = md.dept_id and
-        a.project_id = md.project_id and md.metrics_type = 2 and
-        a.using_dept_Id = md.biz_id
-        left join metrics ml on ml.delete_flag = 0 and ml.biz_type = 2 and a.dept_id = ml.dept_id and
-        a.project_id = ml.project_id and ml.metrics_type = 3 and
-        a.location_id = ml.biz_id
+        inner join(
+        select distinct
+        temp.id,
+        ifnull(ma.total_count,0) as name_total_count,
+        ifnull(md.total_count,0) as dept_total_count,
+        ifnull(ml.total_count,0) as location_total_count
+        from original_asset temp
+        left join metrics ma on ma.delete_flag = 0 and ma.biz_type = 2 and temp.dept_id = ma.dept_id and
+        temp.project_id = ma.project_id and ma.metrics_type = 1 and
+        temp.asset_name = ma.biz_key
+        left join metrics md on md.delete_flag = 0 and md.biz_type = 2 and temp.dept_id = md.dept_id and
+        temp.project_id = md.project_id and md.metrics_type = 2 and
+        temp.using_dept_Id = md.biz_id
+        left join metrics ml on ml.delete_flag = 0 and ml.biz_type = 2 and temp.dept_id = ml.dept_id and
+        temp.project_id = ml.project_id and ml.metrics_type = 3 and
+        temp.location_id = ml.biz_id
+        where temp.delete_flag = 0
+        and temp.dept_id = #{deptId}
+        and temp.project_id = #{projectId}
+        and temp.match_status = 0
+        ) as da on a.id=da.id
         where a.delete_flag = 0
-        and a.dept_id = #{deptId}
-        and a.project_id = #{projectId}
-        and a.match_status = 0
         <if test="categoryIds != null and categoryIds.size() > 0">
             AND a.category_id in
             <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
@@ -601,24 +620,21 @@
                 #{usingEmpId}
             </foreach>
         </if>
+        order by
         <if test="sortFields != null and sortFields.size() > 0">
-            order by
             <foreach collection="sortFields" item="sortField" separator=",">
                 <choose>
                     <when test="sortField == 0 ">
                         a.category_name
                     </when>
                     <when test="sortField == 1 ">
-                        ma.total_count desc
-                    </when>
-                    <when test="sortField == 2 ">
-                        a.obtain_time_day desc
+                        da.name_total_count desc
                     </when>
                     <when test="sortField == 3 ">
-                        md.total_count desc
+                        da.dept_total_count desc
                     </when>
                     <when test="sortField == 4 ">
-                        ml.total_count desc
+                        da.location_total_count desc
                     </when>
                     <when test="sortField == 5 ">
                         a.using_emp_Id
@@ -630,10 +646,13 @@
                         a.specification
                     </when>
                     <otherwise>
-                        a.id
+                        a.obtain_time_day desc
                     </otherwise>
                 </choose>
             </foreach>
+        </if>
+        <if test="sortFields == null or sortFields.size() == 0">
+            a.obtain_time_day desc
         </if>
     </select>
 
@@ -691,9 +710,9 @@
         from asset as a
         where a.delete_flag = 0
           and a.project_id = #{projectId}
-        group by  a.dept_id,
-                  a.project_id,
-                  a.using_dept_Id;
+        group by a.dept_id,
+                 a.project_id,
+                 a.using_dept_Id;
 
 
         insert into metrics(dept_id, project_id, biz_id, biz_key, metrics_name, metrics_type, biz_type, total_count,
@@ -804,8 +823,8 @@
         from original_asset as a
         where a.delete_flag = 0
           and a.project_id = #{projectId}
-        group by  a.dept_id,
-                  a.project_id,
-                  a.location_id;
+        group by a.dept_id,
+                 a.project_id,
+                 a.location_id;
     </update>
 </mapper>

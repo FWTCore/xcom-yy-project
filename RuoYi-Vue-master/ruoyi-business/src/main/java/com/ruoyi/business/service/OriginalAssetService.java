@@ -42,6 +42,13 @@ public interface OriginalAssetService {
     List<OriginalAssetDO> selectOriginalAssetList(Long projectId, List<String> originalCodes);
 
     /**
+     * 查询原始资产匹配列表
+     * @param projectId
+     * @return
+     */
+    List<OriginalAssetDO> selectMatchOriginalAssetList(Long projectId);
+
+    /**
      * 查询原始资产列表
      *
      * @param originalAsset 原始资产

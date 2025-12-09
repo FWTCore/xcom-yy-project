@@ -3,6 +3,8 @@ package com.ruoyi.business.domain.model.convert;
 import com.ruoyi.business.domain.model.response.AssetDetailVO;
 import com.ruoyi.business.domain.model.response.OriginalAssetDetailVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -21,5 +23,6 @@ public interface AssetConvert {
      * @param detailVO
      * @return
      */
+    @Mappings({ @Mapping(target = "originalSubCode", source = "originalCode") })
     AssetDetailVO toAssetDetailVO(OriginalAssetDetailVO detailVO);
 }

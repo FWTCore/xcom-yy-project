@@ -43,4 +43,6 @@ public class AssetCheckMetricsRequest extends BaseEntityDO {
     @ApiModelProperty(value = "模糊搜索")
     private String            searchName;
 
+
+
 }
