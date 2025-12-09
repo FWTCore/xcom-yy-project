@@ -4,6 +4,10 @@
     <property name="log.path" value="../logs" />
     <!-- 日志输出格式 -->
     <property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n" />
+    <!-- 单个日志文件最大大小 -->
+    <property name="log.maxFileSize" value="10MB" />
+    <!-- 日志文件总大小限制 -->
+    <property name="log.totalSizeCap" value="1GB" />
 
     <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -21,6 +25,10 @@
             <fileNamePattern>${log.path}/sys-info.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志最大的历史 30天 -->
             <maxHistory>30</maxHistory>
+            <!-- 单个文件最大大小 -->
+            <maxFileSize>${log.maxFileSize}</maxFileSize>
+            <!-- 日志文件总大小限制 -->
+            <totalSizeCap>${log.totalSizeCap}</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
@@ -43,6 +51,10 @@
             <fileNamePattern>${log.path}/sys-error.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志最大的历史 30天 -->
             <maxHistory>30</maxHistory>
+            <!-- 单个文件最大大小 -->
+            <maxFileSize>${log.maxFileSize}</maxFileSize>
+            <!-- 日志文件总大小限制 -->
+            <totalSizeCap>${log.totalSizeCap}</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
@@ -65,6 +77,10 @@
             <fileNamePattern>${log.path}/sys-user.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志最大的历史 30天 -->
             <maxHistory>30</maxHistory>
+            <!-- 单个文件最大大小 -->
+            <maxFileSize>${log.maxFileSize}</maxFileSize>
+            <!-- 日志文件总大小限制 -->
+            <totalSizeCap>${log.totalSizeCap}</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
