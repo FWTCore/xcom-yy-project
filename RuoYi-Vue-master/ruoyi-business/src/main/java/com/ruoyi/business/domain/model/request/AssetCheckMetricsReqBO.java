@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AssetCheckMetricsReqBO extends BaseEntityDO {
+public class AssetCheckMetricsReqBO extends AssetCheckCommonBO {
 
     private Integer pageNum;
     private Integer pageSize;

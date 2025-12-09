@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AssetCheckBO extends BaseEntityDO {
+public class AssetCheckBO extends AssetCheckCommonBO {
 
     /**
      * pageNum

@@ -22,7 +22,7 @@ import java.util.Map;
 @ApiModel(value = "账实核对请求模型")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AssetCheckRequest extends BaseEntityDO {
+public class AssetCheckRequest extends AssetCheckCommonRequest {
 
     @ApiModelProperty(value = "pageNum")
     @NotNull(message = "pageNum不能为空")

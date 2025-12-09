@@ -475,7 +475,7 @@
                 #{usingEmpId}
             </foreach>
         </if>
-
+        <include refid="assetCheck_condition"></include>
         <if test="sortFields != null and sortFields.size() > 0">
             order by
             <foreach collection="sortFields" item="sortField" separator=",">
@@ -620,6 +620,7 @@
                 #{usingEmpId}
             </foreach>
         </if>
+        <include refid="assetCheck_condition"></include>
         order by
         <if test="sortFields != null and sortFields.size() > 0">
             <foreach collection="sortFields" item="sortField" separator=",">
@@ -827,4 +828,34 @@
                  a.project_id,
                  a.location_id;
     </update>
+
+    <sql id="assetCheck_condition">
+        <if test="searCategory!=null and searCategory!=''">
+            and a.category_name like concat('%', #{searCategory}, '%')
+        </if>
+        <if test="searBrand!=null and searBrand!=''">
+            and a.brand_name like concat('%', #{searBrand}, '%')
+        </if>
+        <if test="searName!=null and searName!=''">
+            and a.asset_name like concat('%', #{searName}, '%')
+        </if>
+        <if test="searSpecif!=null and searSpecif!=''">
+            and a.specification like concat('%', #{searSpecif}, '%')
+        </if>
+        <if test="searLocation!=null and searLocation!=''">
+            and a.location_name like concat('%', #{searLocation}, '%')
+        </if>
+        <if test="searManagedDept!=null and searManagedDept!=''">
+            and a.managed_dept_name like concat('%', #{searManagedDept}, '%')
+        </if>
+        <if test="searUsingDept!=null and searUsingDept!=''">
+            and a.using_dept_name like concat('%', #{searUsingDept}, '%')
+        </if>
+        <if test="searManagedEmp!=null and searManagedEmp!=''">
+            and a.managed_emp_name like concat('%', #{searManagedEmp}, '%')
+        </if>
+        <if test="searUsingEmp!=null and searUsingEmp!=''">
+            and a.using_emp_name like concat('%', #{searUsingEmp}, '%')
+        </if>
+    </sql>
 </mapper>
