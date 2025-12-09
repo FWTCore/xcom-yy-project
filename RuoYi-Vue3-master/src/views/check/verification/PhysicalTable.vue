@@ -71,6 +71,7 @@
         :height="tableHeight"
         @selection-change="handlePhysicalSelectionChange"
         @row-click="handleRowClick"
+        border
       >
         <el-table-column
           v-if="!props.singleSelect"
