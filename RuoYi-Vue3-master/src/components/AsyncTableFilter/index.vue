@@ -286,9 +286,9 @@ watch(
 watch(
   () => props.filter,
   (newVal) => {
-    if (JSON.stringify(newVal) !== JSON.stringify(props.filter)) {
-      loadOptions(true);
-    }
+    // if (JSON.stringify(newVal) !== JSON.stringify(props.filter)) {
+    loadOptions(true);
+    // }
   },
   { deep: true }
 );

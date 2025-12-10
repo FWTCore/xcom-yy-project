@@ -433,7 +433,7 @@ const handleRelation = () => {
     .then(function () {
       return relation(physicalSelected.value, ledgerSelected.value[0]);
     })
-    .then(() => {
+    .then((response) => {
       if (response.code === 200) {
         ElMessage.success("关联成功");
         filter.value = { ...filter.value };
@@ -441,6 +441,7 @@ const handleRelation = () => {
         // ledgerSelected.value = [];
         physicalTableRef.value.clear();
         ledgerTableRef.value.clear();
+        // handleQuery();
       } else {
         ElMessage.error(response.msg);
       }
