@@ -1097,6 +1097,7 @@
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
             and c.category_name like concat('%', #{reqBO.searchName}, '%')
         </if>
+        <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
         group by a.category_id
@@ -1123,6 +1124,7 @@
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
             and b.brand_name like concat('%', #{reqBO.searchName}, '%')
         </if>
+        <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
         group by a.brand_name
@@ -1148,6 +1150,7 @@
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
             and asset_name like concat('%', #{reqBO.searchName}, '%')
         </if>
+        <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
         group by asset_name
@@ -1173,6 +1176,7 @@
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
             and specification like concat('%', #{reqBO.searchName}, '%')
         </if>
+        <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
         group by specification
@@ -1199,6 +1203,7 @@
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
             and l.location_name like concat('%', #{reqBO.searchName}, '%')
         </if>
+        <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
         group by a.location_id
@@ -1225,6 +1230,7 @@
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
             and d.department_name like concat('%', #{reqBO.searchName}, '%')
         </if>
+        <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
         group by a.managed_dept_Id
@@ -1250,6 +1256,7 @@
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
             and d.department_name like concat('%', #{reqBO.searchName}, '%')
         </if>
+        <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
         group by a.using_dept_Id
@@ -1276,6 +1283,7 @@
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
             and e.employee_name like concat('%', #{reqBO.searchName}, '%')
         </if>
+        <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
         group by a.managed_emp_Id
@@ -1302,6 +1310,7 @@
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
             and e.employee_name like concat('%', #{reqBO.searchName}, '%')
         </if>
+        <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
         group by a.using_emp_Id
@@ -1316,4 +1325,34 @@
           and original_code = #{originalCode}
           and project_id = #{projectId}
     </select>
+
+    <sql id="assetCheck_condition">
+        <if test="reqBO.searCategory!=null and reqBO.searCategory!=''">
+            and a.category_name like concat('%', #{reqBO.searCategory}, '%')
+        </if>
+        <if test="reqBO.searBrand!=null and reqBO.searBrand!=''">
+            and a.brand_name like concat('%', #{reqBO.searBrand}, '%')
+        </if>
+        <if test="reqBO.searName!=null and reqBO.searName!=''">
+            and a.asset_name like concat('%', #{reqBO.searName}, '%')
+        </if>
+        <if test="reqBO.searSpecif!=null and reqBO.searSpecif!=''">
+            and a.specification like concat('%', #{reqBO.searSpecif}, '%')
+        </if>
+        <if test="reqBO.searLocation!=null and reqBO.searLocation!=''">
+            and a.location_name like concat('%', #{reqBO.searLocation}, '%')
+        </if>
+        <if test="reqBO.searManagedDept!=null and reqBO.searManagedDept!=''">
+            and a.managed_dept_name like concat('%', #{reqBO.searManagedDept}, '%')
+        </if>
+        <if test="reqBO.searUsingDept!=null and reqBO.searUsingDept!=''">
+            and a.using_dept_name like concat('%', #{reqBO.searUsingDept}, '%')
+        </if>
+        <if test="reqBO.searManagedEmp!=null and reqBO.searManagedEmp!=''">
+            and a.managed_emp_name like concat('%', #{reqBO.searManagedEmp}, '%')
+        </if>
+        <if test="reqBO.searUsingEmp!=null and reqBO.searUsingEmp!=''">
+            and a.using_emp_name like concat('%', #{reqBO.searUsingEmp}, '%')
+        </if>
+    </sql>
 </mapper>
