@@ -43,6 +43,22 @@
           ></el-option>
         </el-select>
       </el-form-item>
+
+      <el-form-item
+        v-for="searchItem in searchFields"
+        :key="searchItem.prop"
+        :label="searchItem.label"
+        :prop="searchItem.prop"
+      >
+        <el-input
+          v-model="queryParams[searchItem.prop]"
+          :placeholder="`请输入${searchItem.label}`"
+          style="width: 240px"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery"
           >搜索</el-button
@@ -120,6 +136,46 @@ const filter = ref({});
 
 const globalOrder = ref(false);
 const globalFields = ref([]);
+
+const searchFields = ref([
+  {
+    label: "门类",
+    prop: "searCategory",
+  },
+  {
+    label: "品牌",
+    prop: "searBrand",
+  },
+  {
+    label: "名称",
+    prop: "searName",
+  },
+  {
+    label: "规格",
+    prop: "searSpecif",
+  },
+  {
+    label: "地点",
+    prop: "searLocation",
+  },
+  {
+    label: "管理部门",
+    prop: "searManagedDept",
+  },
+  {
+    label: "使用部门",
+    prop: "searUsingDept",
+  },
+  {
+    label: "管理员工",
+    prop: "searManagedEmp",
+  },
+  {
+    label: "使用员工",
+    prop: "searUsingEmp",
+  },
+]);
+
 const physicalFields = ref([
   {
     label: "临时编码",
@@ -421,6 +477,15 @@ const calculateTableHeight = () => {
 const queryParams = ref({
   deptId: null,
   projectId: null,
+  searCategory: null,
+  searBrand: null,
+  searName: null,
+  searSpecif: null,
+  searLocation: null,
+  searManagedDept: null,
+  searUsingDept: null,
+  searManagedEmp: null,
+  searUsingEmp: null,
 });
 
 /** 搜索按钮操作 */
@@ -514,5 +579,9 @@ onUnmounted(() => {
 }
 .statistic-col {
   padding-right: 10px;
+}
+
+.el-form--inline .el-form-item {
+  margin-right: 24px !important;
 }
 </style>
