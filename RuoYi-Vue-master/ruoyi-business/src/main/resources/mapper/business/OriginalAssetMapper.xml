@@ -766,6 +766,7 @@
         from original_asset as a
         inner join category c on a.category_id = c.id
         where a.delete_flag = 0
+        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -792,6 +793,7 @@
         sum(if(a.match_status = 1, 1, 0)) as checkCount
         from original_asset as a
         where a.delete_flag = 0
+        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -818,6 +820,7 @@
         sum(if(match_status = 1, 1, 0)) as checkCount
         from original_asset as a
         where delete_flag = 0
+        and a.match_status = 0
         and dept_id = #{reqBO.deptId}
         and project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -844,6 +847,7 @@
         sum(if(match_status = 1, 1, 0)) as checkCount
         from original_asset as a
         where delete_flag = 0
+        and a.match_status = 0
         and dept_id = #{reqBO.deptId}
         and project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -870,6 +874,7 @@
         sum(if(match_status = 1, 1, 0)) as checkCount
         from original_asset as a
         where delete_flag = 0
+        and a.match_status = 0
         and dept_id = #{reqBO.deptId}
         and project_id = #{reqBO.projectId}
         <include refid="assetCheck_condition"></include>
@@ -894,6 +899,7 @@
         from original_asset as a
         inner join location as l on a.location_id = l.id
         where a.delete_flag = 0
+        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -921,6 +927,7 @@
         from original_asset as a
         inner join department as d on a.managed_dept_Id=d.id
         where a.delete_flag = 0
+        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -947,6 +954,7 @@
         from original_asset as a
         inner join department as d on a.using_dept_Id=d.id
         where a.delete_flag = 0
+        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -974,6 +982,7 @@
         from original_asset as a
         inner join employee as e on a.managed_emp_Id = e.id
         where a.delete_flag = 0
+        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1001,6 +1010,7 @@
         from original_asset as a
         inner join employee as e on a.using_emp_Id = e.id
         where a.delete_flag = 0
+        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
