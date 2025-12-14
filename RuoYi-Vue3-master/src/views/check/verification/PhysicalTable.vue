@@ -273,7 +273,7 @@ const handleRadioSelectionChange = (id) => {
 };
 
 const handleRowClick = (row, column, event) => {
-  if (props.type === "physical") {
+  if (!props.singleSelect) {
     // 多选
     tableRef.value.toggleRowSelection(row);
     // handlePhysicalSelectionChange(tableRef.value.selection);
