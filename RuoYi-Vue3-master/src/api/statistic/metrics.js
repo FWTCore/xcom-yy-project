@@ -9,13 +9,13 @@ export function metricsList(type, query) {
   });
 }
 
-export function relation(physicalIds, ledgerId) {
+export function relation(physicalIds, ledgerIds) {
   return request({
     url: "/asset/check/relational",
     method: "post",
     data: {
       physicalIds,
-      ledgerId,
+      ledgerIds,
     },
   });
 }
