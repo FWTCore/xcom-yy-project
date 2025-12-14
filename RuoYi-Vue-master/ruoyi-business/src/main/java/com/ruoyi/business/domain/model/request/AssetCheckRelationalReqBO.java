@@ -22,5 +22,5 @@ public class AssetCheckRelationalReqBO implements Serializable {
     /**
      * 账务资产id
      */
-    private Long              ledgerId;
+    private List<Long>        ledgerIds;
 }
