@@ -178,7 +178,7 @@ const onTableKeydown = (e) => {
     const target = e.target;
     if (target?.type === "checkbox") {
       e.preventDefault();
-      e.stopPropagation();
+      // e.stopPropagation();
     }
   }
 };
