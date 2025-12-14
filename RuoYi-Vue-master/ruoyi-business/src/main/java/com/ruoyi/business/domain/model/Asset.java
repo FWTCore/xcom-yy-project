@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 资产;asset数据表的DO对象
@@ -53,6 +54,10 @@ public class Asset extends BaseEntityDO {
      * 原始编码,;
      */
     private String        originalCode;
+    /**
+     * 原始编码,;
+     */
+    private List<String>  originalCodes;
 
     /**
      * 原始编码,;

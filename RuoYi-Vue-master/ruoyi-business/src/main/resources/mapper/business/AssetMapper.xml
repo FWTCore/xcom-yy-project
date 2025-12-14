@@ -128,6 +128,12 @@
             <if test="originalCode != null  and originalCode != ''">
                 and original_code = #{originalCode}
             </if>
+            <if test="originalCodes != null  and originalCodes.size()>0">
+                and original_code in
+                <foreach collection="originalCodes" item="code" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+            </if>
             <if test="searchOriginalCode != null  and searchOriginalCode != ''">
                 and original_code like concat('%', #{searchOriginalCode}, '%')
             </if>

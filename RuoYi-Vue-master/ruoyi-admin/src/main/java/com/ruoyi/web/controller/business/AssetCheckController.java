@@ -105,6 +105,9 @@ public class AssetCheckController extends BaseController {
     @PostMapping(value = "/relational")
     @Log(title = "资产关联", businessType = BusinessType.UPDATE)
     public AjaxResult relational(@RequestBody @Validated @NotNull AssetCheckRelationalRequest request) {
+        if (request.getLedgerIds().size() != 1 && request.getLedgerIds().size() != request.getPhysicalIds().size()) {
+            throw new ServiceException("批量一对一关联，实物资产数量需要与久其卡片资产数量一致");
+        }
         AssetCheckRelationalReqBO reqBO = AssetCheckConvert.INSTANCE.toAssetCheckRelationalReqBO(request);
         return success(assetCheckService.relational(reqBO));
     }

@@ -29,6 +29,7 @@ public class AssetCheckRelationalRequest implements Serializable {
 
     @ApiModelProperty(value = "账务资产id")
     @NotNull(message = "账务资产id不能为空")
-    private Long              ledgerId;
+    @Size(min = 1, message = "账务资产id至少1个")
+    private List<Long>        ledgerIds;
 
 }
