@@ -64,65 +64,69 @@
               @click="loadData()"
             ></el-button> -->
       </template>
-      <el-table
-        ref="tableRef"
-        v-loading="physicalLoading"
-        :data="physicalList"
-        :height="tableHeight"
-        @selection-change="handlePhysicalSelectionChange"
-        @row-click="handleRowClick"
-        border
-      >
-        <el-table-column
-          v-if="!props.singleSelect"
-          type="selection"
-          width="50"
-          align="center"
-        />
-        <el-table-column v-else width="50" align="center">
-          <template #default="scope">
-            <el-radio
-              v-model="radioId"
-              :value="scope.row"
-              @change="handleRadioSelectionChange"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column label="序号" align="center" width="50">
-          <template #default="scope">
-            <span>{{ calculateIndex(scope.$index) }}</span>
-          </template>
-        </el-table-column>
-        <template v-for="field in props.fields">
+      <div ref="tableWrapper" @keydown.capture="onTableKeydown">
+        <el-table
+          ref="tableRef"
+          v-loading="physicalLoading"
+          :data="physicalList"
+          :height="tableHeight"
+          @selection-change="handlePhysicalSelectionChange"
+          @row-click="handleRowClick"
+          border
+        >
           <el-table-column
-            :label="field.label"
+            v-if="!props.singleSelect"
+            type="selection"
+            width="50"
             align="center"
-            :width="field.width || '80'"
-            :key="field.prop"
-            :prop="field.prop"
-            v-if="physicalColumns[field.prop]?.visible"
-            :show-overflow-tooltip="true"
-          >
-            <template #header v-if="!!field.filter">
-              <div class="custom-header">
-                <span>{{ field.label }}</span>
-                <AsyncTableFilter
-                  :type="props.type"
-                  v-model="physicalQueryParams[field.filter.name]"
-                  :metricsType="field.filter.metricsType"
-                  :filter="props.filter"
-                  :load-data="props.loadDataOptions"
-                  @confirm="() => loadData(true)"
-                  @reset="() => loadData(true)"
-                />
-              </div>
-            </template>
-            <template #default="scope" v-if="field.prop === 'obtainTime'">
-              <span>{{ parseTime(scope.row.obtainTime, "{y}-{m}-{d}") }}</span>
+          />
+          <el-table-column v-else width="50" align="center">
+            <template #default="scope">
+              <el-radio
+                v-model="radioId"
+                :value="scope.row"
+                @change="handleRadioSelectionChange"
+              />
             </template>
           </el-table-column>
-        </template>
-      </el-table>
+          <el-table-column label="序号" align="center" width="50">
+            <template #default="scope">
+              <span>{{ calculateIndex(scope.$index) }}</span>
+            </template>
+          </el-table-column>
+          <template v-for="field in props.fields">
+            <el-table-column
+              :label="field.label"
+              align="center"
+              :width="field.width || '80'"
+              :key="field.prop"
+              :prop="field.prop"
+              v-if="physicalColumns[field.prop]?.visible"
+              :show-overflow-tooltip="true"
+            >
+              <template #header v-if="!!field.filter">
+                <div class="custom-header">
+                  <span>{{ field.label }}</span>
+                  <AsyncTableFilter
+                    :type="props.type"
+                    v-model="physicalQueryParams[field.filter.name]"
+                    :metricsType="field.filter.metricsType"
+                    :filter="props.filter"
+                    :load-data="props.loadDataOptions"
+                    @confirm="() => loadData(true)"
+                    @reset="() => loadData(true)"
+                  />
+                </div>
+              </template>
+              <template #default="scope" v-if="field.prop === 'obtainTime'">
+                <span>{{
+                  parseTime(scope.row.obtainTime, "{y}-{m}-{d}")
+                }}</span>
+              </template>
+            </el-table-column>
+          </template>
+        </el-table>
+      </div>
       <Pagination
         v-show="physicalTotal > 0"
         :total="physicalTotal"
@@ -144,8 +148,9 @@ import { Memo } from "@element-plus/icons-vue";
 import { CaretBottom } from "@element-plus/icons-vue";
 import ColumnVisibilityControl from "@/components/ColumnVisibilityControl/index.vue";
 import Pagination from "@/components/Pagination/index.vue";
+import { onKeyDown } from "@vueuse/core";
 // import { getPhysicalList } from "@/api/statistic/physical";
-
+const tableWrapper = ref(null);
 const physicalList = ref([]);
 const physicalTotal = ref(0);
 const physicalLoading = ref(false);
@@ -166,6 +171,17 @@ const physicalQueryParams = ref({
 
 const tableRef = ref();
 
+const onTableKeydown = (e) => {
+  // 只拦截空格
+  if (e.code === "Space") {
+    // 判断事件是否来自 el-table 内部 checkbox
+    const target = e.target;
+    if (target?.type === "checkbox") {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+};
 const handleGlobalOrderChange = (value) => {
   props.handleGlobalOrderChange(value);
   if (value) {
