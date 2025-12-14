@@ -107,7 +107,7 @@
         :globalFields="globalFields"
         :fields="ledgerFields"
         :loadDataHandler="ledgerList"
-        :singleSelect="true"
+        :singleSelect="false"
         @selection-change="handleLedgerSelectionChange"
       />
     </el-row>
@@ -421,17 +421,24 @@ const handlePhysicalSelectionChange = (selection) => {
 
 const handleRelation = () => {
   if (physicalSelected.value.length === 0) {
-    ElMessage.error("请选择资产");
+    ElMessage.error("请选择实物资产");
     return;
   }
   if (ledgerSelected.value.length === 0) {
-    ElMessage.error("请选择台账");
+    ElMessage.error("请选择久其资产");
+    return;
+  }
+  if (
+    ledgerSelected.value.length > 1 &&
+    ledgerSelected.value.length != physicalSelected.value.length
+  ) {
+    ElMessage.error("实物资产与久其资产数量不一致");
     return;
   }
   proxy.$modal
     .confirm("是否确认关联资产数据项？")
     .then(function () {
-      return relation(physicalSelected.value, ledgerSelected.value[0]);
+      return relation(physicalSelected.value, ledgerSelected.value);
     })
     .then((response) => {
       if (response.code === 200) {
