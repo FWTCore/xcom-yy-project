@@ -433,6 +433,9 @@
             <if test="searchUsingEmpName != null  and searchUsingEmpName != ''">
                 and a.using_emp_name like concat('%', #{searchUsingEmpName}, '%')
             </if>
+            <if test="searchUsingEmpNameEmpty != null  and searchUsingEmpNameEmpty">
+                and a.using_emp_Id is null
+            </if>
             <if test="collectorUserId != null ">
                 and a.collector_user_id = #{collectorUserId}
             </if>

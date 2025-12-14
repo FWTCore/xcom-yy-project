@@ -198,6 +198,10 @@ public class Asset extends BaseEntityDO {
      * 使用员工名称,;
      */
     private String        searchUsingEmpName;
+    /**
+     * 使用员工名称是否为空,;
+     */
+    private Boolean       searchUsingEmpNameEmpty;
 
     /**
      * 采集人id,;
