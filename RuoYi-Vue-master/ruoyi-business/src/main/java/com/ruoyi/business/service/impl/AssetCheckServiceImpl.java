@@ -241,10 +241,10 @@ public class AssetCheckServiceImpl implements AssetCheckService {
                     tempOriginalCode = AssetCodeUtil.generateAssetCode(maxTemporaryCode, 1, "#").get(0);
                 }
                 try {
-                    assetDO.setOriginalCode(originalAssetDO.getOriginalCode());
+                    assetDO.setOriginalCode(tempOriginalAsset.getOriginalCode());
                     assetDO.setOriginalSubCode(tempOriginalCode);
                     assetDO.setMatchStatus(1);
-                    compareChange(assetDO, originalAssetDO);
+                    compareChange(assetDO, tempOriginalAsset);
                     assetService.updateAsset(assetDO);
                 } catch (Exception exception) {
 
