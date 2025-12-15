@@ -661,14 +661,8 @@ public class AssetServiceImpl implements AssetService {
                     throw new ServiceException("临时编码已存在多个，请核对数据");
                 }
                 AssetDO existAsset = assetList.get(0);
-                //存在的情况，不能编辑编码
-                if (!StringUtils.equals(data.getOriginalCode(), existAsset.getOriginalCode())) {
-                    throw new ServiceException("编辑资产，不能修改原始子编码");
-                }
-                if (!StringUtils.equals(data.getOriginalSubCode(), existAsset.getOriginalSubCode())) {
-                    throw new ServiceException("编辑资产，不能修改原始子编码");
-                }
                 data.setId(existAsset.getId());
+                //存在的情况，不能编辑编码
                 data.setOriginalCode(existAsset.getOriginalCode());
                 data.setOriginalSubCode(existAsset.getOriginalSubCode());
             } else {
@@ -676,12 +670,15 @@ public class AssetServiceImpl implements AssetService {
             }
         }
         if (ObjectUtils.isEmpty(data.getId()) && StringUtils.isNotBlank(data.getOriginalSubCode())) {
+
             data.setOriginalCode(getOriginalCode(data.getOriginalSubCode()));
+
             Asset searchAsset = new Asset();
             searchAsset.setDeptId(data.getDeptId());
             searchAsset.setProjectId(data.getProjectId());
             searchAsset.setOriginalCode(data.getOriginalCode());
             List<AssetDO> assetList = this.selectAssetList(searchAsset);
+
             if (CollectionUtils.isNotEmpty(assetList)) {
                 List<AssetDO> matchAssetList = assetList.stream()
                     .filter(e -> StringUtils.equals(e.getOriginalSubCode(), data.getOriginalSubCode()))
@@ -715,9 +712,6 @@ public class AssetServiceImpl implements AssetService {
                         List<String> originalSubCodes = AssetCodeUtil.generateAssetCode(maxTemporaryCode, 1, "#");
                         data.setOriginalSubCode(originalSubCodes.get(0));
                     } else {
-                        if (!StringUtils.equals(data.getTemporaryCode(), existAsset.getTemporaryCode())) {
-                            throw new ServiceException("编辑资产，不能修改临时编码");
-                        }
                         data.setId(existAsset.getId());
                         data.setTemporaryCode(existAsset.getTemporaryCode());
                     }
