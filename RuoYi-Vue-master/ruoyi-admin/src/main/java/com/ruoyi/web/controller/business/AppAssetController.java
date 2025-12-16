@@ -20,6 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.integration.redis.util.RedisLockRegistry;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 /**
  * App-资产管理
@@ -46,7 +49,9 @@ import java.util.List;
 public class AppAssetController extends BaseController {
 
     @Resource
-    private AssetService assetService;
+    private AssetService      assetService;
+    @Resource
+    private RedisLockRegistry redisLockRegistry;
 
     @ApiOperation("App-获取资产列表")
     @GetMapping(value = "/pageData")
@@ -93,7 +98,19 @@ public class AppAssetController extends BaseController {
         copyReqBO.setCopyNum(request.getCopyNum());
         copyReqBO.setDeptId(getProjectCompanyId());
         copyReqBO.setProjectId(getProjectId());
-        return success(assetService.copyData(copyReqBO));
+        Lock lock = redisLockRegistry.obtain("asset:copy:" + request.getId());
+        try {
+            if (!lock.tryLock()) {
+                log.warn("资产id【" + request.getId() + "】复制时,未获取锁，资产正在被其他操作占用");
+                throw new ServiceException("资产正在复制，请勿重复提交");
+            }
+            return success(assetService.copyData(copyReqBO));
+        } catch (Exception e) {
+            log.error("资产id【" + request.getId() + "】正在复制，请勿重复提交", e);
+            return success(false);
+        } finally {
+            lock.unlock();
+        }
     }
 
     /**
