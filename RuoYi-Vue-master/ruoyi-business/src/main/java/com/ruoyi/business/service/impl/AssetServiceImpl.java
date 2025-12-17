@@ -535,6 +535,7 @@ public class AssetServiceImpl implements AssetService {
                 assetDO.setCollectorUserId(loginUser.getUserId());
                 assetDO.setCollectorUserName(loginUser.getUser().getNickName());
                 assetDO.setCollectorTime(LocalDateTime.now());
+                validAndSetField(assetDO);
                 this.updateAsset(assetDO);
             }
         }
