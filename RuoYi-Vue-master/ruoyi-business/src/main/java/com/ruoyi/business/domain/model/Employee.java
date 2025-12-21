@@ -1,6 +1,6 @@
 package com.ruoyi.business.domain.model;
 
-import com.ruoyi.common.core.domain.BaseEntityDO;
+import com.ruoyi.business.domain.entity.EmployeeDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -17,17 +17,8 @@ import java.util.List;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Employee extends BaseEntityDO {
+public class Employee extends EmployeeDO {
 
-    /**
-     * 系统公司id,;
-     */
-    private Long         deptId;
-
-    /**
-     * 员工名称,;
-     */
-    private String       employeeName;
     private String       searchName;
     /**
      * 员工名称,;

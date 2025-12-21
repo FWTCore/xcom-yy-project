@@ -18,29 +18,18 @@ import lombok.ToString;
 public class Material extends MaterialDO {
 
     /**
-     * 分类id,;
-     */
-    private Long   categoryId;
-
-    /**
      * 品牌id,;
      */
-    private Long   brandId;
-    /**
-     * 品牌id,;
-     */
-    private String   brandName;
+    private String brandName;
 
     /**
      * 物资名称,;
      */
-    private String materialName;
     private String searchMaterialName;
 
     /**
      * 规格型号,;
      */
-    private String specification;
     private String searchSpecification;
 
     private String searchName;

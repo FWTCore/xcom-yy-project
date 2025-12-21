@@ -1,6 +1,6 @@
 package com.ruoyi.business.domain.model;
 
-import com.ruoyi.common.core.domain.BaseEntityDO;
+import com.ruoyi.business.domain.entity.LocationDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -15,21 +15,8 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Location extends BaseEntityDO {
+public class Location extends LocationDO {
 
-    /**
-     * 系统公司id,;
-     */
-    private Long   deptId;
-
-    /**
-     * 地点名称,;
-     */
-    private String locationName;
     private String searchName;
 
-    /**
-     * 地点编码,;
-     */
-    private String locationCode;
 }

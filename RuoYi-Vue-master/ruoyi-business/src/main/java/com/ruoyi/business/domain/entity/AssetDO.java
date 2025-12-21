@@ -178,6 +178,7 @@ public class AssetDO extends BaseEntityDO {
      * 采集时间,;
      */
     @Excel(name = "采集时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime collectorTime;
 
     /**

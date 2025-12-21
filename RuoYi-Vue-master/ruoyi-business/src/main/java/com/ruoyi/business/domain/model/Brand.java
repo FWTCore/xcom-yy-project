@@ -1,6 +1,6 @@
 package com.ruoyi.business.domain.model;
 
-import com.ruoyi.common.core.domain.BaseEntityDO;
+import com.ruoyi.business.domain.entity.BrandDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -15,16 +15,10 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Brand extends BaseEntityDO {
-
-    /**
-     * 分类id,;
-     */
-    private Long   categoryId;
+public class Brand extends BrandDO {
 
     /**
      * 品牌名称,;
      */
-    private String brandName;
     private String searchName;
 }

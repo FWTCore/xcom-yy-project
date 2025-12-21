@@ -1,6 +1,6 @@
 package com.ruoyi.business.domain.model;
 
-import com.ruoyi.common.core.domain.BaseEntityDO;
+import com.ruoyi.business.domain.entity.CategoryDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -15,27 +15,8 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Category extends BaseEntityDO {
+public class Category extends CategoryDO {
 
-    /**
-     * 分类名称,;
-     */
-    private String  categoryName;
+    private String searchName;
 
-    private String  searchName;
-
-    /**
-     * 是否填写品牌,;
-     */
-    private Boolean hasBrand;
-
-    /**
-     * 是否填写物资名称,;
-     */
-    private Boolean hasMaterialName;
-
-    /**
-     * 是否填写规格型号,;
-     */
-    private Boolean hasSpecification;
 }

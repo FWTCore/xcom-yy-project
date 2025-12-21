@@ -1,6 +1,6 @@
 package com.ruoyi.business.domain.model;
 
-import com.ruoyi.common.core.domain.BaseEntityDO;
+import com.ruoyi.business.domain.entity.ProjectMemberDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -15,39 +15,11 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class ProjectMember extends BaseEntityDO {
-
-    /**
-     * 系统公司id,;
-     */
-    private Long    deptId;
-
-    /**
-     * 项目id,;
-     */
-    private Long    projectId;
-
-    /**
-     * 系统用户id,;
-     */
-    private Long    systemUserId;
+public class ProjectMember extends ProjectMemberDO {
 
     /**
      * 成员名称,;
      */
-    private String  memberName;
-    /**
-     * 成员名称,;
-     */
-    private String  userName;
+    private String userName;
 
-    /**
-     * 成员类型,;
-     */
-    private Integer memberType;
-
-    /**
-     * 成员手机号,;
-     */
-    private String  memberPhone;
 }
