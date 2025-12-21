@@ -126,7 +126,7 @@ public class AssetDataEventListener {
         } catch (Exception exception) {
 
         }
-        eventPublisher.publishProjectVerifyAssetEventDataEvent(assetDO.getProjectId(), 1);
+//        eventPublisher.publishProjectVerifyAssetEventDataEvent(assetDO.getProjectId(), 1);
     }
 
 }

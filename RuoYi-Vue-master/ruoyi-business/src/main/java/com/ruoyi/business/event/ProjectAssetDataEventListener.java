@@ -53,11 +53,11 @@ public class ProjectAssetDataEventListener {
         }
         if (ObjectUtils.isEmpty(event.getBizType()) || event.getBizType().equals(1)) {
             metricsService.upsetPhysicalMetrics(event.getProjectId());
-            eventPublisher.publishProjectVerifyAssetEventDataEvent(event.getProjectId(), 1);
+//            eventPublisher.publishProjectVerifyAssetEventDataEvent(event.getProjectId(), 1);
         }
         if (ObjectUtils.isEmpty(event.getBizType()) || event.getBizType().equals(2)) {
             metricsService.upsetLedgerMetrics(event.getProjectId());
-            eventPublisher.publishProjectVerifyAssetEventDataEvent(event.getProjectId(), 2);
+//            eventPublisher.publishProjectVerifyAssetEventDataEvent(event.getProjectId(), 2);
         }
     }
 

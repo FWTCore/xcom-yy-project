@@ -157,7 +157,7 @@ public class OriginalAssetDataEventListener {
             }
         }
 
-        eventPublisher.publishProjectVerifyAssetEventDataEvent(projectId, 2);
+//        eventPublisher.publishProjectVerifyAssetEventDataEvent(projectId, 2);
 
     }
 
