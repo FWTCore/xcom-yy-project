@@ -36,4 +36,9 @@ public class EventPublisher {
         applicationEventPublisher.publishEvent(new ProjectAssetDataEvent(this, projectId, bizType, context));
     }
 
+    public void publishProjectVerifyAssetEventDataEvent(Long projectId, Integer bizType) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        applicationEventPublisher.publishEvent(new VerifyAssetEvent(this, projectId, bizType, context));
+    }
+
 }

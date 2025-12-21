@@ -34,6 +34,8 @@ public class AssetDataEventListener {
     private AssetService     assetService;
     @Resource
     private MetricsService   metricsService;
+    @Resource
+    private EventPublisher   eventPublisher;
 
     /**
      * 异步执行
@@ -124,6 +126,7 @@ public class AssetDataEventListener {
         } catch (Exception exception) {
 
         }
+        eventPublisher.publishProjectVerifyAssetEventDataEvent(assetDO.getProjectId(), 1);
     }
 
 }

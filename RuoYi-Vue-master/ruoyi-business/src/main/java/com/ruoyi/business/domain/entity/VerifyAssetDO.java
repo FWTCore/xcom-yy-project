@@ -233,5 +233,13 @@ public class VerifyAssetDO extends BaseEntityDO {
      * 备注,;
      */
     private String        remark;
+    /**
+     * 盘点资产id
+     */
+    private Long          assetId;
+    /**
+     * 原始资产id
+     */
+    private Long          originalAssetId;
 
 }

@@ -30,6 +30,8 @@ public class ProjectAssetDataEventListener {
     private ProjectService projectService;
     @Resource
     private MetricsService metricsService;
+    @Resource
+    private EventPublisher eventPublisher;
 
     /**
      * 异步执行
@@ -51,9 +53,11 @@ public class ProjectAssetDataEventListener {
         }
         if (ObjectUtils.isEmpty(event.getBizType()) || event.getBizType().equals(1)) {
             metricsService.upsetPhysicalMetrics(event.getProjectId());
+            eventPublisher.publishProjectVerifyAssetEventDataEvent(event.getProjectId(), 1);
         }
         if (ObjectUtils.isEmpty(event.getBizType()) || event.getBizType().equals(2)) {
             metricsService.upsetLedgerMetrics(event.getProjectId());
+            eventPublisher.publishProjectVerifyAssetEventDataEvent(event.getProjectId(), 2);
         }
     }
 

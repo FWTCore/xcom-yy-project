@@ -38,6 +38,8 @@ public class OriginalAssetDataEventListener {
     private OriginalAssetService     originalAssetService;
     @Resource
     private MetricsService           metricsService;
+    @Resource
+    private EventPublisher           eventPublisher;
 
     /**
      * 异步执行
@@ -124,12 +126,14 @@ public class OriginalAssetDataEventListener {
         // 手动设置安全上下文
         SecurityContextHolder.setContext(event.getSecurityContext());
         log.info("OriginalAssetDataEventListener 处理数据：" + JSON.toJSONString(event));
+        Long projectId = event.getProjectId();
         if (ObjectUtils.isNotEmpty(event.getOriginalAssetId())) {
             OriginalAssetDO originalAssetDO = originalAssetService.selectOriginalAssetById(event.getOriginalAssetId());
             if (ObjectUtils.isEmpty(originalAssetDO)) {
                 return;
             }
             originalAssetService.updateMatchStatic(originalAssetDO.getProjectId(), originalAssetDO.getOriginalCode());
+            projectId = originalAssetDO.getProjectId();
         } else if (ObjectUtils.isNotEmpty(event.getProjectId())
                    && CollectionUtils.isNotEmpty(event.getOriginalCodes())) {
             List<OriginalAssetDO> originalAssetDOList = originalAssetService
@@ -152,6 +156,8 @@ public class OriginalAssetDataEventListener {
                     originalAssetDO.getOriginalCode());
             }
         }
+
+        eventPublisher.publishProjectVerifyAssetEventDataEvent(projectId, 2);
 
     }
 

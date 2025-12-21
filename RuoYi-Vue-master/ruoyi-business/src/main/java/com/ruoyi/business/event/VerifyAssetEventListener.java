@@ -34,6 +34,11 @@ public class VerifyAssetEventListener {
         // 手动设置安全上下文
         SecurityContextHolder.setContext(event.getSecurityContext());
         log.info("VerifyAssetEventListener 处理数据：" + JSON.toJSONString(event));
-        verifyAssetService.syncVerifyAsset(event.getProjectId());
+        if (ObjectUtils.isEmpty(event.getBizType()) || event.getBizType().equals(1)) {
+            verifyAssetService.syncVerifyAssetForPhysical(event.getProjectId());
+        }
+        if (ObjectUtils.isEmpty(event.getBizType()) || event.getBizType().equals(2)) {
+            verifyAssetService.syncVerifyAssetForLedger(event.getProjectId());
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.ruoyi.business.domain.model.VerifyAsset;
 import com.ruoyi.business.domain.model.response.VerifyAssetDetailVO;
 import com.ruoyi.business.mapper.VerifyAssetMapper;
 import com.ruoyi.business.service.VerifyAssetService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -106,11 +107,22 @@ public class VerifyAssetServiceImpl implements VerifyAssetService {
     }
 
     @Override
-    public boolean syncVerifyAsset(Long projectId) {
-        verifyAssetMapper.syncInsertAsset(projectId);
+    public boolean syncVerifyAssetForPhysical(Long projectId) {
+        if (ObjectUtils.isEmpty(projectId)) {
+            return false;
+        }
         verifyAssetMapper.syncUpdateAsset(projectId);
-        verifyAssetMapper.syncInsertOriginalAsset(projectId);
+        verifyAssetMapper.syncInsertAsset(projectId);
+        return true;
+    }
+
+    @Override
+    public boolean syncVerifyAssetForLedger(Long projectId) {
+        if (ObjectUtils.isEmpty(projectId)) {
+            return false;
+        }
         verifyAssetMapper.syncUpdateOriginalAsset(projectId);
+        verifyAssetMapper.syncInsertOriginalAsset(projectId);
         return true;
     }
 }

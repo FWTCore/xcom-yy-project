@@ -41,6 +41,8 @@
         <result property="accumulatedDepreciation" column="accumulated_depreciation"/>
         <result property="carryingValue" column="carrying_value"/>
         <result property="relationalStatus" column="relational_status"/>
+        <result property="assetId" column="asset_id"/>
+        <result property="originalAssetId" column="original_asset_id"/>
         <result property="deleteFlag" column="delete_flag"/>
         <result property="createdById" column="created_by_id"/>
         <result property="createdByName" column="created_by_name"/>
@@ -57,6 +59,8 @@
 
     <sql id="selectVerifyAssetVO">
         select id,
+               asset_id,
+               original_asset_id,
                dept_id,
                project_id,
                temporary_code,
@@ -252,6 +256,8 @@
     <select id="selectVerifyAssetDetailList" parameterType="com.ruoyi.business.domain.model.VerifyAsset"
             resultMap="VerifyAssetDetailResult">
         select a.id,
+        a.asset_id,
+        a.original_asset_id,
         a.dept_id,
         a.project_id,
         a.temporary_code,
@@ -487,6 +493,12 @@
             keyProperty="id">
         insert into verify_asset
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="assetId != null">
+                asset_id,
+            </if>
+            <if test="originalAssetId != null">
+                original_asset_id,
+            </if>
             <if test="deptId != null">
                 dept_id,
             </if>
@@ -624,6 +636,12 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="assetId != null">
+                #{assetId},
+            </if>
+            <if test="originalAssetId != null">
+                #{originalAssetId},
+            </if>
             <if test="deptId != null">
                 #{deptId},
             </if>
@@ -765,6 +783,14 @@
     <update id="updateVerifyAsset" parameterType="com.ruoyi.business.domain.entity.VerifyAssetDO">
         update verify_asset
         <trim prefix="SET" suffixOverrides=",">
+            <if test="assetId != null">
+                asset_id =
+                #{assetId},
+            </if>
+            <if test="originalAssetId != null">
+                original_asset_id =
+                #{originalAssetId},
+            </if>
             <if test="deptId != null">
                 dept_id =
                 #{deptId},
@@ -963,14 +989,254 @@
     </delete>
 
     <insert id="syncInsertAsset">
+        insert into verify_asset(dept_id, project_id, temporary_code, original_code, original_sub_code, category_id,
+                                 category_name, brand_name,
+                                 asset_name, specification, production_time, location_id, location_name,
+                                 managed_dept_Id,
+                                 managed_dept_name, using_dept_Id, using_dept_name, managed_emp_Id, managed_emp_name,
+                                 using_emp_Id, using_emp_name, collector_user_id, collector_user_name, collector_time,
+                                 remark,
+                                 main_image_url, main_image_name, image_url, image_url_name, asset_status,
+                                 print_status, obtain_time, obtain_time_day, product_price, quantity,
+                                 accumulated_depreciation,
+                                 carrying_value, relational_status, delete_flag, created_by_id, created_by_name,
+                                 created_time,
+                                 updated_by_id, updated_by_name, updated_time, asset_id, original_asset_id)
+        select a.dept_id,
+               a.project_id,
+               a.temporary_code,
+               a.original_code,
+               a.original_sub_code,
+               a.category_id,
+               a.category_name,
+               a.brand_name,
+               a.asset_name,
+               a.specification,
+               a.production_time,
+               a.location_id,
+               a.location_name,
+               a.managed_dept_Id,
+               a.managed_dept_name,
+               a.using_dept_Id,
+               a.using_dept_name,
+               a.managed_emp_Id,
+               a.managed_emp_name,
+               a.using_emp_Id,
+               a.using_emp_name,
+               a.collector_user_id,
+               a.collector_user_name,
+               a.collector_time,
+               a.remark,
+               a.main_image_url,
+               a.main_image_name,
+               a.image_url,
+               a.image_url_name,
+               a.asset_status,
+               a.print_status,
+               oa.obtain_time,
+               oa.obtain_time_day,
+               oa.product_price,
+               oa.quantity,
+               oa.accumulated_depreciation,
+               oa.carrying_value,
+               a.match_status as relational_status,
+               a.delete_flag,
+               a.created_by_id,
+               a.created_by_name,
+               a.created_time,
+               a.updated_by_id,
+               a.updated_by_name,
+               a.updated_time,
+               a.id           as asset_id,
+               oa.id          as original_asset_id
+        from asset a
+                 left join original_asset oa
+                           on a.project_id = oa.project_id and a.original_code = oa.original_code and oa.delete_flag = 0
+        where a.delete_flag = 0
+          and a.project_id = #{projectId}
+          and not exists(
+                select 1
+                from verify_asset as va
+                where va.delete_flag = 0
+                  and a.id = va.asset_id
+            )
     </insert>
 
     <update id="syncUpdateAsset">
+        update verify_asset as va
+            inner join asset a
+        on va.project_id = a.project_id and va.asset_id = a.id and a.delete_flag = 0
+            left join original_asset oa on a.project_id = oa.project_id and a.original_code = oa.original_code and
+            oa.delete_flag = 0
+            set va.original_code=a.original_code,
+                va.original_sub_code=a.original_sub_code,
+                va.category_id=a.category_id,
+                va.category_name=a.category_name,
+                va.brand_name=a.brand_name,
+                va.asset_name=a.asset_name,
+                va.specification=a.specification,
+                va.production_time=a.production_time,
+                va.location_id=a.location_id,
+                va.location_name=a.location_name,
+                va.managed_dept_Id=a.managed_dept_Id,
+                va.managed_dept_name=a.managed_dept_name,
+                va.using_dept_Id=a.using_dept_Id,
+                va.using_dept_name=a.using_dept_name,
+                va.managed_emp_Id=a.managed_emp_Id,
+                va.managed_emp_name=a.managed_emp_name,
+                va.using_emp_Id=a.using_emp_Id,
+                va.using_emp_name=a.using_emp_name,
+                va.collector_user_id=a.collector_user_id,
+                va.collector_user_name=a.collector_user_name,
+                va.collector_time=a.collector_time,
+                va.remark=a.remark,
+                va.main_image_url=a.main_image_url,
+                va.main_image_name=a.main_image_name,
+                va.image_url=a.image_url,
+                va.image_url_name=a.image_url_name,
+                va.asset_status=a.asset_status,
+                va.print_status=a.print_status,
+                va.obtain_time=oa.obtain_time,
+                va.product_price=oa.product_price,
+                va.obtain_time_day=oa.obtain_time_day,
+                va.quantity=oa.quantity,
+                va.accumulated_depreciation=oa.accumulated_depreciation,
+                va.carrying_value=oa.carrying_value,
+                va.relational_status=a.match_status,
+                va.delete_flag=a.delete_flag,
+                va.created_by_id=a.created_by_id,
+                va.created_by_name=a.created_by_name,
+                va.created_time=a.created_time,
+                va.updated_by_id=a.updated_by_id,
+                va.updated_by_name=a.updated_by_name,
+                va.updated_time=a.updated_time,
+                va.original_asset_id=oa.id
+        where va.project_id = #{projectId}
+          and va.delete_flag = 0
     </update>
 
     <insert id="syncInsertOriginalAsset">
+        insert into verify_asset(dept_id, project_id, temporary_code, original_code, original_sub_code, category_id,
+                                 category_name, brand_name,
+                                 asset_name, specification, production_time, location_id, location_name,
+                                 managed_dept_Id,
+                                 managed_dept_name, using_dept_Id, using_dept_name, managed_emp_Id, managed_emp_name,
+                                 using_emp_Id, using_emp_name, collector_user_id, collector_user_name, collector_time,
+                                 remark,
+                                 main_image_url, main_image_name, image_url, image_url_name, asset_status,
+                                 print_status, obtain_time, product_price, obtain_time_day, quantity,
+                                 accumulated_depreciation,
+                                 carrying_value, relational_status, delete_flag, created_by_id, created_by_name,
+                                 created_time,
+                                 updated_by_id, updated_by_name, updated_time, asset_id, original_asset_id)
+
+        select dept_id,
+               project_id,
+               null         as temporary_code,
+               original_code,
+               null         as original_sub_code,
+               category_id,
+               category_name,
+               brand_name,
+               asset_name,
+               specification,
+               null         as production_time,
+               location_id,
+               location_name,
+               managed_dept_Id,
+               managed_dept_name,
+               using_dept_Id,
+               using_dept_name,
+               managed_emp_Id,
+               managed_emp_name,
+               using_emp_Id,
+               using_emp_name,
+               null         as collector_user_id,
+               null         as collector_user_name,
+               null         as collector_time,
+               remark,
+               null         as main_image_url,
+               null         as main_image_name,
+               null         as image_url,
+               null         as image_url_name,
+               match_status,
+               0            as print_status,
+               obtain_time,
+               product_price,
+               obtain_time_day,
+               quantity,
+               accumulated_depreciation,
+               carrying_value,
+               match_status as relational_status,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time,
+               null         as asset_id,
+               oa.id        as original_asset_id
+        from original_asset as oa
+        where oa.delete_flag = 0
+          and oa.match_status in (0, 3, 4)
+          and oa.project_id = #{projectId}
+          and not exists(
+                select 1
+                from verify_asset as va
+                where va.delete_flag = 0
+                  and oa.id = va.original_asset_id
+            )
     </insert>
 
     <update id="syncUpdateOriginalAsset">
+        update verify_asset as va
+            inner join original_asset oa on va.project_id = oa.project_id and va.original_asset_id = oa.id and
+            oa.delete_flag = 0 and oa.match_status in (0, 3, 4)
+            set va.temporary_code=null,
+                va.original_sub_code=null,
+                va.category_id=oa.category_id,
+                va.category_name=oa.category_name,
+                va.brand_name=oa.brand_name,
+                va.asset_name=oa.asset_name,
+                va.specification=oa.specification,
+                va.production_time=null,
+                va.location_id=oa.location_id,
+                va.location_name=oa.location_name,
+                va.managed_dept_Id=oa.managed_dept_Id,
+                va.managed_dept_name=oa.managed_dept_name,
+                va.using_dept_Id=oa.using_dept_Id,
+                va.using_dept_name=oa.using_dept_name,
+                va.managed_emp_Id=oa.managed_emp_Id,
+                va.managed_emp_name=oa.managed_emp_name,
+                va.using_emp_Id=oa.using_emp_Id,
+                va.using_emp_name=oa.using_emp_name,
+                va.collector_user_id=null,
+                va.collector_user_name=null,
+                va.collector_time=null,
+                va.remark=oa.remark,
+                va.main_image_url=null,
+                va.main_image_name=null,
+                va.image_url=null,
+                va.image_url_name=null,
+                va.asset_status=null,
+                va.print_status=null,
+                va.obtain_time=oa.obtain_time,
+                va.product_price=oa.product_price,
+                va.obtain_time_day=oa.obtain_time_day,
+                va.quantity=oa.quantity,
+                va.accumulated_depreciation=oa.accumulated_depreciation,
+                va.carrying_value=oa.carrying_value,
+                va.relational_status=oa.match_status,
+                va.delete_flag=oa.delete_flag,
+                va.created_by_id=oa.created_by_id,
+                va.created_by_name=oa.created_by_name,
+                va.created_time=oa.created_time,
+                va.updated_by_id=oa.updated_by_id,
+                va.updated_by_name=oa.updated_by_name,
+                va.updated_time=oa.updated_time,
+                va.asset_id=null
+        where va.project_id = #{projectId}
+          and va.delete_flag = 0
     </update>
 </mapper>

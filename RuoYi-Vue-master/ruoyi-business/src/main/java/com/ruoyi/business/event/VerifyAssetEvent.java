@@ -14,10 +14,15 @@ import org.springframework.security.core.context.SecurityContext;
 public class VerifyAssetEvent extends BaseEvent {
 
     private final Long projectId;
+    /**
+     * 1：实物；2：账务
+     */
+    private final Integer bizType;
 
-    public VerifyAssetEvent(Object source, Long projectId, SecurityContext securityContext) {
+    public VerifyAssetEvent(Object source, Long projectId, Integer bizType, SecurityContext securityContext) {
         super(source, securityContext);
         this.projectId = projectId;
+        this.bizType = bizType;
     }
 
 }
