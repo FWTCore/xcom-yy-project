@@ -159,5 +159,22 @@ public class OriginalAssetDO extends BaseEntityDO {
      */
     @Excel(name = "匹配数量")
     private Integer       matchCount;
+    /**
+     * 数量
+     */
+    //    @Excel(name = "数量")
+    private Long          quantity;
+
+    /**
+     * 累计折旧
+     */
+    //    @Excel(name = "累计折旧")
+    private BigDecimal    accumulatedDepreciation;
+
+    /**
+     * 净值
+     */
+    //    @Excel(name = "净值")
+    private BigDecimal    carryingValue;
 
 }

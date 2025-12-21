@@ -27,6 +27,9 @@
         <result property="remark" column="remark"/>
         <result property="matchStatus" column="match_status"/>
         <result property="matchCount" column="match_count"/>
+        <result property="quantity" column="quantity"/>
+        <result property="accumulatedDepreciation" column="accumulated_depreciation"/>
+        <result property="carryingValue" column="carrying_value"/>
         <result property="deleteFlag" column="delete_flag"/>
         <result property="createdById" column="created_by_id"/>
         <result property="createdByName" column="created_by_name"/>
@@ -67,6 +70,9 @@
                remark,
                match_status,
                match_count,
+               quantity,
+               accumulated_depreciation,
+               carrying_value,
                delete_flag,
                created_by_id,
                created_by_name,
@@ -226,6 +232,9 @@
         a.remark,
         a.match_status,
         a.match_count,
+        a.quantity,
+        a.accumulated_depreciation,
+        a.carrying_value,
         a.delete_flag,
         a.created_by_id,
         a.created_by_name,
@@ -443,6 +452,15 @@
             <if test="matchCount != null">
                 match_count,
             </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="accumulatedDepreciation != null">
+                accumulated_depreciation,
+            </if>
+            <if test="carryingValue != null">
+                carrying_value,
+            </if>
             <if test="deleteFlag != null">
                 delete_flag,
             </if>
@@ -537,6 +555,15 @@
             </if>
             <if test="matchCount != null">
                 #{matchCount},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="accumulatedDepreciation != null">
+                #{accumulatedDepreciation},
+            </if>
+            <if test="carryingValue != null">
+                #{carryingValue},
             </if>
             <if test="deleteFlag != null">
                 #{deleteFlag},
@@ -660,6 +687,18 @@
             <if test="matchCount != null">
                 match_count =
                 #{matchCount},
+            </if>
+            <if test="quantity != null">
+                quantity =
+                #{quantity},
+            </if>
+            <if test="accumulatedDepreciation != null">
+                accumulated_depreciation =
+                #{accumulatedDepreciation},
+            </if>
+            <if test="carryingValue != null">
+                carrying_value =
+                #{carryingValue},
             </if>
             <if test="deleteFlag != null">
                 delete_flag =
