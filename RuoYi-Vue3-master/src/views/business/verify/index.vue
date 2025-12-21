@@ -468,7 +468,23 @@ function filterDisabledDept(deptList) {
     return true;
   });
 }
-
+/**
+ * 标准化图片URL
+ * @param url 原始URL
+ * @returns 处理后的URL
+ */
+function normalizeImageUrl(url) {
+  if (!url) return undefined;
+  // 如果已经是完整URL或base64数据，直接返回
+  if (url.startsWith("http") || url.startsWith("data:")) {
+    return url;
+  }
+  // 处理相对路径
+  if (!url.startsWith("/api")) {
+    url = import.meta.env.VITE_APP_BASE_API + url;
+  }
+  return url;
+}
 
 onMounted(() => {
   getDeptTree();
