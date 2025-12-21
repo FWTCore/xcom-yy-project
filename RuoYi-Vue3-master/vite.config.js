@@ -2,7 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import createVitePlugins from './vite/plugins'
 
-// const baseUrl = 'http://211.149.229.231:60125/api' // 后端接口
+// const baseUrl = 'http://211.149.229.231:60124/api' // 后端接口
 const baseUrl = 'http://localhost:8080/api' // 后端接口
 
 // https://vitejs.dev/config/

@@ -107,7 +107,7 @@
           v-hasPermi="['system:asset:remove']">删除</el-button>
       </el-col> -->
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleSync"
+        <el-button type="primary" plain icon="Plus" @click="handleSync" :disabled="!projectIdOption"
           v-hasPermi="['business:verify:sync']">手动同步</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -215,7 +215,7 @@
 </template>
 
 <script setup name="Asset">
-import { listAsset, getAsset, delAsset, addAsset, updateAsset } from "@/api/business/verifyAsset"
+import { listAsset, getAsset, delAsset, addAsset, updateAsset, syncAsset } from "@/api/business/verifyAsset"
 import { deptTreeNoAuthSelect } from "@/api/system/user";
 import { listAllProject } from "@/api/business/project";
 import { listAllCategory } from "@/api/business/category";
@@ -441,11 +441,13 @@ function handleDelete(row) {
 
 /** 同步按钮操作 */
 function handleSync() {
-  loading.value = true
-  syncAsset({"projectId": projectIdOption.value}).then((response) => {
-    proxy.$modal.msgSuccess("同步成功");
-    getList();
-  }).finally(() => {
+  proxy.$modal.confirm('是否确认同步核实资产数据？').then(function () {
+    loading.value = true
+    return syncAsset({ "projectId": projectIdOption.value })
+  }).then(() => {
+    getList()
+    proxy.$modal.msgSuccess("同步成功")
+  }).catch(() => { }).finally(() => {
     loading.value = false
   });
 }
