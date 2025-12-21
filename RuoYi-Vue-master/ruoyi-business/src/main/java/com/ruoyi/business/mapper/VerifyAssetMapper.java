@@ -4,6 +4,7 @@ import com.ruoyi.business.domain.entity.VerifyAssetDO;
 import com.ruoyi.business.domain.model.VerifyAsset;
 import com.ruoyi.business.domain.model.response.VerifyAssetDetailVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public interface VerifyAssetMapper {
      * @return 核实资产集合
      */
     List<VerifyAssetDO> selectVerifyAssetList(VerifyAsset verifyAsset);
+
     /**
      * 查询核实资产列表
      *
@@ -78,4 +80,33 @@ public interface VerifyAssetMapper {
      * @return 结果
      */
     int deleteVerifyAssetByIds(Long[] ids);
+
+    /**
+     * 盘点资产
+     * @param projectId
+     * @return
+     */
+    int syncInsertAsset(@Param("projectId") Long projectId);
+
+    /**
+     * 盘点资产
+     * @param projectId
+     * @return
+     */
+    int syncUpdateAsset(@Param("projectId") Long projectId);
+
+    /**
+     * 原始资产
+     * @param projectId
+     * @return
+     */
+    int syncInsertOriginalAsset(@Param("projectId") Long projectId);
+
+    /**
+     * 原始资产
+     * @param projectId
+     * @return
+     */
+    int syncUpdateOriginalAsset(@Param("projectId") Long projectId);
+
 }

@@ -104,4 +104,13 @@ public class VerifyAssetServiceImpl implements VerifyAssetService {
     public int deleteVerifyAssetById(Long id) {
         return verifyAssetMapper.deleteVerifyAssetById(id);
     }
+
+    @Override
+    public boolean syncVerifyAsset(Long projectId) {
+        verifyAssetMapper.syncInsertAsset(projectId);
+        verifyAssetMapper.syncUpdateAsset(projectId);
+        verifyAssetMapper.syncInsertOriginalAsset(projectId);
+        verifyAssetMapper.syncUpdateOriginalAsset(projectId);
+        return true;
+    }
 }

@@ -961,4 +961,16 @@
             #{id}
         </foreach>
     </delete>
+
+    <insert id="syncInsertAsset">
+    </insert>
+
+    <update id="syncUpdateAsset">
+    </update>
+
+    <insert id="syncInsertOriginalAsset">
+    </insert>
+
+    <update id="syncUpdateOriginalAsset">
+    </update>
 </mapper>

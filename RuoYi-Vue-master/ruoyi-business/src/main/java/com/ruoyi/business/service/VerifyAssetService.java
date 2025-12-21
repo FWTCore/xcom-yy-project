@@ -77,4 +77,12 @@ public interface VerifyAssetService {
      * @return 结果
      */
     int deleteVerifyAssetById(Long id);
+
+    /**
+     * 同步核实资产数据
+     * @param projectId
+     * @return
+     */
+    boolean syncVerifyAsset(Long projectId);
+
 }
