@@ -92,7 +92,7 @@ public class VerifyAssetController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('business:verify:sync')")
     @Log(title = "手动同步核实资产", businessType = BusinessType.OTHER)
-    @PutMapping("/sync")
+    @PostMapping("/sync")
     public AjaxResult sync(@RequestBody TaskTriggerRequest request) {
         eventPublisher.publishProjectVerifyAssetEventDataEvent(request.getProjectId(), 1);
         eventPublisher.publishProjectVerifyAssetEventDataEvent(request.getProjectId(), 2);
