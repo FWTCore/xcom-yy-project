@@ -1,8 +1,10 @@
 package com.ruoyi.web.controller.business;
 
+import com.ruoyi.business.domain.entity.ProjectDO;
 import com.ruoyi.business.domain.entity.VerifyAssetDO;
 import com.ruoyi.business.domain.model.VerifyAsset;
 import com.ruoyi.business.domain.model.response.VerifyAssetDetailVO;
+import com.ruoyi.business.event.EventPublisher;
 import com.ruoyi.business.service.VerifyAssetService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -10,6 +12,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.web.controller.business.request.TaskTriggerRequest;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,6 +42,8 @@ import java.util.List;
 public class VerifyAssetController extends BaseController {
     @Resource
     private VerifyAssetService verifyAssetService;
+    @Resource
+    private EventPublisher     eventPublisher;
 
     /**
      * 查询核实资产列表
@@ -81,4 +86,17 @@ public class VerifyAssetController extends BaseController {
     public AjaxResult edit(@RequestBody VerifyAsset verifyAsset) {
         return toAjax(verifyAssetService.updateVerifyAsset(verifyAsset));
     }
+
+    /**
+     * 手动核实资产
+     */
+    @PreAuthorize("@ss.hasPermi('business:verify:sync')")
+    @Log(title = "手动同步核实资产", businessType = BusinessType.OTHER)
+    @PutMapping("/sync")
+    public AjaxResult sync(@RequestBody TaskTriggerRequest request) {
+        eventPublisher.publishProjectVerifyAssetEventDataEvent(request.getProjectId(), 1);
+        eventPublisher.publishProjectVerifyAssetEventDataEvent(request.getProjectId(), 2);
+        return toAjax(1);
+    }
+
 }
