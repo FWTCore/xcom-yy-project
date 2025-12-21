@@ -11,10 +11,12 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.web.controller.business.request.TaskTriggerRequest;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -93,7 +97,10 @@ public class VerifyAssetController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:verify:sync')")
     @Log(title = "手动同步核实资产", businessType = BusinessType.OTHER)
     @PostMapping("/sync")
-    public AjaxResult sync(@RequestBody TaskTriggerRequest request) {
+    public AjaxResult sync(@RequestBody @Valid @NotNull(message = "参数不能为空") TaskTriggerRequest request) {
+        if (ObjectUtils.isEmpty(request.getProjectId())) {
+            throw new ServiceException("请选择需要同步的项目");
+        }
         eventPublisher.publishProjectVerifyAssetEventDataEvent(request.getProjectId(), 1);
         eventPublisher.publishProjectVerifyAssetEventDataEvent(request.getProjectId(), 2);
         return toAjax(1);
