@@ -17,6 +17,9 @@ public class ProjectAssetDataEvent extends BaseEvent {
      * 项目id  OriginalAssetDataEventListener
      */
     private final Long    projectId;
+    /**
+     * 1：实物；2：账务
+     */
     private final Integer bizType;
 
     public ProjectAssetDataEvent(Object source, Long projectId, Integer bizType, SecurityContext securityContext) {
