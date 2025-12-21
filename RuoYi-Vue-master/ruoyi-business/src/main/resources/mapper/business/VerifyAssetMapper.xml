@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.VerifyAssetMapper">
+    <resultMap type="com.ruoyi.business.domain.entity.VerifyAssetDO" id="VerifyAssetResult">
+        <result property="id" column="id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="projectId" column="project_id"/>
+        <result property="temporaryCode" column="temporary_code"/>
+        <result property="originalCode" column="original_code"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="brandName" column="brand_name"/>
+        <result property="assetName" column="asset_name"/>
+        <result property="specification" column="specification"/>
+        <result property="productionTime" column="production_time"/>
+        <result property="locationId" column="location_id"/>
+        <result property="locationName" column="location_name"/>
+        <result property="managedDeptId" column="managed_dept_Id"/>
+        <result property="managedDeptName" column="managed_dept_name"/>
+        <result property="usingDeptId" column="using_dept_Id"/>
+        <result property="usingDeptName" column="using_dept_name"/>
+        <result property="managedEmpId" column="managed_emp_Id"/>
+        <result property="managedEmpName" column="managed_emp_name"/>
+        <result property="usingEmpId" column="using_emp_Id"/>
+        <result property="usingEmpName" column="using_emp_name"/>
+        <result property="collectorUserId" column="collector_user_id"/>
+        <result property="collectorUserName" column="collector_user_name"/>
+        <result property="collectorTime" column="collector_time"/>
+        <result property="remark" column="remark"/>
+        <result property="mainImageUrl" column="main_image_url"/>
+        <result property="mainImageName" column="main_image_name"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="imageUrlName" column="image_url_name"/>
+        <result property="assetStatus" column="asset_status"/>
+        <result property="originalSubCode" column="original_sub_code"/>
+        <result property="printStatus" column="print_status"/>
+        <result property="obtainTime" column="obtain_time"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="obtainTimeDay" column="obtain_time_day"/>
+        <result property="quantity" column="quantity"/>
+        <result property="accumulatedDepreciation" column="accumulated_depreciation"/>
+        <result property="carryingValue" column="carrying_value"/>
+        <result property="relationalStatus" column="relational_status"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+    <resultMap type="com.ruoyi.business.domain.model.response.VerifyAssetDetailVO" id="VerifyAssetDetailResult"
+               extends="VerifyAssetResult">
+        <result property="deptName" column="dept_name"/>
+        <result property="projectName" column="project_name"/>
+    </resultMap>
+
+    <sql id="selectVerifyAssetVO">
+        select id,
+               dept_id,
+               project_id,
+               temporary_code,
+               original_code,
+               category_id,
+               category_name,
+               brand_name,
+               asset_name,
+               specification,
+               production_time,
+               location_id,
+               location_name,
+               managed_dept_Id,
+               managed_dept_name,
+               using_dept_Id,
+               using_dept_name,
+               managed_emp_Id,
+               managed_emp_name,
+               using_emp_Id,
+               using_emp_name,
+               collector_user_id,
+               collector_user_name,
+               collector_time,
+               remark,
+               main_image_url,
+               main_image_name,
+               image_url,
+               image_url_name,
+               asset_status,
+               original_sub_code,
+               print_status,
+               obtain_time,
+               product_price,
+               obtain_time_day,
+               quantity,
+               accumulated_depreciation,
+               carrying_value,
+               relational_status,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from verify_asset as a
+    </sql>
+
+    <select id="selectVerifyAssetList" parameterType="com.ruoyi.business.domain.model.VerifyAsset"
+            resultMap="VerifyAssetResult">
+        <include refid="selectVerifyAssetVO"/>
+        <where>
+            and delete_flag=0
+            <if test="deptId != null ">
+                and dept_id = #{deptId}
+            </if>
+            <if test="projectId != null ">
+                and project_id = #{projectId}
+            </if>
+            <if test="temporaryCode != null  and temporaryCode != ''">
+                and temporary_code = #{temporaryCode}
+            </if>
+            <if test="originalCode != null  and originalCode != ''">
+                and original_code = #{originalCode}
+            </if>
+            <if test="categoryId != null ">
+                and category_id = #{categoryId}
+            </if>
+            <if test="categoryName != null  and categoryName != ''">
+                and category_name like concat('%', #{categoryName}, '%')
+            </if>
+            <if test="brandName != null  and brandName != ''">
+                and brand_name like concat('%', #{brandName}, '%')
+            </if>
+            <if test="assetName != null  and assetName != ''">
+                and asset_name like concat('%', #{assetName}, '%')
+            </if>
+            <if test="specification != null  and specification != ''">
+                and specification = #{specification}
+            </if>
+            <if test="productionTime != null ">
+                and production_time = #{productionTime}
+            </if>
+            <if test="locationId != null ">
+                and location_id = #{locationId}
+            </if>
+            <if test="locationName != null  and locationName != ''">
+                and location_name like concat('%', #{locationName}, '%')
+            </if>
+            <if test="managedDeptId != null ">
+                and managed_dept_Id = #{managedDeptId}
+            </if>
+            <if test="managedDeptName != null  and managedDeptName != ''">
+                and managed_dept_name like concat('%', #{managedDeptName}, '%')
+            </if>
+            <if test="usingDeptId != null ">
+                and using_dept_Id = #{usingDeptId}
+            </if>
+            <if test="usingDeptName != null  and usingDeptName != ''">
+                and using_dept_name like concat('%', #{usingDeptName}, '%')
+            </if>
+            <if test="managedEmpId != null ">
+                and managed_emp_Id = #{managedEmpId}
+            </if>
+            <if test="managedEmpName != null  and managedEmpName != ''">
+                and managed_emp_name like concat('%', #{managedEmpName}, '%')
+            </if>
+            <if test="usingEmpId != null ">
+                and using_emp_Id = #{usingEmpId}
+            </if>
+            <if test="usingEmpName != null  and usingEmpName != ''">
+                and using_emp_name like concat('%', #{usingEmpName}, '%')
+            </if>
+            <if test="collectorUserId != null ">
+                and collector_user_id = #{collectorUserId}
+            </if>
+            <if test="collectorUserName != null  and collectorUserName != ''">
+                and collector_user_name like concat('%', #{collectorUserName}, '%')
+            </if>
+            <if test="collectorTime != null ">
+                and collector_time = #{collectorTime}
+            </if>
+            <if test="mainImageUrl != null  and mainImageUrl != ''">
+                and main_image_url = #{mainImageUrl}
+            </if>
+            <if test="mainImageName != null  and mainImageName != ''">
+                and main_image_name like concat('%', #{mainImageName}, '%')
+            </if>
+            <if test="imageUrl != null  and imageUrl != ''">
+                and image_url = #{imageUrl}
+            </if>
+            <if test="imageUrlName != null  and imageUrlName != ''">
+                and image_url_name like concat('%', #{imageUrlName}, '%')
+            </if>
+            <if test="assetStatus != null ">
+                and asset_status = #{assetStatus}
+            </if>
+            <if test="originalSubCode != null  and originalSubCode != ''">
+                and original_sub_code = #{originalSubCode}
+            </if>
+            <if test="printStatus != null ">
+                and print_status = #{printStatus}
+            </if>
+            <if test="obtainTime != null ">
+                and obtain_time = #{obtainTime}
+            </if>
+            <if test="productPrice != null ">
+                and product_price = #{productPrice}
+            </if>
+            <if test="obtainTimeDay != null ">
+                and obtain_time_day = #{obtainTimeDay}
+            </if>
+            <if test="quantity != null ">
+                and quantity = #{quantity}
+            </if>
+            <if test="accumulatedDepreciation != null ">
+                and accumulated_depreciation = #{accumulatedDepreciation}
+            </if>
+            <if test="carryingValue != null ">
+                and carrying_value = #{carryingValue}
+            </if>
+            <if test="relationalStatus != null ">
+                and relational_status = #{relationalStatus}
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
+        </where>
+        order by a.updated_time desc ,a.id desc
+    </select>
+
+
+    <select id="selectVerifyAssetDetailList" parameterType="com.ruoyi.business.domain.model.VerifyAsset"
+            resultMap="VerifyAssetDetailResult">
+        select a.id,
+        a.dept_id,
+        a.project_id,
+        a.temporary_code,
+        a.original_code,
+        a.category_id,
+        a.category_name,
+        a.brand_name,
+        a.asset_name,
+        a.specification,
+        a.production_time,
+        a.location_id,
+        ifnull((select location_name from location as ls where a.location_id = ls.id), a.location_name) as
+        location_name,
+        a.managed_dept_Id,
+        a.managed_dept_name,
+        a.using_dept_Id,
+        a.using_dept_name,
+        a.managed_emp_Id,
+        a.managed_emp_name,
+        a.using_emp_Id,
+        a.using_emp_name,
+        a.collector_user_id,
+        a.collector_user_name,
+        a.collector_time,
+        a.remark,
+        a.main_image_url,
+        a.main_image_name,
+        a.image_url,
+        a.image_url_name,
+        a.asset_status,
+        a.original_sub_code,
+        a.print_status,
+        a.obtain_time,
+        a.product_price,
+        a.obtain_time_day,
+        a.quantity,
+        a.accumulated_depreciation,
+        a.carrying_value,
+        a.relational_status,
+        a.delete_flag,
+        a.created_by_id,
+        a.created_by_name,
+        a.created_time,
+        a.updated_by_id,
+        a.updated_by_name,
+        a.updated_time,
+        sd.dept_name,
+        p.project_name
+        from verify_asset as a
+        inner join sys_dept sd on a.dept_id = sd.dept_id and sd.del_flag = '0'
+        inner join project p on a.project_id = p.id and p.delete_flag = 0
+        <where>
+            and delete_flag=0
+            <if test="deptId != null ">
+                and dept_id = #{deptId}
+            </if>
+            <if test="projectId != null ">
+                and project_id = #{projectId}
+            </if>
+            <if test="temporaryCode != null  and temporaryCode != ''">
+                and temporary_code = #{temporaryCode}
+            </if>
+            <if test="originalCode != null  and originalCode != ''">
+                and original_code = #{originalCode}
+            </if>
+            <if test="categoryId != null ">
+                and category_id = #{categoryId}
+            </if>
+            <if test="categoryName != null  and categoryName != ''">
+                and category_name like concat('%', #{categoryName}, '%')
+            </if>
+            <if test="brandName != null  and brandName != ''">
+                and brand_name like concat('%', #{brandName}, '%')
+            </if>
+            <if test="assetName != null  and assetName != ''">
+                and asset_name like concat('%', #{assetName}, '%')
+            </if>
+            <if test="specification != null  and specification != ''">
+                and specification = #{specification}
+            </if>
+            <if test="productionTime != null ">
+                and production_time = #{productionTime}
+            </if>
+            <if test="locationId != null ">
+                and location_id = #{locationId}
+            </if>
+            <if test="locationName != null  and locationName != ''">
+                and location_name like concat('%', #{locationName}, '%')
+            </if>
+            <if test="managedDeptId != null ">
+                and managed_dept_Id = #{managedDeptId}
+            </if>
+            <if test="managedDeptName != null  and managedDeptName != ''">
+                and managed_dept_name like concat('%', #{managedDeptName}, '%')
+            </if>
+            <if test="usingDeptId != null ">
+                and using_dept_Id = #{usingDeptId}
+            </if>
+            <if test="usingDeptName != null  and usingDeptName != ''">
+                and using_dept_name like concat('%', #{usingDeptName}, '%')
+            </if>
+            <if test="managedEmpId != null ">
+                and managed_emp_Id = #{managedEmpId}
+            </if>
+            <if test="managedEmpName != null  and managedEmpName != ''">
+                and managed_emp_name like concat('%', #{managedEmpName}, '%')
+            </if>
+            <if test="usingEmpId != null ">
+                and using_emp_Id = #{usingEmpId}
+            </if>
+            <if test="usingEmpName != null  and usingEmpName != ''">
+                and using_emp_name like concat('%', #{usingEmpName}, '%')
+            </if>
+            <if test="collectorUserId != null ">
+                and collector_user_id = #{collectorUserId}
+            </if>
+            <if test="collectorUserName != null  and collectorUserName != ''">
+                and collector_user_name like concat('%', #{collectorUserName}, '%')
+            </if>
+            <if test="collectorTime != null ">
+                and collector_time = #{collectorTime}
+            </if>
+            <if test="mainImageUrl != null  and mainImageUrl != ''">
+                and main_image_url = #{mainImageUrl}
+            </if>
+            <if test="mainImageName != null  and mainImageName != ''">
+                and main_image_name like concat('%', #{mainImageName}, '%')
+            </if>
+            <if test="imageUrl != null  and imageUrl != ''">
+                and image_url = #{imageUrl}
+            </if>
+            <if test="imageUrlName != null  and imageUrlName != ''">
+                and image_url_name like concat('%', #{imageUrlName}, '%')
+            </if>
+            <if test="assetStatus != null ">
+                and asset_status = #{assetStatus}
+            </if>
+            <if test="originalSubCode != null  and originalSubCode != ''">
+                and original_sub_code = #{originalSubCode}
+            </if>
+            <if test="printStatus != null ">
+                and print_status = #{printStatus}
+            </if>
+            <if test="obtainTime != null ">
+                and obtain_time = #{obtainTime}
+            </if>
+            <if test="productPrice != null ">
+                and product_price = #{productPrice}
+            </if>
+            <if test="obtainTimeDay != null ">
+                and obtain_time_day = #{obtainTimeDay}
+            </if>
+            <if test="quantity != null ">
+                and quantity = #{quantity}
+            </if>
+            <if test="accumulatedDepreciation != null ">
+                and accumulated_depreciation = #{accumulatedDepreciation}
+            </if>
+            <if test="carryingValue != null ">
+                and carrying_value = #{carryingValue}
+            </if>
+            <if test="relationalStatus != null ">
+                and relational_status = #{relationalStatus}
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
+        </where>
+        order by a.updated_time desc ,a.id desc
+    </select>
+
+    <select id="selectVerifyAssetById" parameterType="Long"
+            resultMap="VerifyAssetResult">
+        <include refid="selectVerifyAssetVO"/>
+        where id = #{id}
+        and delete_flag=0
+    </select>
+    <select id="selectVerifyAssetByIds"
+            resultMap="VerifyAssetResult">
+        <include refid="selectVerifyAssetVO"/>
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        and delete_flag=0
+    </select>
+
+    <insert id="insertVerifyAsset" parameterType="com.ruoyi.business.domain.entity.VerifyAssetDO"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into verify_asset
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                dept_id,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="temporaryCode != null">
+                temporary_code,
+            </if>
+            <if test="originalCode != null">
+                original_code,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="categoryName != null">
+                category_name,
+            </if>
+            <if test="brandName != null">
+                brand_name,
+            </if>
+            <if test="assetName != null">
+                asset_name,
+            </if>
+            <if test="specification != null">
+                specification,
+            </if>
+            <if test="productionTime != null">
+                production_time,
+            </if>
+            <if test="locationId != null">
+                location_id,
+            </if>
+            <if test="locationName != null">
+                location_name,
+            </if>
+            <if test="managedDeptId != null">
+                managed_dept_Id,
+            </if>
+            <if test="managedDeptName != null">
+                managed_dept_name,
+            </if>
+            <if test="usingDeptId != null">
+                using_dept_Id,
+            </if>
+            <if test="usingDeptName != null">
+                using_dept_name,
+            </if>
+            <if test="managedEmpId != null">
+                managed_emp_Id,
+            </if>
+            <if test="managedEmpName != null">
+                managed_emp_name,
+            </if>
+            <if test="usingEmpId != null">
+                using_emp_Id,
+            </if>
+            <if test="usingEmpName != null">
+                using_emp_name,
+            </if>
+            <if test="collectorUserId != null">
+                collector_user_id,
+            </if>
+            <if test="collectorUserName != null">
+                collector_user_name,
+            </if>
+            <if test="collectorTime != null">
+                collector_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="mainImageUrl != null">
+                main_image_url,
+            </if>
+            <if test="mainImageName != null">
+                main_image_name,
+            </if>
+            <if test="imageUrl != null">
+                image_url,
+            </if>
+            <if test="imageUrlName != null">
+                image_url_name,
+            </if>
+            <if test="assetStatus != null">
+                asset_status,
+            </if>
+            <if test="originalSubCode != null">
+                original_sub_code,
+            </if>
+            <if test="printStatus != null">
+                print_status,
+            </if>
+            <if test="obtainTime != null">
+                obtain_time,
+            </if>
+            <if test="productPrice != null">
+                product_price,
+            </if>
+            <if test="obtainTimeDay != null">
+                obtain_time_day,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="accumulatedDepreciation != null">
+                accumulated_depreciation,
+            </if>
+            <if test="carryingValue != null">
+                carrying_value,
+            </if>
+            <if test="relationalStatus != null">
+                relational_status,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdById != null">
+                created_by_id,
+            </if>
+            <if test="createdByName != null">
+                created_by_name,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="updatedById != null">
+                updated_by_id,
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name,
+            </if>
+            <if test="updatedTime != null">
+                updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">
+                #{deptId},
+            </if>
+            <if test="projectId != null">
+                #{projectId},
+            </if>
+            <if test="temporaryCode != null">
+                #{temporaryCode},
+            </if>
+            <if test="originalCode != null">
+                #{originalCode},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId},
+            </if>
+            <if test="categoryName != null">
+                #{categoryName},
+            </if>
+            <if test="brandName != null">
+                #{brandName},
+            </if>
+            <if test="assetName != null">
+                #{assetName},
+            </if>
+            <if test="specification != null">
+                #{specification},
+            </if>
+            <if test="productionTime != null">
+                #{productionTime},
+            </if>
+            <if test="locationId != null">
+                #{locationId},
+            </if>
+            <if test="locationName != null">
+                #{locationName},
+            </if>
+            <if test="managedDeptId != null">
+                #{managedDeptId},
+            </if>
+            <if test="managedDeptName != null">
+                #{managedDeptName},
+            </if>
+            <if test="usingDeptId != null">
+                #{usingDeptId},
+            </if>
+            <if test="usingDeptName != null">
+                #{usingDeptName},
+            </if>
+            <if test="managedEmpId != null">
+                #{managedEmpId},
+            </if>
+            <if test="managedEmpName != null">
+                #{managedEmpName},
+            </if>
+            <if test="usingEmpId != null">
+                #{usingEmpId},
+            </if>
+            <if test="usingEmpName != null">
+                #{usingEmpName},
+            </if>
+            <if test="collectorUserId != null">
+                #{collectorUserId},
+            </if>
+            <if test="collectorUserName != null">
+                #{collectorUserName},
+            </if>
+            <if test="collectorTime != null">
+                #{collectorTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="mainImageUrl != null">
+                #{mainImageUrl},
+            </if>
+            <if test="mainImageName != null">
+                #{mainImageName},
+            </if>
+            <if test="imageUrl != null">
+                #{imageUrl},
+            </if>
+            <if test="imageUrlName != null">
+                #{imageUrlName},
+            </if>
+            <if test="assetStatus != null">
+                #{assetStatus},
+            </if>
+            <if test="originalSubCode != null">
+                #{originalSubCode},
+            </if>
+            <if test="printStatus != null">
+                #{printStatus},
+            </if>
+            <if test="obtainTime != null">
+                #{obtainTime},
+            </if>
+            <if test="productPrice != null">
+                #{productPrice},
+            </if>
+            <if test="obtainTimeDay != null">
+                #{obtainTimeDay},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="accumulatedDepreciation != null">
+                #{accumulatedDepreciation},
+            </if>
+            <if test="carryingValue != null">
+                #{carryingValue},
+            </if>
+            <if test="relationalStatus != null">
+                #{relationalStatus},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateVerifyAsset" parameterType="com.ruoyi.business.domain.entity.VerifyAssetDO">
+        update verify_asset
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null">
+                dept_id =
+                #{deptId},
+            </if>
+            <if test="projectId != null">
+                project_id =
+                #{projectId},
+            </if>
+            <if test="temporaryCode != null">
+                temporary_code =
+                #{temporaryCode},
+            </if>
+            <if test="originalCode != null">
+                original_code =
+                #{originalCode},
+            </if>
+            <if test="categoryId != null">
+                category_id =
+                #{categoryId},
+            </if>
+            <if test="categoryName != null">
+                category_name =
+                #{categoryName},
+            </if>
+            <if test="brandName != null">
+                brand_name =
+                #{brandName},
+            </if>
+            <if test="assetName != null">
+                asset_name =
+                #{assetName},
+            </if>
+            <if test="specification != null">
+                specification =
+                #{specification},
+            </if>
+            <if test="productionTime != null">
+                production_time =
+                #{productionTime},
+            </if>
+            <if test="locationId != null">
+                location_id =
+                #{locationId},
+            </if>
+            <if test="locationName != null">
+                location_name =
+                #{locationName},
+            </if>
+            <if test="managedDeptId != null">
+                managed_dept_Id =
+                #{managedDeptId},
+            </if>
+            <if test="managedDeptName != null">
+                managed_dept_name =
+                #{managedDeptName},
+            </if>
+            <if test="usingDeptId != null">
+                using_dept_Id =
+                #{usingDeptId},
+            </if>
+            <if test="usingDeptName != null">
+                using_dept_name =
+                #{usingDeptName},
+            </if>
+            <if test="managedEmpId != null">
+                managed_emp_Id =
+                #{managedEmpId},
+            </if>
+            <if test="managedEmpName != null">
+                managed_emp_name =
+                #{managedEmpName},
+            </if>
+            <if test="usingEmpId != null">
+                using_emp_Id =
+                #{usingEmpId},
+            </if>
+            <if test="usingEmpName != null">
+                using_emp_name =
+                #{usingEmpName},
+            </if>
+            <if test="collectorUserId != null">
+                collector_user_id =
+                #{collectorUserId},
+            </if>
+            <if test="collectorUserName != null">
+                collector_user_name =
+                #{collectorUserName},
+            </if>
+            <if test="collectorTime != null">
+                collector_time =
+                #{collectorTime},
+            </if>
+            <if test="remark != null">
+                remark =
+                #{remark},
+            </if>
+            <if test="mainImageUrl != null">
+                main_image_url =
+                #{mainImageUrl},
+            </if>
+            <if test="mainImageName != null">
+                main_image_name =
+                #{mainImageName},
+            </if>
+            <if test="imageUrl != null">
+                image_url =
+                #{imageUrl},
+            </if>
+            <if test="imageUrlName != null">
+                image_url_name =
+                #{imageUrlName},
+            </if>
+            <if test="assetStatus != null">
+                asset_status =
+                #{assetStatus},
+            </if>
+            <if test="originalSubCode != null">
+                original_sub_code =
+                #{originalSubCode},
+            </if>
+            <if test="printStatus != null">
+                print_status =
+                #{printStatus},
+            </if>
+            <if test="obtainTime != null">
+                obtain_time =
+                #{obtainTime},
+            </if>
+            <if test="productPrice != null">
+                product_price =
+                #{productPrice},
+            </if>
+            <if test="obtainTimeDay != null">
+                obtain_time_day =
+                #{obtainTimeDay},
+            </if>
+            <if test="quantity != null">
+                quantity =
+                #{quantity},
+            </if>
+            <if test="accumulatedDepreciation != null">
+                accumulated_depreciation =
+                #{accumulatedDepreciation},
+            </if>
+            <if test="carryingValue != null">
+                carrying_value =
+                #{carryingValue},
+            </if>
+            <if test="relationalStatus != null">
+                relational_status =
+                #{relationalStatus},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag =
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                created_by_id =
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                created_by_name =
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                created_time =
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id =
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name =
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                updated_time =
+                #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteVerifyAssetById" parameterType="Long">
+        delete
+        from verify_asset
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteVerifyAssetByIds" parameterType="String">
+        delete from verify_asset where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

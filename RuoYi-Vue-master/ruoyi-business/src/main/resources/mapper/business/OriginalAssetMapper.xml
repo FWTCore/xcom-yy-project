@@ -220,7 +220,8 @@
         a.obtain_time_day,
         a.product_price,
         a.location_id,
-        a.location_name,
+        ifnull((select location_name from location as ls where a.location_id = ls.id), a.location_name) as
+        location_name,
         a.managed_dept_Id,
         a.managed_dept_name,
         a.using_dept_Id,
