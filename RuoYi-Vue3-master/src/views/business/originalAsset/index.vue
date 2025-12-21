@@ -62,15 +62,9 @@
         <el-input v-model="queryParams.searchUsingEmpName" placeholder="请输入使用员工名称" style="width: 240px" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="是否匹配" prop="matchStatus">
-        <el-select
-          v-model="queryParams.matchStatus"
-          placeholder="是否匹配"
-          clearable
-          style="width: 240px"
-        >
-          <el-option label="否" :value="0" />
-          <el-option label="是" :value="1" />
+      <el-form-item label="关联状态" prop="matchStatus">
+        <el-select v-model="queryParams.matchStatus" placeholder="关联状态" clearable style="width: 240px">
+          <el-option v-for="dict in original_asset_match_status" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -130,10 +124,9 @@
       <el-table-column label="管理员工名称" align="center" prop="managedEmpName" />
       <el-table-column label="使用员工名称" align="center" prop="usingEmpName" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="匹配状态" align="center" prop="matchStatus">
+      <el-table-column label="关联状态" align="center" prop="matchStatus">
         <template #default="scope">
-          <span v-if="scope.row.matchStatus === 1" class="status-tag status-yes">是</span>
-          <span v-else class="status-tag status-no">否</span>
+          <dict-tag :options="original_asset_match_status" :value="scope.row.matchStatus" />
         </template>
       </el-table-column>
       <el-table-column label="匹配数量" align="center" prop="matchCount" />
@@ -374,6 +367,7 @@ import { listAllDepartment } from "@/api/business/department"
 import { listAllEmployee } from "@/api/business/employee"
 
 const { proxy } = getCurrentInstance()
+const { original_asset_match_status } = proxy.useDict("original_asset_match_status");
 
 const originalAssetList = ref([])
 const open = ref(false)

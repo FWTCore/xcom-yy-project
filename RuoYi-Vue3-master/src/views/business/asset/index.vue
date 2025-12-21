@@ -99,10 +99,9 @@
           <el-option v-for="dict in asset_print_status" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item label="是否匹配" prop="matchStatus">
-        <el-select v-model="queryParams.matchStatus" placeholder="是否匹配" clearable style="width: 240px">
-          <el-option label="否" :value="0" />
-          <el-option label="是" :value="1" />
+      <el-form-item label="关联状态" prop="matchStatus">
+        <el-select v-model="queryParams.matchStatus" placeholder="关联状态" clearable style="width: 240px">
+          <el-option v-for="dict in asset_match_status" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -178,10 +177,9 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="匹配状态" align="center" prop="matchStatus">
-        <template #default="scope">
-          <span v-if="scope.row.matchStatus === 1" class="status-tag status-yes">是</span>
-          <span v-else class="status-tag status-no">否</span>
+      <el-table-column label="关联状态" align="center" prop="matchStatus">
+         <template #default="scope">
+          <dict-tag :options="asset_match_status" :value="scope.row.matchStatus" />
         </template>
       </el-table-column>
       <el-table-column label="打印状态" align="center" prop="printStatus">
@@ -603,6 +601,7 @@ import uploadImage from "@/views/common/uploadImage.vue";
 const { proxy } = getCurrentInstance();
 const { asset_status } = proxy.useDict("asset_status");
 const { asset_print_status } = proxy.useDict("asset_print_status");
+const { asset_match_status } = proxy.useDict("asset_match_status");
 
 const assetList = ref([]);
 const open = ref(false);
