@@ -42,3 +42,12 @@ export function delAsset(id) {
     method: 'delete'
   })
 }
+
+// 同步核实资产
+export function syncAsset(data) {
+  return request({
+    url: '/verifyAsset/sync',
+    method: 'post',
+    data: data
+  })
+}

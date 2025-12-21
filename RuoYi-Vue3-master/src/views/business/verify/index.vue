@@ -15,7 +15,8 @@
             项目
           </span>
         </template>
-        <el-select v-model="queryParams.projectId" placeholder="请选择" style="width: 240px" clearable>
+        <el-select v-model="queryParams.projectId" placeholder="请选择" style="width: 240px" clearable
+          @change="handleProjectChange">
           <el-option v-for="item in projectOptions" :key="item.id" :label="item.projectName"
             :value="item.id"></el-option>
         </el-select>
@@ -29,7 +30,7 @@
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item label="门类" prop="categoryId">
-        <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable >
+        <el-select v-model="queryParams.categoryId" placeholder="请选择" style="width: 240px" clearable>
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.categoryName"
             :value="item.id"></el-option>
         </el-select>
@@ -105,6 +106,10 @@
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
           v-hasPermi="['system:asset:remove']">删除</el-button>
       </el-col> -->
+      <el-col :span="1.5">
+        <el-button type="primary" plain icon="Plus" @click="handleSync"
+          v-hasPermi="['business:verify:sync']">手动同步</el-button>
+      </el-col>
       <el-col :span="1.5">
         <el-button type="warning" plain icon="Download" @click="handleExport"
           v-hasPermi="['business:verify:edit']">导出</el-button>
@@ -234,6 +239,7 @@ const tableHeight = ref("400px");
 const enabledDeptOptions = ref(undefined);
 const projectOptions = ref([]);
 const categoryOptions = ref([]);
+const projectIdOption = ref(null);
 
 // 响应式高度计算
 const calculateTableHeight = () => {
@@ -379,6 +385,10 @@ function getProject(deptId) {
   });
 }
 
+function handleProjectChange(selectId) {
+  projectIdOption.value = selectId;
+}
+
 /** 新增按钮操作 */
 function handleAdd() {
   reset()
@@ -428,6 +438,18 @@ function handleDelete(row) {
     proxy.$modal.msgSuccess("删除成功")
   }).catch(() => { })
 }
+
+/** 同步按钮操作 */
+function handleSync() {
+  loading.value = true
+  syncAsset({"projectId": projectIdOption.value}).then((response) => {
+    proxy.$modal.msgSuccess("同步成功");
+    getList();
+  }).finally(() => {
+    loading.value = false
+  });
+}
+
 
 /** 导出按钮操作 */
 function handleExport() {
