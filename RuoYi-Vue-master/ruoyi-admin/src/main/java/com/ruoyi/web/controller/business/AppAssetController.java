@@ -74,9 +74,9 @@ public class AppAssetController extends BaseController {
         return getDataDetailTable(resp);
     }
 
-    @ApiOperation("App-新增/编辑资产")
+    @ApiOperation("App-新增-编辑资产")
     @PostMapping(value = "/upset")
-    @Log(title = "App-新增/编辑资产", businessType = BusinessType.UPDATE)
+    @Log(title = "App-新增-编辑资产", businessType = BusinessType.UPDATE)
     public AjaxResult upset(@Validated @RequestBody AssetUpsertRequest request) {
 
         AssetDO assetDO = WebAssetConvert.INSTANCE.toAssetDO(request);
