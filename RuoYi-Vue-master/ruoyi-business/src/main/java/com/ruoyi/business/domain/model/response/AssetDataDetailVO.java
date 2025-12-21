@@ -209,7 +209,7 @@ public class AssetDataDetailVO extends BaseEntityDO {
     private String        imageUrlName;
 
     /**
-     * 匹配状态
+     * 关联状态
      */
     private Integer       matchStatus;
 

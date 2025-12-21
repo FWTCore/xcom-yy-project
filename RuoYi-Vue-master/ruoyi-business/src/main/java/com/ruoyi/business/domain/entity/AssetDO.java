@@ -181,9 +181,9 @@ public class AssetDO extends BaseEntityDO {
     private LocalDateTime collectorTime;
 
     /**
-     * 匹配状态
+     * 关联状态
      */
-    @Excel(name = "匹配状态", readConverterExp = "0=未关联,1=已关联,2=盘盈,3=盘实,4=待核实")
+    @Excel(name = "关联状态", readConverterExp = "0=未关联,1=已关联,2=盘盈,3=盘实,4=待核实")
     private Integer       matchStatus;
 
     /**

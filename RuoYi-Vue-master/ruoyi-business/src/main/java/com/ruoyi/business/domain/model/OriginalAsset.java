@@ -157,8 +157,8 @@ public class OriginalAsset extends BaseEntityDO {
     private BigDecimal    productPrice;
 
     /**
-     * 匹配状态
-     * 0=未匹配,1=已匹配
+     * 关联状态
+     * 0=未关联,1=已关联
      */
     private Integer       matchStatus;
 

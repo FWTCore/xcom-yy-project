@@ -129,7 +129,7 @@ public class OriginalAssetDataDetailVO extends BaseEntityDO {
     private BigDecimal    productPrice;
 
     /**
-     * 匹配状态
+     * 关联状态
      */
     private Integer       matchStatus;
 

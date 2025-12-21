@@ -187,7 +187,7 @@ public class OriginalAssetDataDO extends BaseMongoDO {
     private BigDecimal    productPrice;
 
     /**
-     * 匹配状态
+     * 关联状态
      */
     @Field("match_status")
     private Integer       matchStatus;

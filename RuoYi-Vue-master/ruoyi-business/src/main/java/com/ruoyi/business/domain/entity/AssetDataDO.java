@@ -249,7 +249,7 @@ public class AssetDataDO extends BaseMongoDO {
     private String        imageUrlName;
 
     /**
-     * 匹配状态
+     * 关联状态
      */
     @Field("match_status")
     private Integer       matchStatus;
