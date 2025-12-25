@@ -5,6 +5,7 @@ import com.ruoyi.business.domain.model.VerifyAsset;
 import com.ruoyi.business.domain.model.response.VerifyAssetDetailVO;
 import com.ruoyi.business.mapper.VerifyAssetMapper;
 import com.ruoyi.business.service.VerifyAssetService;
+import com.ruoyi.common.annotation.DataScope;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,7 @@ public class VerifyAssetServiceImpl implements VerifyAssetService {
     }
 
     @Override
+    @DataScope(deptAlias = "a", projectAlias = "a")
     public List<VerifyAssetDetailVO> selectVerifyAssetDetailList(VerifyAsset verifyAsset) {
         return verifyAssetMapper.selectVerifyAssetDetailList(verifyAsset);
     }
