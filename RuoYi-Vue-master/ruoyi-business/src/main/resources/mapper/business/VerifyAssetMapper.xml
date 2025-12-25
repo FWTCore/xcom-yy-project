@@ -988,6 +988,13 @@
         </foreach>
     </delete>
 
+
+    <delete id="syncDeleteAsset">
+        delete
+        from verify_asset
+        where project_id = #{projectId}
+          and asset_id > 0
+    </delete>
     <insert id="syncInsertAsset">
         insert into verify_asset(dept_id, project_id, temporary_code, original_code, original_sub_code, category_id,
                                  category_name, brand_name,
@@ -1115,6 +1122,13 @@
           and va.delete_flag = 0
     </update>
 
+    <delete id="syncDeleteOriginalAsset">
+        delete
+        from verify_asset
+        where project_id = #{projectId}
+          and original_asset_id > 0
+    </delete>
+
     <insert id="syncInsertOriginalAsset">
         insert into verify_asset(dept_id, project_id, temporary_code, original_code, original_sub_code, category_id,
                                  category_name, brand_name,
@@ -1191,16 +1205,17 @@
 
     <update id="syncUpdateOriginalAsset">
         update verify_asset as va
-            inner join original_asset oa on va.project_id = oa.project_id and va.original_asset_id = oa.id and
+            inner join original_asset oa
+        on va.project_id = oa.project_id and va.original_asset_id = oa.id and
             oa.delete_flag = 0 and oa.match_status in (0, 3, 4)
-            set va.temporary_code=null,
-                va.original_sub_code=null,
+            set va.temporary_code= null,
+                va.original_sub_code= null,
                 va.category_id=oa.category_id,
                 va.category_name=oa.category_name,
                 va.brand_name=oa.brand_name,
                 va.asset_name=oa.asset_name,
                 va.specification=oa.specification,
-                va.production_time=null,
+                va.production_time= null,
                 va.location_id=oa.location_id,
                 va.location_name=oa.location_name,
                 va.managed_dept_Id=oa.managed_dept_Id,
@@ -1211,16 +1226,16 @@
                 va.managed_emp_name=oa.managed_emp_name,
                 va.using_emp_Id=oa.using_emp_Id,
                 va.using_emp_name=oa.using_emp_name,
-                va.collector_user_id=null,
-                va.collector_user_name=null,
-                va.collector_time=null,
+                va.collector_user_id= null,
+                va.collector_user_name= null,
+                va.collector_time= null,
                 va.remark=oa.remark,
-                va.main_image_url=null,
-                va.main_image_name=null,
-                va.image_url=null,
-                va.image_url_name=null,
-                va.asset_status=null,
-                va.print_status=null,
+                va.main_image_url= null,
+                va.main_image_name= null,
+                va.image_url= null,
+                va.image_url_name= null,
+                va.asset_status= null,
+                va.print_status= null,
                 va.obtain_time=oa.obtain_time,
                 va.product_price=oa.product_price,
                 va.obtain_time_day=oa.obtain_time_day,
@@ -1235,7 +1250,7 @@
                 va.updated_by_id=oa.updated_by_id,
                 va.updated_by_name=oa.updated_by_name,
                 va.updated_time=oa.updated_time,
-                va.asset_id=null
+                va.asset_id= null
         where va.project_id = #{projectId}
           and va.delete_flag = 0
     </update>

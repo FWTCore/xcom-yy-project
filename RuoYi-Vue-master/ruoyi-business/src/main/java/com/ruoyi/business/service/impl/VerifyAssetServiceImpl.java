@@ -113,6 +113,7 @@ public class VerifyAssetServiceImpl implements VerifyAssetService {
         if (ObjectUtils.isEmpty(projectId)) {
             return false;
         }
+        verifyAssetMapper.syncDeleteAsset(projectId);
         verifyAssetMapper.syncUpdateAsset(projectId);
         verifyAssetMapper.syncInsertAsset(projectId);
         return true;
@@ -123,6 +124,7 @@ public class VerifyAssetServiceImpl implements VerifyAssetService {
         if (ObjectUtils.isEmpty(projectId)) {
             return false;
         }
+        verifyAssetMapper.syncDeleteOriginalAsset(projectId);
         verifyAssetMapper.syncUpdateOriginalAsset(projectId);
         verifyAssetMapper.syncInsertOriginalAsset(projectId);
         return true;

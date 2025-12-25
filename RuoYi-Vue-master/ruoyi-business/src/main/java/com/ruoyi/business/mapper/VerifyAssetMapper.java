@@ -86,6 +86,12 @@ public interface VerifyAssetMapper {
      * @param projectId
      * @return
      */
+    int syncDeleteAsset(@Param("projectId") Long projectId);
+    /**
+     * 盘点资产
+     * @param projectId
+     * @return
+     */
     int syncInsertAsset(@Param("projectId") Long projectId);
 
     /**
@@ -95,6 +101,12 @@ public interface VerifyAssetMapper {
      */
     int syncUpdateAsset(@Param("projectId") Long projectId);
 
+    /**
+     * 原始资产
+     * @param projectId
+     * @return
+     */
+    int syncDeleteOriginalAsset(@Param("projectId") Long projectId);
     /**
      * 原始资产
      * @param projectId
