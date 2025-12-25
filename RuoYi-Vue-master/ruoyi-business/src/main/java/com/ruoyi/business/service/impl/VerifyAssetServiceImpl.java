@@ -114,7 +114,7 @@ public class VerifyAssetServiceImpl implements VerifyAssetService {
             return false;
         }
         verifyAssetMapper.syncDeleteAsset(projectId);
-        verifyAssetMapper.syncUpdateAsset(projectId);
+//        verifyAssetMapper.syncUpdateAsset(projectId);
         verifyAssetMapper.syncInsertAsset(projectId);
         return true;
     }
@@ -125,7 +125,7 @@ public class VerifyAssetServiceImpl implements VerifyAssetService {
             return false;
         }
         verifyAssetMapper.syncDeleteOriginalAsset(projectId);
-        verifyAssetMapper.syncUpdateOriginalAsset(projectId);
+//        verifyAssetMapper.syncUpdateOriginalAsset(projectId);
         verifyAssetMapper.syncInsertOriginalAsset(projectId);
         return true;
     }
