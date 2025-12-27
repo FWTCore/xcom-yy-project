@@ -13,7 +13,7 @@ ruoyi:
   # 验证码类型 math 数字计算 char 字符验证
   captchaType: math
   # 系统地址
-  systemPath: http://211.149.229.231:60124/api
+  systemPath: http://162.14.78.52:60125/api
 
 # 开发环境配置
 server:
