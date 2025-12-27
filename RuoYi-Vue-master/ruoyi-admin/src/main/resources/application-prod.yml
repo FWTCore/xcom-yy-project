@@ -13,7 +13,7 @@ ruoyi:
   # 验证码类型 math 数字计算 char 字符验证
   captchaType: math
   # 系统地址
-  systemPath: http://211.149.229.231:60124/api
+  systemPath: http://162.14.78.52:60124/api
 
 # 开发环境配置
 server:
@@ -96,7 +96,7 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://127.0.0.1:3306/xcom_yy_material?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
+        url: jdbc:mysql://127.0.0.1:63305/xcom_yy_material?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
         username: sa_xcom
         password: saxcom123456
       # 从库数据源
@@ -137,8 +137,8 @@ spring:
         allow:
         url-pattern: /druid/*
         # 控制台管理用户名和密码
-        login-username: root
-        login-password: 123456
+        login-username: ad_root
+        login-password: adROOT123456
       filter:
         stat:
           enabled: true
