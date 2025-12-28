@@ -1150,22 +1150,22 @@
         totalCount,
         checkCount
         from (
-        select asset_name as metricsId,
-        asset_name as metricsName,
-        count(id) as totalCount,
-        sum(if(match_status >= 1, 1, 0)) as checkCount
+        select a.asset_name as metricsId,
+        a.asset_name as metricsName,
+        count(a.id) as totalCount,
+        sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from asset as a
         inner join location ls on a.location_id = ls.id
-        where delete_flag = 0
-        and dept_id = #{reqBO.deptId}
-        and project_id = #{reqBO.projectId}
+        where a.delete_flag = 0
+        and a.dept_id = #{reqBO.deptId}
+        and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
-            and asset_name like concat('%', #{reqBO.searchName}, '%')
+            and a.asset_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
-        group by asset_name
+        group by a.asset_name
         ) as data
         order by data.totalCount desc
     </select>
@@ -1177,22 +1177,22 @@
         totalCount,
         checkCount
         from (
-        select specification as metricsId,
-        specification as metricsName,
-        count(id) as totalCount,
-        sum(if(match_status >= 1, 1, 0)) as checkCount
+        select a.specification as metricsId,
+        a.specification as metricsName,
+        count(a.id) as totalCount,
+        sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from asset as a
         inner join location ls on a.location_id = ls.id
-        where delete_flag = 0
-        and dept_id = #{reqBO.deptId}
-        and project_id = #{reqBO.projectId}
+        where a.delete_flag = 0
+        and a.dept_id = #{reqBO.deptId}
+        and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
-            and specification like concat('%', #{reqBO.searchName}, '%')
+            and a.specification like concat('%', #{reqBO.searchName}, '%')
         </if>
         <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
         ${reqBO.params.dataScope}
-        group by specification
+        group by a.specification
         ) as data
         order by data.totalCount desc
     </select>
