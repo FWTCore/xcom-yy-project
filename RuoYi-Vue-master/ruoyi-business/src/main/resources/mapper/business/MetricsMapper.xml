@@ -371,8 +371,7 @@
         a.asset_status,
         a.production_time,
         a.location_id,
-        ifnull((select location_name from location as ls where a.location_id = ls.id), a.location_name) as
-        location_name,
+        ls.location_name,
         a.managed_dept_Id,
         a.managed_dept_name,
         a.using_dept_Id,
@@ -399,6 +398,7 @@
         a.updated_by_name,
         a.updated_time
         from asset as a
+        inner join location ls on a.location_id = ls.id
         inner join (
         select distinct
         temp.id,
@@ -523,8 +523,7 @@
         a.obtain_time,
         a.product_price,
         a.location_id,
-        ifnull((select location_name from location as ls where a.location_id = ls.id), a.location_name) as
-        location_name,
+        ls.location_name,
         a.managed_dept_Id,
         a.managed_dept_name,
         a.using_dept_Id,
@@ -544,6 +543,7 @@
         a.updated_by_name,
         a.updated_time
         from original_asset as a
+        inner join location ls on a.location_id = ls.id
         inner join(
         select distinct
         temp.id,
@@ -671,10 +671,10 @@
                0,
                a.asset_name,
                a.asset_name,
-               1                               as metrics_type,
-               1                               as biz_type,
-               count(id)                       as totalCount,
-               sum(if(match_status = 1, 1, 0)) as checkCount,
+               1                                as metrics_type,
+               1                                as biz_type,
+               count(a.id)                        as totalCount,
+               sum(if(match_status >= 1, 1, 0)) as checkCount,
                0,
                0,
                'system',
@@ -697,10 +697,10 @@
                a.using_dept_Id,
                a.using_dept_Id,
                a.using_dept_name,
-               2                               as metrics_type,
-               1                               as biz_type,
-               count(id)                       as totalCount,
-               sum(if(match_status = 1, 1, 0)) as checkCount,
+               2                                as metrics_type,
+               1                                as biz_type,
+               count(a.id)                        as totalCount,
+               sum(if(match_status >= 1, 1, 0)) as checkCount,
                0,
                0,
                'system',
@@ -723,11 +723,11 @@
                a.project_id,
                a.location_id,
                a.location_id,
-               a.location_name,
-               3                               as metrics_type,
-               1                               as biz_type,
-               count(id)                       as totalCount,
-               sum(if(match_status = 1, 1, 0)) as checkCount,
+               ls.location_name,
+               3                                as metrics_type,
+               1                                as biz_type,
+               count(a.id)                        as totalCount,
+               sum(if(match_status >= 1, 1, 0)) as checkCount,
                0,
                0,
                'system',
@@ -736,6 +736,7 @@
                'system',
                now()
         from asset as a
+        inner join location ls on a.location_id = ls.id
         where a.delete_flag = 0
           and a.project_id = #{projectId}
         group by a.dept_id,
@@ -757,10 +758,10 @@
                0,
                a.asset_name,
                a.asset_name,
-               1                               as metrics_type,
-               2                               as biz_type,
-               count(id)                       as totalCount,
-               sum(if(match_status = 1, 1, 0)) as checkCount,
+               1                                as metrics_type,
+               2                                as biz_type,
+               count(a.id)                        as totalCount,
+               sum(if(match_status >= 1, 1, 0)) as checkCount,
                0,
                0,
                'system',
@@ -783,10 +784,10 @@
                a.using_dept_Id,
                a.using_dept_Id,
                a.using_dept_name,
-               2                               as metrics_type,
-               2                               as biz_type,
-               count(id)                       as totalCount,
-               sum(if(match_status = 1, 1, 0)) as checkCount,
+               2                                as metrics_type,
+               2                                as biz_type,
+               count(a.id)                        as totalCount,
+               sum(if(match_status >= 1, 1, 0)) as checkCount,
                0,
                0,
                'system',
@@ -809,11 +810,11 @@
                a.project_id,
                a.location_id,
                a.location_id,
-               a.location_name,
-               3                               as metrics_type,
-               2                               as biz_type,
-               count(id)                       as totalCount,
-               sum(if(match_status = 1, 1, 0)) as checkCount,
+               ls.location_name,
+               3                                as metrics_type,
+               2                                as biz_type,
+               count(a.id)                        as totalCount,
+               sum(if(match_status >= 1, 1, 0)) as checkCount,
                0,
                0,
                'system',
@@ -822,6 +823,7 @@
                'system',
                now()
         from original_asset as a
+        inner join location ls on a.location_id = ls.id
         where a.delete_flag = 0
           and a.project_id = #{projectId}
         group by a.dept_id,
@@ -843,7 +845,7 @@
             and a.specification like concat('%', #{searSpecif}, '%')
         </if>
         <if test="searLocation!=null and searLocation!=''">
-            and a.location_name like concat('%', #{searLocation}, '%')
+            and ls.location_name like concat('%', #{searLocation}, '%')
         </if>
         <if test="searManagedDept!=null and searManagedDept!=''">
             and a.managed_dept_name like concat('%', #{searManagedDept}, '%')

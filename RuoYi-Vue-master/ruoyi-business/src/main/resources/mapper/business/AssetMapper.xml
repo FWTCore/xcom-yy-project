@@ -303,8 +303,7 @@
         a.asset_status,
         a.production_time,
         a.location_id,
-        ifnull((select location_name from location as ls where a.location_id = ls.id), a.location_name) as
-        location_name,
+        ls.location_name,
         a.managed_dept_Id,
         a.managed_dept_name,
         a.using_dept_Id,
@@ -335,6 +334,7 @@
         from asset as a
         inner join sys_dept sd on a.dept_id = sd.dept_id and sd.del_flag = '0'
         inner join project p on a.project_id = p.id and p.delete_flag = 0
+        inner join location ls on a.location_id = ls.id
         <where>
             and a.delete_flag=0
             <if test="deptId != null ">
@@ -392,10 +392,10 @@
                 and a.location_id = #{locationId}
             </if>
             <if test="locationName != null  and locationName != ''">
-                and a.location_name =#{locationName}
+                and ls.location_name =#{locationName}
             </if>
             <if test="searchLocationName != null  and searchLocationName != ''">
-                and a.location_name like concat('%', #{searchLocationName}, '%')
+                and ls.location_name like concat('%', #{searchLocationName}, '%')
             </if>
             <if test="managedDeptId != null ">
                 and a.managed_dept_Id = #{managedDeptId}
@@ -1051,7 +1051,7 @@
 
     <select id="getPhysicalOverview" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select count(id)                       as totalCount,
-               sum(if(match_status = 1, 1, 0)) as checkCount
+               sum(if(match_status >= 1, 1, 0)) as checkCount
         from asset as a
         where delete_flag = 0
           and dept_id = #{deptId}
@@ -1061,7 +1061,7 @@
 
     <select id="getAssetNameMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select count(id)                       as totalCount,
-               sum(if(match_status = 1, 1, 0)) as checkCount
+               sum(if(match_status >= 1, 1, 0)) as checkCount
         from asset as a
         where delete_flag = 0
           and project_id = #{projectId}
@@ -1079,7 +1079,7 @@
 
     <select id="getLocationMetrics" resultType="com.ruoyi.business.domain.model.response.AssetMetricsVO">
         select count(id)                       as totalCount,
-               sum(if(match_status = 1, 1, 0)) as checkCount
+               sum(if(match_status >= 1, 1, 0)) as checkCount
         from asset as a
         where delete_flag = 0
           and project_id = #{projectId}
@@ -1097,11 +1097,11 @@
         select a.category_id as metricsId,
         c.category_name as metricsName,
         count(a.id) as totalCount,
-        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from asset as a
         inner join category c on a.category_id = c.id
+        inner join location ls on a.location_id = ls.id
         where a.delete_flag = 0
-        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1125,11 +1125,11 @@
         select a.brand_name as metricsId,
         b.brand_name as metricsName,
         count(a.id) as totalCount,
-        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from asset as a
         inner join brand as b on a.brand_id = b.id
+        inner join location ls on a.location_id = ls.id
         where a.delete_flag = 0
-        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1153,10 +1153,10 @@
         select asset_name as metricsId,
         asset_name as metricsName,
         count(id) as totalCount,
-        sum(if(match_status = 1, 1, 0)) as checkCount
+        sum(if(match_status >= 1, 1, 0)) as checkCount
         from asset as a
+        inner join location ls on a.location_id = ls.id
         where delete_flag = 0
-        and a.match_status = 0
         and dept_id = #{reqBO.deptId}
         and project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1180,10 +1180,10 @@
         select specification as metricsId,
         specification as metricsName,
         count(id) as totalCount,
-        sum(if(match_status = 1, 1, 0)) as checkCount
+        sum(if(match_status >= 1, 1, 0)) as checkCount
         from asset as a
+        inner join location ls on a.location_id = ls.id
         where delete_flag = 0
-        and a.match_status = 0
         and dept_id = #{reqBO.deptId}
         and project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1205,17 +1205,16 @@
         checkCount
         from (
         select a.location_id as metricsId,
-        l.location_name as metricsName,
+        ls.location_name as metricsName,
         count(a.id) as totalCount,
-        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from asset as a
-        inner join location as l on a.location_id = l.id
+        inner join location ls on a.location_id = ls.id
         where a.delete_flag = 0
-        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
-            and l.location_name like concat('%', #{reqBO.searchName}, '%')
+            and ls.location_name like concat('%', #{reqBO.searchName}, '%')
         </if>
         <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
@@ -1235,11 +1234,11 @@
         select a.managed_dept_Id as metricsId,
         d.department_name as metricsName,
         count(a.id) as totalCount,
-        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from asset as a
         inner join department as d on a.managed_dept_Id=d.id
+        inner join location ls on a.location_id = ls.id
         where a.delete_flag = 0
-        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1262,11 +1261,11 @@
         select a.using_dept_Id as metricsId,
         d.department_name as metricsName,
         count(a.id) as totalCount,
-        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from asset as a
         inner join department as d on a.using_dept_Id=d.id
+        inner join location ls on a.location_id = ls.id
         where a.delete_flag = 0
-        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1290,11 +1289,11 @@
         select a.managed_emp_Id as metricsId,
         e.employee_name as metricsName,
         count(a.id) as totalCount,
-        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from asset as a
         inner join employee as e on a.managed_emp_Id = e.id
+        inner join location ls on a.location_id = ls.id
         where a.delete_flag = 0
-        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1318,11 +1317,11 @@
         select a.using_emp_Id as metricsId,
         e.employee_name as metricsName,
         count(a.id) as totalCount,
-        sum(if(a.match_status = 1, 1, 0)) as checkCount
+        sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from asset as a
         inner join employee as e on a.using_emp_Id = e.id
+        inner join location ls on a.location_id = ls.id
         where a.delete_flag = 0
-        and a.match_status = 0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1358,7 +1357,7 @@
             and a.specification like concat('%', #{reqBO.searSpecif}, '%')
         </if>
         <if test="reqBO.searLocation!=null and reqBO.searLocation!=''">
-            and a.location_name like concat('%', #{reqBO.searLocation}, '%')
+            and ls.location_name like concat('%', #{reqBO.searLocation}, '%')
         </if>
         <if test="reqBO.searManagedDept!=null and reqBO.searManagedDept!=''">
             and a.managed_dept_name like concat('%', #{reqBO.searManagedDept}, '%')
