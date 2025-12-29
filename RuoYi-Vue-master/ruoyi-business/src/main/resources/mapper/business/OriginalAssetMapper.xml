@@ -220,7 +220,7 @@
         a.obtain_time_day,
         a.product_price,
         a.location_id,
-        ls.location_name,
+        ifnull(ls.location_name,a.location_name) as location_name,
         a.managed_dept_Id,
         a.managed_dept_name,
         a.using_dept_Id,
@@ -247,7 +247,7 @@
         from original_asset as a
         inner join sys_dept sd on a.dept_id = sd.dept_id and sd.del_flag = '0'
         inner join project p on a.project_id = p.id and p.delete_flag = 0
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         <where>
             and a.delete_flag=0
             <if test="deptId != null ">
@@ -290,10 +290,10 @@
                 and a.location_id = #{locationId}
             </if>
             <if test="locationName != null  and locationName != ''">
-                and ls.location_name = #{locationName}
+                and ifnull(ls.location_name,a.location_name) = #{locationName}
             </if>
             <if test="searchLocationName != null  and searchLocationName != ''">
-                and ls.location_name like concat('%', #{searchLocationName}, '%')
+                and ifnull(ls.location_name,a.location_name) like concat('%', #{searchLocationName}, '%')
             </if>
             <if test="managedDeptId != null ">
                 and a.managed_dept_Id = #{managedDeptId}

@@ -723,7 +723,7 @@
                a.project_id,
                a.location_id,
                a.location_id,
-               ls.location_name,
+               ifnull(ls.location_name,a.location_name),
                3                                as metrics_type,
                1                                as biz_type,
                count(a.id)                        as totalCount,
@@ -736,7 +736,7 @@
                'system',
                now()
         from asset as a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
           and a.project_id = #{projectId}
         group by a.dept_id,
@@ -810,7 +810,7 @@
                a.project_id,
                a.location_id,
                a.location_id,
-               ls.location_name,
+               ifnull(ls.location_name,a.location_name),
                3                                as metrics_type,
                2                                as biz_type,
                count(a.id)                        as totalCount,
@@ -823,7 +823,7 @@
                'system',
                now()
         from original_asset as a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
           and a.project_id = #{projectId}
         group by a.dept_id,
@@ -845,7 +845,7 @@
             and a.specification like concat('%', #{searSpecif}, '%')
         </if>
         <if test="searLocation!=null and searLocation!=''">
-            and ls.location_name like concat('%', #{searLocation}, '%')
+            and ifnull(ls.location_name,a.location_name) like concat('%', #{searLocation}, '%')
         </if>
         <if test="searManagedDept!=null and searManagedDept!=''">
             and a.managed_dept_name like concat('%', #{searManagedDept}, '%')

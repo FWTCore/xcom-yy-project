@@ -1021,7 +1021,7 @@
                a.specification,
                a.production_time,
                a.location_id,
-               ls.location_name,
+               ifnull(ls.location_name,a.location_name) as location_name,
                a.managed_dept_Id,
                a.managed_dept_name,
                a.using_dept_Id,
@@ -1057,7 +1057,7 @@
                a.id           as asset_id,
                oa.id          as original_asset_id
         from asset a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         left join original_asset oa on a.project_id = oa.project_id and a.original_code = oa.original_code and oa.delete_flag = 0
         where a.delete_flag = 0
           and a.project_id = #{projectId}
@@ -1156,7 +1156,7 @@
                oa.specification,
                null         as production_time,
                oa.location_id,
-               ls.location_name,
+               ifnull(ls.location_name,oa.location_name) as location_name,
                oa.managed_dept_Id,
                oa.managed_dept_name,
                oa.using_dept_Id,
