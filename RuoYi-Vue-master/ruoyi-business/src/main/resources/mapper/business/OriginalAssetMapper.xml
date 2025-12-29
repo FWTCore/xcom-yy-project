@@ -805,8 +805,9 @@
         sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from original_asset as a
         inner join category c on a.category_id = c.id
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -832,8 +833,9 @@
         count(a.id) as totalCount,
         sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from original_asset as a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -859,8 +861,9 @@
         count(a.id) as totalCount,
         sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from original_asset as a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -886,8 +889,9 @@
         count(a.id) as totalCount,
         sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from original_asset as a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -913,8 +917,9 @@
         count(a.id) as totalCount,
         sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from original_asset as a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <include refid="assetCheck_condition"></include>
@@ -933,16 +938,17 @@
         checkCount
         from (
         select a.location_id as metricsId,
-        ls.location_name as metricsName,
+        ifnull(ls.location_name,a.location_name) as metricsName,
         count(a.id) as totalCount,
         sum(if(a.match_status = 1, 1, 0)) as checkCount
         from original_asset as a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
-            and ls.location_name like concat('%', #{reqBO.searchName}, '%')
+            and ifnull(ls.location_name,a.location_name) like concat('%', #{reqBO.searchName}, '%')
         </if>
         <include refid="assetCheck_condition"></include>
         <!-- 数据范围过滤 -->
@@ -965,8 +971,9 @@
         sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from original_asset as a
         inner join department as d on a.managed_dept_Id=d.id
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -992,8 +999,9 @@
         sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from original_asset as a
         inner join department as d on a.using_dept_Id=d.id
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1020,8 +1028,9 @@
         sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from original_asset as a
         inner join employee as e on a.managed_emp_Id = e.id
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1048,8 +1057,9 @@
         sum(if(a.match_status >= 1, 1, 0)) as checkCount
         from original_asset as a
         inner join employee as e on a.using_emp_Id = e.id
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         where a.delete_flag = 0
+        and a.match_status=0
         and a.dept_id = #{reqBO.deptId}
         and a.project_id = #{reqBO.projectId}
         <if test="reqBO.searchName!=null and reqBO.searchName!=''">
@@ -1086,7 +1096,7 @@
             and a.specification like concat('%', #{reqBO.searSpecif}, '%')
         </if>
         <if test="reqBO.searLocation!=null and reqBO.searLocation!=''">
-            and ls.location_name like concat('%', #{reqBO.searLocation}, '%')
+            and ifnull(ls.location_name,a.location_name) like concat('%', #{reqBO.searLocation}, '%')
         </if>
         <if test="reqBO.searManagedDept!=null and reqBO.searManagedDept!=''">
             and a.managed_dept_name like concat('%', #{reqBO.searManagedDept}, '%')

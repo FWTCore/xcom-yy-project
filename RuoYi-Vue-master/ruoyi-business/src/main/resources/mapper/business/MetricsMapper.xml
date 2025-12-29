@@ -371,7 +371,7 @@
         a.asset_status,
         a.production_time,
         a.location_id,
-        ls.location_name,
+        ifnull(ls.location_name,a.location_name) as location_name,
         a.managed_dept_Id,
         a.managed_dept_name,
         a.using_dept_Id,
@@ -398,7 +398,7 @@
         a.updated_by_name,
         a.updated_time
         from asset as a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         inner join (
         select distinct
         temp.id,
@@ -523,7 +523,7 @@
         a.obtain_time,
         a.product_price,
         a.location_id,
-        ls.location_name,
+        ifnull(ls.location_name,a.location_name) as location_name,
         a.managed_dept_Id,
         a.managed_dept_name,
         a.using_dept_Id,
@@ -543,7 +543,7 @@
         a.updated_by_name,
         a.updated_time
         from original_asset as a
-        inner join location ls on a.location_id = ls.id
+        left join location ls on a.location_id = ls.id
         inner join(
         select distinct
         temp.id,
