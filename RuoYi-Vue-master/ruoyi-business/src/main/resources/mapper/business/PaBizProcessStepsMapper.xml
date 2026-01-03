@@ -79,6 +79,7 @@
                 and updated_time = #{updatedTime}
             </if>
         </where>
+        order by parent_id
     </select>
 
     <select id="selectPaBizProcessStepsById" parameterType="Long" resultMap="PaBizProcessStepsResult">

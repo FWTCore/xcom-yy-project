@@ -100,7 +100,7 @@ public class PaAgentController extends BaseController {
     }
 
     /**
-     * 查询账号列表
+     * 查询列表
      */
     @GetMapping("/listAll")
     public AjaxResult listAll() {

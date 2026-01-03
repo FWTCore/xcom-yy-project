@@ -1,7 +1,9 @@
 package com.ruoyi.web.controller.agent;
 
 import com.ruoyi.business.domain.entity.PaBizProcessStepsDO;
+import com.ruoyi.business.domain.model.PaAgent;
 import com.ruoyi.business.domain.model.PaBizProcessSteps;
+import com.ruoyi.business.domain.model.response.PaAgentVO;
 import com.ruoyi.business.domain.model.response.PaBizProcessStepsVO;
 import com.ruoyi.business.service.PaBizProcessStepsService;
 import com.ruoyi.common.annotation.Log;
@@ -98,4 +100,16 @@ public class PaBizProcessStepsController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(paBizProcessStepsService.deletePaBizProcessStepsByIds(ids));
     }
+
+    /**
+     * 查询列表
+     */
+    @GetMapping("/listAll/{bizId}")
+    public AjaxResult listAll(@PathVariable Long bizId) {
+        PaBizProcessSteps paBizProcessSteps = new PaBizProcessSteps();
+        paBizProcessSteps.setPaBizOrchestrationId(bizId);
+        List<PaBizProcessStepsVO> list = paBizProcessStepsService.selectPaBizProcessStepsList(paBizProcessSteps);
+        return success(list);
+    }
+
 }
