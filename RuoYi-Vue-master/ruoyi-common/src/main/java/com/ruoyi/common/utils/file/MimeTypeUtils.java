@@ -38,6 +38,14 @@ public class MimeTypeUtils
             // pdf
             "pdf" };
 
+    public static final String[] DEFAULT_AGENT_EXTENSION = {
+            // 图片
+            "bmp", "gif", "jpg", "jpeg", "png",
+            // word excel powerpoint
+            "doc", "docx", "txt",
+            // pdf
+            "pdf" };
+
     public static String getExtension(String prefix)
     {
         switch (prefix)

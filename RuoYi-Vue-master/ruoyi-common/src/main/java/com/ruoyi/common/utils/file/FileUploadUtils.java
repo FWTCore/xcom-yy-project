@@ -93,7 +93,7 @@ public class FileUploadUtils {
                                       String[] allowedExtension) throws FileSizeLimitExceededException, IOException,
                                                                  FileNameLengthLimitExceededException,
                                                                  InvalidExtensionException {
-        return upload(baseDir, file, allowedExtension, false);
+        return upload(baseDir, file, allowedExtension, false, false);
     }
 
     /**
@@ -103,6 +103,7 @@ public class FileUploadUtils {
      * @param file 上传的文件
      * @param useCustomNaming 系统自定义文件名
      * @param allowedExtension 上传文件类型
+     * @param compress 是否压缩
      * @return 返回上传成功的文件名
      * @throws FileSizeLimitExceededException 如果超出最大大小
      * @throws FileNameLengthLimitExceededException 文件名太长
@@ -110,9 +111,10 @@ public class FileUploadUtils {
      * @throws InvalidExtensionException 文件校验异常
      */
     public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension,
-                                      boolean useCustomNaming) throws FileSizeLimitExceededException, IOException,
-                                                               FileNameLengthLimitExceededException,
-                                                               InvalidExtensionException {
+                                      boolean useCustomNaming,
+                                      boolean compress) throws FileSizeLimitExceededException, IOException,
+                                                        FileNameLengthLimitExceededException,
+                                                        InvalidExtensionException {
         int fileNameLength = Objects.requireNonNull(file.getOriginalFilename()).length();
         if (fileNameLength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH) {
             throw new FileNameLengthLimitExceededException(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
@@ -122,7 +124,7 @@ public class FileUploadUtils {
 
         String fileName = useCustomNaming ? uuidFilename(file) : extractFilename(file);
 
-        if (allowedExtension == MimeTypeUtils.IMAGE_EXTENSION) {
+        if (allowedExtension == MimeTypeUtils.IMAGE_EXTENSION && compress) {
             File absoluteFile = getAbsoluteFile(baseDir, fileName);
             byte[] compressed = ImageUtils.compressImage(file.getInputStream(), file.getOriginalFilename(), 800, 800,
                 0.8f);
@@ -131,7 +133,6 @@ public class FileUploadUtils {
             String absPath = getAbsoluteFile(baseDir, fileName).getAbsolutePath();
             file.transferTo(Paths.get(absPath));
         }
-
         return getPathFileName(baseDir, fileName);
     }
 
