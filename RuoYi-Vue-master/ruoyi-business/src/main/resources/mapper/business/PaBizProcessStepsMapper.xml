@@ -39,7 +39,7 @@
     </sql>
 
     <select id="selectPaBizProcessStepsList" parameterType="com.ruoyi.business.domain.model.PaBizProcessSteps"
-            resultMap="PaBizProcessStepsResult">
+            resultMap="PaBizProcessStepsVOResult">
         <include refid="selectPaBizProcessStepsVo"/>
         <where>
             <if test="paBizOrchestrationId != null ">

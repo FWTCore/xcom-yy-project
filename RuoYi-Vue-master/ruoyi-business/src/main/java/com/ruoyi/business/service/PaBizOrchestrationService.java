@@ -2,6 +2,7 @@ package com.ruoyi.business.service;
 
 import com.ruoyi.business.domain.entity.PaBizOrchestrationDO;
 import com.ruoyi.business.domain.model.PaBizOrchestration;
+import com.ruoyi.business.domain.model.response.PaBizOrchestrationVO;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public interface PaBizOrchestrationService {
      * @param paBizOrchestration PA平台业务编排;PA平台业务编排
      * @return PA平台业务编排;PA平台业务编排集合
      */
-    List<PaBizOrchestrationDO> selectPaBizOrchestrationList(PaBizOrchestration paBizOrchestration);
+    List<PaBizOrchestrationVO> selectPaBizOrchestrationList(PaBizOrchestration paBizOrchestration);
 
     /**
      * 新增PA平台业务编排;PA平台业务编排

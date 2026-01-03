@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.agent;
 
 import com.ruoyi.business.domain.entity.PaBizProcessStepsDO;
 import com.ruoyi.business.domain.model.PaBizProcessSteps;
+import com.ruoyi.business.domain.model.response.PaBizProcessStepsVO;
 import com.ruoyi.business.service.PaBizProcessStepsService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -43,7 +44,7 @@ public class PaBizProcessStepsController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(PaBizProcessSteps paBizProcessSteps) {
         startPage();
-        List<PaBizProcessStepsDO> list = paBizProcessStepsService.selectPaBizProcessStepsList(paBizProcessSteps);
+        List<PaBizProcessStepsVO> list = paBizProcessStepsService.selectPaBizProcessStepsList(paBizProcessSteps);
         return getDataTable(list);
     }
 
@@ -54,8 +55,8 @@ public class PaBizProcessStepsController extends BaseController {
     @Log(title = "PA平台业务办理步骤;PA平台业务办理步骤", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PaBizProcessSteps paBizProcessSteps) {
-        List<PaBizProcessStepsDO> list = paBizProcessStepsService.selectPaBizProcessStepsList(paBizProcessSteps);
-        ExcelUtil<PaBizProcessStepsDO> util = new ExcelUtil<PaBizProcessStepsDO>(PaBizProcessStepsDO.class);
+        List<PaBizProcessStepsVO> list = paBizProcessStepsService.selectPaBizProcessStepsList(paBizProcessSteps);
+        ExcelUtil<PaBizProcessStepsVO> util = new ExcelUtil<PaBizProcessStepsVO>(PaBizProcessStepsVO.class);
         util.exportExcel(response, list, "PA平台业务办理步骤;PA平台业务办理步骤数据");
     }
 

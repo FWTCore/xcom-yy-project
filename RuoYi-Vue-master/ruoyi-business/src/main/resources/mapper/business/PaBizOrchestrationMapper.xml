@@ -21,6 +21,10 @@
     <resultMap type="com.ruoyi.business.domain.model.response.PaBizOrchestrationVO"
                id="PaBizOrchestrationVOResult"
                extends="PaBizOrchestrationResult">
+        <result property="paAccount" column="pa_account"/>
+        <result property="paUserName" column="pa_user_name"/>
+        <result property="agentId" column="agent_id"/>
+        <result property="agentName" column="agent_name"/>
     </resultMap>
 
     <sql id="selectPaBizOrchestrationVo">
@@ -43,47 +47,48 @@
     </sql>
 
     <select id="selectPaBizOrchestrationList" parameterType="com.ruoyi.business.domain.model.PaBizOrchestration"
-            resultMap="PaBizOrchestrationResult">
-        <include refid="selectPaBizOrchestrationVo"/>
+            resultMap="PaBizOrchestrationVOResult">
+        select pbor.id,
+        pbor.pa_account_id,
+        pbor.pa_agent_id,
+        pbor.biz_name,
+        pbor.biz_description,
+        pbor.biz_url,
+        pbor.bia_status,
+        pbor.remark,
+        pbor.delete_flag,
+        pbor.created_by_id,
+        pbor.created_by_name,
+        pbor.created_time,
+        pbor.updated_by_id,
+        pbor.updated_by_name,
+        pbor.updated_time,
+        paac.pa_account,
+        paac.pa_user_name,
+        paag.agent_id,
+        paag.agent_name
+        from pa_biz_orchestration as pbor
+        inner join pa_account as paac on pbor.pa_account_id=paac.id and paac.delete_flag=0
+        inner join pa_agent as paag on pbor.pa_agent_id=paag.id and pbor.pa_account_id=paag.pa_account_id and paag.delete_flag=0
         <where>
+            and pbor.delete_flag=0
             <if test="paAccountId != null ">
-                and pa_account_id = #{paAccountId}
+                and pbor.pa_account_id = #{paAccountId}
             </if>
             <if test="paAgentId != null ">
-                and pa_agent_id = #{paAgentId}
+                and pbor.pa_agent_id = #{paAgentId}
             </if>
             <if test="bizName != null  and bizName != ''">
-                and biz_name like concat('%', #{bizName}, '%')
+                and pbor.biz_name like concat('%', #{bizName}, '%')
             </if>
             <if test="bizDescription != null  and bizDescription != ''">
-                and biz_description = #{bizDescription}
+                and pbor.biz_description = #{bizDescription}
             </if>
             <if test="bizUrl != null  and bizUrl != ''">
-                and biz_url = #{bizUrl}
+                and pbor.biz_url = #{bizUrl}
             </if>
             <if test="biaStatus != null ">
-                and bia_status = #{biaStatus}
-            </if>
-            <if test="deleteFlag != null ">
-                and delete_flag = #{deleteFlag}
-            </if>
-            <if test="createdById != null ">
-                and created_by_id = #{createdById}
-            </if>
-            <if test="createdByName != null  and createdByName != ''">
-                and created_by_name like concat('%', #{createdByName}, '%')
-            </if>
-            <if test="createdTime != null ">
-                and created_time = #{createdTime}
-            </if>
-            <if test="updatedById != null ">
-                and updated_by_id = #{updatedById}
-            </if>
-            <if test="updatedByName != null  and updatedByName != ''">
-                and updated_by_name like concat('%', #{updatedByName}, '%')
-            </if>
-            <if test="updatedTime != null ">
-                and updated_time = #{updatedTime}
+                and pbor.bia_status = #{biaStatus}
             </if>
         </where>
     </select>

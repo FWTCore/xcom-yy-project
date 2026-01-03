@@ -2,6 +2,7 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.PaBizOrchestrationDO;
 import com.ruoyi.business.domain.model.PaBizOrchestration;
+import com.ruoyi.business.domain.model.response.PaBizOrchestrationVO;
 import com.ruoyi.business.mapper.PaBizOrchestrationMapper;
 import com.ruoyi.business.service.PaBizOrchestrationService;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class PaBizOrchestrationServiceImpl implements PaBizOrchestrationService 
      * @return PA平台业务编排;PA平台业务编排
      */
     @Override
-    public List<PaBizOrchestrationDO> selectPaBizOrchestrationList(PaBizOrchestration paBizOrchestration) {
+    public List<PaBizOrchestrationVO> selectPaBizOrchestrationList(PaBizOrchestration paBizOrchestration) {
         return paBizOrchestrationMapper.selectPaBizOrchestrationList(paBizOrchestration);
     }
 

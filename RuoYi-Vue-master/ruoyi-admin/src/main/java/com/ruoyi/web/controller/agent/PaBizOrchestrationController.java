@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.agent;
 
 import com.ruoyi.business.domain.entity.PaBizOrchestrationDO;
 import com.ruoyi.business.domain.model.PaBizOrchestration;
+import com.ruoyi.business.domain.model.response.PaBizOrchestrationVO;
 import com.ruoyi.business.service.PaBizOrchestrationService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -43,7 +44,7 @@ public class PaBizOrchestrationController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(PaBizOrchestration paBizOrchestration) {
         startPage();
-        List<PaBizOrchestrationDO> list = paBizOrchestrationService.selectPaBizOrchestrationList(paBizOrchestration);
+        List<PaBizOrchestrationVO> list = paBizOrchestrationService.selectPaBizOrchestrationList(paBizOrchestration);
         return getDataTable(list);
     }
 
@@ -54,8 +55,8 @@ public class PaBizOrchestrationController extends BaseController {
     @Log(title = "PA平台业务编排;PA平台业务编排", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PaBizOrchestration paBizOrchestration) {
-        List<PaBizOrchestrationDO> list = paBizOrchestrationService.selectPaBizOrchestrationList(paBizOrchestration);
-        ExcelUtil<PaBizOrchestrationDO> util = new ExcelUtil<PaBizOrchestrationDO>(PaBizOrchestrationDO.class);
+        List<PaBizOrchestrationVO> list = paBizOrchestrationService.selectPaBizOrchestrationList(paBizOrchestration);
+        ExcelUtil<PaBizOrchestrationVO> util = new ExcelUtil<PaBizOrchestrationVO>(PaBizOrchestrationVO.class);
         util.exportExcel(response, list, "PA平台业务编排;PA平台业务编排数据");
     }
 

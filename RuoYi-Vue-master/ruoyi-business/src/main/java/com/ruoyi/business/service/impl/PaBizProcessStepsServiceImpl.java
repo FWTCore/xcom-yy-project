@@ -2,6 +2,7 @@ package com.ruoyi.business.service.impl;
 
 import com.ruoyi.business.domain.entity.PaBizProcessStepsDO;
 import com.ruoyi.business.domain.model.PaBizProcessSteps;
+import com.ruoyi.business.domain.model.response.PaBizProcessStepsVO;
 import com.ruoyi.business.mapper.PaBizProcessStepsMapper;
 import com.ruoyi.business.service.PaBizProcessStepsService;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class PaBizProcessStepsServiceImpl implements PaBizProcessStepsService {
      * @return PA平台业务办理步骤;PA平台业务办理步骤
      */
     @Override
-    public List<PaBizProcessStepsDO> selectPaBizProcessStepsList(PaBizProcessSteps paBizProcessSteps) {
+    public List<PaBizProcessStepsVO> selectPaBizProcessStepsList(PaBizProcessSteps paBizProcessSteps) {
         return paBizProcessStepsMapper.selectPaBizProcessStepsList(paBizProcessSteps);
     }
 

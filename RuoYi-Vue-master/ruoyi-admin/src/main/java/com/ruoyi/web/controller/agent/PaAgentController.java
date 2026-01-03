@@ -1,5 +1,7 @@
 package com.ruoyi.web.controller.agent;
 
+import com.ruoyi.business.domain.entity.PaAccountDO;
+import com.ruoyi.business.domain.model.PaAccount;
 import com.ruoyi.business.domain.model.PaAgent;
 import com.ruoyi.business.domain.model.response.PaAgentVO;
 import com.ruoyi.business.service.PaAgentService;
@@ -95,5 +97,15 @@ public class PaAgentController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(paAgentService.deletePaAgentByIds(ids));
+    }
+
+    /**
+     * 查询账号列表
+     */
+    @GetMapping("/listAll")
+    public AjaxResult listAll() {
+        PaAgent paAgent = new PaAgent();
+        List<PaAgentVO> list = paAgentService.selectPaAgentList(paAgent);
+        return success(list);
     }
 }

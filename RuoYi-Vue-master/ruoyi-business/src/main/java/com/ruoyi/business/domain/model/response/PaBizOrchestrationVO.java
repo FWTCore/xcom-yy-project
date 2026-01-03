@@ -16,4 +16,22 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class PaBizOrchestrationVO extends PaBizOrchestrationDO {
+
+    /**
+     * PA平台账号
+     */
+    private String paAccount;
+
+    /**
+     * PA平台名称
+     */
+    private String paUserName;
+    /**
+     * 智能体id
+     */
+    private String agentId;
+    /**
+     * 智能体名称
+     */
+    private String agentName;
 }

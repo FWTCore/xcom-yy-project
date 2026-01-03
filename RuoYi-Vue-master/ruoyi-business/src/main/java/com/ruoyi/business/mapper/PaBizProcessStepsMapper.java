@@ -2,6 +2,7 @@ package com.ruoyi.business.mapper;
 
 import com.ruoyi.business.domain.entity.PaBizProcessStepsDO;
 import com.ruoyi.business.domain.model.PaBizProcessSteps;
+import com.ruoyi.business.domain.model.response.PaBizProcessStepsVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public interface PaBizProcessStepsMapper {
      * @param paBizProcessSteps PA平台业务办理步骤;PA平台业务办理步骤
      * @return PA平台业务办理步骤;PA平台业务办理步骤集合
      */
-    List<PaBizProcessStepsDO> selectPaBizProcessStepsList(PaBizProcessSteps paBizProcessSteps);
+    List<PaBizProcessStepsVO> selectPaBizProcessStepsList(PaBizProcessSteps paBizProcessSteps);
 
     /**
      * 新增PA平台业务办理步骤;PA平台业务办理步骤

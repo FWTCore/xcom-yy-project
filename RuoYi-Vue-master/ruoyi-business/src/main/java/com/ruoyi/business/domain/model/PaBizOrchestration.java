@@ -16,4 +16,8 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class PaBizOrchestration extends PaBizOrchestrationDO {
+    /**
+     * 智能体名称
+     */
+    private String agentName;
 }
