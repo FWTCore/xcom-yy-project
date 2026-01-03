@@ -1,0 +1,60 @@
+[Unit]
+Description=mzx资产管理系统
+After=network.target
+After=syslog.target
+Requires=network.target
+# 如果依赖数据库，可以添加：After=mysql.service 或 After=postgresql.service
+
+[Service]
+Type=simple
+# 指定运行用户（建议使用非root用户）
+User=app_user
+Group=app_user
+# 指定工作目录（存放 dome.jar 的目录）
+WorkingDirectory=/data/app/material/system
+# 启动命令
+ExecStart=/usr/bin/java -jar -Dserver.port=8088 xcom-asset.jar
+# 如果需要指定配置文件
+# ExecStart=/usr/bin/java -jar -Dspring.config.location=/home/ubuntu/app/application.properties dome.jar
+# 如果需要指定JVM参数
+# ExecStart=/usr/bin/java -Xms512m -Xmx1024m -jar dome.jar
+
+# 重启策略
+Restart=on-failure
+RestartSec=5s
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# 优雅关闭配置
+SuccessExitStatus=143
+TimeoutStopSec=30
+KillSignal=SIGTERM
+KillMode=process
+
+# 资源限制
+LimitNOFILE=65536
+LimitNPROC=4096
+LimitCORE=infinity
+
+# 环境变量
+Environment="SPRING_PROFILES_ACTIVE=prod"
+Environment="JAVA_OPTS=-Xms512m -Xmx1024m"
+
+# 日志配置
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sn-ai
+
+# 安全设置
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/data/app/material/system/logs
+PrivateTmp=true
+ProtectHome=true
+PrivateDevices=false
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target
+Alias=xcom-asset.service
