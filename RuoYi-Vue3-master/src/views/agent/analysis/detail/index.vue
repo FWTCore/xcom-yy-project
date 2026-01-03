@@ -61,7 +61,6 @@
       <el-table-column label="解析数量" align="center" prop="analysisNumber" />
       <el-table-column label="解析说明" align="center" prop="analysisDescription" />
       <el-table-column label="解析字段Json" align="center" prop="analysisField" />
-      <el-table-column label="创建人" align="center" prop="createdByName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
@@ -76,13 +75,10 @@
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改解析配置详情;解析配置详情对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="800px" append-to-body>
       <el-form ref="detailRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="副名称" prop="subName">
           <el-input v-model="form.subName" placeholder="请输入副名称" />
-        </el-form-item>
-        <el-form-item label="文件模板" prop="fileTemplate">
-          <upload-image v-model="form.fileTemplate" :defaultImage="form.fileTemplate" />
         </el-form-item>
         <el-form-item label="解析格式" prop="analysisFormat">
           <el-input v-model="form.analysisFormat" placeholder="请输入解析格式" />
@@ -93,8 +89,12 @@
         <el-form-item label="解析说明" prop="analysisDescription">
           <el-input v-model="form.analysisDescription" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="解析字段Json" prop="analysisField">
+        <el-form-item label="解析结果" prop="analysisField">
           <el-input v-model="form.analysisField" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="文件模板" prop="fileTemplate">
+          <FileUpload :file-types="['.jpg', '.jpeg', '.png', '.pdf', '.doc', '.docx']" :max-file-size="20"
+            :max-files="1" v-model="form.fileTemplateList" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -110,7 +110,8 @@
 <script setup name="Detail">
 import { listDetail, getDetail, delDetail, addDetail, updateDetail } from "@/api/agent/configDetail"
 import { getConfig } from "@/api/agent/config"
-import uploadImage from "@/views/common/uploadImage.vue";
+import FileUpload from "@/views/common/UploadFile.vue";
+
 
 const { proxy } = getCurrentInstance()
 const { analysis_type } = proxy.useDict("analysis_type");
@@ -190,13 +191,7 @@ function reset() {
     analysisNumber: null,
     analysisDescription: null,
     analysisField: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
+    fileTemplateList: null
   }
   proxy.resetForm("detailRef")
 }
@@ -232,7 +227,7 @@ function handleUpdate(row) {
   reset()
   const _id = row.id || ids.value
   getDetail(_id).then(response => {
-    form.value = response.data
+    form.value = { fileTemplateList: [response.data.fileTemplate], ...response.data }
     open.value = true
     title.value = "修改解析配置明细"
   })
@@ -242,6 +237,10 @@ function handleUpdate(row) {
 function submitForm() {
   proxy.$refs["detailRef"].validate(valid => {
     if (valid) {
+      form.value.fileTemplate = Array.isArray(form.value?.fileTemplateList) &&
+        form.value.fileTemplateList.length > 0
+        ? form.value.fileTemplateList[0]
+        : form.value.fileTemplateList
       if (form.value.id != null) {
         updateDetail(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功")

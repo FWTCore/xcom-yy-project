@@ -9,3 +9,24 @@ export function uploadImage(data) {
     data: data
   })
 }
+
+// 或者创建新的专用接口
+export function uploadFiles(data) {
+  console.log(data)
+  return request({
+    url: 'file/upload',
+    method: 'post',
+    headers: { "Content-Type": "multipart/form-data" },
+    data: data
+  })
+}
+
+// 或者创建新的专用接口
+export function uploadFile_com(data) {
+  return request({
+    url: 'common/uploads',
+    method: 'post',
+    headers: { "Content-Type": "multipart/form-data" },
+    data: data
+  })
+}
