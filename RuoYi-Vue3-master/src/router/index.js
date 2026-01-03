@@ -180,7 +180,7 @@ export const dynamicRoutes = [
     children: [
       {
         path: "detail/:configId(\\d+)",
-        component: () => import("@/views/business/analysis/detail/index"),
+        component: () => import("@/views/agent/analysis/detail/index"),
         name: "ConfigDetail",
         meta: { title: "分析配置", activeMenu: "/agent/analysisConfig" },
       },
