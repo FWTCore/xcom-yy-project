@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询PA平台分析配置;PA平台分析配置列表
 export function listConfig(query) {
   return request({
-    url: '/business/config/list',
+    url: '/agent/config/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listConfig(query) {
 // 查询PA平台分析配置;PA平台分析配置详细
 export function getConfig(id) {
   return request({
-    url: '/business/config/' + id,
+    url: '/agent/config/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getConfig(id) {
 // 新增PA平台分析配置;PA平台分析配置
 export function addConfig(data) {
   return request({
-    url: '/business/config',
+    url: '/agent/config',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addConfig(data) {
 // 修改PA平台分析配置;PA平台分析配置
 export function updateConfig(data) {
   return request({
-    url: '/business/config',
+    url: '/agent/config',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateConfig(data) {
 // 删除PA平台分析配置;PA平台分析配置
 export function delConfig(id) {
   return request({
-    url: '/business/config/' + id,
+    url: '/agent/config/' + id,
     method: 'delete'
   })
 }

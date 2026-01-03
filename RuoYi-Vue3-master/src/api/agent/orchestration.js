@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询PA平台业务编排;PA平台业务编排列表
 export function listOrchestration(query) {
   return request({
-    url: '/business/orchestration/list',
+    url: '/agent/orchestration/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listOrchestration(query) {
 // 查询PA平台业务编排;PA平台业务编排详细
 export function getOrchestration(id) {
   return request({
-    url: '/business/orchestration/' + id,
+    url: '/agent/orchestration/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getOrchestration(id) {
 // 新增PA平台业务编排;PA平台业务编排
 export function addOrchestration(data) {
   return request({
-    url: '/business/orchestration',
+    url: '/agent/orchestration',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addOrchestration(data) {
 // 修改PA平台业务编排;PA平台业务编排
 export function updateOrchestration(data) {
   return request({
-    url: '/business/orchestration',
+    url: '/agent/orchestration',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateOrchestration(data) {
 // 删除PA平台业务编排;PA平台业务编排
 export function delOrchestration(id) {
   return request({
-    url: '/business/orchestration/' + id,
+    url: '/agent/orchestration/' + id,
     method: 'delete'
   })
 }

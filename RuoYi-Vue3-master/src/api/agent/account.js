@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询PA平台账号;PA平台账号列表
 export function listAccount(query) {
   return request({
-    url: '/business/account/list',
+    url: '/agent/account/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listAccount(query) {
 // 查询PA平台账号;PA平台账号详细
 export function getAccount(id) {
   return request({
-    url: '/business/account/' + id,
+    url: '/agent/account/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getAccount(id) {
 // 新增PA平台账号;PA平台账号
 export function addAccount(data) {
   return request({
-    url: '/business/account',
+    url: '/agent/account',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addAccount(data) {
 // 修改PA平台账号;PA平台账号
 export function updateAccount(data) {
   return request({
-    url: '/business/account',
+    url: '/agent/account',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateAccount(data) {
 // 删除PA平台账号;PA平台账号
 export function delAccount(id) {
   return request({
-    url: '/business/account/' + id,
+    url: '/agent/account/' + id,
     method: 'delete'
   })
 }
@@ -46,7 +46,7 @@ export function delAccount(id) {
 // 查询列表（所有）
 export function listAllAccount() {
   return request({
-    url: '/business/account/listAll',
+    url: '/agent/account/listAll',
     method: 'get'
   })
 }

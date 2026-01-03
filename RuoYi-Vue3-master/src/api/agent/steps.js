@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询PA平台业务办理步骤;PA平台业务办理步骤列表
 export function listSteps(query) {
   return request({
-    url: '/business/steps/list',
+    url: '/agent/steps/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listSteps(query) {
 // 查询PA平台业务办理步骤;PA平台业务办理步骤详细
 export function getSteps(id) {
   return request({
-    url: '/business/steps/' + id,
+    url: '/agent/steps/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getSteps(id) {
 // 新增PA平台业务办理步骤;PA平台业务办理步骤
 export function addSteps(data) {
   return request({
-    url: '/business/steps',
+    url: '/agent/steps',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addSteps(data) {
 // 修改PA平台业务办理步骤;PA平台业务办理步骤
 export function updateSteps(data) {
   return request({
-    url: '/business/steps',
+    url: '/agent/steps',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateSteps(data) {
 // 删除PA平台业务办理步骤;PA平台业务办理步骤
 export function delSteps(id) {
   return request({
-    url: '/business/steps/' + id,
+    url: '/agent/steps/' + id,
     method: 'delete'
   })
 }

@@ -172,6 +172,20 @@ export const dynamicRoutes = [
       },
     ],
   },
+  {
+    path: "/agent/analysis-config",
+    component: Layout,
+    hidden: true,
+    permissions: ["system:config:list"],
+    children: [
+      {
+        path: "detail/:configId(\\d+)",
+        component: () => import("@/views/business/analysis/detail/index"),
+        name: "ConfigDetail",
+        meta: { title: "分析配置", activeMenu: "/agent/analysisConfig" },
+      },
+    ],
+  }
 ];
 
 const router = createRouter({
