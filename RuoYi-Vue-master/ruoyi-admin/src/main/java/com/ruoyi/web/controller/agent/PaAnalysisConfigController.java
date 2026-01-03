@@ -30,7 +30,7 @@ import java.util.List;
  * @date 2026/1/3
  */
 @RestController
-@RequestMapping("/business/config")
+@RequestMapping("/agent/config")
 public class PaAnalysisConfigController extends BaseController {
 
     @Resource

@@ -30,7 +30,7 @@ import java.util.List;
  * @date 2026/1/2
  */
 @RestController
-@RequestMapping("/business/agent")
+@RequestMapping("/agent/agent")
 public class PaAgentController extends BaseController {
     @Resource
     private PaAgentService paAgentService;

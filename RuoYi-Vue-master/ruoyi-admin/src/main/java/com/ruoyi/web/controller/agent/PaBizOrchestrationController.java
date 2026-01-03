@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/business/orchestration")
+@RequestMapping("/agent/orchestration")
 public class PaBizOrchestrationController extends BaseController {
     @Resource
     private PaBizOrchestrationService paBizOrchestrationService;

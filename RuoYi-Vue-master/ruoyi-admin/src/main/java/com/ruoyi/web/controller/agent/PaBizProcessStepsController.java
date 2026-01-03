@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/business/steps")
+@RequestMapping("/agent/steps")
 public class PaBizProcessStepsController extends BaseController {
     @Resource
     private PaBizProcessStepsService paBizProcessStepsService;

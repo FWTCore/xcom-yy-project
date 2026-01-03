@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/business/account")
+@RequestMapping("/agent/account")
 public class PaAccountController extends BaseController {
     @Resource
     private PaAccountService paAccountService;
