@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.PaBizOrchestrationMapper">
+    <resultMap type="com.ruoyi.business.domain.entity.PaBizOrchestrationDO" id="PaBizOrchestrationResult">
+        <result property="id" column="id"/>
+        <result property="paAccountId" column="pa_account_id"/>
+        <result property="paAgentId" column="pa_agent_id"/>
+        <result property="bizName" column="biz_name"/>
+        <result property="bizDescription" column="biz_description"/>
+        <result property="bizUrl" column="biz_url"/>
+        <result property="biaStatus" column="bia_status"/>
+        <result property="remark" column="remark"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+    <resultMap type="com.ruoyi.business.domain.model.response.PaBizOrchestrationVO"
+               id="PaBizOrchestrationVOResult"
+               extends="PaBizOrchestrationResult">
+    </resultMap>
+
+    <sql id="selectPaBizOrchestrationVo">
+        select id,
+               pa_account_id,
+               pa_agent_id,
+               biz_name,
+               biz_description,
+               biz_url,
+               bia_status,
+               remark,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from pa_biz_orchestration
+    </sql>
+
+    <select id="selectPaBizOrchestrationList" parameterType="com.ruoyi.business.domain.model.PaBizOrchestration"
+            resultMap="PaBizOrchestrationResult">
+        <include refid="selectPaBizOrchestrationVo"/>
+        <where>
+            <if test="paAccountId != null ">
+                and pa_account_id = #{paAccountId}
+            </if>
+            <if test="paAgentId != null ">
+                and pa_agent_id = #{paAgentId}
+            </if>
+            <if test="bizName != null  and bizName != ''">
+                and biz_name like concat('%', #{bizName}, '%')
+            </if>
+            <if test="bizDescription != null  and bizDescription != ''">
+                and biz_description = #{bizDescription}
+            </if>
+            <if test="bizUrl != null  and bizUrl != ''">
+                and biz_url = #{bizUrl}
+            </if>
+            <if test="biaStatus != null ">
+                and bia_status = #{biaStatus}
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPaBizOrchestrationById" parameterType="Long" resultMap="PaBizOrchestrationResult">
+        <include refid="selectPaBizOrchestrationVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPaBizOrchestration" parameterType="com.ruoyi.business.domain.model.PaBizOrchestration"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into pa_biz_orchestration
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paAccountId != null">
+                pa_account_id,
+            </if>
+            <if test="paAgentId != null">
+                pa_agent_id,
+            </if>
+            <if test="bizName != null">
+                biz_name,
+            </if>
+            <if test="bizDescription != null">
+                biz_description,
+            </if>
+            <if test="bizUrl != null">
+                biz_url,
+            </if>
+            <if test="biaStatus != null">
+                bia_status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdById != null">
+                created_by_id,
+            </if>
+            <if test="createdByName != null">
+                created_by_name,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="updatedById != null">
+                updated_by_id,
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name,
+            </if>
+            <if test="updatedTime != null">
+                updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paAccountId != null">
+                #{paAccountId},
+            </if>
+            <if test="paAgentId != null">
+                #{paAgentId},
+            </if>
+            <if test="bizName != null">
+                #{bizName},
+            </if>
+            <if test="bizDescription != null">
+                #{bizDescription},
+            </if>
+            <if test="bizUrl != null">
+                #{bizUrl},
+            </if>
+            <if test="biaStatus != null">
+                #{biaStatus},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updatePaBizOrchestration" parameterType="com.ruoyi.business.domain.model.PaBizOrchestration">
+        update pa_biz_orchestration
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paAccountId != null">
+                pa_account_id = #{paAccountId},
+            </if>
+            <if test="paAgentId != null">
+                pa_agent_id = #{paAgentId},
+            </if>
+            <if test="bizName != null">
+                biz_name = #{bizName},
+            </if>
+            <if test="bizDescription != null">
+                biz_description = #{bizDescription},
+            </if>
+            <if test="bizUrl != null">
+                biz_url = #{bizUrl},
+            </if>
+            <if test="biaStatus != null">
+                bia_status = #{biaStatus},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                created_by_id = #{createdById},
+            </if>
+            <if test="createdByName != null">
+                created_by_name = #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id = #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name = #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePaBizOrchestrationById" parameterType="Long">
+        delete
+        from pa_biz_orchestration
+        where id = #{id}
+    </delete>
+
+    <delete id="deletePaBizOrchestrationByIds" parameterType="String">
+        delete from pa_biz_orchestration where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

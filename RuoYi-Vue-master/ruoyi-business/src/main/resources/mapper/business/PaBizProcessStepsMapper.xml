@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.PaBizProcessStepsMapper">
+    <resultMap type="com.ruoyi.business.domain.entity.PaBizProcessStepsDO" id="PaBizProcessStepsResult">
+        <result property="id" column="id"/>
+        <result property="paBizOrchestrationId" column="pa_biz_orchestration_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="stepsName" column="steps_name"/>
+        <result property="stepsDescription" column="steps_description"/>
+        <result property="stepsAttribute" column="steps_attribute"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+    <resultMap type="com.ruoyi.business.domain.model.response.PaBizProcessStepsVO"
+               id="PaBizProcessStepsVOResult"
+               extends="PaBizProcessStepsResult">
+    </resultMap>
+
+    <sql id="selectPaBizProcessStepsVo">
+        select id,
+               pa_biz_orchestration_id,
+               parent_id,
+               steps_name,
+               steps_description,
+               steps_attribute,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from pa_biz_process_steps
+    </sql>
+
+    <select id="selectPaBizProcessStepsList" parameterType="com.ruoyi.business.domain.model.PaBizProcessSteps"
+            resultMap="PaBizProcessStepsResult">
+        <include refid="selectPaBizProcessStepsVo"/>
+        <where>
+            <if test="paBizOrchestrationId != null ">
+                and pa_biz_orchestration_id = #{paBizOrchestrationId}
+            </if>
+            <if test="parentId != null ">
+                and parent_id = #{parentId}
+            </if>
+            <if test="stepsName != null  and stepsName != ''">
+                and steps_name like concat('%', #{stepsName}, '%')
+            </if>
+            <if test="stepsDescription != null  and stepsDescription != ''">
+                and steps_description = #{stepsDescription}
+            </if>
+            <if test="stepsAttribute != null  and stepsAttribute != ''">
+                and steps_attribute = #{stepsAttribute}
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPaBizProcessStepsById" parameterType="Long" resultMap="PaBizProcessStepsResult">
+        <include refid="selectPaBizProcessStepsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPaBizProcessSteps" parameterType="com.ruoyi.business.domain.model.PaBizProcessSteps"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into pa_biz_process_steps
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paBizOrchestrationId != null">
+                pa_biz_orchestration_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="stepsName != null">
+                steps_name,
+            </if>
+            <if test="stepsDescription != null">
+                steps_description,
+            </if>
+            <if test="stepsAttribute != null">
+                steps_attribute,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdById != null">
+                created_by_id,
+            </if>
+            <if test="createdByName != null">
+                created_by_name,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="updatedById != null">
+                updated_by_id,
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name,
+            </if>
+            <if test="updatedTime != null">
+                updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paBizOrchestrationId != null">
+                #{paBizOrchestrationId},
+            </if>
+            <if test="parentId != null">
+                #{parentId},
+            </if>
+            <if test="stepsName != null">
+                #{stepsName},
+            </if>
+            <if test="stepsDescription != null">
+                #{stepsDescription},
+            </if>
+            <if test="stepsAttribute != null">
+                #{stepsAttribute},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updatePaBizProcessSteps" parameterType="com.ruoyi.business.domain.model.PaBizProcessSteps">
+        update pa_biz_process_steps
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paBizOrchestrationId != null">
+                pa_biz_orchestration_id = #{paBizOrchestrationId},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="stepsName != null">
+                steps_name = #{stepsName},
+            </if>
+            <if test="stepsDescription != null">
+                steps_description = #{stepsDescription},
+            </if>
+            <if test="stepsAttribute != null">
+                steps_attribute = #{stepsAttribute},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                created_by_id = #{createdById},
+            </if>
+            <if test="createdByName != null">
+                created_by_name = #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id = #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name = #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePaBizProcessStepsById" parameterType="Long">
+        delete
+        from pa_biz_process_steps
+        where id = #{id}
+    </delete>
+
+    <delete id="deletePaBizProcessStepsByIds" parameterType="String">
+        delete from pa_biz_process_steps where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

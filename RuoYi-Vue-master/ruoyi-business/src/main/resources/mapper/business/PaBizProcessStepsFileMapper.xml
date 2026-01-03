@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.PaBizProcessStepsFileMapper">
+    <resultMap type="com.ruoyi.business.domain.entity.PaBizProcessStepsFileDO" id="PaBizProcessStepsFileResult">
+        <result property="id" column="id"/>
+        <result property="paBizOrchestrationId" column="pa_biz_orchestration_id"/>
+        <result property="paBizProcessStepsId" column="pa_biz_process_steps_id"/>
+        <result property="analysisName" column="analysis_name"/>
+        <result property="analysisType" column="analysis_type"/>
+        <result property="subName" column="sub_name"/>
+        <result property="fileTemplate" column="file_template"/>
+        <result property="analysisFormat" column="analysis_format"/>
+        <result property="analysisNumber" column="analysis_number"/>
+        <result property="analysisDescription" column="analysis_description"/>
+        <result property="analysisField" column="analysis_field"/>
+        <result property="fileUrl" column="file_url"/>
+        <result property="analysisResult" column="analysis_result"/>
+        <result property="confirmResult" column="confirm_result"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+    <resultMap type="com.ruoyi.business.domain.model.response.PaBizProcessStepsFileVO"
+               id="PaBizProcessStepsFileVOResult"
+               extends="PaBizProcessStepsFileResult">
+    </resultMap>
+
+
+    <sql id="selectPaBizProcessStepsFileVo">
+        select id,
+               pa_biz_orchestration_id,
+               pa_biz_process_steps_id,
+               analysis_name,
+               analysis_type,
+               sub_name,
+               file_template,
+               analysis_format,
+               analysis_number,
+               analysis_description,
+               analysis_field,
+               file_url,
+               analysis_result,
+               confirm_result,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from pa_biz_process_steps_file
+    </sql>
+
+    <select id="selectPaBizProcessStepsFileList" parameterType="com.ruoyi.business.domain.model.PaBizProcessStepsFile"
+            resultMap="PaBizProcessStepsFileResult">
+        <include refid="selectPaBizProcessStepsFileVo"/>
+        <where>
+            <if test="paBizOrchestrationId != null ">
+                and pa_biz_orchestration_id = #{paBizOrchestrationId}
+            </if>
+            <if test="paBizProcessStepsId != null ">
+                and pa_biz_process_steps_id = #{paBizProcessStepsId}
+            </if>
+            <if test="analysisName != null  and analysisName != ''">
+                and analysis_name like concat('%', #{analysisName}, '%')
+            </if>
+            <if test="analysisType != null ">
+                and analysis_type = #{analysisType}
+            </if>
+            <if test="subName != null  and subName != ''">
+                and sub_name like concat('%', #{subName}, '%')
+            </if>
+            <if test="fileTemplate != null  and fileTemplate != ''">
+                and file_template = #{fileTemplate}
+            </if>
+            <if test="analysisFormat != null  and analysisFormat != ''">
+                and analysis_format = #{analysisFormat}
+            </if>
+            <if test="analysisNumber != null ">
+                and analysis_number = #{analysisNumber}
+            </if>
+            <if test="analysisDescription != null  and analysisDescription != ''">
+                and analysis_description = #{analysisDescription}
+            </if>
+            <if test="analysisField != null  and analysisField != ''">
+                and analysis_field = #{analysisField}
+            </if>
+            <if test="fileUrl != null  and fileUrl != ''">
+                and file_url = #{fileUrl}
+            </if>
+            <if test="analysisResult != null  and analysisResult != ''">
+                and analysis_result = #{analysisResult}
+            </if>
+            <if test="confirmResult != null  and confirmResult != ''">
+                and confirm_result = #{confirmResult}
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPaBizProcessStepsFileById" parameterType="Long" resultMap="PaBizProcessStepsFileResult">
+        <include refid="selectPaBizProcessStepsFileVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPaBizProcessStepsFile" parameterType="com.ruoyi.business.domain.model.PaBizProcessStepsFile"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into pa_biz_process_steps_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paBizOrchestrationId != null">
+                pa_biz_orchestration_id,
+            </if>
+            <if test="paBizProcessStepsId != null">
+                pa_biz_process_steps_id,
+            </if>
+            <if test="analysisName != null">
+                analysis_name,
+            </if>
+            <if test="analysisType != null">
+                analysis_type,
+            </if>
+            <if test="subName != null">
+                sub_name,
+            </if>
+            <if test="fileTemplate != null">
+                file_template,
+            </if>
+            <if test="analysisFormat != null">
+                analysis_format,
+            </if>
+            <if test="analysisNumber != null">
+                analysis_number,
+            </if>
+            <if test="analysisDescription != null">
+                analysis_description,
+            </if>
+            <if test="analysisField != null">
+                analysis_field,
+            </if>
+            <if test="fileUrl != null">
+                file_url,
+            </if>
+            <if test="analysisResult != null">
+                analysis_result,
+            </if>
+            <if test="confirmResult != null">
+                confirm_result,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdById != null">
+                created_by_id,
+            </if>
+            <if test="createdByName != null">
+                created_by_name,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="updatedById != null">
+                updated_by_id,
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name,
+            </if>
+            <if test="updatedTime != null">
+                updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paBizOrchestrationId != null">
+                #{paBizOrchestrationId},
+            </if>
+            <if test="paBizProcessStepsId != null">
+                #{paBizProcessStepsId},
+            </if>
+            <if test="analysisName != null">
+                #{analysisName},
+            </if>
+            <if test="analysisType != null">
+                #{analysisType},
+            </if>
+            <if test="subName != null">
+                #{subName},
+            </if>
+            <if test="fileTemplate != null">
+                #{fileTemplate},
+            </if>
+            <if test="analysisFormat != null">
+                #{analysisFormat},
+            </if>
+            <if test="analysisNumber != null">
+                #{analysisNumber},
+            </if>
+            <if test="analysisDescription != null">
+                #{analysisDescription},
+            </if>
+            <if test="analysisField != null">
+                #{analysisField},
+            </if>
+            <if test="fileUrl != null">
+                #{fileUrl},
+            </if>
+            <if test="analysisResult != null">
+                #{analysisResult},
+            </if>
+            <if test="confirmResult != null">
+                #{confirmResult},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updatePaBizProcessStepsFile" parameterType="com.ruoyi.business.domain.model.PaBizProcessStepsFile">
+        update pa_biz_process_steps_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paBizOrchestrationId != null">
+                pa_biz_orchestration_id = #{paBizOrchestrationId},
+            </if>
+            <if test="paBizProcessStepsId != null">
+                pa_biz_process_steps_id = #{paBizProcessStepsId},
+            </if>
+            <if test="analysisName != null">
+                analysis_name = #{analysisName},
+            </if>
+            <if test="analysisType != null">
+                analysis_type = #{analysisType},
+            </if>
+            <if test="subName != null">
+                sub_name = #{subName},
+            </if>
+            <if test="fileTemplate != null">
+                file_template = #{fileTemplate},
+            </if>
+            <if test="analysisFormat != null">
+                analysis_format = #{analysisFormat},
+            </if>
+            <if test="analysisNumber != null">
+                analysis_number = #{analysisNumber},
+            </if>
+            <if test="analysisDescription != null">
+                analysis_description = #{analysisDescription},
+            </if>
+            <if test="analysisField != null">
+                analysis_field = #{analysisField},
+            </if>
+            <if test="fileUrl != null">
+                file_url = #{fileUrl},
+            </if>
+            <if test="analysisResult != null">
+                analysis_result = #{analysisResult},
+            </if>
+            <if test="confirmResult != null">
+                confirm_result = #{confirmResult},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                created_by_id = #{createdById},
+            </if>
+            <if test="createdByName != null">
+                created_by_name = #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id = #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name = #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePaBizProcessStepsFileById" parameterType="Long">
+        delete
+        from pa_biz_process_steps_file
+        where id = #{id}
+    </delete>
+
+    <delete id="deletePaBizProcessStepsFileByIds" parameterType="String">
+        delete from pa_biz_process_steps_file where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

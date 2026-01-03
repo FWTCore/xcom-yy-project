@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.PaAccountMapper">
+    <resultMap type="com.ruoyi.business.domain.entity.PaAccountDO" id="PaAccountResult">
+        <result property="id" column="id"/>
+        <result property="paAccount" column="pa_account"/>
+        <result property="paUserName" column="pa_user_name"/>
+        <result property="paAccountDescription" column="pa_account_description"/>
+        <result property="paAccessKey" column="pa_access_key"/>
+        <result property="paApiKey" column="pa_api_key"/>
+        <result property="paStatus" column="pa_status"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <resultMap type="com.ruoyi.business.domain.model.response.PaAccountVO" id="PaAccountVOResult"
+               extends="PaAccountResult">
+    </resultMap>
+
+    <sql id="selectPaAccountVo">
+        select id,
+               pa_account,
+               pa_user_name,
+               pa_account_description,
+               pa_access_key,
+               pa_api_key,
+               pa_status,
+               delete_flag,
+               created_by_id,
+               created_by_name,
+               created_time,
+               updated_by_id,
+               updated_by_name,
+               updated_time
+        from pa_account
+    </sql>
+
+    <select id="selectPaAccountList" parameterType="com.ruoyi.business.domain.model.PaAccount"
+            resultMap="PaAccountResult">
+        <include refid="selectPaAccountVo"/>
+        <where>
+            and delete_flag=0
+            <if test="paAccount != null  and paAccount != ''">
+                and pa_account like concat('%', #{paAccount}, '%')
+            </if>
+            <if test="paUserName != null  and paUserName != ''">
+                and pa_user_name like concat('%', #{paUserName}, '%')
+            </if>
+            <if test="paAccountDescription != null  and paAccountDescription != ''">
+                and pa_account_description = #{paAccountDescription}
+            </if>
+            <if test="paAccessKey != null  and paAccessKey != ''">
+                and pa_access_key = #{paAccessKey}
+            </if>
+            <if test="paApiKey != null  and paApiKey != ''">
+                and pa_api_key = #{paApiKey}
+            </if>
+            <if test="paStatus != null ">
+                and pa_status = #{paStatus}
+            </if>
+            <if test="deleteFlag != null ">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="createdById != null ">
+                and created_by_id = #{createdById}
+            </if>
+            <if test="createdByName != null  and createdByName != ''">
+                and created_by_name like concat('%', #{createdByName}, '%')
+            </if>
+            <if test="createdTime != null ">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedById != null ">
+                and updated_by_id = #{updatedById}
+            </if>
+            <if test="updatedByName != null  and updatedByName != ''">
+                and updated_by_name like concat('%', #{updatedByName}, '%')
+            </if>
+            <if test="updatedTime != null ">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPaAccountById" parameterType="Long" resultMap="PaAccountResult">
+        <include refid="selectPaAccountVo"/>
+        where id = #{id}
+        and delete_flag=0
+    </select>
+
+    <insert id="insertPaAccount" parameterType="com.ruoyi.business.domain.model.PaAccount" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into pa_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paAccount != null">
+                pa_account,
+            </if>
+            <if test="paUserName != null">
+                pa_user_name,
+            </if>
+            <if test="paAccountDescription != null">
+                pa_account_description,
+            </if>
+            <if test="paAccessKey != null">
+                pa_access_key,
+            </if>
+            <if test="paApiKey != null">
+                pa_api_key,
+            </if>
+            <if test="paStatus != null">
+                pa_status,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdById != null">
+                created_by_id,
+            </if>
+            <if test="createdByName != null">
+                created_by_name,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="updatedById != null">
+                updated_by_id,
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name,
+            </if>
+            <if test="updatedTime != null">
+                updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paAccount != null">
+                #{paAccount},
+            </if>
+            <if test="paUserName != null">
+                #{paUserName},
+            </if>
+            <if test="paAccountDescription != null">
+                #{paAccountDescription},
+            </if>
+            <if test="paAccessKey != null">
+                #{paAccessKey},
+            </if>
+            <if test="paApiKey != null">
+                #{paApiKey},
+            </if>
+            <if test="paStatus != null">
+                #{paStatus},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                #{createdById},
+            </if>
+            <if test="createdByName != null">
+                #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                #{updatedTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updatePaAccount" parameterType="com.ruoyi.business.domain.model.PaAccount">
+        update pa_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paAccount != null">
+                pa_account = #{paAccount},
+            </if>
+            <if test="paUserName != null">
+                pa_user_name = #{paUserName},
+            </if>
+            <if test="paAccountDescription != null">
+                pa_account_description = #{paAccountDescription},
+            </if>
+            <if test="paAccessKey != null">
+                pa_access_key = #{paAccessKey},
+            </if>
+            <if test="paApiKey != null">
+                pa_api_key = #{paApiKey},
+            </if>
+            <if test="paStatus != null">
+                pa_status = #{paStatus},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="createdById != null">
+                created_by_id = #{createdById},
+            </if>
+            <if test="createdByName != null">
+                created_by_name = #{createdByName},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id = #{updatedById},
+            </if>
+            <if test="updatedByName != null">
+                updated_by_name = #{updatedByName},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePaAccountById" parameterType="Long">
+        delete
+        from pa_account
+        where id = #{id}
+    </delete>
+
+    <delete id="deletePaAccountByIds" parameterType="String">
+        delete from pa_account where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
