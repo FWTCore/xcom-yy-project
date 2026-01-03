@@ -1,5 +1,20 @@
 <template>
-  <div class="app-container">
+  <div class="app-container"> <h4 class="form-header h4">基本信息</h4>
+    <el-form :model="data.form" label-width="80px">
+      <el-row>
+        <el-col :span="8" :offset="2">
+          <el-form-item label="业务名称" prop="bizName">
+            <el-input v-model="form.bizName" disabled />
+          </el-form-item>
+        </el-col>
+         <el-col :span="8" :offset="2">
+          <el-form-item label="步骤名称" prop="stepsName">
+            <el-input v-model="form.stepsName" disabled />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <h4 class="form-header h4">配置信息</h4>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="业务编排id" prop="paBizOrchestrationId">
         <el-input v-model="queryParams.paBizOrchestrationId" placeholder="请输入业务编排id" clearable
@@ -66,18 +81,6 @@
       <el-table-column label="文件地址" align="center" prop="fileUrl" />
       <el-table-column label="解析结果" align="center" prop="analysisResult" />
       <el-table-column label="确认结果" align="center" prop="confirmResult" />
-      <el-table-column label="创建人" align="center" prop="createdByName" />
-      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="更新人" align="center" prop="updatedByName" />
-      <el-table-column label="更新时间" align="center" prop="updatedTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.updatedTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
@@ -155,9 +158,13 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
+const router = useRouter()
 
 const data = reactive({
-  form: {},
+  form: {
+    bizName: null,
+    stepsName: null,
+  },
   queryParams: {
     pageNum: 1,
     pageSize: 10,
@@ -173,14 +180,7 @@ const data = reactive({
     analysisField: null,
     fileUrl: null,
     analysisResult: null,
-    confirmResult: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
+    confirmResult: null
   },
   rules: {
     deleteFlag: [
@@ -231,14 +231,7 @@ function reset() {
     analysisField: null,
     fileUrl: null,
     analysisResult: null,
-    confirmResult: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
+    confirmResult: null
   }
   proxy.resetForm("fileRef")
 }

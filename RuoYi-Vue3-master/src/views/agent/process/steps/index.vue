@@ -57,8 +57,11 @@
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['system:steps:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['system:steps:remove']">删除</el-button>
+            
+          <el-tooltip content="配置步骤解析" placement="top">
+            <el-button link type="primary" icon="Plus" @click="handleAnalysis(scope.row)">配置步骤解析</el-button>
+          </el-tooltip>
+
         </template>
       </el-table-column>
     </el-table>
@@ -70,7 +73,9 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="stepsRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="父级id" prop="parentId">
-          <el-input v-model="form.parentId" placeholder="请输入父级id" />
+          <el-select v-model="form.parentId" placeholder="请选择" style="width: 240px" clearable>
+            <el-option v-for="item in stepsOptions" :key="item.id" :label="item.stepsName" :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="步骤名称" prop="stepsName">
           <el-input v-model="form.stepsName" placeholder="请输入步骤名称" />
@@ -90,8 +95,8 @@
 </template>
 
 <script setup name="Steps">
-import { listSteps, getSteps, delSteps, addSteps, updateSteps } from "@/api/agent/steps"
-import { getOrchestration} from "@/api/agent/orchestration"
+import { listSteps, getSteps, delSteps, addSteps, updateSteps, listAllSteps } from "@/api/agent/steps"
+import { getOrchestration } from "@/api/agent/orchestration"
 
 
 const { proxy } = getCurrentInstance()
@@ -106,6 +111,8 @@ const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
 const route = useRoute()
+const stepsOptions = ref([]);
+const router = useRouter()
 
 const data = reactive({
   form: {
@@ -185,6 +192,7 @@ function handleSelectionChange(selection) {
 /** 新增按钮操作 */
 function handleAdd() {
   reset()
+  getTargetSteps()
   open.value = true
   title.value = "添加业务办理步骤"
 }
@@ -192,12 +200,17 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset()
+  getTargetSteps()
   const _id = row.id || ids.value
   getSteps(_id).then(response => {
     form.value = response.data
     open.value = true
     title.value = "修改业务办理步骤"
   })
+}
+
+function handleAnalysis(row) {
+  router.push("/agent/orchestration-process/model/" + route.params.bizId+"/" + row.id)
 }
 
 /** 提交按钮 */
@@ -249,6 +262,12 @@ function getOrchestrationInfo() {
     data.form.bizName = res.data.bizName
   })
 }
+function getTargetSteps() {
+  listAllSteps(route.params.bizId).then((response) => {
+    stepsOptions.value = response.data;
+  });
+}
+
 onMounted(() => {
   getOrchestrationInfo()
   getList()

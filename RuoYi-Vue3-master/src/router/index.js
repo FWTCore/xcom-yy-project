@@ -207,7 +207,7 @@ export const dynamicRoutes = [
     permissions: ["system:orchestration:list"],
     children: [
       {
-        path: "model/:stepsId(\\d+)",
+        path: "model/:bizId(\\d+)/:stepsId(\\d+)",
         component: () => import("@/views/agent/process/file/index"),
         name: "OrchestrationStepsModel",
         meta: { title: "业务步骤模型", activeMenu: "/agent/orchestration" },

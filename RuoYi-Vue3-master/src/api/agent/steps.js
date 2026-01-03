@@ -42,3 +42,11 @@ export function delSteps(id) {
     method: 'delete'
   })
 }
+
+// 查询列表（所有）
+export function listAllSteps(bizId) {
+  return request({
+    url: '/agent/steps/listAll/' + bizId,
+    method: 'get'
+  })
+}
