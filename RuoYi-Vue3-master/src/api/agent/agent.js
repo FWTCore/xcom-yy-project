@@ -42,3 +42,11 @@ export function delAgent(id) {
     method: 'delete'
   })
 }
+
+// 查询列表（所有）
+export function listAllAgent() {
+  return request({
+    url: '/agent/agent/listAll',
+    method: 'get'
+  })
+}

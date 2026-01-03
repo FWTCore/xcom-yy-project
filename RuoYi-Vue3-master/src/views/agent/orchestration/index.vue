@@ -1,14 +1,23 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="账号id" prop="paAccountId">
-        <el-input v-model="queryParams.paAccountId" placeholder="请输入账号id" clearable @keyup.enter="handleQuery" />
+      <el-form-item label="账号" prop="paAccountId">
+        <el-select v-model="queryParams.paAccountId" placeholder="请选择" style="width: 240px" clearable>
+          <el-option v-for="item in accountOptions" :key="item.id" :label="item.paAccount" :value="item.id"></el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="智能体id" prop="paAgentId">
-        <el-input v-model="queryParams.paAgentId" placeholder="请输入智能体id" clearable @keyup.enter="handleQuery" />
+      <el-form-item label="智能体" prop="paAgentId">
+        <el-select v-model="queryParams.paAgentId" placeholder="请选择" style="width: 240px" clearable>
+          <el-option v-for="item in agentOptions" :key="item.id" :label="item.agentName" :value="item.id"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="业务名称" prop="bizName">
         <el-input v-model="queryParams.bizName" placeholder="请输入业务名称" clearable @keyup.enter="handleQuery" />
+      </el-form-item>
+      <el-form-item label="状态" prop="biaStatus">
+        <el-select v-model="queryParams.biaStatus" placeholder="状态" clearable style="width: 240px">
+          <el-option v-for="dict in bia_Status" :key="dict.value" :label="dict.label" :value="dict.value" />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -43,46 +52,49 @@
           <span>{{ calculateIndex(scope.$index) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号id" align="center" prop="paAccountId" />
-      <el-table-column label="智能体id" align="center" prop="paAgentId" />
+      <el-table-column label="账号" align="center" prop="paAccount" />
+      <el-table-column label="名称" align="center" prop="paUserName" />
+      <el-table-column label="智能体id" align="center" prop="agentId" />
+      <el-table-column label="智能体名称" align="center" prop="agentName" />
       <el-table-column label="业务名称" align="center" prop="bizName" />
       <el-table-column label="业务描述" align="center" prop="bizDescription" />
       <el-table-column label="业务url地址" align="center" prop="bizUrl" />
-      <el-table-column label="业务状态" align="center" prop="biaStatus" />
+      <el-table-column label="业务状态" align="center" prop="biaStatus">
+        <template #default="scope">
+          <dict-tag :options="bia_Status" :value="scope.row.biaStatus" />
+        </template>
+      </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="创建人" align="center" prop="createdByName" />
-      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="更新人" align="center" prop="updatedByName" />
-      <el-table-column label="更新时间" align="center" prop="updatedTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.updatedTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['system:orchestration:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['system:orchestration:remove']">删除</el-button>
+            
+          <el-tooltip content="配置业务步骤" placement="top">
+            <el-button link type="primary" icon="Plus" @click="handleSteps(scope.row)">配置业务步骤</el-button>
+          </el-tooltip>
+
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改业务编排;业务编排对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="800px" append-to-body>
       <el-form ref="orchestrationRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="账号id" prop="paAccountId">
-          <el-input v-model="form.paAccountId" placeholder="请输入账号id" />
+        <el-form-item label="账号" prop="paAccountId">
+          <el-select v-model="form.paAccountId" placeholder="请选择" style="width: 240px" clearable>
+            <el-option v-for="item in accountOptions" :key="item.id" :label="item.paAccount"
+              :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="智能体id" prop="paAgentId">
-          <el-input v-model="form.paAgentId" placeholder="请输入智能体id" />
+         <el-form-item label="智能体" prop="paAgentId">
+          <el-select v-model="form.paAgentId" placeholder="请选择" style="width: 240px" clearable>
+            <el-option v-for="item in agentOptions" :key="item.id" :label="item.agentName"
+              :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="业务名称" prop="bizName">
           <el-input v-model="form.bizName" placeholder="请输入业务名称" />
@@ -92,6 +104,11 @@
         </el-form-item>
         <el-form-item label="业务url地址" prop="bizUrl">
           <el-input v-model="form.bizUrl" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+          <el-form-item label="状态" prop="biaStatus">
+          <el-select v-model="form.biaStatus" placeholder="状态" value-key="value" clearable>
+            <el-option v-for="dict in bia_Status" :key="dict.value" :label="dict.label" :value="dict.value" />
+          </el-select>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
@@ -107,10 +124,13 @@
   </div>
 </template>
 
-<script setup name="pa_biz_orchestration">
+<script setup name="orchestration">
 import { listOrchestration, getOrchestration, delOrchestration, addOrchestration, updateOrchestration } from "@/api/agent/orchestration"
+import { listAllAccount } from "@/api/agent/account"
+import { listAllAgent } from "@/api/agent/agent"
 
 const { proxy } = getCurrentInstance()
+const { bia_Status } = proxy.useDict("bia_Status");
 
 const orchestrationList = ref([])
 const open = ref(false)
@@ -121,6 +141,9 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
+const accountOptions = ref([]);
+const agentOptions = ref([]);
+const router = useRouter()
 
 const data = reactive({
   form: {},
@@ -132,14 +155,7 @@ const data = reactive({
     bizName: null,
     bizDescription: null,
     bizUrl: null,
-    biaStatus: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
+    biaStatus: null
   },
   rules: {
     deleteFlag: [
@@ -166,6 +182,19 @@ function getList() {
     total.value = response.total
     loading.value = false
   })
+}
+
+function getAccount() {
+  listAllAccount().then((response) => {
+    accountOptions.value = response.data;
+    queryParams.paAccountId = null;
+  });
+}
+function getAgent() {
+  listAllAgent().then((response) => {
+    agentOptions.value = response.data;
+    queryParams.paAgentId = null;
+  });
 }
 
 // 取消按钮
@@ -232,6 +261,10 @@ function handleUpdate(row) {
     title.value = "修改业务编排;业务编排"
   })
 }
+/** 解析配置 */
+function handleSteps(row) {
+  router.push("/agent/orchestration-process/steps/" + row.id)
+}
 
 /** 提交按钮 */
 function submitForm() {
@@ -272,5 +305,10 @@ function handleExport() {
   }, `orchestration_${new Date().getTime()}.xlsx`)
 }
 
-getList()
+onMounted(() => {
+  getList()
+  getAccount()
+  getAgent()
+})
+
 </script>

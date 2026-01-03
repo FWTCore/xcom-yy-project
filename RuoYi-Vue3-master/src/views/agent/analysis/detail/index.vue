@@ -137,7 +137,7 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    paAnalysisConfigId: route.params.projectId,
+    paAnalysisConfigId: route.params.configId,
     subName: null,
     fileTemplate: null,
     analysisFormat: null,
@@ -182,7 +182,7 @@ function cancel() {
 function reset() {
   form.value = {
     id: null,
-    paAnalysisConfigId: null,
+    paAnalysisConfigId: route.params.configId,
     analysisName: null,
     analysisType: null,
     subName: null,

@@ -1,13 +1,17 @@
 <template>
   <div class="app-container">
+    <h4 class="form-header h4">基本信息</h4>
+    <el-form :model="data.form" label-width="80px">
+      <el-row>
+        <el-col :span="8" :offset="2">
+          <el-form-item label="业务名称" prop="bizName">
+            <el-input v-model="form.bizName" disabled />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <h4 class="form-header h4">配置信息</h4>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="业务编排id" prop="paBizOrchestrationId">
-        <el-input v-model="queryParams.paBizOrchestrationId" placeholder="请输入业务编排id" clearable
-          @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="父级id" prop="parentId">
-        <el-input v-model="queryParams.parentId" placeholder="请输入父级id" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
       <el-form-item label="步骤名称" prop="stepsName">
         <el-input v-model="queryParams.stepsName" placeholder="请输入步骤名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
@@ -29,6 +33,9 @@
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
           v-hasPermi="['system:steps:remove']">删除</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button type="warning" plain icon="Close" @click="handleClose">关闭</el-button>
+      </el-col>
       <!-- <el-col :span="1.5">
         <el-button type="warning" plain icon="Download" @click="handleExport"
           v-hasPermi="['system:steps:export']">导出</el-button>
@@ -43,23 +50,9 @@
           <span>{{ calculateIndex(scope.$index) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="业务编排id" align="center" prop="paBizOrchestrationId" />
-      <el-table-column label="父级id" align="center" prop="parentId" />
       <el-table-column label="步骤名称" align="center" prop="stepsName" />
       <el-table-column label="步骤描述" align="center" prop="stepsDescription" />
       <el-table-column label="步骤属性" align="center" prop="stepsAttribute" />
-      <el-table-column label="创建人" align="center" prop="createdByName" />
-      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="更新人" align="center" prop="updatedByName" />
-      <el-table-column label="更新时间" align="center" prop="updatedTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.updatedTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
@@ -70,15 +63,12 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改业务办理步骤;业务办理步骤对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="stepsRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="业务编排id" prop="paBizOrchestrationId">
-          <el-input v-model="form.paBizOrchestrationId" placeholder="请输入业务编排id" />
-        </el-form-item>
         <el-form-item label="父级id" prop="parentId">
           <el-input v-model="form.parentId" placeholder="请输入父级id" />
         </el-form-item>
@@ -87,9 +77,6 @@
         </el-form-item>
         <el-form-item label="步骤描述" prop="stepsDescription">
           <el-input v-model="form.stepsDescription" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="步骤属性" prop="stepsAttribute">
-          <el-input v-model="form.stepsAttribute" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -104,6 +91,8 @@
 
 <script setup name="Steps">
 import { listSteps, getSteps, delSteps, addSteps, updateSteps } from "@/api/agent/steps"
+import { getOrchestration} from "@/api/agent/orchestration"
+
 
 const { proxy } = getCurrentInstance()
 
@@ -116,24 +105,17 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
+const route = useRoute()
 
 const data = reactive({
-  form: {},
+  form: {
+    bizName: null,
+  },
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    paBizOrchestrationId: null,
-    parentId: null,
-    stepsName: null,
-    stepsDescription: null,
-    stepsAttribute: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
+    paBizOrchestrationId: route.params.bizId,
+    stepsName: null
   },
   rules: {
     deleteFlag: [
@@ -172,18 +154,11 @@ function cancel() {
 function reset() {
   form.value = {
     id: null,
-    paBizOrchestrationId: null,
+    paBizOrchestrationId: route.params.bizId,
     parentId: null,
     stepsName: null,
     stepsDescription: null,
-    stepsAttribute: null,
-    deleteFlag: null,
-    createdById: null,
-    createdByName: null,
-    createdTime: null,
-    updatedById: null,
-    updatedByName: null,
-    updatedTime: null
+    stepsAttribute: null
   }
   proxy.resetForm("stepsRef")
 }
@@ -211,7 +186,7 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset()
   open.value = true
-  title.value = "添加业务办理步骤;业务办理步骤"
+  title.value = "添加业务办理步骤"
 }
 
 /** 修改按钮操作 */
@@ -221,7 +196,7 @@ function handleUpdate(row) {
   getSteps(_id).then(response => {
     form.value = response.data
     open.value = true
-    title.value = "修改业务办理步骤;业务办理步骤"
+    title.value = "修改业务办理步骤"
   })
 }
 
@@ -256,6 +231,12 @@ function handleDelete(row) {
     proxy.$modal.msgSuccess("删除成功")
   }).catch(() => { })
 }
+/** 返回按钮操作 */
+function handleClose() {
+  const obj = { path: "/agent/orchestration" }
+  proxy.$tab.closeOpenPage(obj)
+}
+
 
 /** 导出按钮操作 */
 function handleExport() {
@@ -263,6 +244,13 @@ function handleExport() {
     ...queryParams.value
   }, `steps_${new Date().getTime()}.xlsx`)
 }
-
-getList()
+function getOrchestrationInfo() {
+  return getOrchestration(route.params.bizId).then(res => {
+    data.form.bizName = res.data.bizName
+  })
+}
+onMounted(() => {
+  getOrchestrationInfo()
+  getList()
+})
 </script>
