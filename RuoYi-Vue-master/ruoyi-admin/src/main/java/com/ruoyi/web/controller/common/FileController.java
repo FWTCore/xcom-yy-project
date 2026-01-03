@@ -1,4 +1,4 @@
-package com.ruoyi.web.controller.business;
+package com.ruoyi.web.controller.common;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.config.RuoYiConfig;
